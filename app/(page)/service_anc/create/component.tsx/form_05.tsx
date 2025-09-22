@@ -50,32 +50,26 @@ export default function page() {
                 }
             >
                 {data
-                    .filter((ref_in, index) => ref_in.choice_type_id === 15 && index !== 1)
+                    .filter((ref_in, index) => ref_in.choice_type_id === 15)
                     .map((ref_in) => (
-                        <div key={ref_in.id} className="flex gap-[10px] items-center px-[10px]">
+                        <div key={ref_in.id} className="px-[10px]">
                             <Checkbox value={String(ref_in.id)}>
                                 {ref_in.choice_name}
                             </Checkbox>
-                        </div>
-                    ))}
-            </CheckboxGroup>
-
-            <CheckboxGroup
-                className="col-span-4 px-[20px]"
-                value={field.ref_out_id}
-                onValueChange={(val) =>
-                    handleChange({ target: { name: "ref_out_id", value: val } })
-                }
-            >
-                {data
-                    .filter(
-                        (ref_out, index) => ref_out.choice_type_id === 15 && [1, 3].includes(index)
-                    )
-                    .map((ref_out) => (
-                        <div key={ref_out.id} className="flex gap-[10px] items-center px-[10px]">
-                            <Checkbox value={String(ref_out.id)}>
-                                {ref_out.choice_name}
-                            </Checkbox>
+                            <RadioGroup
+                                label=""
+                                className='col-span-4 px-[20px] mt-[10px]'
+                                value={field.ref_out_choice_id}
+                                onValueChange={(val) => handleChange({ target: { name: "ref_out_choice_id", value: val } })}
+                            >
+                                {data.filter((ref_out_choice) => ref_out_choice.choice_type_id === 16).map((ref_out_choice) => (
+                                    <div key={ref_out_choice.id} className="flex gap-[10px] items-center px-[10px]">
+                                        <Radio value={String(ref_out_choice.id)}>
+                                            {ref_out_choice.choice_name}
+                                        </Radio>
+                                    </div>
+                                ))}
+                            </RadioGroup>
                         </div>
                     ))}
             </CheckboxGroup>

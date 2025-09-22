@@ -9,6 +9,7 @@ export default function page() {
         <div className='grid grid-cols-4 gap-[10px] overflow-y-scroll max-h-[calc(90vh-300px)]'>
             <h1 className='col-span-4'>ส่วนที่ 2</h1>
             <RadioGroup
+
                 className='col-span-4 px-[20px]'
                 label="ประวัติการเเพ้ยา"
                 value={field.ma_id}
@@ -18,7 +19,7 @@ export default function page() {
                     .filter((ma) => ma.choice_type_id === 1)
                     .map((ma) => (
                         <div key={ma.id} className="flex gap-[10px] items-center px-[10px]">
-                            <Radio value={String(ma.id)}>
+                            <Radio classNames={{ label: "pl-1" }} value={String(ma.id)}>
                                 {ma.choice_name}
                             </Radio>
                             {String(ma.id) === "1" && field.ma_id === "1" && (
@@ -35,6 +36,7 @@ export default function page() {
                     ))}
             </RadioGroup>
             <RadioGroup
+
                 className='col-span-4 px-[20px]'
                 label="HIGH RISK"
                 value={field.hr_id}
@@ -44,7 +46,7 @@ export default function page() {
                     .filter((hr) => hr.choice_type_id === 2)
                     .map((hr) => (
                         <div key={hr.id} className="flex gap-[10px] items-center px-[10px]">
-                            <Radio value={String(hr.id)}>
+                            <Radio classNames={{ label: "pl-1" }} value={String(hr.id)}>
                                 {hr.choice_name}
                             </Radio>
                             {String(hr.id) === "4" && field.hr_id === "4" && (
@@ -61,6 +63,7 @@ export default function page() {
                     ))}
             </RadioGroup>
             <RadioGroup
+
                 className='col-span-4 px-[20px]'
                 label="เเนะนำการเจาะน้ำคร่ำตรวจโครโมโซม"
                 value={field.am_id}
@@ -70,7 +73,7 @@ export default function page() {
                     .filter((am) => am.choice_type_id === 3)
                     .map((am) => (
                         <div key={am.id} className="flex gap-[10px] items-center px-[10px]">
-                            <Radio value={String(am.id)}>
+                            <Radio classNames={{ label: "pl-1" }} value={String(am.id)}>
                                 {am.choice_name}
                             </Radio>
                         </div>
@@ -99,6 +102,7 @@ export default function page() {
                 <Input className='col-span-2' size='sm' label="MCH" type='text'></Input>
             </div>
             <RadioGroup
+
                 className='col-span-4 px-[20px]'
                 label="PCR"
                 value={field.pcr_id}
@@ -108,7 +112,7 @@ export default function page() {
                     .filter((pcr) => pcr.choice_type_id === 4)
                     .map((pcr) => (
                         <div key={pcr.id} className="flex gap-[10px] items-center px-[10px]">
-                            <Radio value={String(pcr.id)}>
+                            <Radio classNames={{ label: "pl-1" }} value={String(pcr.id)}>
                                 {pcr.choice_name}
                             </Radio>
                             {String(pcr.id) === "9" && field.pcr_id === "9" && (
@@ -125,6 +129,7 @@ export default function page() {
                     ))}
             </RadioGroup>
             <RadioGroup
+
                 className='col-span-4 px-[20px]'
                 label="Cordo"
                 value={field.cordo_id}
@@ -134,7 +139,7 @@ export default function page() {
                     .filter((cordo) => cordo.choice_type_id === 5)
                     .map((cordo) => (
                         <div key={cordo.id} className="flex gap-[10px] items-center px-[10px]">
-                            <Radio value={String(cordo.id)}>
+                            <Radio classNames={{ label: "pl-1" }} value={String(cordo.id)}>
                                 {cordo.choice_name}
                             </Radio>
                             {String(cordo.id) === "11" && field.cordo_id === "11" && (
@@ -162,7 +167,7 @@ export default function page() {
                     .filter((abortion) => abortion.choice_type_id === 6)
                     .map((abortion) => (
                         <div key={abortion.id} className="flex gap-[10px] items-center px-[10px]">
-                            <Radio value={String(abortion.id)}>
+                            <Radio classNames={{ label: "pl-1" }} value={String(abortion.id)}>
                                 {abortion.choice_name}
                             </Radio>
                         </div>

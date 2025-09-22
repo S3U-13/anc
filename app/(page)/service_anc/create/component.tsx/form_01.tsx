@@ -7,7 +7,8 @@ export default function page() {
   return (
     <div>
       <div className='grid grid-cols-2 gap-[10px] mt-[10px] overflow-y-scroll max-h-[calc(90vh-350px)] px-[20px]'>
-        <Input size='sm' label="ANC NO" type="text" />
+        <Input size='sm' label="ANC NO" type="text" 
+        />
         <Input size='sm' label="HN" type="text" />
         <Input size='sm' label="ชื่อ" type="text" />
         <Input size='sm' label="อายุ" type="text" />
