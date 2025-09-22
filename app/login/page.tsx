@@ -61,7 +61,7 @@ export default function () {
                         <form action="" onSubmit={handleLogin}>
                             <div>
                                 <label className='text-sm text-black' htmlFor="">User name</label><br />
-                                <input className='p-2 rounded-sm border border-gray-200 w-full mt-[5px]'
+                                <input className='p-2 rounded-sm border border-gray-200 w-full mt-[5px] text-black'
                                     id="user_name"
                                     value={userName}
                                     name='user_name'
@@ -71,7 +71,7 @@ export default function () {
                             <div className='mt-[20px]'>
                                 <label className='text-sm text-black' htmlFor="">Password</label><br />
                                 <div className="relative">
-                                    <input className='p-2 rounded-sm border border-gray-200 w-full mt-[5px]'
+                                    <input className='p-2 rounded-sm border border-gray-200 w-full mt-[5px] text-black'
                                         type={showPassword ? "text" : "password"}
                                         id="password"
                                         value={password}

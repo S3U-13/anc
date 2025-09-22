@@ -603,11 +603,11 @@ export default function App( { openModalAnc, closeModalAnc } ) {
     }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
 
     return (
-        <Modal isOpen={openModalAnc} size='5xl' onOpenChange={closeModalAnc}>
+        <Modal classNames={{ body:"py-[10px]" }}  isOpen={openModalAnc} size='5xl' onOpenChange={closeModalAnc}>
             <ModalContent>
                 {(closeModalAnc) => (
                     <>
-                        <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+                        <ModalHeader className="flex flex-col gap-1">ทะเบียน ANC</ModalHeader>
                         <ModalBody>
                             <Table
                                 isHeaderSticky

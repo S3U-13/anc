@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button, ButtonGroup } from "@heroui/button";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownSection, DropdownItem } from "@heroui/dropdown";
@@ -10,10 +10,19 @@ import { Tabs, Tab } from "@heroui/tabs";
 
 export default function Navbar() {
     const router = useRouter();
+    const pathname = usePathname();
     const handleLogout = () => {
         localStorage.removeItem("token"); // ลบ token
         router.push("/login"); // กลับไปหน้า login
     };
+
+    const tabs = [
+        { key: "dashboard", title: "สรุปผล", path: "/dashboard" },
+        { key: "anc", title: "หน้าทะเบียนฝากครรภ์", path: "/anc" },
+        { key: "service_anc", title: "หน้าบริการฝากครรภ์", path: "/service_anc" },
+    ];
+
+    const activeKey = tabs.find((tab) => tab.path === pathname)?.key || "dashboard";
     return (
         <div>
             <div className='w-full bg-white rounded-xl shadow-lg p-2 pl-[40px] pr-[40px] '>
@@ -53,10 +62,15 @@ export default function Navbar() {
                     cursor: "w-full bg-[#7828C8]",
                     tab: "max-w-fit ",
                     tabContent: "group-data-[selected=true]:text-[#000000]",
-                }} aria-label="Tabs variants" variant="underlined">
-                    <Tab key="dashboard" onClick={() => router.push('/dashboard')} title="สรุปผล" />
-                    <Tab key="anc" onClick={() => router.push('/anc')} title="หน้าทะเบียนฝากครรภ์" />
-                    <Tab key="service anc" onClick={() => router.push('/service_anc')} title="หน้าบริการฝากครรภ์" />
+                }} aria-label="Tabs variants" variant="underlined"
+                    selectedKey={activeKey}
+                    onSelectionChange={(key) => {
+                        const tab = tabs.find((t) => t.key === key);
+                        if (tab) router.push(tab.path);
+                    }}>
+                    {tabs.map((tab) => (
+                        <Tab key={tab.key} title={tab.title} />
+                    ))}
                 </Tabs>
             </div>
         </div>
