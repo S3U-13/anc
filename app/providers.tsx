@@ -26,7 +26,7 @@ export function Providers({ children, themeProps }: ProvidersProps) {
 
   return (
     <HeroUIProvider navigate={router.push}>
-      <ToastProvider />
+      <ToastProvider toastProps={{ timeout: 2500, shouldShowTimeoutProgress: true,}}/>
       <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
     </HeroUIProvider>
   );

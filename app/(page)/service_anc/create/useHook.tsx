@@ -114,6 +114,75 @@ export default function useHook() {
         }));
     };
 
+    const [ga, setGa] = useState("");
+
+    useEffect(() => {
+        if (field.lmp) {
+            const lmp = new Date(field.lmp);
+            const today = new Date();
+
+            // คำนวณ GA
+            const diffTime = today.getTime() - lmp.getTime();
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            const weeks = Math.floor(diffDays / 7);
+            const days = diffDays % 7;
+
+            // คำนวณ EDC (LMP + 280 วัน)
+            const edcDate = new Date(lmp);
+            edcDate.setDate(edcDate.getDate() + 280);
+
+            // ✅ เก็บ GA แค่ใน state ga
+            setGa(`${weeks} สัปดาห์ ${days} วัน`);
+
+            // ✅ เก็บ EDC ใน field
+            setField((prev) => ({
+                ...prev,
+                edc: edcDate.toISOString().split("T")[0], // yyyy-mm-dd
+            }));
+        } else {
+            setGa(""); // clear GA
+            setField((prev) => ({
+                ...prev,
+                edc: null, // clear EDC
+            }));
+        }
+    }, [field.lmp]);
+
+    // <Input size='sm' label="PARA" type="text" />
+    //                   <Input size='sm' label="G" type="text" />
+    //                   <Input size='sm' label="P" type="text" />
+    //                   <Input size='sm' label="A" type="text" />
+    //                   <Input size='sm' label="LAST" type="text" />
+    //   <div className='grid grid-cols-3 gap-[10px] mt-[10px]'>
+    //                   <DatePicker
+    //                     size='sm'
+    //                     label="LMP"
+    //                     value={field.lmp ? parseDate(new Date(field.lmp).toISOString().split("T")[0]) : null}
+    //                     onChange={(calendarDate) => {
+    //                       if (calendarDate) {
+    //                         const jsDate = calendarDate.toDate("UTC");
+    //                         setField((prev) => ({ ...prev, lmp: jsDate }));
+    //                       } else {
+    //                         setField((prev) => ({ ...prev, lmp: null }));
+    //                       }
+    //                     }}
+    //                   />
+    //                   <DatePicker
+    //                     size='sm'
+    //                     label="EDC"
+    //                     isReadOnly
+    //                     value={field.edc ? parseDate(field.edc) : null}
+    //                   />
+    //                   <Input
+    //                     size="sm"
+    //                     label="อายุครรภ์"
+    //                     value={ga || ""}
+    //                     type="text"
+    //                     readOnly
+    //                   />
+    //                 </div>
+    //               </div>
+
     return {
         data,
         field,
