@@ -4,14 +4,13 @@ import React, { useEffect, useState } from 'react'
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 import { useDateFormatter } from "@react-aria/i18n";
 import { error } from 'console';
+import { useRouter } from 'next/navigation';
 
 export default function useHook() {
 
     const [field, setField] = useState({
         hn_wife: "",
         hn_husband: "",
-        lmp: null,
-        edc: null,
     });
 
     const [pat, setPat] = useState(null); // 👈 เก็บ object คนเดียว
@@ -79,7 +78,6 @@ export default function useHook() {
                 color: "primary",
             });
         } catch (error) {
-            console.log(error);
             addToast({
                 title: "ไม่พบข้อมูล",
                 description: "error",
@@ -213,7 +211,41 @@ export default function useHook() {
         }));
     };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await fetch(` http://localhost:3000/api/anc`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(field),
+            });
+            const data = await res.json().catch(() => ({})); // ป้องกันกรณีไม่ใช่ JSON
+            if (!res.ok) {
+                throw new Error("ลงทะเบียน ANC ไม่สำเร็จ");
+            }
+            addToast({
+                title: "สำเร็จ",
+                description: "ลงทะเบียน ANC สำเร็จ",
+                variant: "flat",
+                color: "success",
+            })
+        } catch (error) {
+            addToast({
+                title: "ไม่สำเร็จ",
+                description: "ลงทะเบียน ANC ไม่สำเร็จ",
+                variant: "flat",
+                color: "danger"
+            });
+        }
+    }
+
+    const steps = ["wife", "husband",];
+    const [activeStep, setActiveStep] = useState("wife");
+
+
     return {
-        field, handleSearchHnWife, hnInputWife, setHnInputWife, handleSearchHnHusband, hnInputHusband, setHnInputHusband, pat, patHusband, formatAddress, formatName, formatNameHusband, calculateAge, editVitalsign, handleEditChange, vitals, bmi, setField, handleChange,
+        field, handleSearchHnWife, hnInputWife, setHnInputWife, handleSearchHnHusband, hnInputHusband, setHnInputHusband, pat, patHusband, formatAddress, formatName, formatNameHusband, calculateAge, editVitalsign, handleEditChange, vitals, bmi, setField, handleChange, handleSubmit, steps, activeStep, setActiveStep
     }
 }
