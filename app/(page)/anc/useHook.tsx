@@ -11,6 +11,7 @@ export default function useAnc() {
     const [page, setPage] = useState(1);
     const [openModal, setOpenModal] = useState(false);
 
+    console.log(openModal)
     useEffect(() => {
         fetchDataAnc();
     }, []);
