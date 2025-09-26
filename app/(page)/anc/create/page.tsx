@@ -41,6 +41,7 @@ export default function page({ openModal, closeModal }) {
     setActiveStep,
     form,
     validationSchema,
+    isSubmitting
   } = useHook({ closeModal });
   return (
     <Modal
@@ -104,7 +105,7 @@ export default function page({ openModal, closeModal }) {
                         </Button>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-[10px] mt-[15px]">
+                    <div className="grid grid-cols-2 gap-[10px] mt-[15px] p-2">
                       <form.Field
                         name="hn_wife"
                         validators={{
@@ -115,6 +116,8 @@ export default function page({ openModal, closeModal }) {
                           <Input
                             size="sm"
                             label="HN"
+                            // value={field.hn_wife}
+                            // onChange={handleChange}
                             value={field.state.value}
                             onChange={(e) => field.handleChange(e.target.value)}
                             onBlur={field.handleBlur}
@@ -127,7 +130,7 @@ export default function page({ openModal, closeModal }) {
                       <Input
                         size="sm"
                         label="ชื่อ"
-                        value={formatName(pat)}
+                        value={formatName(pat) || ""}
                         type="text"
                         readOnly
                       />
@@ -135,13 +138,13 @@ export default function page({ openModal, closeModal }) {
                         size="sm"
                         label="อายุ"
                         type="text"
-                        value={calculateAge(pat?.birthdatetime)}
+                        value={calculateAge(pat?.birthdatetime) || ""}
                         readOnly
                       />
                       <Input
                         size="sm"
                         label="บัตรประชาชน"
-                        value={pat?.citizencardno}
+                        value={pat?.citizencardno || ""}
                         type="text"
                         readOnly
                       />
@@ -154,13 +157,13 @@ export default function page({ openModal, closeModal }) {
                       <Input
                         size="sm"
                         label="เบอร์โทรศัพท์"
-                        value={pat?.pat_address.phone}
+                        value={pat?.pat_address.phone || ""}
                         type="text"
                       />
                       <Input
                         size="sm"
                         label="อาชีพ"
-                        value={pat?.occupation_detail.lookupname}
+                        value={pat?.occupation_detail.lookupname || ""}
                         type="text"
                       />
                       <Input
@@ -238,7 +241,7 @@ export default function page({ openModal, closeModal }) {
                       </Button>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-[10px] mt-[15px]">
+                  <div className="grid grid-cols-2 gap-[10px] mt-[15px] p-2">
                     <form.Field
                       name="hn_husband"
                       validators={{
@@ -248,7 +251,10 @@ export default function page({ openModal, closeModal }) {
                       {(field) => (
                         <Input
                           label="HN สามี"
-                          value={field.hn_husband}
+                          size="sm"
+                          // value={field.hn_husband}
+                          // onChange={handleChange}
+                          value={field.state.value}
                           onChange={(e) => field.handleChange(e.target.value)}
                           onBlur={field.handleBlur}
                           isInvalid={field.state.meta.errors.length > 0}
@@ -259,26 +265,31 @@ export default function page({ openModal, closeModal }) {
                     </form.Field>
                     <Input
                       label="ชื่อ สามี"
+                      size="sm"
                       value={formatNameHusband(patHusband)}
                       type="text"
                     />
                     <Input
                       label="อายุ"
-                      value={calculateAge(patHusband?.birthdatetime)}
+                      size="sm"
+                      value={calculateAge(patHusband?.birthdatetime) || ""}
                       type="text"
                     />
                     <Input
                       label="บัตรประชาชน"
-                      value={patHusband?.citizencardno}
+                      size="sm"
+                      value={patHusband?.citizencardno || ""}
                       type="text"
                     />
                     <Input
                       label="อาชีพ"
-                      value={patHusband?.occupation_detail.lookupname}
+                      size="sm"
+                      value={patHusband?.occupation_detail.lookupname || ""}
                       type="text"
                     />
                     <Input
                       label="email"
+                      size="sm"
                       value={patHusband?.pat_address.email || ""}
                       type="email"
                     />
@@ -299,21 +310,23 @@ export default function page({ openModal, closeModal }) {
               </Button>
               <Button
                 color="primary"
-                onPress={() => {
+                onPress={async () => {
                   const idx = steps.indexOf(activeStep);
-                  if (idx < steps.length - 1) setActiveStep(steps[idx + 1]);
-                  else form.handleSubmit();
+                  if (idx < steps.length - 1) {
+                    // ถ้ายังไม่ถึง step สุดท้าย
+                    setActiveStep(steps[idx + 1]);
+                  } else {
+                    // Step สุดท้าย → submit form
+                    await form.handleSubmit(); // เรียก handleSubmit ของ useForm
+                  }
                 }}
-                disabled={
-                  form.state.isSubmitting ||
-                  !form.state.canSubmit ||
-                  !form.state.isValid
-                }
+                disabled={isSubmitting} // ป้องกันกดซ้ำ
               >
-                {" "}
-                {activeStep === steps[steps.length - 1]
-                  ? "ยืนยัน"
-                  : "ถัดไป"}{" "}
+                {isSubmitting
+                  ? "กำลังบันทึก..." // ขณะส่งข้อมูล
+                  : activeStep === steps[steps.length - 1]
+                    ? "ยืนยัน"
+                    : "ถัดไป"}
               </Button>
             </ModalFooter>
           </form>

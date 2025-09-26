@@ -6,6 +6,7 @@ import { useDateFormatter } from "@react-aria/i18n";
 import { error } from "console";
 import { useRouter } from "next/navigation";
 import { useForm } from "@tanstack/react-form";
+
 import * as z from "zod";
 
 export default function useHook({ closeModal }) {
@@ -25,10 +26,13 @@ export default function useHook({ closeModal }) {
       if (!res.ok) throw new Error("ไม่พบข้อมูล");
       setPat(json);
       // อัปเดต field
-      setField((prev) => ({
-        ...prev,
-        hn_wife: json.hn || "",
-      }));
+
+      form.setFieldValue("hn_wife", json.hn || "");
+
+      // setField((prev) => ({
+      //   ...prev,
+      //   hn_wife: json.hn || "",
+      // }));
       addToast({
         title: "สำเร็จ",
         description: "ดึงข้อมูลสำเร็จ",
@@ -67,11 +71,13 @@ export default function useHook({ closeModal }) {
       const json = await res.json();
       if (!res.ok) throw new Error("ไม่พบข้อมูล");
       setPatHusband(json);
+
+      form.setFieldValue("hn_husband", json.hn || "");
       // อัปเดต field
-      setField((prev) => ({
-        ...prev,
-        hn_husband: json.hn || "",
-      }));
+      // setField((prev) => ({
+      //   ...prev,
+      //   hn_husband: json.hn || "",
+      // }));
       addToast({
         title: "สำเร็จ",
         description: "ดึงข้อมูลสำเร็จ",
@@ -168,10 +174,9 @@ export default function useHook({ closeModal }) {
     return address; // รวมเป็น string เดียว
   };
 
-  const [editVitalsign, setEditVitalsign] = useState({
-    weight: "",
-    height: "",
-  });
+  const defaultVitals = { weight: "", height: "" };
+
+  const [editVitalsign, setEditVitalsign] = useState(defaultVitals);
 
   const vitals = pat?.pat_vitalsign?.[0];
   // sync editVitalsign กับ pat หลังจาก fetch เสร็จ
@@ -218,25 +223,40 @@ export default function useHook({ closeModal }) {
   const steps = ["wife", "husband"];
   const [activeStep, setActiveStep] = useState("wife");
 
-  const handleSubmit = async () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (value) => {
+    if (isSubmitting) return;
     try {
-      const res = await fetch(` http://localhost:3000/api/anc`, {
+      setIsSubmitting(true); // เริ่มส่งข้อมูล
+      const res = await fetch(`http://localhost:3000/api/anc`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(field),
+        body: JSON.stringify(value), // ✅ ใช้ validated data
       });
-      const data = await res.json().catch(() => ({})); // ป้องกันกรณีไม่ใช่ JSON
-      if (!res.ok) {
-        throw new Error("ลงทะเบียน ANC ไม่สำเร็จ");
-      }
+
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error("ลงทะเบียน ANC ไม่สำเร็จ");
+
       addToast({
         title: "สำเร็จ",
         description: "ลงทะเบียน ANC สำเร็จ",
         variant: "flat",
         color: "success",
       });
+
+      form.reset();
+
+      setPat(null);
+      setPatHusband(null);
+      setBmi("");
+      setEditVitalsign(defaultVitals);
+      setHnInputWife("");
+      setHnInputHusband("");
+      setActiveStep("wife");
+
       closeModal();
     } catch (error) {
       addToast({
@@ -245,6 +265,8 @@ export default function useHook({ closeModal }) {
         variant: "flat",
         color: "danger",
       });
+    } finally {
+      setIsSubmitting(false); // ส่งเสร็จแล้ว เปิดให้กดได้อีก
     }
   };
 
@@ -254,11 +276,11 @@ export default function useHook({ closeModal }) {
   };
 
   const validationSchema = z.object({
-    hn_wife: z
-      .string({ required_error: "กรุณากรอก HN (ภรรยา)" })
-       .min(1, "ไม่สามารถเว้นว่างได้"),
-    hn_husband: z
-      .string({ required_error: "กรุณากรอก HN (สามี)" })
+    hn_wife: z.coerce.number().int().min(1, { message: "กรุณากรอก HN ภรรยา" }),
+    hn_husband: z.coerce
+      .number()
+      .int()
+      .min(1, { message: "กรุณากรอก HN สามี" }),
   });
 
   const form = useForm({
@@ -267,6 +289,7 @@ export default function useHook({ closeModal }) {
       // Validate ด้วย Zod ก่อน submit
       try {
         const validatedData = validationSchema.parse(value);
+        await handleSubmit(validatedData);
         console.log("Submit:", validatedData);
       } catch (error) {
         console.error("Validation error:", error);
@@ -277,7 +300,28 @@ export default function useHook({ closeModal }) {
     },
   });
 
-  console.log(form.Field);
+  const makeValidator =
+    (schema: z.ZodTypeAny) =>
+    ({ value }: { value: any }) => {
+      try {
+        schema.parse(value);
+        return undefined; // ✅ ถ้า valid
+      } catch (e: any) {
+        return e.errors?.[0]?.message || "ไม่ถูกต้อง";
+      }
+    };
+
+  //   const isCurrentStepValid = () => {
+  //   if (activeStep === "wife") {
+  //     const field = form.state.fields?.hn_wife;
+  //     return field && field.value.trim() !== "" && field.meta.errors.length === 0;
+  //   }
+  //   if (activeStep === "husband") {
+  //     const field = form.state.fields?.hn_husband;
+  //     return field && field.value.trim() !== "" && field.meta.errors.length === 0;
+  //   }
+  //   return true;
+  // };
 
   return {
     field,
@@ -305,5 +349,8 @@ export default function useHook({ closeModal }) {
     setActiveStep,
     form,
     validationSchema,
+    makeValidator,
+    isSubmitting,
+    // isCurrentStepValid,
   };
 }
