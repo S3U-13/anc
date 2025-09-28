@@ -5,6 +5,7 @@ import { Chip } from "@heroui/chip";
 import { Input } from "@heroui/input";
 import { Pagination } from "@heroui/pagination";
 import {
+  getKeyValue,
   Table,
   TableBody,
   TableCell,
@@ -30,7 +31,7 @@ import {
 } from "@heroui/modal";
 import useHook from "./useHook";
 
-export default function App({ openModalAnc, closeModalAnc }) {
+export default function App({ openModalAnc, closeModalAnc, setSelectedAnc }) {
   const {
     dataAnc,
     openModal,
@@ -52,15 +53,23 @@ export default function App({ openModalAnc, closeModalAnc }) {
     pages,
     onSortChange,
     sortDescriptor,
-    fetchDataAnc,
+    handleSelectionChange,
+    selectedKeys,
+    setSelectedKeys,
+    selectedValue,
+    headerColumns,
   } = useHook();
 
-  const headerColumns = React.useMemo(() => {
-    if (visibleColumns === "all") return columns;
-    return columns.filter((col) => visibleColumns.has(col.uid));
-  }, [visibleColumns, columns]);
+  // ฟังก์ชันยืนยันเลือก ANC
+  const handleConfirmAnc = () => {
+    const firstKey = Array.from(selectedKeys)[0];
+    if (!firstKey) return alert("กรุณาเลือก ANC");
 
-  const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
+    const anc = dataAnc.find((item) => item.anc_no === Number(firstKey));
+    setSelectedAnc(anc.anc_no); // <-- ถ้า setSelectedAnc undefined จะไม่ทำงาน
+    setOpenModal(false);
+  };
+
   return (
     <Modal
       classNames={{ body: "", header: "py-[20px] flex justify-center text-xl" }}
@@ -169,9 +178,9 @@ export default function App({ openModalAnc, closeModalAnc }) {
                     th: "p-2 text-sm",
                   }}
                   isStriped
-                  selectionMode="single"
+                  selectionMode="multiple"
                   selectedKeys={selectedKeys}
-                  onSelectionChange={setSelectedKeys}
+                  onSelectionChange={handleSelectionChange} // ✅ ฟังก์ชันคุมเอง
                 >
                   <TableHeader>
                     <TableColumn>ลำดับ</TableColumn>
@@ -213,13 +222,11 @@ export default function App({ openModalAnc, closeModalAnc }) {
                         <TableCell className="px-4">{index + 1}</TableCell>
                         {headerColumns.map((col) => (
                           <TableCell key={col.uid}>
-                            {col.uid === "wife_name" &&
-                              `${item.wife?.prename}${item.wife?.firstname} ${item.wife?.lastname}`}
-                            {col.uid === "husband_name" &&
-                              `${item.husband?.prename}${item.husband?.firstname} ${item.husband?.lastname}`}
-                            {col.uid !== "wife_name" &&
-                              col.uid !== "husband_name" &&
-                              item[col.uid]}
+                            {col.uid === "wife_name"
+                              ? `${item.wife?.prename || ""}${item.wife?.firstname || ""} ${item.wife?.lastname || ""}`
+                              : col.uid === "husband_name"
+                                ? `${item.husband?.prename || ""}${item.husband?.firstname || ""} ${item.husband?.lastname || ""}`
+                                : getKeyValue(item, col.uid)}
                           </TableCell>
                         ))}
                         <TableCell>
@@ -288,7 +295,21 @@ export default function App({ openModalAnc, closeModalAnc }) {
               <Button color="danger" variant="light" onPress={closeModalAnc}>
                 ปิด
               </Button>
-              <Button color="primary" onPress={closeModalAnc}>
+              <Button
+                color="primary"
+                onPress={() => {
+                  const firstKey = Array.from(selectedKeys)[0];
+                  if (!firstKey) return alert("กรุณาเลือก ANC");
+
+                  const anc = dataAnc.find(
+                    (item) => item.anc_no === Number(firstKey)
+                  );
+                  if (!anc) return alert("ไม่พบข้อมูล ANC");
+
+                  setSelectedAnc(anc); // ต้องแน่ใจว่า setSelectedAnc มาจาก parent
+                  closeModalAnc(); // ปิด modal
+                }}
+              >
                 ยืนยัน
               </Button>
             </ModalFooter>

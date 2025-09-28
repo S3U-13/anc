@@ -11,7 +11,6 @@ export default function useHook() {
   const [page, setPage] = useState(1);
   const [openModal, setOpenModal] = useState(false);
 
-  console.log(openModal);
   useEffect(() => {
     fetchDataAnc();
   }, []);
@@ -119,6 +118,20 @@ export default function useHook() {
     new Set(["anc_no", "hn_wife", "wife_name"])
   );
 
+  const headerColumns = React.useMemo(() => {
+    if (visibleColumns === "all") return columns;
+    return columns.filter((col) => visibleColumns.has(col.uid));
+  }, [visibleColumns, columns]);
+
+  const handleSelectionChange = (keys) => {
+    // HeroUI ส่งค่าเป็น Set หรือ "all"
+    if (keys === "all") return; // กันกรณี select all
+
+    // บังคับเลือกได้แค่ 1 key
+    const firstKey = Array.from(keys)[0];
+    setSelectedKeys(new Set(firstKey ? [firstKey] : []));
+  };
+
   const onClear = () => setFilterValue("");
 
   return {
@@ -140,12 +153,14 @@ export default function useHook() {
     columns,
     visibleColumns,
     setVisibleColumns,
+    handleSelectionChange,
     capitalize,
     filteredItems,
     onRowsPerPageChange,
     rowsPerPage,
     onSortChange,
     sortDescriptor,
-    fetchDataAnc
+    fetchDataAnc,
+    headerColumns,
   };
 }
