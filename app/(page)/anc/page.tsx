@@ -43,7 +43,7 @@ export default function page() {
     pages,
     onSortChange,
     sortDescriptor,
-    fetchDataAnc
+    fetchDataAnc,
   } = useHook();
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
@@ -165,6 +165,7 @@ export default function page() {
       </div>
 
       <Table
+        isHeaderSticky
         classNames={{ td: "p-2 pt-4 pb-4", th: "p-2 pt-6 pb-6 text-sm" }}
         isStriped
         aria-label="Example table"
