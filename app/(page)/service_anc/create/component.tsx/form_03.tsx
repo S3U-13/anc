@@ -104,7 +104,7 @@ export default function page() {
             <RadioGroup
                 className='col-span-4 px-[20px]'
                 label="ได้รับยา"
-                value={field.per_os_id}
+                value={field.am_id}
                 onValueChange={(val) => handleChange({ target: { name: "am_id", value: val } })}
             >
                 {data

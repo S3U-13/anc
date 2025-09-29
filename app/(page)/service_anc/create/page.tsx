@@ -20,6 +20,7 @@ import Form05 from "./component.tsx/form_05";
 import useHook from "./useHook";
 
 export default function page({ openFormService, closeFormService }) {
+
   const [pullAnc, setPullAnc] = useState(false);
 
   const pullHandle = () => {
@@ -27,8 +28,6 @@ export default function page({ openFormService, closeFormService }) {
   };
 
   const [ModalResetValue, SetModalResetValue] = useState(false);
-
-  console.log(ModalResetValue);
 
   const resetHandle = () => {
     SetModalResetValue((prev) => !prev);
@@ -38,94 +37,6 @@ export default function page({ openFormService, closeFormService }) {
   const [activeStep, setActiveStep] = useState("from_1");
 
   const { selectedAnc, setSelectedAnc } = useHook();
-
-  // const form = useForm({
-  //     defaultValues: {
-  //         hn: "",
-  //         patvisit_id: "",
-  //         patreg_id: "",
-  //         para: "",
-  //         g: "",
-  //         p: "",
-  //         a: "",
-  //         last: "",
-  //         lmp: "",
-  //         ma_id: "",
-  //         ma_text: "",
-  //         hr_id: "",
-  //         hr_text: "",
-  //         am_id: "",
-  //         gct_1: "",
-  //         gct_2: "",
-  //         hbsag: "",
-  //         vdrl_1: "",
-  //         anti_hiv: "",
-  //         bl_gr: "",
-  //         rh: "",
-  //         hct: "",
-  //         of: "",
-  //         dcip: "",
-  //         mcv: "",
-  //         mch: "",
-  //         hb_typing: "",
-  //         pcr_wife_id: "",
-  //         pcr_text: "",
-  //         cordo_id: "",
-  //         cordo_text: "",
-  //         cordo_other_text: "",
-  //         abortion_id: "",
-  //         td_num: "",
-  //         td_last_date: "",
-  //         tdap_id: "",
-  //         tdap_round_1: "",
-  //         tdap_round_2: "",
-  //         tdap_round_3: "",
-  //         iip_id: "",
-  //         iip_date: "",
-  //         lab_2: "",
-  //         vdrl_2: "",
-  //         h: "",
-  //         bti_value_1_id: "",
-  //         bti_value_2_id: "",
-  //         bti_value_3_id: "",
-  //         bti_value_4_id: "",
-  //         bti_value_5_id: "",
-  //         bti_date: "",
-  //         cbe_value_1_id: "",
-  //         cbe_value_2_id: "",
-  //         cbe_value_3_id: "",
-  //         cbe_value_4_id: "",
-  //         birads_id: "",
-  //         cbe_result: "",
-  //         per_os_id: "",
-  //         husband_name: "",
-  //         husband_age: "",
-  //         husband_id_card: "",
-  //         husband_hn: "",
-  //         husband_tel: "",
-  //         husband_job: "",
-  //         hbsag_husband: "",
-  //         vdrl_husband: "",
-  //         anti_hiv_husband: "",
-  //         bl_gr_husband: "",
-  //         rh_husband: "",
-  //         hct_husband: "",
-  //         of_husband: "",
-  //         dcip_husband: "",
-  //         mcv_husband: "",
-  //         mch_husband: "",
-  //         hb_typing_husband: "",
-  //         pcr_hus_text: "",
-  //         pcr_hus_id: "",
-  //         anc_id: "",
-  //         usg_id: "",
-  //         ref_in_id: [] as string[],
-  //         ref_out_id: [] as string[],
-  //         ref_in_choice_id: "",
-  //         ref_out_choice_i: "",
-  //         hos_name: "",
-  //     }
-  // });
 
   return (
     <div>
@@ -184,7 +95,10 @@ export default function page({ openFormService, closeFormService }) {
                     <Form03 />
                   </Tab>
                   <Tab disabled key="from_4" title={<div className="" />}>
-                    <Form04 />
+                    <Form04
+                      selectedAnc={selectedAnc}
+                      setSelectedAnc={setSelectedAnc}
+                    />
                   </Tab>
                   <Tab disabled key="from_5" title={<div className="" />}>
                     <Form05 />

@@ -1,4 +1,5 @@
 
+'use client';
 import React from 'react'
 import useHook from '../useHook'
 import { Radio, RadioGroup } from '@heroui/radio'
@@ -41,8 +42,9 @@ export default function page() {
                         </div>
                     ))}
             </RadioGroup>
+
             <CheckboxGroup
-                className="col-span-4 px-[20px]"
+                className="col-span-4 px-[20px] mt-[10px]"
                 label="refer"
                 value={field.ref_in_id}
                 onValueChange={(val) =>

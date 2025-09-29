@@ -51,8 +51,8 @@ export default function page() {
   }, [visibleColumns, columns]);
 
   return (
-    <div className="mt-[10px] bg-[#ffffff] p-6 rounded-lg">
-      <div className="mb-[10px] gap-[10px] flex justify-between">
+    <div className="mt-[10px] bg-[#ffffff] p-2.5 rounded-lg">
+      <div className="gap-[10px] flex justify-between">
         <Input
           value={filterValue}
           onValueChange={setFilterValue}
@@ -145,7 +145,7 @@ export default function page() {
           </Button>
         </div>
       </div>
-      <div className="flex justify-between items-center mb-[10]">
+      <div className="flex justify-between items-center py-[15px]">
         <span className="text-default-400 text-small">
           Total {filteredItems.length} records
         </span>
@@ -166,7 +166,7 @@ export default function page() {
 
       <Table
         isHeaderSticky
-        classNames={{ td: "p-2 pt-4 pb-4", th: "p-2 pt-6 pb-6 text-sm" }}
+        classNames={{ td: "p-2 pt-2.5 pb-2.5", th: "p-2 pt-4 pb-4" }}
         isStriped
         aria-label="Example table"
       >

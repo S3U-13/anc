@@ -30,6 +30,7 @@ import {
   ModalFooter,
 } from "@heroui/modal";
 import useHook from "./useHook";
+import { addToast } from "@heroui/toast";
 
 export default function App({ openModalAnc, closeModalAnc, setSelectedAnc }) {
   const {
@@ -61,14 +62,26 @@ export default function App({ openModalAnc, closeModalAnc, setSelectedAnc }) {
   } = useHook();
 
   // ฟังก์ชันยืนยันเลือก ANC
-  const handleConfirmAnc = () => {
-    const firstKey = Array.from(selectedKeys)[0];
-    if (!firstKey) return alert("กรุณาเลือก ANC");
+  // const handleConfirmAnc = () => {
+  //   const firstKey = Array.from(selectedKeys)[0];
+  //   if (!firstKey)
+  //     return addToast({
+  //       title: "เตือน",
+  //       description: "กรุณาเลือกหมายเลข ANC",
+  //       variant: "flat",
+  //       color: "default",
+  //     });
 
-    const anc = dataAnc.find((item) => item.anc_no === Number(firstKey));
-    setSelectedAnc(anc.anc_no); // <-- ถ้า setSelectedAnc undefined จะไม่ทำงาน
-    setOpenModal(false);
-  };
+  //   const anc = dataAnc.find((item) => item.anc_no === Number(firstKey));
+  //   if (!anc) return addToast({
+  //       title: "เตือน",
+  //       description: "ไม่พบหมายเลข ANC",
+  //       variant: "flat",
+  //       color: "danger",
+  //     });
+  //   setSelectedAnc(anc); // <-- ถ้า setSelectedAnc undefined จะไม่ทำงาน
+  //   setOpenModal(false);
+  // };
 
   return (
     <Modal
@@ -174,8 +187,8 @@ export default function App({ openModalAnc, closeModalAnc, setSelectedAnc }) {
                 <Table
                   isHeaderSticky
                   classNames={{
-                    td: "p-2 pt-4 pb-4",
-                    th: "p-2 text-sm",
+                    td: "p-2 pt-2.5 pb-2.5]",
+                    th: "p-2",
                   }}
                   isStriped
                   selectionMode="multiple"
@@ -299,15 +312,32 @@ export default function App({ openModalAnc, closeModalAnc, setSelectedAnc }) {
                 color="primary"
                 onPress={() => {
                   const firstKey = Array.from(selectedKeys)[0];
-                  if (!firstKey) return alert("กรุณาเลือก ANC");
+                  if (!firstKey)
+                    return addToast({
+                      title: "เตือน",
+                      description: "กรุณาเลือก ANC",
+                      variant: "flat",
+                      color: "warning",
+                    });
 
                   const anc = dataAnc.find(
                     (item) => item.anc_no === Number(firstKey)
                   );
-                  if (!anc) return alert("ไม่พบข้อมูล ANC");
-
+                  if (!anc)
+                    return addToast({
+                      title: "ไม่พบข้อมูล",
+                      description: "ไม่พบหมายเลข ANC",
+                      variant: "flat",
+                      color: "danger",
+                    });
                   setSelectedAnc(anc); // ต้องแน่ใจว่า setSelectedAnc มาจาก parent
                   closeModalAnc(); // ปิด modal
+                  return addToast({
+                    title: "สำเร็จ",
+                    description: "ดึงข้อมูลสำเร็จ",
+                    variant: "flat",
+                    color: "primary",
+                  });
                 }}
               >
                 ยืนยัน
