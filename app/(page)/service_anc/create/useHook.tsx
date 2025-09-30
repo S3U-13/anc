@@ -97,11 +97,10 @@ export default function useHook() {
     pcr_hus_id: "",
     anc_id: "",
     usg_id: "",
-    ref_in_id: [] as string[],
-    ref_out_id: [] as string[],
+    ref_in_id: [],
+    ref_out_id: [],
     ref_in_choice_id: "",
-    ref_out_choice_i: "",
-    hos_name: "",
+    ref_out_choice_id: "",
   });
 
   const handleChange = (e) => {
