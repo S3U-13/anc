@@ -163,7 +163,7 @@ export default function page({ openModal, closeModal }) {
                       <Input
                         size="sm"
                         label="อาชีพ"
-                        value={pat?.occupation_detail.lookupname || ""}
+                        value={pat?.occupation_detail?.lookupname || ""}
                         type="text"
                       />
                       <Input
@@ -290,7 +290,7 @@ export default function page({ openModal, closeModal }) {
                     <Input
                       label="email"
                       size="sm"
-                      value={patHusband?.pat_address.email || ""}
+                      value={patHusband?.pat_address?.email || "" }
                       type="email"
                     />
                   </div>

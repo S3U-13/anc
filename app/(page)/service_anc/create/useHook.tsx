@@ -113,13 +113,36 @@ export default function useHook() {
     }));
   };
 
+  const mapCheckboxValues = (prefix, vals, count) => {
+    const obj = {};
+    for (let i = 0; i < count; i++) {
+      obj[`${prefix}_value_${i + 1}_id`] = vals[i] ?? null; // เก็บเป็น string หรือ null
+    }
+    return obj;
+  };
+
+  // handlers
+  const handleChangeBti = (vals) => {
+    // vals เป็น array ของค่าที่เลือก เช่น ["18", "20"]
+    const btiField = mapCheckboxValues("bti", vals, 5); // bti_value_1_id ... bti_value_5_id
+    setField((prev) => ({ ...prev, ...btiField }));
+  };
+
+  const handleChangeCbe = (vals) => {
+    const cbeField = mapCheckboxValues("cbe", vals, 4); // cbe_value_1_id ... cbe_value_4_id
+    setField((prev) => ({ ...prev, ...cbeField }));
+  };
+
   const [selectedAnc, setSelectedAnc] = useState(null);
 
   return {
     data,
     field,
     handleChange,
+    handleChangeCbe,
+    handleChangeBti,
     selectedAnc,
     setSelectedAnc,
+    setField,
   };
 }

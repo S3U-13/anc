@@ -16,7 +16,7 @@ export default function BarChart() {
                     type: "bar",
                 },
                 colors: [
-                    "#9873d9",
+                    "#d7b0ff",
                     "#9e7bdb",
                     "#9f7ed9",
                     "#a183d6",
