@@ -1,32 +1,33 @@
+'use client';
 import { Input } from "@heroui/input";
 import { Radio, RadioGroup } from "@heroui/radio";
 import React from "react";
 import useHook from "../useHook";
 
-export default function page({ selectedAnc }) {
-  const { data, field, handleChange } = useHook();
-  const calculateAge = (birthdate) => {
-    if (!birthdate) return "";
-    const birth = new Date(birthdate);
-    const today = new Date();
-    let age = today.getFullYear() - birth.getFullYear();
-    const m = today.getMonth() - birth.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
-      age--;
-    }
-    return `${age} ปี`;
-  };
+export default function page({ selectedAnc, field, setField, handleChange }) {
+  const { data, calculateAge, formatName } = useHook();
+  // const calculateAge = (birthdate) => {
+  //   if (!birthdate) return "";
+  //   const birth = new Date(birthdate);
+  //   const today = new Date();
+  //   let age = today.getFullYear() - birth.getFullYear();
+  //   const m = today.getMonth() - birth.getMonth();
+  //   if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+  //     age--;
+  //   }
+  //   return `${age} ปี`;
+  // };
 
-  const formatName = (pat) => {
-    if (!pat) return "";
-    let fullName = "";
-    if (pat.prename) fullName += pat.prename;
-    if (pat.firstname) fullName += pat.firstname;
-    if (pat.lastname) fullName += " " + pat.lastname;
-    return fullName;
-  };
+  // const formatName = (pat) => {
+  //   if (!pat) return "";
+  //   let fullName = "";
+  //   if (pat.prename) fullName += pat.prename;
+  //   if (pat.firstname) fullName += pat.firstname;
+  //   if (pat.lastname) fullName += " " + pat.lastname;
+  //   return fullName;
+  // };
   return (
-    <div className="overflow-y-scroll max-h-[calc(90vh-300px)]">
+    <div className="overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1>ส่วนที่ 4</h1>
       <div className="grid grid-cols-4 gap-[10px] px-[30px] mt-[10px]">
         <Input

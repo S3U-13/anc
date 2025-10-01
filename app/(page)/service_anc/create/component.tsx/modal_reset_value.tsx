@@ -6,9 +6,10 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@heroui/modal";
+import { addToast } from "@heroui/toast";
 import React, { useState } from "react";
 
-export default function page({ openModalReset, closeModalReset }) {
+export default function page({ openModalReset, closeModalReset, onReset }) {
   return (
     <div>
       <Modal
@@ -39,13 +40,20 @@ export default function page({ openModalReset, closeModalReset }) {
                   ยกเลิก
                 </Button>
                 <Button
+                  type="reset"
                   color="danger"
                   onPress={() => {
-                    onReset(); // เรียกฟังก์ชันรีเซ็ตข้อมูล
-                    close();
+                    onReset(); // ✅ reset field ใน parent
+                    closeModalReset();
+                    addToast({
+                      title: "รีเซ็ต",
+                      description: "รีเซ็ตข้อมูลสำเร็จ",
+                      variant: "solid",
+                      color: "foreground",
+                    });
                   }}
                 >
-                  รีเซ็ต
+                  ยืนยัน
                 </Button>
               </ModalFooter>
             </>

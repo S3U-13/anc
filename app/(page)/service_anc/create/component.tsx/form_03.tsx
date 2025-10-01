@@ -1,3 +1,4 @@
+"use client";
 import { DatePicker } from "@heroui/date-picker";
 import { Input } from "@heroui/input";
 import { Radio, RadioGroup } from "@heroui/radio";
@@ -5,22 +6,21 @@ import { CheckboxGroup, Checkbox } from "@heroui/checkbox";
 import React from "react";
 import useHook from "../useHook";
 
-export default function page() {
-  const {
-    data,
-    field,
-    handleChange,
-    handleChangeCbe,
-    handleChangeBti,
-    setField,
-  } = useHook();
+export default function page({
+  field,
+  setField,
+  handleChange,
+  handleChangeCbe,
+  handleChangeBti
+}) {
+  const { data } = useHook();
 
   // state สำหรับเก็บค่า checkbox
 
   // handleChange เวลา checkbox เปลี่ยน
 
   return (
-    <div className="grid grid-cols-4 gap-[10px] overflow-y-scroll max-h-[calc(90vh-300px)]">
+    <div className="grid grid-cols-4 gap-[10px] overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1 className="col-span-4">ส่วนที่ 3</h1>
       <div className="grid grid-cols-4 gap-[10px] col-span-4 px-[30px]">
         <Input
@@ -217,9 +217,9 @@ export default function page() {
       <RadioGroup
         className="col-span-4 px-[20px]"
         label="ได้รับยา"
-        value={field.am_id}
+        value={field.per_os_id}
         onValueChange={(val) =>
-          handleChange({ target: { name: "am_id", value: val } })
+          handleChange({ target: { name: "per_os_id", value: val } })
         }
       >
         {data

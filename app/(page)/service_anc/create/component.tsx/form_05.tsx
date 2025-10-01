@@ -1,12 +1,30 @@
+"use client";
 import React from "react";
 import useHook from "../useHook";
 import { Radio, RadioGroup } from "@heroui/radio";
 import { Checkbox, CheckboxGroup } from "@heroui/checkbox";
+import { Select, SelectSection, SelectItem } from "@heroui/select";
 
-export default function page() {
-  const { data, field, handleChange, setField } = useHook();
+export const animals = [
+  { key: "cat", label: "Cat" },
+  { key: "dog", label: "Dog" },
+  { key: "elephant", label: "Elephant" },
+  { key: "lion", label: "Lion" },
+  { key: "tiger", label: "Tiger" },
+  { key: "giraffe", label: "Giraffe" },
+  { key: "dolphin", label: "Dolphin" },
+  { key: "penguin", label: "Penguin" },
+  { key: "zebra", label: "Zebra" },
+  { key: "shark", label: "Shark" },
+  { key: "whale", label: "Whale" },
+  { key: "otter", label: "Otter" },
+  { key: "crocodile", label: "Crocodile" },
+];
+
+export default function page({ field, setField, handleChange }) {
+  const { data } = useHook();
   return (
-    <div className="grid grid-cols-4 overflow-y-scroll max-h-[calc(90vh-300px)]">
+    <div className="grid grid-cols-4 overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1>ส่วนที่ 5</h1>
       <RadioGroup
         className="col-span-4 px-[20px] mt-[10px]"
@@ -46,24 +64,6 @@ export default function page() {
             </div>
           ))}
       </RadioGroup>
-      {/* <CheckboxGroup
-        className="col-span-4 px-[20px] mt-[]"
-        label="refer"
-        value={field.ref_in_id}
-        onValueChange={(val) =>
-          handleChange({ target: { name: "ref_in_id", value: val } })
-        }
-      >
-        {data
-          .filter((ref_in, index) => ref_in.choice_type_id === 15)
-          .map((ref_in) => (
-            <div key={ref_in.id} className="px-[10px]">
-              <Checkbox value={String(ref_in.id)}>
-                {ref_in.choice_name}
-              </Checkbox>
-            </div>
-          ))}
-      </CheckboxGroup> */}
       <CheckboxGroup
         className="col-span-4 px-[20px] mt-[10px]"
         label="การ Refer"
@@ -93,16 +93,32 @@ export default function page() {
               >
                 {data
                   .filter(
-                    (ref_out_choice) => ref_out_choice.choice_type_id === 16
+                    (ref_in_choice) => ref_in_choice.choice_type_id === 16
                   )
-                  .map((ref_out_choice) => (
+                  .map((ref_in_choice) => (
                     <div
-                      key={ref_out_choice.id}
+                      key={ref_in_choice.id}
                       className="flex gap-[10px] items-center px-[10px]"
                     >
-                      <Radio value={String(ref_out_choice.id)}>
-                        {ref_out_choice.choice_name}
+                      <Radio value={String(ref_in_choice.id)}>
+                        {ref_in_choice.choice_name}
                       </Radio>
+                      {String(ref_in_choice.id) === "42" &&
+                        field.receive_in_id === "42" && (
+                          <div>
+                            <Select
+                              size="sm"
+                              classNames={{ base: "w-[300px]" }}
+                              label="รพช/รพสต"
+                            >
+                              {animals.map((animal) => (
+                                <SelectItem key={animal.key}>
+                                  {animal.label}
+                                </SelectItem>
+                              ))}
+                            </Select>
+                          </div>
+                        )}
                     </div>
                   ))}
               </RadioGroup>
@@ -149,29 +165,27 @@ export default function page() {
                       <Radio value={String(ref_out_choice.id)}>
                         {ref_out_choice.choice_name}
                       </Radio>
+                      {String(ref_out_choice.id) === "42" &&
+                        field.receive_out_id === "42" && (
+                          <div>
+                            <Select
+                              classNames={{ base: "w-[300px]" }}
+                              label="รพช/รพสต"
+                            >
+                              {animals.map((animal) => (
+                                <SelectItem key={animal.key}>
+                                  {animal.label}
+                                </SelectItem>
+                              ))}
+                            </Select>
+                          </div>
+                        )}
                     </div>
                   ))}
               </RadioGroup>
             </div>
           ))}
       </CheckboxGroup>
-      {/* <CheckboxGroup
-        className="col-span-4 px-[20px] mt-[10px]"
-        label="Refer In"
-        value={field.ref_in_id ? [field.ref_in_id] : []} // ✅ ต้องเป็น array
-        onValueChange={
-          (vals) =>
-            setField((prev) => ({ ...prev, ref_in_id: vals[0] || null })) // ✅ เก็บค่าเดียว
-        }
-      >
-        {data
-          .filter((ref_in) => ref_in.choice_type_id === 15)
-          .map((ref_in) => (
-            <Checkbox key={ref_in.id} value={String(ref_in.id)}>
-              {ref_in.choice_name}
-            </Checkbox>
-          ))}
-      </CheckboxGroup> */}
     </div>
   );
 }

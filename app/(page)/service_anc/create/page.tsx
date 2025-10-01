@@ -20,7 +20,6 @@ import Form05 from "./component.tsx/form_05";
 import useHook from "./useHook";
 
 export default function page({ openFormService, closeFormService }) {
-
   const [pullAnc, setPullAnc] = useState(false);
 
   const pullHandle = () => {
@@ -33,10 +32,24 @@ export default function page({ openFormService, closeFormService }) {
     SetModalResetValue((prev) => !prev);
   };
 
-  const steps = ["from_1", "from_2", "from_3", "from_4", "from_5"];
-  const [activeStep, setActiveStep] = useState("from_1");
-
-  const { selectedAnc, setSelectedAnc } = useHook();
+  const {
+    selectedAnc,
+    setSelectedAnc,
+    handleReset,
+    steps,
+    activeStep,
+    setActiveStep,
+    field,
+    setField,
+    handleChange,
+    handleLmpChange,
+    handleChangeCbe,
+    handleChangeBti,
+    handleEditChange,
+    editVitalsign,
+    vitals,
+    bmi,
+  } = useHook();
 
   return (
     <div>
@@ -66,6 +79,8 @@ export default function page({ openFormService, closeFormService }) {
                     tabContent:
                       "group-data-[selected=true]:bg-[#AE7EDE] p-1 rounded-sm w-full bg-[#D4D4D8]",
                   }}
+                  // isDisabledKeys={["from_2", "from_3", "from_4", "from_5"]}
+                  keepMounted
                 >
                   <Tab disabled key="from_1" title={<div className="" />}>
                     <div className="flex justify-between items-center px-[10px]">
@@ -86,22 +101,47 @@ export default function page({ openFormService, closeFormService }) {
                     <Form01
                       selectedAnc={selectedAnc}
                       setSelectedAnc={setSelectedAnc}
+                      field={field}
+                      setField={setField}
+                      handleChange={handleChange}
+                      handleLmpChange={handleLmpChange}
+                      handleEditChange={handleEditChange}
+                      vitals={vitals}
+                      editVitalsign={editVitalsign}
+                      bmi={bmi}
                     />
                   </Tab>
                   <Tab disabled key="from_2" title={<div className="" />}>
-                    <Form02 />
+                    <Form02
+                      field={field}
+                      setField={setField}
+                      handleChange={handleChange}
+                    />
                   </Tab>
                   <Tab disabled key="from_3" title={<div className="" />}>
-                    <Form03 />
+                    <Form03
+                      field={field}
+                      setField={setField}
+                      handleChange={handleChange}
+                      handleChangeCbe={handleChangeCbe}
+                      handleChangeBti={handleChangeBti}
+                    />
                   </Tab>
                   <Tab disabled key="from_4" title={<div className="" />}>
                     <Form04
                       selectedAnc={selectedAnc}
                       setSelectedAnc={setSelectedAnc}
+                      field={field}
+                      setField={setField}
+                      handleChange={handleChange}
                     />
                   </Tab>
                   <Tab disabled key="from_5" title={<div className="" />}>
-                    <Form05 />
+                    <Form05
+                      field={field}
+                      setField={setField}
+                      handleChange={handleChange}
+                    />
                   </Tab>
                 </Tabs>
               </ModalBody>
@@ -142,6 +182,7 @@ export default function page({ openFormService, closeFormService }) {
       <ResetValue
         openModalReset={ModalResetValue}
         closeModalReset={() => SetModalResetValue(false)}
+        onReset={handleReset}
       />
     </div>
   );
