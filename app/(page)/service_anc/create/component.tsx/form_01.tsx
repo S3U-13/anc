@@ -15,6 +15,7 @@ export default function page({
   vitals,
   editVitalsign,
   bmi,
+  handleChange,
 }) {
   const { calculateAge, formatAddress, formatName } = useHook();
 
@@ -39,49 +40,55 @@ export default function page({
         <Input
           size="sm"
           label="ชื่อ"
-          value={formatName(selectedAnc?.wife) || ""}
+          value={formatName(selectedAnc?.wife) || "" || undefined}
           type="text"
           readOnly
         />
         <Input
           size="sm"
           label="อายุ"
-          value={calculateAge(selectedAnc?.wife?.birthdatetime) || ""}
+          value={
+            calculateAge(selectedAnc?.wife?.birthdatetime) || "" || undefined
+          }
           type="text"
           readOnly
         />
         <Input
           size="sm"
           label="บัตรประชาชน"
-          value={selectedAnc?.wife?.citizencardno || ""}
+          value={selectedAnc?.wife?.citizencardno || "" || undefined}
           type="text"
           readOnly
         />
         <Input
           size="sm"
           label="เบอร์โทรศัพท์"
-          value={selectedAnc?.wife?.pat_address.phone || ""}
+          value={selectedAnc?.wife?.pat_address?.phone || "" || undefined}
           type="text"
           readOnly
         />
         <Textarea
           size="sm"
           className="col-span-2"
-          value={formatAddress(selectedAnc?.wife?.pat_address) || ""}
+          value={
+            formatAddress(selectedAnc?.wife?.pat_address) || "" || undefined
+          }
           label="ที่อยู่"
           readOnly
         />
         <Input
           size="sm"
           label="อาชีพ"
-          value={selectedAnc?.wife?.occupation_detail.lookupname || ""}
+          value={
+            selectedAnc?.wife?.occupation_detail?.lookupname || "" || undefined
+          }
           type="text"
           readOnly
         />
         <Input
           size="sm"
           label="email"
-          value={selectedAnc?.wife?.pat_address.email || ""}
+          value={selectedAnc?.wife?.pat_address?.email || "" || undefined}
           type="email"
           readOnly
         />
@@ -101,13 +108,7 @@ export default function page({
           onValueChange={(value) => handleEditChange("height", value)}
           type="text"
         />
-        <Input
-          size="sm"
-          label="BMI"
-          value={bmi || ""}
-          type="text"
-          isReadOnly
-        />
+        <Input size="sm" label="BMI" value={bmi || ""} type="text" isReadOnly />
         <Input
           size="sm"
           label="ความดันโลหิต"
@@ -119,11 +120,46 @@ export default function page({
           type="text"
           readOnly
         />
-        <Input size="sm" label="PARA" type="text" />
-        <Input size="sm" label="G" type="text" />
-        <Input size="sm" label="P" type="text" />
-        <Input size="sm" label="A" type="text" />
-        <Input size="sm" label="LAST" type="text" />
+        <Input
+          size="sm"
+          label="PARA"
+          type="text"
+          name="para"
+          value={field.para}
+          onChange={handleChange}
+        />
+        <Input
+          size="sm"
+          label="G"
+          type="text"
+          name="g"
+          value={field.g}
+          onChange={handleChange}
+        />
+        <Input
+          size="sm"
+          label="P"
+          type="text"
+          name="p"
+          value={field.p}
+          onChange={handleChange}
+        />
+        <Input
+          size="sm"
+          label="A"
+          type="text"
+          name="a"
+          value={field.a}
+          onChange={handleChange}
+        />
+        <Input
+          size="sm"
+          label="LAST"
+          type="text"
+          name="last"
+          value={field.last}
+          onChange={handleChange}
+        />
         <DatePicker
           size="sm"
           label="LMP"
@@ -139,12 +175,16 @@ export default function page({
           isReadOnly
           locale="th-TH-u-ca-buddhist"
           value={field.edc ? parseDate(field.edc) : null}
+          onChange={handleLmpChange}
         />
 
         <Input
+          type="text"
           size="sm"
           label="อายุครรภ์"
+          name="ga"
           value={field.ga ?? ""} // ปลอดภัยกว่า ใช้ ?? กัน null
+          onChange={handleChange}
           readOnly
         />
       </div>

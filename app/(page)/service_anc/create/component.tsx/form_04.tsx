@@ -6,26 +6,6 @@ import useHook from "../useHook";
 
 export default function page({ selectedAnc, field, setField, handleChange }) {
   const { data, calculateAge, formatName } = useHook();
-  // const calculateAge = (birthdate) => {
-  //   if (!birthdate) return "";
-  //   const birth = new Date(birthdate);
-  //   const today = new Date();
-  //   let age = today.getFullYear() - birth.getFullYear();
-  //   const m = today.getMonth() - birth.getMonth();
-  //   if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
-  //     age--;
-  //   }
-  //   return `${age} ปี`;
-  // };
-
-  // const formatName = (pat) => {
-  //   if (!pat) return "";
-  //   let fullName = "";
-  //   if (pat.prename) fullName += pat.prename;
-  //   if (pat.firstname) fullName += pat.firstname;
-  //   if (pat.lastname) fullName += " " + pat.lastname;
-  //   return fullName;
-  // };
   return (
     <div className="overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1>ส่วนที่ 4</h1>
@@ -34,14 +14,14 @@ export default function page({ selectedAnc, field, setField, handleChange }) {
           size="sm"
           className="col-span-2"
           label="HN สามี"
-          value={selectedAnc?.hn_husband || ""}
+          value={selectedAnc?.hn_husband || "" || undefined || null}
           type="text"
         />
         <Input
           size="sm"
           className="col-span-2"
           label="ชื่อสามี"
-          value={formatName(selectedAnc?.husband) || ""}
+          value={formatName(selectedAnc?.husband) || "" || undefined || null}
           type="text"
           readOnly
         />
@@ -49,7 +29,7 @@ export default function page({ selectedAnc, field, setField, handleChange }) {
           size="sm"
           className="col-span-2"
           label="อายุ"
-          value={calculateAge(selectedAnc?.husband?.birthdatetime) || ""}
+          value={calculateAge(selectedAnc?.husband?.birthdatetime) || "" || undefined || null}
           type="text"
           readOnly
         />
@@ -58,14 +38,14 @@ export default function page({ selectedAnc, field, setField, handleChange }) {
           className="col-span-2"
           label="บัตรประชาชน"
           type="text"
-          value={selectedAnc?.husband?.citizencardno || ""}
+          value={selectedAnc?.husband?.citizencardno || "" || undefined || null}
         />
         <Input
           size="sm"
           className="col-span-2"
           label="อาชีพ"
           type="text"
-          value={selectedAnc?.husband?.occupation_detail.lookupname || ""}
+          value={selectedAnc?.husband?.occupation_detail?.lookupname || "" || undefined || null}
           readOnly
         />
         <Input
@@ -73,22 +53,22 @@ export default function page({ selectedAnc, field, setField, handleChange }) {
           className="col-span-2"
           label="email"
           type="email"
-          value={selectedAnc?.husband?.pat_address.email || ""}
+          value={selectedAnc?.husband?.pat_address?.email || "" || undefined || null}
           readOnly
         />
-        <Input size="sm" className="col-span-2" label="HbsAg" type="text" />
-        <Input size="sm" className="col-span-2" label="VDRL" type="text" />
-        <Input size="sm" className="col-span-2" label="Anti HIV" type="text" />
-        <Input size="sm" className="col-span-2" label="Hb Typing" type="text" />
+        <Input size="sm" className="col-span-2" label="HbsAg" type="text" name="hbsag_husband" value={field.hbsag_husband} onChange={handleChange}/>
+        <Input size="sm" className="col-span-2" label="VDRL" type="text" name="vdrl__husband" value={field.vdrl__husband} onChange={handleChange}/>
+        <Input size="sm" className="col-span-2" label="Anti HIV" type="text" name="anti_hiv_husband" value={field.anti_hiv_husband} onChange={handleChange}/>
+        <Input size="sm" className="col-span-2" label="Hb Typing" type="text" name="hb_typing_husband" value={field.hb_typing_husband} onChange={handleChange}/>
         <div className="col-span-4 grid grid-cols-3 gap-[10px]">
-          <Input size="sm" className="col-span-1" label="Bl.gr" type="text" />
-          <Input size="sm" className="col-span-1" label="Rh" type="text" />
-          <Input size="sm" className="col-span-1" label="Hct" type="text" />
+          <Input size="sm" className="col-span-1" label="Bl.gr" type="text" name="bl_gr_husband" value={field.bl_gr_husband} onChange={handleChange}/>
+          <Input size="sm" className="col-span-1" label="Rh" type="text" name="rh_husband" value={field.rh_husband} onChange={handleChange}/>
+          <Input size="sm" className="col-span-1" label="Hct" type="text" name="hct_husband" value={field.hct_husband} onChange={handleChange}/>
         </div>
-        <Input size="sm" className="col-span-2" label="OF" type="text" />
-        <Input size="sm" className="col-span-2" label="DCIP" type="text" />
-        <Input size="sm" className="col-span-2" label="MCV" type="text" />
-        <Input size="sm" className="col-span-2" label="MCH" type="text" />
+        <Input size="sm" className="col-span-2" label="OF" type="text" name="of_husband" value={field.of_husband} onChange={handleChange}/>
+        <Input size="sm" className="col-span-2" label="DCIP" type="text" name="dcip_husband" value={field.dcip_husband} onChange={handleChange}/>
+        <Input size="sm" className="col-span-2" label="MCV" type="text" name="mcv_husband" value={field.mcv_husband} onChange={handleChange}/>
+        <Input size="sm" className="col-span-2" label="MCH" type="text" name="mch_husband" value={field.mch_husband} onChange={handleChange}/>
       </div>
 
       <RadioGroup

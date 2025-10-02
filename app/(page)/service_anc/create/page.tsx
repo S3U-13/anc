@@ -50,6 +50,7 @@ export default function page({ openFormService, closeFormService }) {
     vitals,
     bmi,
     coverageSite,
+    handleSubmit,
   } = useHook();
 
   return (
@@ -171,7 +172,7 @@ export default function page({ openFormService, closeFormService }) {
                   onPress={() => {
                     const idx = steps.indexOf(activeStep);
                     if (idx < steps.length - 1) setActiveStep(steps[idx + 1]);
-                    else handleSubmit();
+                    else handleSubmit;
                   }}
                 >
                   {activeStep === steps[steps.length - 1] ? "Submit" : "ถัดไป"}

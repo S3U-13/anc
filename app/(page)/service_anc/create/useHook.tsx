@@ -1,4 +1,5 @@
 "use client";
+import { addToast } from "@heroui/toast";
 import React, { useEffect, useState } from "react";
 
 export default function useHook() {
@@ -6,7 +7,7 @@ export default function useHook() {
 
   const fetchData = async () => {
     try {
-      const res = await fetch("http://172.16.30.38:3000/api/mapAll");
+      const res = await fetch("http://localhost:3000/api/mapAll");
       const json = await res.json();
       setData(json);
     } catch (error) {
@@ -58,22 +59,24 @@ export default function useHook() {
     cordo_other_text: "",
     abortion_id: "",
     td_num: "",
-    td_last_date: "",
+    td_last_date: null,
     tdap_id: "",
-    tdap_round_1: "",
-    tdap_round_2: "",
-    tdap_round_3: "",
+    tdap_round_1: null,
+    tdap_round_2: null,
+    tdap_round_3: null,
     iip_id: "",
-    iip_date: "",
+    iip_date: null,
     lab_2: "",
     vdrl_2: "",
+    hct: "",
     h: "",
     bti_value_1_id: "",
     bti_value_2_id: "",
     bti_value_3_id: "",
     bti_value_4_id: "",
     bti_value_5_id: "",
-    bti_date: "",
+    bti_1_date: null,
+    bti_2_date: null,
     cbe_value_1_id: "",
     cbe_value_2_id: "",
     cbe_value_3_id: "",
@@ -210,6 +213,14 @@ export default function useHook() {
     }));
   };
 
+  // td_last_date: null,
+  // tdap_round_1: null,
+  // tdap_round_2: null,
+  // tdap_round_3: null,
+  // iip_date: null,
+  // bti_1_date: null,
+  // bti_2_date: null,
+
   // แปลง CalendarDate -> "YYYY-MM-DD"
   const handleLmpChange = (calendarDate) => {
     if (!calendarDate) {
@@ -299,11 +310,55 @@ export default function useHook() {
 
   const fetchCoverage = async () => {
     try {
-      const res = await fetch("http://172.16.30.38:3000/api/coveragesite");
+      const res = await fetch("http://localhost:3000/api/coveragesite");
       const json = await res.json();
       setCoverageSite(json);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (value) => {
+    if (isSubmitting) return;
+    try {
+      setIsSubmitting(true); // เริ่มส่งข้อมูล
+      const res = await fetch(`http://localhost:3000/api/ancservice`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(value), // ✅ ใช้ validated data
+      });
+
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error("ลงทะเบียน ANC ไม่สำเร็จ");
+
+      addToast({
+        title: "สำเร็จ",
+        description: "เพิ่มข้อมูลสำเร็จ",
+        variant: "flat",
+        color: "success",
+      });
+
+      // form.reset();
+
+      setSelectedAnc(null);
+      setActiveStep("from_1");
+      setEditVitalsign(defaultVitals);
+      setBmi("");
+
+      // closeModal();
+    } catch (error) {
+      addToast({
+        title: "ไม่สำเร็จ",
+        description: "เพิ่มข้อมูลไม่สำเร็จ",
+        variant: "flat",
+        color: "danger",
+      });
+    } finally {
+      setIsSubmitting(false); // ส่งเสร็จแล้ว เปิดให้กดได้อีก
     }
   };
 
@@ -331,5 +386,6 @@ export default function useHook() {
     vitals,
     handleLmpChange,
     coverageSite,
+    handleSubmit,
   };
 }

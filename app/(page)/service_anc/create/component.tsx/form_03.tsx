@@ -5,13 +5,14 @@ import { Radio, RadioGroup } from "@heroui/radio";
 import { CheckboxGroup, Checkbox } from "@heroui/checkbox";
 import React from "react";
 import useHook from "../useHook";
+import { parseDate, getLocalTimeZone } from "@internationalized/date";
 
 export default function page({
   field,
   setField,
   handleChange,
   handleChangeCbe,
-  handleChangeBti
+  handleChangeBti,
 }) {
   const { data } = useHook();
 
@@ -27,12 +28,17 @@ export default function page({
           size="sm"
           className="col-span-2"
           label="วัคซีนบาดทะยัก ก่อนตั้งครรภ์เคยฉีดกี่ครั้ง"
-          type=""
+          type="text"
+          name="td_num"
+          value={field.td_num}
+          onChange={handleChange}
         />
         <DatePicker
           size="sm"
           className="col-span-2"
           label="ครั้งสุดท้ายวันที่"
+          locale="th-TH-u-ca-buddhist"
+          value={field.td_last_date ? parseDate(field.td_last_date) : null}
         />
       </div>
       <RadioGroup
@@ -50,9 +56,29 @@ export default function page({
               <Radio value={String(tdap.id)}>{tdap.choice_name}</Radio>
               {String(tdap.id) === "14" && field.tdap_id === "14" && (
                 <div className="grid grid-cols-1 gap-[10px] mt-[10px] w-1/4">
-                  <DatePicker size="sm" className="" label="ครั้งที่ 1" />
-                  <DatePicker size="sm" className="" label="ครั้งที่ 2" />
-                  <DatePicker size="sm" className="" label="ครั้งที่ 3" />
+                  <DatePicker
+                    size="sm"
+                    label="ครั้งที่ 1"
+                    value={
+                      field.tdap_round_1 ? parseDate(field.tdap_round_1) : null
+                    }
+                  />
+                  <DatePicker
+                    size="sm"
+                    label="ครั้งที่ 2"
+                    value={
+                      field.tdap_round_2 ? parseDate(field.tdap_round_2) : null
+                    }
+                    
+                  />
+                  <DatePicker
+                    size="sm"
+                    label="ครั้งที่ 3"
+                    value={
+                      field.tdap_round_3 ? parseDate(field.tdap_round_3) : null
+                    }
+                   
+                  />
                 </div>
               )}
             </div>
@@ -75,7 +101,13 @@ export default function page({
             >
               <Radio value={String(iip.id)}>{iip.choice_name}</Radio>
               {String(iip.id) === "16" && field.iip_id === "16" && (
-                <DatePicker size="sm" className="w-1/4" label="วันที่" />
+                <DatePicker
+                  size="sm"
+                  className="w-1/4"
+                  label="วันที่"
+                  value={field.iip_date ? parseDate(field.iip_date) : null}
+                 
+                />
               )}
             </div>
           ))}
@@ -86,24 +118,35 @@ export default function page({
           size="sm"
           className="col-span-2 pl-[10px]"
           label="Lab 2 วันที่"
+          value={field.lab_2 ? parseDate(field.lab_2) : null}
+    
         />
         <Input
           size="sm"
           className="col-span-2 pr-[10px]"
           label="HCT"
           type="text"
+          name="hct"
+          value={field.hct}
+          onChange={handleChange}
         />
         <Input
           size="sm"
           className="col-span-2 pl-[10px]"
           label="VDRL"
           type="text"
+          name="vdrl_2"
+          value={field.vdrl_2}
+          onChange={handleChange}
         />
         <Input
           size="sm"
           className="col-span-2 pr-[10px]"
           label="H"
           type="text"
+          name="h"
+          value={field.h}
+          onChange={handleChange}
         />
       </div>
       <CheckboxGroup
@@ -136,7 +179,15 @@ export default function page({
                 ]
                   .map((v) => String(v))
                   .includes("18") && (
-                  <DatePicker size="sm" className="w-1/4" label="วันที่" />
+                  <DatePicker
+                    size="sm"
+                    className="w-1/4"
+                    label="วันที่"
+                    value={
+                      field.bti_1_date ? parseDate(field.bti_1_date) : null
+                    }
+                    
+                  />
                 )}
               {String(bti.id) === "19" &&
                 [
@@ -148,7 +199,15 @@ export default function page({
                 ]
                   .map((v) => String(v))
                   .includes("19") && (
-                  <DatePicker size="sm" className="w-1/4" label="วันที่" />
+                  <DatePicker
+                    size="sm"
+                    className="w-1/4"
+                    label="วันที่"
+                    value={
+                      field.bti_2_date ? parseDate(field.bti_2_date) : null
+                    }
+                  
+                  />
                 )}
             </div>
           ))}
@@ -209,6 +268,9 @@ export default function page({
                     size="sm"
                     label="ผลตรวจ"
                     type="text"
+                    name="cbe_result"
+                    value={field.cbe_result}
+                    onChange={handleChange}
                   />
                 )}
             </div>
