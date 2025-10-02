@@ -4,8 +4,8 @@ import React from "react";
 
 export default function page() {
   return (
-    <div className="border">
-      <Table aria-label="Example static collection table">
+    <div>
+      <Table aria-label="Example static collection table" radius="sm">
         <TableHeader>
           <TableColumn>NAME</TableColumn>
           <TableColumn>ROLE</TableColumn>

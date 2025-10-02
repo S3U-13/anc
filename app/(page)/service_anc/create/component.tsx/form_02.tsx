@@ -112,48 +112,72 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
           size="sm"
           label="GCT 1"
           type="text"
+          name="gct_1_wife"
+          value={field.gct_1_wife}
+          onChange={handleChange}
         ></Input>
         <Input
           className="col-span-2"
           size="sm"
           label="GCT 2"
           type="text"
+          name="gct_2_wife"
+          value={field.gct_2_wife}
+          onChange={handleChange}
         ></Input>
         <Input
           className="col-span-2"
           size="sm"
           label="OGTT 1"
           type="text"
+          name="ogtt_1_wife"
+          value={field.ogtt_1_wife}
+          onChange={handleChange}
         ></Input>
         <Input
           className="col-span-2"
           size="sm"
           label="OGTT 2"
           type="text"
+          name="ogtt_2_wife"
+          value={field.ogtt_2_wife}
+          onChange={handleChange}
         ></Input>
         <Input
           className="col-span-2"
           size="sm"
           label="HbsAg"
           type="text"
+          name="hbsag_wife"
+          value={field.hbsag_wife}
+          onChange={handleChange}
         ></Input>
         <Input
           className="col-span-2"
           size="sm"
           label="VDRL"
           type="text"
+          name="vdrl__wife"
+          value={field.vdrl_wife}
+          onChange={handleChange}
         ></Input>
         <Input
           className="col-span-2"
           size="sm"
           label="Anti HIV"
           type="text"
+          name="anti_hiv_wife"
+          value={field.anti_hiv_wife}
+          onChange={handleChange}
         ></Input>
         <Input
           className="col-span-2"
           size="sm"
           label="Hb Typing"
           type="text"
+          name="hb_typing_wife"
+          value={field.hb_typing_wife}
+          onChange={handleChange}
         ></Input>
       </div>
       <div className="col-span-4 px-[30px] grid grid-cols-3 gap-[10px]">
@@ -162,25 +186,66 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
           size="sm"
           label="Bl.gr"
           type="text"
+          name="bl_gr_wife"
+          value={field.bl_gr_wife}
+          onChange={handleChange}
         ></Input>
-        <Input className="col-span-1 " size="sm" label="Rh" type="text"></Input>
+        <Input
+          className="col-span-1 "
+          size="sm"
+          label="Rh"
+          type="text"
+          name="rh_wife"
+          value={field.rh_wife}
+          onChange={handleChange}
+        ></Input>
         <Input
           className="col-span-1 "
           size="sm"
           label="Hct"
           type="text"
+          name="hct_wife"
+          value={field.hct_wife}
+          onChange={handleChange}
         ></Input>
       </div>
       <div className="col-span-4 grid px-[30px] grid-cols-4 gap-[10px] ">
-        <Input className="col-span-2" size="sm" label="OF" type="text"></Input>
+        <Input
+          className="col-span-2"
+          size="sm"
+          label="OF"
+          type="text"
+          name="of_wife"
+          value={field.of_wife}
+          onChange={handleChange}
+        ></Input>
         <Input
           className="col-span-2"
           size="sm"
           label="DCIP"
           type="text"
+          name="dcip_wife"
+          value={field.dcip_wife}
+          onChange={handleChange}
         ></Input>
-        <Input className="col-span-2" size="sm" label="MCV" type="text"></Input>
-        <Input className="col-span-2" size="sm" label="MCH" type="text"></Input>
+        <Input
+          className="col-span-2"
+          size="sm"
+          label="MCV"
+          type="text"
+          name="mcv_wife"
+          value={field.mcv_wife}
+          onChange={handleChange}
+        ></Input>
+        <Input
+          className="col-span-2"
+          size="sm"
+          label="MCH"
+          type="text"
+          name="mch_wife"
+          value={field.mch_wife}
+          onChange={handleChange}
+        ></Input>
       </div>
       <RadioGroup
         className="col-span-4 px-[20px]"

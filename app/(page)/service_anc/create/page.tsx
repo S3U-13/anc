@@ -49,6 +49,7 @@ export default function page({ openFormService, closeFormService }) {
     editVitalsign,
     vitals,
     bmi,
+    coverageSite,
   } = useHook();
 
   return (
@@ -141,6 +142,7 @@ export default function page({ openFormService, closeFormService }) {
                       field={field}
                       setField={setField}
                       handleChange={handleChange}
+                      coverageSite={coverageSite}
                     />
                   </Tab>
                 </Tabs>

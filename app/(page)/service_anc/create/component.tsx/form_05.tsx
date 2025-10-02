@@ -3,25 +3,14 @@ import React from "react";
 import useHook from "../useHook";
 import { Radio, RadioGroup } from "@heroui/radio";
 import { Checkbox, CheckboxGroup } from "@heroui/checkbox";
-import { Select, SelectSection, SelectItem } from "@heroui/select";
 
-export const animals = [
-  { key: "cat", label: "Cat" },
-  { key: "dog", label: "Dog" },
-  { key: "elephant", label: "Elephant" },
-  { key: "lion", label: "Lion" },
-  { key: "tiger", label: "Tiger" },
-  { key: "giraffe", label: "Giraffe" },
-  { key: "dolphin", label: "Dolphin" },
-  { key: "penguin", label: "Penguin" },
-  { key: "zebra", label: "Zebra" },
-  { key: "shark", label: "Shark" },
-  { key: "whale", label: "Whale" },
-  { key: "otter", label: "Otter" },
-  { key: "crocodile", label: "Crocodile" },
-];
+import {
+  Autocomplete,
+  AutocompleteSection,
+  AutocompleteItem,
+} from "@heroui/autocomplete";
 
-export default function page({ field, setField, handleChange }) {
+export default function page({ field, setField, handleChange, coverageSite }) {
   const { data } = useHook();
   return (
     <div className="grid grid-cols-4 overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
@@ -106,17 +95,30 @@ export default function page({ field, setField, handleChange }) {
                       {String(ref_in_choice.id) === "42" &&
                         field.receive_in_id === "42" && (
                           <div>
-                            <Select
-                              size="sm"
-                              classNames={{ base: "w-[300px]" }}
+                            <Autocomplete
+                              className="w-[470px]"
+                              defaultItems={coverageSite}
+                              defaultSelectedKey="cat"
                               label="รพช/รพสต"
+                              placeholder="ค้นหา.."
+                              scrollShadowProps={{
+                                isEnabled: false,
+                              }}
+                              onSelectionChange={(key) =>
+                                handleChange({
+                                  target: {
+                                    name: "hos_in_id",
+                                    value: key,
+                                  },
+                                })
+                              }
                             >
-                              {animals.map((animal) => (
-                                <SelectItem key={animal.key}>
-                                  {animal.label}
-                                </SelectItem>
+                              {coverageSite?.map((hos) => (
+                                <AutocompleteItem key={hos.siteid}>
+                                  {hos.sitedesc}
+                                </AutocompleteItem>
                               ))}
-                            </Select>
+                            </Autocomplete>
                           </div>
                         )}
                     </div>
@@ -168,16 +170,30 @@ export default function page({ field, setField, handleChange }) {
                       {String(ref_out_choice.id) === "42" &&
                         field.receive_out_id === "42" && (
                           <div>
-                            <Select
-                              classNames={{ base: "w-[300px]" }}
+                            <Autocomplete
+                              className="w-[470px]"
+                              defaultItems={coverageSite}
+                              defaultSelectedKey="cat"
                               label="รพช/รพสต"
+                              placeholder="ค้นหา.."
+                              scrollShadowProps={{
+                                isEnabled: false,
+                              }}
+                              onSelectionChange={(key) =>
+                                handleChange({
+                                  target: {
+                                    name: "hos_out_id",
+                                    value: key,
+                                  },
+                                })
+                              }
                             >
-                              {animals.map((animal) => (
-                                <SelectItem key={animal.key}>
-                                  {animal.label}
-                                </SelectItem>
+                              {coverageSite?.map((hos) => (
+                                <AutocompleteItem key={hos.siteid}>
+                                  {hos.sitedesc}
+                                </AutocompleteItem>
                               ))}
-                            </Select>
+                            </Autocomplete>
                           </div>
                         )}
                     </div>

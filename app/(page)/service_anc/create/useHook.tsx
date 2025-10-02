@@ -6,7 +6,7 @@ export default function useHook() {
 
   const fetchData = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/mapAll");
+      const res = await fetch("http://172.16.30.38:3000/api/mapAll");
       const json = await res.json();
       setData(json);
     } catch (error) {
@@ -16,6 +16,7 @@ export default function useHook() {
 
   useEffect(() => {
     fetchData();
+    fetchCoverage();
   }, []);
 
   const initialField = () => ({
@@ -35,19 +36,21 @@ export default function useHook() {
     hr_id: "",
     hr_text: "",
     am_id: "",
-    gct_1: "",
-    gct_2: "",
-    hbsag: "",
-    vdrl_1: "",
-    anti_hiv: "",
-    bl_gr: "",
-    rh: "",
-    hct: "",
-    of: "",
-    dcip: "",
-    mcv: "",
-    mch: "",
-    hb_typing: "",
+    gct_1_wife: "",
+    gct_2_wife: "",
+    ogtt_1_wife: "",
+    ogtt_2_wife: "",
+    hbsag_wife: "",
+    vdrl__wife: "",
+    anti_hiv_wife: "",
+    bl_gr_wife: "",
+    rh_wife: "",
+    hct_wife: "",
+    of_wife: "",
+    dcip_wife: "",
+    mcv_wife: "",
+    mch_wife: "",
+    hb_typing_wife: "",
     pcr_wife_id: "",
     pcr_text: "",
     cordo_id: "",
@@ -78,14 +81,8 @@ export default function useHook() {
     birads_id: "",
     cbe_result: "",
     per_os_id: "",
-    husband_name: "",
-    husband_age: "",
-    husband_id_card: "",
-    husband_hn: "",
-    husband_tel: "",
-    husband_job: "",
     hbsag_husband: "",
-    vdrl_husband: "",
+    vdrl__husband: "",
     anti_hiv_husband: "",
     bl_gr_husband: "",
     rh_husband: "",
@@ -298,6 +295,18 @@ export default function useHook() {
     setBmi("");
   };
 
+  const [coverageSite, setCoverageSite] = useState([]);
+
+  const fetchCoverage = async () => {
+    try {
+      const res = await fetch("http://172.16.30.38:3000/api/coveragesite");
+      const json = await res.json();
+      setCoverageSite(json);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     data,
     field,
@@ -321,5 +330,6 @@ export default function useHook() {
     handleEditChange,
     vitals,
     handleLmpChange,
+    coverageSite,
   };
 }
