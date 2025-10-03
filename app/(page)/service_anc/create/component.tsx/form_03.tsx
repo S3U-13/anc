@@ -13,6 +13,7 @@ export default function page({
   handleChange,
   handleChangeCbe,
   handleChangeBti,
+  handleDateChange,
 }) {
   const { data } = useHook();
 
@@ -39,6 +40,7 @@ export default function page({
           label="ครั้งสุดท้ายวันที่"
           locale="th-TH-u-ca-buddhist"
           value={field.td_last_date ? parseDate(field.td_last_date) : null}
+           onChange={handleDateChange("td_last_date")}
         />
       </div>
       <RadioGroup
@@ -62,6 +64,7 @@ export default function page({
                     value={
                       field.tdap_round_1 ? parseDate(field.tdap_round_1) : null
                     }
+                    onChange={handleDateChange("tdap_round_1")}
                   />
                   <DatePicker
                     size="sm"
@@ -69,7 +72,7 @@ export default function page({
                     value={
                       field.tdap_round_2 ? parseDate(field.tdap_round_2) : null
                     }
-                    
+                    onChange={handleDateChange("tdap_round_2")}
                   />
                   <DatePicker
                     size="sm"
@@ -77,7 +80,7 @@ export default function page({
                     value={
                       field.tdap_round_3 ? parseDate(field.tdap_round_3) : null
                     }
-                   
+                    onChange={handleDateChange("tdap_round_3")}
                   />
                 </div>
               )}
@@ -106,7 +109,7 @@ export default function page({
                   className="w-1/4"
                   label="วันที่"
                   value={field.iip_date ? parseDate(field.iip_date) : null}
-                 
+                  onChange={handleDateChange("iip_date")}
                 />
               )}
             </div>
@@ -119,7 +122,7 @@ export default function page({
           className="col-span-2 pl-[10px]"
           label="Lab 2 วันที่"
           value={field.lab_2 ? parseDate(field.lab_2) : null}
-    
+          onChange={handleDateChange("lab_2")}
         />
         <Input
           size="sm"
@@ -186,7 +189,7 @@ export default function page({
                     value={
                       field.bti_1_date ? parseDate(field.bti_1_date) : null
                     }
-                    
+                    onChange={handleDateChange("bti_1_date")}
                   />
                 )}
               {String(bti.id) === "19" &&
@@ -206,7 +209,7 @@ export default function page({
                     value={
                       field.bti_2_date ? parseDate(field.bti_2_date) : null
                     }
-                  
+                     onChange={handleDateChange("bti_2_date")}
                   />
                 )}
             </div>

@@ -1,8 +1,9 @@
 "use client";
 import { addToast } from "@heroui/toast";
 import React, { useEffect, useState } from "react";
+import { parseDate, getLocalTimeZone } from "@internationalized/date";
 
-export default function useHook() {
+export default function useHook({ closeFormService }) {
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
@@ -21,7 +22,7 @@ export default function useHook() {
   }, []);
 
   const initialField = () => ({
-    hn: "",
+    anc_no: "",
     patvisit_id: "",
     patreg_id: "",
     para: "",
@@ -33,16 +34,16 @@ export default function useHook() {
     edc: null,
     ga: "",
     ma_id: "",
-    ma_text: "",
+    ma_detail: "",
     hr_id: "",
-    hr_text: "",
+    hr_detail: "",
     am_id: "",
     gct_1_wife: "",
     gct_2_wife: "",
     ogtt_1_wife: "",
     ogtt_2_wife: "",
     hbsag_wife: "",
-    vdrl__wife: "",
+    vdrl_wife: "",
     anti_hiv_wife: "",
     bl_gr_wife: "",
     rh_wife: "",
@@ -53,7 +54,7 @@ export default function useHook() {
     mch_wife: "",
     hb_typing_wife: "",
     pcr_wife_id: "",
-    pcr_text: "",
+    pcr_wife_text: "",
     cordo_id: "",
     cordo_text: "",
     cordo_other_text: "",
@@ -85,7 +86,7 @@ export default function useHook() {
     cbe_result: "",
     per_os_id: "",
     hbsag_husband: "",
-    vdrl__husband: "",
+    vdrl_husband: "",
     anti_hiv_husband: "",
     bl_gr_husband: "",
     rh_husband: "",
@@ -99,12 +100,12 @@ export default function useHook() {
     pcr_hus_id: "",
     anc_id: "",
     usg_id: "",
-    ref_in_id: [],
-    ref_out_id: [],
-    receive_in_id: "",
-    hos_in_id: "",
-    receive_out_id: "",
-    hos_out_id: "",
+    ref_in_id: null,
+    ref_out_id: null,
+    receive_in_id: null,
+    hos_in_id: null,
+    receive_out_id: null,
+    hos_out_id: null,
   });
 
   const [field, setField] = useState(initialField);
@@ -213,13 +214,17 @@ export default function useHook() {
     }));
   };
 
-  // td_last_date: null,
-  // tdap_round_1: null,
-  // tdap_round_2: null,
-  // tdap_round_3: null,
-  // iip_date: null,
-  // bti_1_date: null,
-  // bti_2_date: null,
+  const handleDateChange = (fieldName) => (date) => {
+    console.log(
+      `[${fieldName}] as JS Date:`,
+      date ? date.toDate(getLocalTimeZone()) : null
+    );
+
+    setField((prev) => ({
+      ...prev,
+      [fieldName]: date ? date.toString() : null,
+    }));
+  };
 
   // แปลง CalendarDate -> "YYYY-MM-DD"
   const handleLmpChange = (calendarDate) => {
@@ -297,9 +302,7 @@ export default function useHook() {
   const [activeStep, setActiveStep] = useState("from_1");
 
   const handleReset = () => {
-    setField({
-      ...initialField, // ที่มี lmp: null, edc: null, ga: ""
-    });
+    setField(initialField);
     setSelectedAnc(null);
     setActiveStep("from_1");
     setEditVitalsign(defaultVitals);
@@ -320,7 +323,8 @@ export default function useHook() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (value) => {
+  const handleSubmit = async () => {
+    console.log("submit field:", field);
     if (isSubmitting) return;
     try {
       setIsSubmitting(true); // เริ่มส่งข้อมูล
@@ -329,7 +333,7 @@ export default function useHook() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(value), // ✅ ใช้ validated data
+        body: JSON.stringify(field), // ✅ ใช้ validated data
       });
 
       const json = await res.json().catch(() => ({}));
@@ -341,15 +345,13 @@ export default function useHook() {
         variant: "flat",
         color: "success",
       });
-
       // form.reset();
 
       setSelectedAnc(null);
       setActiveStep("from_1");
       setEditVitalsign(defaultVitals);
       setBmi("");
-
-      // closeModal();
+      closeFormService();
     } catch (error) {
       addToast({
         title: "ไม่สำเร็จ",
@@ -385,7 +387,9 @@ export default function useHook() {
     handleEditChange,
     vitals,
     handleLmpChange,
+    handleDateChange,
     coverageSite,
     handleSubmit,
+    isSubmitting,
   };
 }

@@ -29,8 +29,8 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
                   className="w-[300px]"
                   size="sm"
                   label="ชื่อยาที่เคยแพ้"
-                  name="ma_text"
-                  value={field.ma_text || ""}
+                  name="ma_detail"
+                  value={field.ma_detail || ""}
                   onChange={handleChange}
                 />
               )}
@@ -57,8 +57,8 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
                   className="w-[300px]"
                   size="sm"
                   label="ระบุ"
-                  name="hr_text"
-                  value={field.hr_text || ""}
+                  name="hr_detail"
+                  value={field.hr_detail || ""}
                   onChange={handleChange}
                 />
               )}
@@ -115,7 +115,7 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
           name="gct_1_wife"
           value={field.gct_1_wife}
           onChange={handleChange}
-        ></Input>
+        />
         <Input
           className="col-span-2"
           size="sm"
@@ -124,7 +124,7 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
           name="gct_2_wife"
           value={field.gct_2_wife}
           onChange={handleChange}
-        ></Input>
+        />
         <Input
           className="col-span-2"
           size="sm"
@@ -133,7 +133,7 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
           name="ogtt_1_wife"
           value={field.ogtt_1_wife}
           onChange={handleChange}
-        ></Input>
+        />
         <Input
           className="col-span-2"
           size="sm"
@@ -142,7 +142,7 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
           name="ogtt_2_wife"
           value={field.ogtt_2_wife}
           onChange={handleChange}
-        ></Input>
+        />
         <Input
           className="col-span-2"
           size="sm"
@@ -151,16 +151,16 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
           name="hbsag_wife"
           value={field.hbsag_wife}
           onChange={handleChange}
-        ></Input>
+        />
         <Input
           className="col-span-2"
           size="sm"
           label="VDRL"
           type="text"
-          name="vdrl__wife"
+          name="vdrl_wife"
           value={field.vdrl_wife}
           onChange={handleChange}
-        ></Input>
+        />
         <Input
           className="col-span-2"
           size="sm"
@@ -169,7 +169,7 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
           name="anti_hiv_wife"
           value={field.anti_hiv_wife}
           onChange={handleChange}
-        ></Input>
+        />
         <Input
           className="col-span-2"
           size="sm"
@@ -178,7 +178,7 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
           name="hb_typing_wife"
           value={field.hb_typing_wife}
           onChange={handleChange}
-        ></Input>
+        />
       </div>
       <div className="col-span-4 px-[30px] grid grid-cols-3 gap-[10px]">
         <Input
@@ -189,7 +189,7 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
           name="bl_gr_wife"
           value={field.bl_gr_wife}
           onChange={handleChange}
-        ></Input>
+        />
         <Input
           className="col-span-1 "
           size="sm"
@@ -198,7 +198,7 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
           name="rh_wife"
           value={field.rh_wife}
           onChange={handleChange}
-        ></Input>
+        />
         <Input
           className="col-span-1 "
           size="sm"
@@ -207,7 +207,7 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
           name="hct_wife"
           value={field.hct_wife}
           onChange={handleChange}
-        ></Input>
+        />
       </div>
       <div className="col-span-4 grid px-[30px] grid-cols-4 gap-[10px] ">
         <Input
@@ -218,7 +218,7 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
           name="of_wife"
           value={field.of_wife}
           onChange={handleChange}
-        ></Input>
+        />
         <Input
           className="col-span-2"
           size="sm"
@@ -227,32 +227,37 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
           name="dcip_wife"
           value={field.dcip_wife}
           onChange={handleChange}
-        ></Input>
+        />
         <Input
           className="col-span-2"
           size="sm"
           label="MCV"
           type="text"
           name="mcv_wife"
-          value={field.mcv_wife}
-          onChange={handleChange}
-        ></Input>
+          value={field.mcv_wife || ""}
+          onValueChange={(val) =>
+            setField((prev) => ({ ...prev, mcv_wife: val }))
+          }
+        />
+
         <Input
           className="col-span-2"
           size="sm"
           label="MCH"
           type="text"
           name="mch_wife"
-          value={field.mch_wife}
-          onChange={handleChange}
-        ></Input>
+          value={field.mch_wife || ""}
+          onValueChange={(val) =>
+            setField((prev) => ({ ...prev, mch_wife: val }))
+          }
+        />
       </div>
       <RadioGroup
         className="col-span-4 px-[20px]"
         label="PCR"
-        value={field.pcr_id}
+        value={field.pcr_wife_id}
         onValueChange={(val) =>
-          handleChange({ target: { name: "pcr_id", value: val } })
+          handleChange({ target: { name: "pcr_wife_id", value: val } })
         }
       >
         {data
@@ -265,13 +270,13 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
               <Radio classNames={{ label: "pl-1" }} value={String(pcr.id)}>
                 {pcr.choice_name}
               </Radio>
-              {String(pcr.id) === "9" && field.pcr_id === "9" && (
+              {String(pcr.id) === "9" && field.pcr_wife_id === "9" && (
                 <Input
                   className="w-[300px]"
                   size="sm"
                   label="ระบุ"
-                  name="pcr_text"
-                  value={field.pcr_text || ""}
+                  name="pcr_wife_text"
+                  value={field.pcr_wife_text || ""}
                   onChange={handleChange}
                 />
               )}
@@ -314,7 +319,10 @@ export default function page({ field, setField, handleChange, selectedAnc }) {
         size="sm"
         label="อื่น"
         type="text"
-      ></Input>
+        name="cordo_other_text"
+        value={field?.cordo_other_text || ""}
+        onChange={handleChange}
+      />
       <RadioGroup
         className="col-span-4 px-[20px]"
         // label="เเนะนำการเจาะน้ำคร่ำตรวจโครโมโซม"

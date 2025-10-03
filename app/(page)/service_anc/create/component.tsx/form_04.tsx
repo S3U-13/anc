@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { Input } from "@heroui/input";
 import { Radio, RadioGroup } from "@heroui/radio";
 import React from "react";
@@ -14,14 +14,14 @@ export default function page({ selectedAnc, field, setField, handleChange }) {
           size="sm"
           className="col-span-2"
           label="HN สามี"
-          value={selectedAnc?.hn_husband || "" || undefined || null}
+          value={selectedAnc?.hn_husband || ""}
           type="text"
         />
         <Input
           size="sm"
           className="col-span-2"
           label="ชื่อสามี"
-          value={formatName(selectedAnc?.husband) || "" || undefined || null}
+          value={formatName(selectedAnc?.husband) || ""}
           type="text"
           readOnly
         />
@@ -29,7 +29,7 @@ export default function page({ selectedAnc, field, setField, handleChange }) {
           size="sm"
           className="col-span-2"
           label="อายุ"
-          value={calculateAge(selectedAnc?.husband?.birthdatetime) || "" || undefined || null}
+          value={calculateAge(selectedAnc?.husband?.birthdatetime) || ""}
           type="text"
           readOnly
         />
@@ -38,14 +38,14 @@ export default function page({ selectedAnc, field, setField, handleChange }) {
           className="col-span-2"
           label="บัตรประชาชน"
           type="text"
-          value={selectedAnc?.husband?.citizencardno || "" || undefined || null}
+          value={selectedAnc?.husband?.citizencardno || ""}
         />
         <Input
           size="sm"
           className="col-span-2"
           label="อาชีพ"
           type="text"
-          value={selectedAnc?.husband?.occupation_detail?.lookupname || "" || undefined || null}
+          value={selectedAnc?.husband?.occupation_detail?.lookupname || ""}
           readOnly
         />
         <Input
@@ -53,22 +53,110 @@ export default function page({ selectedAnc, field, setField, handleChange }) {
           className="col-span-2"
           label="email"
           type="email"
-          value={selectedAnc?.husband?.pat_address?.email || "" || undefined || null}
+          value={selectedAnc?.husband?.pat_address?.email || ""}
           readOnly
         />
-        <Input size="sm" className="col-span-2" label="HbsAg" type="text" name="hbsag_husband" value={field.hbsag_husband} onChange={handleChange}/>
-        <Input size="sm" className="col-span-2" label="VDRL" type="text" name="vdrl__husband" value={field.vdrl__husband} onChange={handleChange}/>
-        <Input size="sm" className="col-span-2" label="Anti HIV" type="text" name="anti_hiv_husband" value={field.anti_hiv_husband} onChange={handleChange}/>
-        <Input size="sm" className="col-span-2" label="Hb Typing" type="text" name="hb_typing_husband" value={field.hb_typing_husband} onChange={handleChange}/>
+        <Input
+          size="sm"
+          className="col-span-2"
+          label="HbsAg"
+          type="text"
+          name="hbsag_husband"
+          value={field.hbsag_husband}
+          onChange={handleChange}
+        />
+        <Input
+          size="sm"
+          className="col-span-2"
+          label="VDRL"
+          type="text"
+          name="vdrl_husband"
+          value={field.vdrl_husband}
+          onChange={handleChange}
+        />
+        <Input
+          size="sm"
+          className="col-span-2"
+          label="Anti HIV"
+          type="text"
+          name="anti_hiv_husband"
+          value={field.anti_hiv_husband}
+          onChange={handleChange}
+        />
+        <Input
+          size="sm"
+          className="col-span-2"
+          label="Hb Typing"
+          type="text"
+          name="hb_typing_husband"
+          value={field.hb_typing_husband}
+          onChange={handleChange}
+        />
         <div className="col-span-4 grid grid-cols-3 gap-[10px]">
-          <Input size="sm" className="col-span-1" label="Bl.gr" type="text" name="bl_gr_husband" value={field.bl_gr_husband} onChange={handleChange}/>
-          <Input size="sm" className="col-span-1" label="Rh" type="text" name="rh_husband" value={field.rh_husband} onChange={handleChange}/>
-          <Input size="sm" className="col-span-1" label="Hct" type="text" name="hct_husband" value={field.hct_husband} onChange={handleChange}/>
+          <Input
+            size="sm"
+            className="col-span-1"
+            label="Bl.gr"
+            type="text"
+            name="bl_gr_husband"
+            value={field.bl_gr_husband}
+            onChange={handleChange}
+          />
+          <Input
+            size="sm"
+            className="col-span-1"
+            label="Rh"
+            type="text"
+            name="rh_husband"
+            value={field.rh_husband}
+            onChange={handleChange}
+          />
+          <Input
+            size="sm"
+            className="col-span-1"
+            label="Hct"
+            type="text"
+            name="hct_husband"
+            value={field.hct_husband}
+            onChange={handleChange}
+          />
         </div>
-        <Input size="sm" className="col-span-2" label="OF" type="text" name="of_husband" value={field.of_husband} onChange={handleChange}/>
-        <Input size="sm" className="col-span-2" label="DCIP" type="text" name="dcip_husband" value={field.dcip_husband} onChange={handleChange}/>
-        <Input size="sm" className="col-span-2" label="MCV" type="text" name="mcv_husband" value={field.mcv_husband} onChange={handleChange}/>
-        <Input size="sm" className="col-span-2" label="MCH" type="text" name="mch_husband" value={field.mch_husband} onChange={handleChange}/>
+        <Input
+          size="sm"
+          className="col-span-2"
+          label="OF"
+          type="text"
+          name="of_husband"
+          value={field.of_husband}
+          onChange={handleChange}
+        />
+        <Input
+          size="sm"
+          className="col-span-2"
+          label="DCIP"
+          type="text"
+          name="dcip_husband"
+          value={field.dcip_husband}
+          onChange={handleChange}
+        />
+        <Input
+          size="sm"
+          className="col-span-2"
+          label="MCV"
+          type="text"
+          name="mcv_husband"
+          value={field.mcv_husband}
+          onChange={handleChange}
+        />
+        <Input
+          size="sm"
+          className="col-span-2"
+          label="MCH"
+          type="text"
+          name="mch_husband"
+          value={field.mch_husband}
+          onChange={handleChange}
+        />
       </div>
 
       <RadioGroup

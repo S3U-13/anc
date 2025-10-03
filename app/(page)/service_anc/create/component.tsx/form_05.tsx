@@ -53,23 +53,21 @@ export default function page({ field, setField, handleChange, coverageSite }) {
             </div>
           ))}
       </RadioGroup>
-      <CheckboxGroup
+      <RadioGroup
         className="col-span-4 px-[20px] mt-[10px]"
         label="การ Refer"
-        value={field.ref_in_id ? [String(field.ref_in_id)] : []}
-        onValueChange={(valArray) => {
-          console.log("Ref In selected values:", valArray);
-          setField((prev) => ({
-            ...prev,
-            ref_in_id: valArray.length > 0 ? valArray[0] : null,
-          }));
-        }}
+        value={field.ref_in_id}
+        onValueChange={(val) =>
+          handleChange({
+            target: { name: "ref_in_id", value: val },
+          })
+        }
       >
         {data
           .filter((item) => item.id === 40) // map แค่ id 40
           .map((item) => (
             <div key={item.id} className="px-[10px]">
-              <Checkbox value={String(item.id)}>{item.choice_name}</Checkbox>
+              <Radio value={String(item.id)}>{item.choice_name}</Radio>
               <RadioGroup
                 label=""
                 className="col-span-4 px-[20px] mt-[10px]"
@@ -126,25 +124,23 @@ export default function page({ field, setField, handleChange, coverageSite }) {
               </RadioGroup>
             </div>
           ))}
-      </CheckboxGroup>
+      </RadioGroup>
 
       {/* Ref Out */}
-      <CheckboxGroup
+      <RadioGroup
         className="col-span-4 px-[20px] mt-[10px]"
-        value={field.ref_out_id ? [String(field.ref_out_id)] : []}
-        onValueChange={(valArray) => {
-          console.log("Ref Out selected values:", valArray);
-          setField((prev) => ({
-            ...prev,
-            ref_out_id: valArray.length > 0 ? valArray[0] : null,
-          }));
-        }}
+        value={field.ref_out_id}
+        onValueChange={(val) =>
+          handleChange({
+            target: { name: "ref_out_id", value: val },
+          })
+        }
       >
         {data
           .filter((item) => item.id === 41) // map แค่ id 41
           .map((item) => (
             <div key={item.id} className="px-[10px]">
-              <Checkbox value={String(item.id)}>{item.choice_name}</Checkbox>
+              <Radio value={String(item.id)}>{item.choice_name}</Radio>
               <RadioGroup
                 label=""
                 className="col-span-4 px-[20px] mt-[10px]"
@@ -201,7 +197,7 @@ export default function page({ field, setField, handleChange, coverageSite }) {
               </RadioGroup>
             </div>
           ))}
-      </CheckboxGroup>
+      </RadioGroup>
     </div>
   );
 }

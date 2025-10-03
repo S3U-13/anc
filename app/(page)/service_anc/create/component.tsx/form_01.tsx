@@ -16,6 +16,7 @@ export default function page({
   editVitalsign,
   bmi,
   handleChange,
+  setSelectedAnc,
 }) {
   const { calculateAge, formatAddress, formatName } = useHook();
 
@@ -26,8 +27,25 @@ export default function page({
           size="sm"
           label="ANC NO"
           type="text"
-          value={selectedAnc?.anc_no || ""}
-          readOnly
+          name="anc_no"
+          value={field?.anc_no || ""}
+          onChange={handleChange}
+        />
+        <Input
+          size="sm"
+          label="PAT REG ID"
+          type="hidden"
+          name="patreg_id"
+          value={field?.patreg_id || ""}
+          onChange={handleChange}
+        />
+        <Input
+          size="sm"
+          label="PAT VISIT ID"
+          type="hidden"
+          name="patvisit_id"
+          value={field?.patvisit_id || ""}
+          onChange={handleChange}
         />
 
         <Input

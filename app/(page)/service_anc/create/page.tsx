@@ -51,7 +51,9 @@ export default function page({ openFormService, closeFormService }) {
     bmi,
     coverageSite,
     handleSubmit,
-  } = useHook();
+    handleDateChange,
+    isSubmitting,
+  } = useHook({ closeFormService });
 
   return (
     <div>
@@ -98,6 +100,7 @@ export default function page({ openFormService, closeFormService }) {
                         openModalAnc={pullAnc}
                         closeModalAnc={() => setPullAnc(false)}
                         setSelectedAnc={setSelectedAnc}
+                        setField={setField} // เพิ่มตรงนี้
                       />
                     </div>
                     <Form01
@@ -127,6 +130,7 @@ export default function page({ openFormService, closeFormService }) {
                       handleChange={handleChange}
                       handleChangeCbe={handleChangeCbe}
                       handleChangeBti={handleChangeBti}
+                      handleDateChange={handleDateChange}
                     />
                   </Tab>
                   <Tab disabled key="from_4" title={<div className="" />}>
@@ -168,14 +172,24 @@ export default function page({ openFormService, closeFormService }) {
                   กลับ
                 </Button>
                 <Button
-                  color="secondary"
-                  onPress={() => {
+                  color="primary"
+                  onPress={async () => {
                     const idx = steps.indexOf(activeStep);
-                    if (idx < steps.length - 1) setActiveStep(steps[idx + 1]);
-                    else handleSubmit;
+                    if (idx < steps.length - 1) {
+                      // ถ้ายังไม่ถึง step สุดท้าย
+                      setActiveStep(steps[idx + 1]);
+                    } else {
+                      // Step สุดท้าย → submit form
+                      await handleSubmit(); // เรียก handleSubmit ของ useForm
+                    }
                   }}
+                  disabled={isSubmitting} // ป้องกันกดซ้ำ
                 >
-                  {activeStep === steps[steps.length - 1] ? "Submit" : "ถัดไป"}
+                  {isSubmitting
+                    ? "กำลังบันทึก..." // ขณะส่งข้อมูล
+                    : activeStep === steps[steps.length - 1]
+                      ? "ยืนยัน"
+                      : "ถัดไป"}
                 </Button>
               </ModalFooter>
             </form>

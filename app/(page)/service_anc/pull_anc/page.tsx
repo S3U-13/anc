@@ -32,7 +32,12 @@ import {
 import useHook from "./useHook";
 import { addToast } from "@heroui/toast";
 
-export default function App({ openModalAnc, closeModalAnc, setSelectedAnc }) {
+export default function App({
+  openModalAnc,
+  closeModalAnc,
+  setSelectedAnc,
+  setField,
+}) {
   const {
     dataAnc,
     openModal,
@@ -54,34 +59,10 @@ export default function App({ openModalAnc, closeModalAnc, setSelectedAnc }) {
     pages,
     onSortChange,
     sortDescriptor,
-    handleSelectionChange,
     selectedKeys,
-    setSelectedKeys,
-    selectedValue,
     headerColumns,
+    handleSelectionChange,
   } = useHook();
-
-  // ฟังก์ชันยืนยันเลือก ANC
-  // const handleConfirmAnc = () => {
-  //   const firstKey = Array.from(selectedKeys)[0];
-  //   if (!firstKey)
-  //     return addToast({
-  //       title: "เตือน",
-  //       description: "กรุณาเลือกหมายเลข ANC",
-  //       variant: "flat",
-  //       color: "default",
-  //     });
-
-  //   const anc = dataAnc.find((item) => item.anc_no === Number(firstKey));
-  //   if (!anc) return addToast({
-  //       title: "เตือน",
-  //       description: "ไม่พบหมายเลข ANC",
-  //       variant: "flat",
-  //       color: "danger",
-  //     });
-  //   setSelectedAnc(anc); // <-- ถ้า setSelectedAnc undefined จะไม่ทำงาน
-  //   setOpenModal(false);
-  // };
 
   return (
     <Modal
@@ -330,9 +311,24 @@ export default function App({ openModalAnc, closeModalAnc, setSelectedAnc }) {
                       variant: "flat",
                       color: "danger",
                     });
-                  setSelectedAnc(anc); // ต้องแน่ใจว่า setSelectedAnc มาจาก parent
-                  closeModalAnc(); // ปิด modal
-                  return addToast({
+
+                  // ✅ เก็บ reference ของ ANC
+                  setSelectedAnc(anc);
+
+                  // ✅ sync ค่าเข้า field
+                  setField((prev) => ({
+                    ...prev,
+                    anc_no: anc.anc_no,
+                    patreg_id: anc.wife.pat_reg[0]?.id,
+                    patvisit_id: anc.wife.pat_reg[0]?.patvisitid,
+                    // เพิ่ม field อื่น ๆ ที่ต้องการดึง
+                  }));
+
+                  // ปิด modal
+                  closeModalAnc();
+
+                  // toast success
+                  addToast({
                     title: "สำเร็จ",
                     description: "ดึงข้อมูลสำเร็จ",
                     variant: "flat",
