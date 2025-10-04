@@ -3,7 +3,7 @@ import { addToast } from "@heroui/toast";
 import React, { useEffect, useState } from "react";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 
-export default function useHook({ closeFormService }) {
+export default function useHook({ closeFormService } = {}) {
   const [data, setData] = useState([]);
 
   const fetchData = async () => {

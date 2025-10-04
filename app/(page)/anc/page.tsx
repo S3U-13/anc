@@ -11,6 +11,8 @@ import React, { useState } from "react";
 import useHook from "./useHook";
 import { Button } from "@heroui/button";
 import ModalForm from "./create/page";
+import ModalView from "./view/page";
+import ModalEdit from "./edit/page";
 import { Tooltip } from "@heroui/tooltip";
 import { Input } from "@heroui/input";
 import {
@@ -44,6 +46,10 @@ export default function page() {
     onSortChange,
     sortDescriptor,
     fetchDataAnc,
+    openModalView,
+    setOpenModalView,
+    setOpenModalEdit,
+    openModalEdit
   } = useHook();
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
@@ -222,7 +228,7 @@ export default function page() {
               <TableCell>
                 <div className="flex justify-center gap-[10px] items-center">
                   <Tooltip color="default" content="ดูข้อมูล">
-                    <Button size="sm" isIconOnly variant="light">
+                    <Button size="sm" isIconOnly variant="light"  onPress={() => setOpenModalView(true)}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -245,7 +251,7 @@ export default function page() {
                     </Button>
                   </Tooltip>
                   <Tooltip color="default" content="แก้ไขข้อมูล">
-                    <Button size="sm" isIconOnly variant="light">
+                    <Button size="sm" isIconOnly variant="light" onPress={() => setOpenModalEdit(true)}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -285,6 +291,14 @@ export default function page() {
           setOpenModal(false);
           fetchDataAnc();
         }}
+      />
+      <ModalView
+      openModalView={openModalView}
+      closeModalView={() => setOpenModalView(false)}
+      />
+      <ModalEdit
+      openModalEdit={openModalEdit}
+      closeModalEdit={() => setOpenModalEdit(false)}
       />
     </div>
   );

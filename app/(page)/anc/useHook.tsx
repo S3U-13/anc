@@ -10,6 +10,8 @@ export default function useAnc() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(1);
   const [openModal, setOpenModal] = useState(false);
+  const [openModalView, setOpenModalView] = useState(false);
+  const [openModalEdit, setOpenModalEdit] = useState(false);
 
   console.log(openModal);
   useEffect(() => {
@@ -28,6 +30,12 @@ export default function useAnc() {
 
   const openModalForm = () => {
     setOpenModal((prev) => !prev);
+  };
+  const openViewModal = () => {
+    setOpenModalView((prev) => !prev);
+  };
+  const openEditModal = () => {
+    setOpenModalEdit((prev) => !prev);
   };
 
   // ✅ filter data
@@ -125,6 +133,9 @@ export default function useAnc() {
     dataAnc,
     openModal,
     openModalForm,
+    openModalView,
+    openViewModal,
+    setOpenModalView,
     setOpenModal,
     setSelectedKeys,
     selectedKeys,
@@ -146,6 +157,9 @@ export default function useAnc() {
     rowsPerPage,
     onSortChange,
     sortDescriptor,
-    fetchDataAnc
+    fetchDataAnc,
+    openModalEdit,
+    setOpenModalEdit,
+    openEditModal,
   };
 }

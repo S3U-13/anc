@@ -53,23 +53,22 @@ export default function page({ field, setField, handleChange, coverageSite }) {
             </div>
           ))}
       </RadioGroup>
+ 
       <RadioGroup
         className="col-span-4 px-[20px] mt-[10px]"
         label="การ Refer"
-        value={field.ref_in_id}
+        value={field.ref_in_id ?? null}
         onValueChange={(val) =>
-          handleChange({
-            target: { name: "ref_in_id", value: val },
-          })
+          handleChange({ target: { name: "ref_in_id", value: val } })
         }
       >
-        {data
-          .filter((item) => item.id === 40) // map แค่ id 40
-          .map((item) => (
+        {(() => {
+          const item = data.find((i) => i.id === 40);
+          if (!item) return null;
+          return (
             <div key={item.id} className="px-[10px]">
               <Radio value={String(item.id)}>{item.choice_name}</Radio>
               <RadioGroup
-                label=""
                 className="col-span-4 px-[20px] mt-[10px]"
                 value={field.receive_in_id}
                 onValueChange={(val) =>
@@ -96,18 +95,12 @@ export default function page({ field, setField, handleChange, coverageSite }) {
                             <Autocomplete
                               className="w-[470px]"
                               defaultItems={coverageSite}
-                              defaultSelectedKey="cat"
                               label="รพช/รพสต"
                               placeholder="ค้นหา.."
-                              scrollShadowProps={{
-                                isEnabled: false,
-                              }}
+                              scrollShadowProps={{ isEnabled: false }}
                               onSelectionChange={(key) =>
                                 handleChange({
-                                  target: {
-                                    name: "hos_in_id",
-                                    value: key,
-                                  },
+                                  target: { name: "hos_in_id", value: key },
                                 })
                               }
                             >
@@ -123,26 +116,24 @@ export default function page({ field, setField, handleChange, coverageSite }) {
                   ))}
               </RadioGroup>
             </div>
-          ))}
+          );
+        })()}
       </RadioGroup>
 
-      {/* Ref Out */}
       <RadioGroup
         className="col-span-4 px-[20px] mt-[10px]"
-        value={field.ref_out_id}
+        value={field.ref_out_id || null}
         onValueChange={(val) =>
-          handleChange({
-            target: { name: "ref_out_id", value: val },
-          })
+          handleChange({ target: { name: "ref_out_id", value: val } })
         }
       >
-        {data
-          .filter((item) => item.id === 41) // map แค่ id 41
-          .map((item) => (
+        {(() => {
+          const item = data.find((i) => i.id === 41);
+          if (!item) return null;
+          return (
             <div key={item.id} className="px-[10px]">
               <Radio value={String(item.id)}>{item.choice_name}</Radio>
               <RadioGroup
-                label=""
                 className="col-span-4 px-[20px] mt-[10px]"
                 value={field.receive_out_id}
                 onValueChange={(val) =>
@@ -169,18 +160,12 @@ export default function page({ field, setField, handleChange, coverageSite }) {
                             <Autocomplete
                               className="w-[470px]"
                               defaultItems={coverageSite}
-                              defaultSelectedKey="cat"
                               label="รพช/รพสต"
                               placeholder="ค้นหา.."
-                              scrollShadowProps={{
-                                isEnabled: false,
-                              }}
+                              scrollShadowProps={{ isEnabled: false }}
                               onSelectionChange={(key) =>
                                 handleChange({
-                                  target: {
-                                    name: "hos_out_id",
-                                    value: key,
-                                  },
+                                  target: { name: "hos_out_id", value: key },
                                 })
                               }
                             >
@@ -196,8 +181,11 @@ export default function page({ field, setField, handleChange, coverageSite }) {
                   ))}
               </RadioGroup>
             </div>
-          ))}
+          );
+        })()}
       </RadioGroup>
+
+      <RadioGroup></RadioGroup>
     </div>
   );
 }
