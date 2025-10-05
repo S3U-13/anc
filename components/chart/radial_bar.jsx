@@ -22,9 +22,9 @@ export default function RadialBar() {
                         total: {
                             show: true,
                             label: "รวมทั้งหมด",
-                            formatter: function (w: any) {
+                            formatter: function (w) {
                                 return (
-                                    w.globals.series.reduce((a: number, b: number) => a + b, 0) +
+                                    w.globals.series.reduce((a, b) => a + b, 0) +
                                     " คน"
                                 );
                             },
@@ -34,7 +34,7 @@ export default function RadialBar() {
                         },
                         value: {
                             show: true,
-                            formatter: function (val: number) {
+                            formatter: function (val) {
                                 return val + " คน";
                             },
                         },

@@ -8,8 +8,9 @@ import {
   ModalHeader,
 } from "@heroui/modal";
 import React from "react";
-import useHook from "./useHook";
+
 import { Tab, Tabs } from "@heroui/tabs";
+import useHook from "./useHook";
 
 export default function page({ openModalView, closeModalView }) {
   const { activeStep, setActiveStep, steps } = useHook();

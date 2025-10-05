@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useMemo } from "react";
+'use client'
+import { useEffect, useState, useMemo } from "react";
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -10,6 +11,8 @@ export default function useHook() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(1);
   const [openModal, setOpenModal] = useState(false);
+  const [openModalView, setOpenModalView] = useState(false);
+  const [openModalEdit, setOpenModalEdit] = useState(false);
 
   useEffect(() => {
     fetchDataAnc();
@@ -27,6 +30,12 @@ export default function useHook() {
 
   const openModalForm = () => {
     setOpenModal((prev) => !prev);
+  };
+  const openViewModal = () => {
+    setOpenModalView((prev) => !prev);
+  };
+  const openEditModal = () => {
+    setOpenModalEdit((prev) => !prev);
   };
 
   // ✅ filter data
@@ -118,26 +127,15 @@ export default function useHook() {
     new Set(["anc_no", "hn_wife", "wife_name"])
   );
 
-  const headerColumns = React.useMemo(() => {
-    if (visibleColumns === "all") return columns;
-    return columns.filter((col) => visibleColumns.has(col.uid));
-  }, [visibleColumns, columns]);
-
-  const handleSelectionChange = (keys) => {
-    // HeroUI ส่งค่าเป็น Set หรือ "all"
-    if (keys === "all") return; // กันกรณี select all
-
-    // บังคับเลือกได้แค่ 1 key
-    const firstKey = Array.from(keys)[0];
-    setSelectedKeys(new Set(firstKey ? [firstKey] : []));
-  };
-
   const onClear = () => setFilterValue("");
 
   return {
     dataAnc,
     openModal,
     openModalForm,
+    openModalView,
+    openViewModal,
+    setOpenModalView,
     setOpenModal,
     setSelectedKeys,
     selectedKeys,
@@ -153,7 +151,6 @@ export default function useHook() {
     columns,
     visibleColumns,
     setVisibleColumns,
-    handleSelectionChange,
     capitalize,
     filteredItems,
     onRowsPerPageChange,
@@ -161,6 +158,8 @@ export default function useHook() {
     onSortChange,
     sortDescriptor,
     fetchDataAnc,
-    headerColumns,
+    openModalEdit,
+    setOpenModalEdit,
+    openEditModal,
   };
 }

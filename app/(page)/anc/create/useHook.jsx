@@ -1,9 +1,6 @@
 "use client";
 import { addToast } from "@heroui/toast";
 import React, { useEffect, useState } from "react";
-
-import { error } from "console";
-import { useRouter } from "next/navigation";
 import { useForm } from "@tanstack/react-form";
 
 import * as z from "zod";
@@ -300,12 +297,12 @@ export default function useHook({ closeModal }) {
   });
 
   const makeValidator =
-    (schema: z.ZodTypeAny) =>
-    ({ value }: { value: any }) => {
+    (schema) =>
+    ({ value }) => {
       try {
         schema.parse(value);
         return undefined; // ✅ ถ้า valid
-      } catch (e: any) {
+      } catch (e) {
         return e.errors?.[0]?.message || "ไม่ถูกต้อง";
       }
     };

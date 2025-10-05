@@ -1,3 +1,4 @@
+"use client"; // ✅
 import { Button } from "@heroui/button";
 import { Input, Textarea } from "@heroui/input";
 import {
@@ -10,6 +11,7 @@ import {
 import React from "react";
 import { Tab, Tabs } from "@heroui/tabs";
 import useHook from "./useHook";
+
 
 export default function page({ openModalEdit, closeModalEdit }) {
   const { activeStep, setActiveStep, steps } = useHook();

@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/providers.jsx", "app/error.jsx", "app/(page)/anc/create/useHook.jsx", "app/(page)/anc/create/page.jsx", "app/(page)/anc/edit/useHook.jsx", "app/(page)/anc/edit/page.jsx", "app/(page)/anc/view/useHook.jsx", "app/(page)/anc/view/page.jsx", "app/(page)/anc/useHook.jsx", "app/(page)/anc/page.jsx", "app/(page)/dashboard/page.jsx", "app/(page)/service_anc/create/component.jsx", "app/(page)/service_anc/pull_anc/useHook.jsx", "app/(page)/service_anc/pull_anc/page.jsx", "app/(page)/service_anc/create/component.tsx/modal_reset_value.jsx", "app/(page)/service_anc/create/component.tsx/form_05.jsx", "app/(page)/service_anc/create/component.tsx/form_04.jsx", "app/(page)/service_anc/create/component.tsx/form_03.jsx", "app/(page)/service_anc/create/component.tsx/form_02.jsx", "app/(page)/service_anc/create/component.tsx/form_01.jsx", "app/(page)/service_anc/create/useHook.jsx", "app/(page)/service_anc/create/page.jsx", "app/(page)/service_anc/page.jsx", "app/(page)/service_anc/useHook.jsx", "app/(page)/_app.jsx", "app/(page)/layout.jsx", "app/login/page.jsx"],
   "exclude": ["node_modules"]
 }

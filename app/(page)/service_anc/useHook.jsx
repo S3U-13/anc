@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useMemo } from "react";
+"use client"; // ✅
+import React from "react";
+import { useEffect, useState, useMemo } from "react";
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 

@@ -11,13 +11,14 @@ import { Button, ButtonGroup } from "@heroui/button";
 import { Tabs, Tab } from "@heroui/tabs";
 
 import AncData from "../pull_anc/page";
-import ResetValue from "./component.tsx/modal_reset_value";
-import Form01 from "./component.tsx/form_01";
-import Form02 from "./component.tsx/form_02";
-import Form03 from "./component.tsx/form_03";
-import Form04 from "./component.tsx/form_04";
-import Form05 from "./component.tsx/form_05";
+import ResetValue from "./component.jsx/modal_reset_value";
+import Form01 from "./component.jsx/form_01";
+import Form02 from "./component.jsx/form_02";
+import Form03 from "./component.jsx/form_03";
+import Form04 from "./component.jsx/form_04";
+import Form05 from "./component.jsx/form_05";
 import useHook from "./useHook";
+
 
 
 export default function page({ openFormService, closeFormService }) {

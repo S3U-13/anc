@@ -1,10 +1,9 @@
+"use client"; // ✅
 import React from 'react'
 import NavBar from "@/components/navbar";
 
 export default function Layout({
     children,
-}: {
-    children: React.ReactNode;
 }) {
     return (
         <div className='p-[10px] bg-[#f0ebf8] min-h-screen'>
