@@ -3,7 +3,7 @@ import Layout from "./layout";
 import { AppProps } from "next/app";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 
-export default function Myapp({ Component, pageProps }: AppProps) {
+export default function Myapp({ Component, pageProps }) {
   return (
     <Layout>
       <NextThemesProvider attribute="class" defaultTheme="dark">

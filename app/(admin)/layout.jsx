@@ -4,7 +4,7 @@ import SideBar from "@/components/sidebar";
 import { ThemeSwitch } from "@/components/theme-switch";
 import DropdownUser from "@/components/dropdown_user";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }) {
   return (
     <div className="grid grid-cols-12 gap-[10px] min-h-screen p-[10px]">
       {/* Sidebar (col-span-2) */}
