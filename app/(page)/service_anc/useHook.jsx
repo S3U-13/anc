@@ -21,11 +21,13 @@ export default function useHook() {
     try {
       const res = await fetch("http://localhost:3000/api/ancservice");
       const json = await res.json().catch(() => []);
+
       setDataAnc(json);
     } catch (error) {
       console.log(error);
     }
   };
+  console.log(dataAnc);
 
   const openModalForm = () => {
     setOpenFormService((prev) => !prev);
@@ -38,7 +40,7 @@ export default function useHook() {
     if (filterValue) {
       filtered = filtered.filter(
         (item) =>
-          String(item.hn_wife)
+          String(item.wife?.hn_wife || "")
             .toLowerCase()
             .includes(filterValue.toLowerCase()) ||
           String(item.wife?.firstname || "")
@@ -71,11 +73,15 @@ export default function useHook() {
   };
 
   const columns = [
+    { uid: "id", name: "id" },
     { uid: "anc_no", name: "ANC NO" },
     { uid: "hn_wife", name: "HN (ภรรยา)" },
     { uid: "wife_name", name: "ชื่อ (ภรรยา)" },
+    { uid: "address", name: "ที่อยู่" },
+    { uid: "phone", name: "โทรศัพท์" },
     { uid: "hn_husband", name: "HN (สามี)" },
     { uid: "husband_name", name: "ชื่อ (สามี)" },
+    { uid: "round", name: "ฝากครรภ์รอบที่" },
   ];
 
   // ✅ sort
@@ -117,10 +123,29 @@ export default function useHook() {
 
   // ค่าเริ่มต้นเลือกทุกคอลัมน์
   const [visibleColumns, setVisibleColumns] = useState(
-    new Set(["anc_no", "hn_wife", "wife_name"])
+    new Set(["anc_no", "hn_wife", "wife_name", "address", "phone", "round"])
   );
 
   const onClear = () => setFilterValue("");
+
+  const formatAddress = (pat_address) => {
+    if (!pat_address) return "";
+
+    let address = "";
+
+    if (pat_address.house) address += pat_address.house;
+    if (pat_address.moo) address += `หมู่.${pat_address.moo}`;
+    if (pat_address.soy) address += ` ซอย ${pat_address.soy}`;
+    if (pat_address.road) address += ` ถนน ${pat_address.road}`;
+    if (pat_address.tambon_detail?.detailtext)
+      address += ` ตำบล${pat_address.tambon_detail.detailtext}`;
+    if (pat_address.amphur_detail?.detailtext)
+      address += ` อำเภอ${pat_address.amphur_detail.detailtext}`;
+    if (pat_address.province_detail?.detailtext)
+      address += ` จังหวัด${pat_address.province_detail.detailtext}`;
+
+    return address; // รวมเป็น string เดียว
+  };
 
   return {
     dataAnc,
@@ -148,5 +173,6 @@ export default function useHook() {
     onSortChange,
     sortDescriptor,
     fetchDataAnc,
+    formatAddress,
   };
 }

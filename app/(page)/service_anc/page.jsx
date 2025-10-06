@@ -48,6 +48,7 @@ export default function App() {
     onSortChange,
     sortDescriptor,
     fetchDataAnc,
+    formatAddress
   } = useHook();
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
@@ -210,14 +211,22 @@ export default function App() {
         </TableHeader>
         <TableBody emptyContent={"ไม่มีข้อมูล"}>
           {sortedItems?.map((item, index) => (
-            <TableRow key={item.anc_no}>
+            <TableRow key={item.id}>
               <TableCell className="px-4">{index + 1}</TableCell>
               {headerColumns.map((col) => (
                 <TableCell key={col.uid}>
+                  {col.uid === "hn_wife" && item.AncNo.hn_wife}
                   {col.uid === "wife_name" &&
                     `${item.wife?.prename}${item.wife?.firstname} ${item.wife?.lastname}`}
+                  {col.uid === "address" &&
+                    formatAddress(item.wife?.pat_address)}
+                  {col.uid === "phone" &&
+                    item.wife?.pat_address?.phone}
+                  {col.uid === "hn_husband" && item.AncNo.hn_husband}
                   {col.uid === "husband_name" &&
                     `${item.husband?.prename}${item.husband?.firstname} ${item.husband?.lastname}`}
+                  {col.uid === "round" &&
+                    item.round}
                   {col.uid !== "wife_name" &&
                     col.uid !== "husband_name" &&
                     item[col.uid]}

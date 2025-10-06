@@ -19,8 +19,6 @@ import Form04 from "./component.jsx/form_04";
 import Form05 from "./component.jsx/form_05";
 import useHook from "./useHook";
 
-
-
 export default function page({ openFormService, closeFormService }) {
   const [pullAnc, setPullAnc] = useState(false);
 
@@ -55,6 +53,7 @@ export default function page({ openFormService, closeFormService }) {
     handleSubmit,
     handleDateChange,
     isSubmitting,
+    handleChangeRefIn,
   } = useHook({ closeFormService });
 
   return (
@@ -149,6 +148,7 @@ export default function page({ openFormService, closeFormService }) {
                       field={field}
                       setField={setField}
                       handleChange={handleChange}
+                      handleChangeRefIn={handleChangeRefIn}
                       coverageSite={coverageSite}
                     />
                   </Tab>

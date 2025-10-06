@@ -2,15 +2,31 @@
 import { addToast } from "@heroui/toast";
 import React, { useEffect, useState } from "react";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
+import { useForm } from "@tanstack/react-form";
+
+import * as z from "zod";
 
 export default function useHook({ closeFormService } = {}) {
   const [data, setData] = useState([]);
+  const [coverageSite, setCoverageSite] = useState([]);
 
   const fetchData = async () => {
     try {
       const res = await fetch("http://localhost:3000/api/mapAll");
       const json = await res.json();
+      console.log("mapAll data:", json);
       setData(json);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchCoverage = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/coveragesite");
+      const json = await res.json();
+      console.log("coverage data:", json);
+      setCoverageSite(json);
     } catch (error) {
       console.log(error);
     }
@@ -20,6 +36,8 @@ export default function useHook({ closeFormService } = {}) {
     fetchData();
     fetchCoverage();
   }, []);
+
+  console.log(data);
 
   const initialField = () => ({
     anc_no: "",
@@ -100,8 +118,8 @@ export default function useHook({ closeFormService } = {}) {
     pcr_hus_id: "",
     anc_id: "",
     usg_id: "",
-    ref_in_id: null,
-    ref_out_id: null,
+    ref_1_id: "",
+    ref_2_id: "",
     receive_in_id: null,
     hos_in_id: null,
     receive_out_id: null,
@@ -137,6 +155,16 @@ export default function useHook({ closeFormService } = {}) {
   const handleChangeCbe = (vals) => {
     const cbeField = mapCheckboxValues("cbe", vals, 4); // cbe_value_1_id ... cbe_value_4_id
     setField((prev) => ({ ...prev, ...cbeField }));
+  };
+
+  const handleChangeRefIn = (vals) => {
+    // keys ต้องตรงกับ field.ref_1_id / field.ref_2_id
+    const refField = mapCheckboxValues("ref", vals, 2);
+    const mapped = {
+      ref_1_id: refField.ref_value_1_id,
+      ref_2_id: refField.ref_value_2_id,
+    };
+    setField((prev) => ({ ...prev, ...mapped }));
   };
 
   const [selectedAnc, setSelectedAnc] = useState(null);
@@ -309,18 +337,6 @@ export default function useHook({ closeFormService } = {}) {
     setBmi("");
   };
 
-  const [coverageSite, setCoverageSite] = useState([]);
-
-  const fetchCoverage = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/coveragesite");
-      const json = await res.json();
-      setCoverageSite(json);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async () => {
@@ -335,8 +351,7 @@ export default function useHook({ closeFormService } = {}) {
         },
         body: JSON.stringify(field), // ✅ ใช้ validated data
       });
-
-      const json = await res.json().catch(() => ({}));
+      // const json = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error("ลงทะเบียน ANC ไม่สำเร็จ");
 
       addToast({
@@ -346,7 +361,7 @@ export default function useHook({ closeFormService } = {}) {
         color: "success",
       });
       // form.reset();
-
+      setField(initialField);
       setSelectedAnc(null);
       setActiveStep("from_1");
       setEditVitalsign(defaultVitals);
@@ -363,6 +378,213 @@ export default function useHook({ closeFormService } = {}) {
       setIsSubmitting(false); // ส่งเสร็จแล้ว เปิดให้กดได้อีก
     }
   };
+
+  const defaultValues = initialField();
+
+  const validationSchema = z.object({
+    anc_no: z.coerce
+      .number()
+      .int()
+      .min(1, { message: "กรุณากรอก หมายเลข ANC" }),
+    para: z.coerce
+      .string()
+      .min(1, { message: "กรุณากรอก Para" })
+      .max(30, { message: "กรุณากรอก Para ไม่เกิน 30 ตัวอักษร" }),
+    g: z.coerce
+      .string()
+      .min(1, { message: "กรุณากรอก G" })
+      .max(30, { message: "กรุณากรอก G ไม่เกิน 30 ตัวอักษร" }),
+    p: z.coerce
+      .string()
+      .min(1, { message: "กรุณากรอก P" })
+      .max(30, { message: "กรุณากรอก P ไม่เกิน 30 ตัวอักษร" }),
+    a: z.coerce
+      .string()
+      .min(1, { message: "กรุณากรอก A" })
+      .max(30, { message: "กรุณากรอก A ไม่เกิน 30 ตัวอักษร" }),
+    last: z.coerce
+      .string()
+      .min(1, { message: "กรุณากรอก วัน/เดือน/ปี ที่คลอดบุตรคนล่าสุด" }),
+    lmp: z
+      .string()
+      .min(1, { message: "กรุณากรอก วัน/เดือน/ปี ประจำเดือนมาครั้งล่าสุด" }),
+    edc: z
+      .string()
+      .min(1, { message: "กรุณากรอก วัน/เดือน/ปี ที่คาดว่าจะคลอดบุตร" }),
+    ga: z.coerce.string().min(1, { message: "กรุณากรอก อายุครรภ์" }),
+    ma_id: z.coerce
+      .string()
+      .min(1, { message: "กรุณาเลือก ระบุประวัติการเเพ้ยา" }),
+    hr_id: z.coerce.string().min(1, { message: "กรุณาเลือก ระบุโรคประจำตัว" }),
+    gct_1_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ GCT ครั้งที่ 1" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    gct_2_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ GCT ครั้งที่ 2" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    ogtt_1_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ OGTT ครั้งที่ 1" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    ogtt_2_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ OGTT ครั้งที่ 2" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    hbsag_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ HBsAg" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    vdrl_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ VDRL" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    anti_hiv_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ Anti-HIV" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    bl_gr_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก หมู่เลือด" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    rh_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก หมู่เลือด Rh" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    hct_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ HCT" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    of_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ OF" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    dcip_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ DCIP" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    mcv_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ MCV" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    mch_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ MCH" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    hb_typing_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ Hb Typing" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    pcr_wife_id: z.coerce.string().min(1, { message: "กรุณาระบุ PCR" }),
+    cordo_id: z.coerce
+      .string()
+      .min(1, { message: "กรุณาระบุ การตรวจคัดกรองความเสี่ยงโรคทางพันธุกรรม" }),
+    abortion_id: z.coerce
+      .string()
+      .min(1, { message: "กรุณาระบุ ประวัติการแท้ง" }),
+    td_num: z.coerce
+      .number()
+      .min(1, { message: "กรุณากรอก จำนวนครั้งวัคซีนบาดทะยัก" }),
+    td_last_date: z
+      .string()
+      .min(1, {
+        message: "กรุณาระบุ วัน/เดือน/ปี ที่ได้รับวัคซีนบาดทะยักครั้งสุดท้าย",
+      }),
+    tdap_id: z.coerce.string().min(1, { message: "กรุณาระบุ การให้วัคซีน" }),
+    iip_id: z.coerce
+      .string()
+      .min(1, { message: "กรุณาระบุ การฉีดวัคซีนไข้หวัดใหญ่" }),
+    lab_2: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจทางห้องปฏิบัติการ" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    vdrl_2: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ VDRL ซ้ำ" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    hct: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ HCT ซ้ำ" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    h: z
+      .string()
+      .min(1, { message: "กรุณากรอก น้ำหนัก (กก.)" })
+      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    bti_value_1_id: z.coerce.string().nullable(),
+    bti_value_2_id: z.coerce.string().nullable(),
+    bti_value_3_id: z.coerce.string().nullable(),
+    bti_value_4_id: z.coerce.string().nullable(),
+    bti_value_5_id: z.coerce.string().nullable(),
+    cbe_value_1_id: z.coerce.string().nullable(),
+    cbe_value_2_id: z.coerce.string().nullable(),
+    cbe_value_3_id: z.coerce.string().nullable(),
+    cbe_value_4_id: z.coerce.string().nullable(),
+    per_os_id: z.coerce.string().nullable(),
+    hbsag_husband: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ HBsAg สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    vdrl_husband: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ VDRL สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    anti_hiv_husband: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ Anti-HIV สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }), 
+    bl_gr_husband: z 
+      .string()
+      .min(1, { message: "กรุณากรอก หมู่เลือด สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    rh_husband: z
+      .string()
+      .min(1, { message: "กรุณากรอก หมู่เลือด Rh สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    hct_husband: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ HCT สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    of_husband: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ OF สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    dcip_husband: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ DCIP สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    mcv_husband: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ MCV สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    mch_husband: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ MCH สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    hb_typing_husband: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ Hb Typing สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    pcr_hus_id: z.coerce.string().nullable(),
+    // เพิ่มเติมตามต้องการ
+  });
+
+  const form = useForm({
+    defaultValues,
+    onSubmit: async ({ value }) => {
+      // Validate ด้วย Zod ก่อน submit
+      try {
+        const validatedData = validationSchema.parse(value);
+        await handleSubmit(validatedData);
+        console.log("Submit:", validatedData);
+      } catch (error) {
+        console.error("Validation error:", error);
+      }
+    },
+    validators: {
+      onSubmit: validationSchema,
+    },
+  });
+
+  const makeValidator =
+    (schema) =>
+    ({ value }) => {
+      try {
+        schema.parse(value);
+        return undefined; // ✅ ถ้า valid
+      } catch (e) {
+        return e.errors?.[0]?.message || "ไม่ถูกต้อง";
+      }
+    };
 
   return {
     data,
@@ -391,5 +613,6 @@ export default function useHook({ closeFormService } = {}) {
     coverageSite,
     handleSubmit,
     isSubmitting,
+    handleChangeRefIn,
   };
 }
