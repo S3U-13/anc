@@ -88,7 +88,7 @@ export default function page({
                     }
                   >
                     {data
-                      .filter((rec) => rec.choice_type_id === 17)
+                      .filter((rec) => rec.choice_type_id === 16)
                       .map((rec) => (
                         <div key={rec.id} className="flex gap-[20px] items-center">
                           <Radio value={String(rec.id)}>
@@ -132,7 +132,7 @@ export default function page({
                     }
                   >
                     {data
-                      .filter((rec) => rec.choice_type_id === 17)
+                      .filter((rec) => rec.choice_type_id === 16)
                       .map((rec) => (
                         <div key={rec.id} className="flex gap-[20px] items-center">
                           <Radio value={String(rec.id)}>

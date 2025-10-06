@@ -339,7 +339,7 @@ export default function useHook({ closeFormService } = {}) {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (value) => {
     console.log("submit field:", field);
     if (isSubmitting) return;
     try {
@@ -349,9 +349,10 @@ export default function useHook({ closeFormService } = {}) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(field), // ✅ ใช้ validated data
+        body: JSON.stringify(value), // ✅ ใช้ validated data
       });
-      // const json = await res.json().catch(() => ({}));
+      
+      const json = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error("ลงทะเบียน ANC ไม่สำเร็จ");
 
       addToast({
