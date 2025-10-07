@@ -1,11 +1,12 @@
 "use client";
 import { DatePicker } from "@heroui/date-picker";
-import { Input } from "@heroui/input";
-import { Radio, RadioGroup } from "@heroui/radio";
+
 import { CheckboxGroup, Checkbox } from "@heroui/checkbox";
 import React from "react";
 import useHook from "../useHook";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
+import { Input } from "@heroui/input";
+import { Radio, RadioGroup } from "@heroui/radio";
 
 export default function page({
   field,
@@ -14,6 +15,8 @@ export default function page({
   handleChangeCbe,
   handleChangeBti,
   handleDateChange,
+  validationSchema,
+  form,
 }) {
   const { data } = useHook();
 
@@ -40,81 +43,132 @@ export default function page({
           label="ครั้งสุดท้ายวันที่"
           locale="th-TH-u-ca-buddhist"
           value={field.td_last_date ? parseDate(field.td_last_date) : null}
-           onChange={handleDateChange("td_last_date")}
+          onChange={handleDateChange("td_last_date")}
         />
       </div>
-      <RadioGroup
-        className="col-span-4 px-[20px]"
-        label="ในระหว่างตั้งครรภ์"
-        value={field.tdap_id}
-        onValueChange={(val) =>
-          handleChange({ target: { name: "tdap_id", value: val } })
-        }
+      <form.Field
+        name="tdap_id"
+        validators={{
+          onChange: validationSchema.shape.tdap_id,
+        }}
       >
-        {data
-          .filter((tdap) => tdap.choice_type_id === 7)
-          .map((tdap) => (
-            <div key={tdap.id}>
-              <Radio value={String(tdap.id)}>{tdap.choice_name}</Radio>
-              {String(tdap.id) === "14" && field.tdap_id === "14" && (
-                <div className="grid grid-cols-1 gap-[10px] mt-[10px] w-1/4">
-                  <DatePicker
-                    size="sm"
-                    label="ครั้งที่ 1"
-                    value={
-                      field.tdap_round_1 ? parseDate(field.tdap_round_1) : null
-                    }
-                    onChange={handleDateChange("tdap_round_1")}
-                  />
-                  <DatePicker
-                    size="sm"
-                    label="ครั้งที่ 2"
-                    value={
-                      field.tdap_round_2 ? parseDate(field.tdap_round_2) : null
-                    }
-                    onChange={handleDateChange("tdap_round_2")}
-                  />
-                  <DatePicker
-                    size="sm"
-                    label="ครั้งที่ 3"
-                    value={
-                      field.tdap_round_3 ? parseDate(field.tdap_round_3) : null
-                    }
-                    onChange={handleDateChange("tdap_round_3")}
-                  />
+        {(field) => (
+          <RadioGroup
+            className="col-span-4 px-[20px]"
+            label="ในระหว่างตั้งครรภ์"
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+            onBlur={field.handleBlur}
+            isInvalid={field.state.meta.errors.length > 0}
+            errorMessage={field.state.meta.errors[0]?.message}
+          >
+            {data
+              .filter((tdap) => tdap.choice_type_id === 7)
+              .map((tdap) => (
+                <div key={tdap.id}>
+                  <Radio value={String(tdap.id)}>{tdap.choice_name}</Radio>
+                  {String(tdap.id) === "14" && field.state.value === "14" && (
+                    <div className="grid grid-cols-1 gap-[10px] mt-[10px] w-1/4">
+                      <DatePicker
+                        size="sm"
+                        label="ครั้งที่ 1"
+                        value={
+                          form.getFieldValue("tdap_round_1")
+                            ? parseDate(form.getFieldValue("tdap_round_1"))
+                            : null
+                        }
+                        onChange={(date) =>
+                          form.setFieldValue(
+                            "tdap_round_1",
+                            date ? date.toString() : null
+                          )
+                        }
+                      />
+                      <DatePicker
+                        size="sm"
+                        label="ครั้งที่ 2"
+                        value={
+                          form.getFieldValue("tdap_round_2")
+                            ? parseDate(form.getFieldValue("tdap_round_2"))
+                            : null
+                        }
+                        onChange={(date) =>
+                          form.setFieldValue(
+                            "tdap_round_2",
+                            date ? date.toString() : null
+                          )
+                        }
+                      />
+                      <DatePicker
+                        size="sm"
+                        label="ครั้งที่ 3"
+                        value={
+                          form.getFieldValue("tdap_round_3")
+                            ? parseDate(form.getFieldValue("tdap_round_3"))
+                            : null
+                        }
+                        onChange={(date) =>
+                          form.setFieldValue(
+                            "tdap_round_3",
+                            date ? date.toString() : null
+                          )
+                        }
+                      />
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          ))}
-      </RadioGroup>
-      <RadioGroup
-        className="col-span-4 px-[20px]"
-        label="ฉีกวัคซีนกระตุ้นครรภ์นี้"
-        value={field.iip_id}
-        onValueChange={(val) =>
-          handleChange({ target: { name: "iip_id", value: val } })
-        }
+              ))}
+          </RadioGroup>
+        )}
+      </form.Field>
+      <form.Field
+        name="iip_id"
+        validators={{
+          onChange: validationSchema.shape.iip_id,
+        }}
       >
-        {data
-          .filter((iip) => iip.choice_type_id === 8)
-          .map((iip) => (
-            <div
-              key={iip.id}
-              className="flex gap-[10px] items-center px-[10px]"
-            >
-              <Radio value={String(iip.id)}>{iip.choice_name}</Radio>
-              {String(iip.id) === "16" && field.iip_id === "16" && (
-                <DatePicker
-                  size="sm"
-                  className="w-1/4"
-                  label="วันที่"
-                  value={field.iip_date ? parseDate(field.iip_date) : null}
-                  onChange={handleDateChange("iip_date")}
-                />
-              )}
-            </div>
-          ))}
-      </RadioGroup>
+        {(field) => (
+          <RadioGroup
+            className="col-span-4 px-[20px]"
+            label="ฉีกวัคซีนกระตุ้นครรภ์นี้"
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+            onBlur={field.handleBlur}
+            isInvalid={field.state.meta.errors.length > 0}
+            errorMessage={field.state.meta.errors[0]?.message}
+          >
+            {data
+              .filter((iip) => iip.choice_type_id === 8)
+              .map((iip) => (
+                <div
+                  key={iip.id}
+                  className="flex gap-[10px] items-center px-[10px]"
+                >
+                  <Radio value={String(iip.id)}>{iip.choice_name}</Radio>
+                  {String(iip.id) === "16" && field.state.value === "16" && (
+                    <DatePicker
+                      size="sm"
+                      className="w-1/4"
+                      label="วันที่"
+                      value={
+                        form.getFieldValue("iip_date")
+                          ? parseDate(form.getFieldValue("iip_date"))
+                          : null
+                      }
+                      onChange={(date) =>
+                        form.setFieldValue(
+                          "iip_date",
+                          date ? date.toString() : null
+                        )
+                      }
+                    />
+                  )}
+                </div>
+              ))}
+          </RadioGroup>
+        )}
+      </form.Field>
+
       <div className="col-span-4 grid grid-cols-4 gap-[10px] px-[20px]">
         <h1 className="text-[#71717A] col-span-4">ค่า Lab 2</h1>
         <DatePicker
@@ -209,7 +263,7 @@ export default function page({
                     value={
                       field.bti_2_date ? parseDate(field.bti_2_date) : null
                     }
-                     onChange={handleDateChange("bti_2_date")}
+                    onChange={handleDateChange("bti_2_date")}
                   />
                 )}
             </div>
@@ -279,25 +333,35 @@ export default function page({
             </div>
           ))}
       </CheckboxGroup>
-      <RadioGroup
-        className="col-span-4 px-[20px]"
-        label="ได้รับยา"
-        value={field.per_os_id}
-        onValueChange={(val) =>
-          handleChange({ target: { name: "per_os_id", value: val } })
-        }
+      <form.Field
+        name="per_os_id"
+        validators={{
+          onChange: validationSchema.shape.per_os_id,
+        }}
       >
-        {data
-          .filter((per_os) => per_os.choice_type_id === 12)
-          .map((per_os) => (
-            <div
-              key={per_os.id}
-              className="flex gap-[10px] items-center px-[10px]"
-            >
-              <Radio value={String(per_os.id)}>{per_os.choice_name}</Radio>
-            </div>
-          ))}
-      </RadioGroup>
+        {(field) => (
+          <RadioGroup
+            className="col-span-4 px-[20px]"
+            label="ได้รับยา"
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+            onBlur={field.handleBlur}
+            isInvalid={field.state.meta.errors.length > 0}
+            errorMessage={field.state.meta.errors[0]?.message}
+          >
+            {data
+              .filter((per_os) => per_os.choice_type_id === 12)
+              .map((per_os) => (
+                <div
+                  key={per_os.id}
+                  className="flex gap-[10px] items-center px-[10px]"
+                >
+                  <Radio value={String(per_os.id)}>{per_os.choice_name}</Radio>
+                </div>
+              ))}
+          </RadioGroup>
+        )}
+      </form.Field>
     </div>
   );
 }

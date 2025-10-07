@@ -17,20 +17,33 @@ export default function page({
   bmi,
   handleChange,
   setSelectedAnc,
+  validationSchema,
+  form,
 }) {
   const { calculateAge, formatAddress, formatName } = useHook();
 
   return (
     <div>
       <div className="grid grid-cols-2 gap-[10px] mt-[10px] overflow-y-scroll max-h-[calc(90vh-350px)] px-[20px] py-[10px]">
-        <Input
-          size="sm"
-          label="ANC NO"
-          type="text"
+        <form.Field
           name="anc_no"
-          value={field?.anc_no || ""}
-          onChange={handleChange}
-        />
+          validators={{
+            onChange: validationSchema.shape.anc_no,
+          }}
+        >
+          {(field) => (
+            <Input
+              size="sm"
+              label="ANC NO"
+              type="text"
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+              onBlur={field.handleBlur}
+              isInvalid={field.state.meta.errors.length > 0}
+              errorMessage={field.state.meta.errors[0]?.message}
+            />
+          )}
+        </form.Field>
         <Input
           size="sm"
           label="PAT REG ID"
@@ -138,73 +151,163 @@ export default function page({
           type="text"
           readOnly
         />
-        <Input
-          size="sm"
-          label="PARA"
-          type="text"
+        <form.Field
           name="para"
-          value={field.para}
-          onChange={handleChange}
-        />
-        <Input
-          size="sm"
-          label="G"
-          type="text"
+          validators={{
+            onChange: validationSchema.shape.para,
+          }}
+        >
+          {(field) => (
+            <Input
+              size="sm"
+              label="PARA"
+              type="text"
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+              onBlur={field.handleBlur}
+              isInvalid={field.state.meta.errors.length > 0}
+              errorMessage={field.state.meta.errors[0]?.message}
+            />
+          )}
+        </form.Field>
+        <form.Field
           name="g"
-          value={field.g}
-          onChange={handleChange}
-        />
-        <Input
-          size="sm"
-          label="P"
-          type="text"
+          validators={{
+            onChange: validationSchema.shape.g,
+          }}
+        >
+          {(field) => (
+            <Input
+              size="sm"
+              label="G"
+              type="text"
+              name="g"
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+              onBlur={field.handleBlur}
+              isInvalid={field.state.meta.errors.length > 0}
+              errorMessage={field.state.meta.errors[0]?.message}
+            />
+          )}
+        </form.Field>
+        <form.Field
           name="p"
-          value={field.p}
-          onChange={handleChange}
-        />
-        <Input
-          size="sm"
-          label="A"
-          type="text"
+          validators={{
+            onChange: validationSchema.shape.p,
+          }}
+        >
+          {(field) => (
+            <Input
+              size="sm"
+              label="P"
+              type="text"
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+              onBlur={field.handleBlur}
+              isInvalid={field.state.meta.errors.length > 0}
+              errorMessage={field.state.meta.errors[0]?.message}
+            />
+          )}
+        </form.Field>
+        <form.Field
           name="a"
-          value={field.a}
-          onChange={handleChange}
-        />
-        <Input
-          size="sm"
-          label="LAST"
-          type="text"
+          validators={{
+            onChange: validationSchema.shape.a,
+          }}
+        >
+          {(field) => (
+            <Input
+              size="sm"
+              label="a"
+              type="text"
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+              onBlur={field.handleBlur}
+              isInvalid={field.state.meta.errors.length > 0}
+              errorMessage={field.state.meta.errors[0]?.message}
+            />
+          )}
+        </form.Field>
+        <form.Field
           name="last"
-          value={field.last}
-          onChange={handleChange}
-        />
-        <DatePicker
-          size="sm"
-          label="LMP"
-          locale="th-TH-u-ca-buddhist"
-          value={field.lmp ? parseDate(field.lmp) : null} // ถ้า null จะได้ null จริง ๆ
-          onChange={handleLmpChange}
-          placeholder="เลือกวันที่"
-        />
+          validators={{
+            onChange: validationSchema.shape.last,
+          }}
+        >
+          {(field) => (
+            <Input
+              size="sm"
+              label="LAST"
+              type="text"
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+              onBlur={field.handleBlur}
+              isInvalid={field.state.meta.errors.length > 0}
+              errorMessage={field.state.meta.errors[0]?.message}
+            />
+          )}
+        </form.Field>
+        <form.Field
+          name="lmp"
+          validators={{
+            onChange: validationSchema.shape.lmp,
+          }}
+        >
+          {(field) => (
+            <DatePicker
+              size="sm"
+              label="LMP"
+              locale="th-TH-u-ca-buddhist"
+              value={field.state.value ? parseDate(field.state.value) : null}
+              onChange={handleLmpChange}
+              onBlur={field.handleBlur}
+              isInvalid={field.state.meta.errors.length > 0}
+              errorMessage={field.state.meta.errors[0]?.message}
+              placeholder="เลือกวันที่"
+            />
+          )}
+        </form.Field>
 
-        <DatePicker
-          size="sm"
-          label="EDC"
-          isReadOnly
-          locale="th-TH-u-ca-buddhist"
-          value={field.edc ? parseDate(field.edc) : null}
-          onChange={handleLmpChange}
-        />
+        <form.Field
+          name="edc"
+          validators={{
+            onChange: validationSchema.shape.edc,
+          }}
+        >
+          {(field) => (
+            <DatePicker
+              size="sm"
+              label="EDC"
+              isReadOnly
+              locale="th-TH-u-ca-buddhist"
+              value={field.state.value ? parseDate(field.state.value) : null}
+              onChange={() => {}} // ปิดการแก้ไข
+              onBlur={field.handleBlur}
+              isInvalid={field.state.meta.errors.length > 0}
+              errorMessage={field.state.meta.errors[0]?.message}
+            />
+          )}
+        </form.Field>
 
-        <Input
-          type="text"
-          size="sm"
-          label="อายุครรภ์"
+        <form.Field
           name="ga"
-          value={field.ga ?? ""} // ปลอดภัยกว่า ใช้ ?? กัน null
-          onChange={handleChange}
-          readOnly
-        />
+          validators={{
+            onChange: validationSchema.shape.ga,
+          }}
+        >
+          {(field) => (
+            <Input
+              type="text"
+              size="sm"
+              label="อายุครรภ์"
+              value={field.state.value ?? ""}
+              readOnly
+              onBlur={field.handleBlur}
+              isInvalid={field.state.meta.errors.length > 0}
+              errorMessage={field.state.meta.errors[0]?.message}
+            />
+          )}
+        </form.Field>
       </div>
     </div>
   );

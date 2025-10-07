@@ -37,6 +37,7 @@ export default function App({
   closeModalAnc,
   setSelectedAnc,
   setField,
+  form,
 }) {
   const {
     dataAnc,
@@ -324,6 +325,7 @@ export default function App({
                     // เพิ่ม field อื่น ๆ ที่ต้องการดึง
                   }));
 
+                  form?.setFieldValue?.("anc_no", String(anc.anc_no));
                   // ปิด modal
                   closeModalAnc();
 

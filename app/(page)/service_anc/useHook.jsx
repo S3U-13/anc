@@ -27,7 +27,6 @@ export default function useHook() {
       console.log(error);
     }
   };
-  console.log(dataAnc);
 
   const openModalForm = () => {
     setOpenFormService((prev) => !prev);
@@ -73,7 +72,7 @@ export default function useHook() {
   };
 
   const columns = [
-    { uid: "id", name: "id" },
+    { uid: "id", name: "ID" },
     { uid: "anc_no", name: "ANC NO" },
     { uid: "hn_wife", name: "HN (ภรรยา)" },
     { uid: "wife_name", name: "ชื่อ (ภรรยา)" },
@@ -123,7 +122,7 @@ export default function useHook() {
 
   // ค่าเริ่มต้นเลือกทุกคอลัมน์
   const [visibleColumns, setVisibleColumns] = useState(
-    new Set(["anc_no", "hn_wife", "wife_name", "address", "phone", "round"])
+    new Set(["id", "anc_no", "hn_wife", "wife_name", "address", "phone", "round"])
   );
 
   const onClear = () => setFilterValue("");

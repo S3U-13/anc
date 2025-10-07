@@ -19,7 +19,7 @@ export default function useHook() {
 
   const fetchDataAnc = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/anc");
+      const res = await fetch("http://localhost:3000/api/pull-anc");
       const json = await res.json().catch(() => []);
       setDataAnc(json);
     } catch (error) {

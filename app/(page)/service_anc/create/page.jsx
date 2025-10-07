@@ -54,6 +54,8 @@ export default function page({ openFormService, closeFormService }) {
     handleDateChange,
     isSubmitting,
     handleChangeRefIn,
+    form,
+    validationSchema,
   } = useHook({ closeFormService });
 
   return (
@@ -102,6 +104,7 @@ export default function page({ openFormService, closeFormService }) {
                         closeModalAnc={() => setPullAnc(false)}
                         setSelectedAnc={setSelectedAnc}
                         setField={setField} // เพิ่มตรงนี้
+                        form={form}
                       />
                     </div>
                     <Form01
@@ -115,6 +118,8 @@ export default function page({ openFormService, closeFormService }) {
                       vitals={vitals}
                       editVitalsign={editVitalsign}
                       bmi={bmi}
+                      validationSchema={validationSchema}
+                      form={form}
                     />
                   </Tab>
                   <Tab disabled key="from_2" title={<div className="" />}>
@@ -122,6 +127,8 @@ export default function page({ openFormService, closeFormService }) {
                       field={field}
                       setField={setField}
                       handleChange={handleChange}
+                      validationSchema={validationSchema}
+                      form={form}
                     />
                   </Tab>
                   <Tab disabled key="from_3" title={<div className="" />}>
@@ -132,6 +139,8 @@ export default function page({ openFormService, closeFormService }) {
                       handleChangeCbe={handleChangeCbe}
                       handleChangeBti={handleChangeBti}
                       handleDateChange={handleDateChange}
+                      validationSchema={validationSchema}
+                      form={form}
                     />
                   </Tab>
                   <Tab disabled key="from_4" title={<div className="" />}>
@@ -141,6 +150,8 @@ export default function page({ openFormService, closeFormService }) {
                       field={field}
                       setField={setField}
                       handleChange={handleChange}
+                      validationSchema={validationSchema}
+                      form={form}
                     />
                   </Tab>
                   <Tab disabled key="from_5" title={<div className="" />}>
@@ -150,6 +161,8 @@ export default function page({ openFormService, closeFormService }) {
                       handleChange={handleChange}
                       handleChangeRefIn={handleChangeRefIn}
                       coverageSite={coverageSite}
+                      validationSchema={validationSchema}
+                      form={form}
                     />
                   </Tab>
                 </Tabs>
@@ -177,21 +190,21 @@ export default function page({ openFormService, closeFormService }) {
                   color="primary"
                   onPress={async () => {
                     const idx = steps.indexOf(activeStep);
+
                     if (idx < steps.length - 1) {
-                      // ถ้ายังไม่ถึง step สุดท้าย
                       setActiveStep(steps[idx + 1]);
                     } else {
                       // Step สุดท้าย → submit form
-                      await handleSubmit(); // เรียก handleSubmit ของ useForm
+                      try {
+                        await form.handleSubmit(); // จะ trigger onSubmit ใน useForm
+                        console.log("Submit triggered"); // สามารถเช็คว่าถึงบรรทัดนี้หรือไม่
+                      } catch (err) {
+                        console.error("Validation failed:", err);
+                      }
                     }
                   }}
-                  disabled={isSubmitting} // ป้องกันกดซ้ำ
                 >
-                  {isSubmitting
-                    ? "กำลังบันทึก..." // ขณะส่งข้อมูล
-                    : activeStep === steps[steps.length - 1]
-                      ? "ยืนยัน"
-                      : "ถัดไป"}
+                  {activeStep === steps[steps.length - 1] ? "ยืนยัน" : "ถัดไป"}
                 </Button>
               </ModalFooter>
             </form>

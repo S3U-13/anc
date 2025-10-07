@@ -14,7 +14,6 @@ export default function useHook({ closeFormService } = {}) {
     try {
       const res = await fetch("http://localhost:3000/api/mapAll");
       const json = await res.json();
-      console.log("mapAll data:", json);
       setData(json);
     } catch (error) {
       console.log(error);
@@ -25,7 +24,6 @@ export default function useHook({ closeFormService } = {}) {
     try {
       const res = await fetch("http://localhost:3000/api/coveragesite");
       const json = await res.json();
-      console.log("coverage data:", json);
       setCoverageSite(json);
     } catch (error) {
       console.log(error);
@@ -37,8 +35,6 @@ export default function useHook({ closeFormService } = {}) {
     fetchCoverage();
   }, []);
 
-  console.log(data);
-
   const initialField = () => ({
     anc_no: "",
     patvisit_id: "",
@@ -48,8 +44,8 @@ export default function useHook({ closeFormService } = {}) {
     p: "",
     a: "",
     last: "",
-    lmp: null,
-    edc: null,
+    lmp: "",
+    edc: "",
     ga: "",
     ma_id: "",
     ma_detail: "",
@@ -126,16 +122,7 @@ export default function useHook({ closeFormService } = {}) {
     hos_out_id: null,
   });
 
-  const [field, setField] = useState(initialField);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    console.log(name, value); // ดูว่ากดแล้วได้ค่าไหม
-    setField((prev) => ({
-      ...prev,
-      [name]: e.target.value,
-    }));
-  };
+  const [field, setField] = useState(initialField());
 
   const mapCheckboxValues = (prefix, vals, count) => {
     const obj = {};
@@ -255,53 +242,6 @@ export default function useHook({ closeFormService } = {}) {
   };
 
   // แปลง CalendarDate -> "YYYY-MM-DD"
-  const handleLmpChange = (calendarDate) => {
-    if (!calendarDate) {
-      setField((prev) => ({ ...prev, lmp: null, edc: null, ga: "" }));
-      return;
-    }
-
-    const iso = `${calendarDate.year}-${String(calendarDate.month).padStart(2, "0")}-${String(calendarDate.day).padStart(2, "0")}`;
-    setField((prev) => ({ ...prev, lmp: iso }));
-  };
-
-  // คำนวณ GA และ EDC ทุกครั้งที่ field.lmp เปลี่ยน (เก็บผลใน field.edc และ field.ga)
-  useEffect(() => {
-    if (!field.lmp) {
-      setField((prev) => ({ ...prev, edc: null, ga: "" }));
-      return;
-    }
-
-    // สร้าง JS Date จาก ISO (ให้เวลาเป็นเที่ยงเพื่อเลี่ยง timezone ปัญหา)
-    const lmpDate = new Date(field.lmp + "T00:00:00");
-    const today = new Date();
-
-    const diffMs = today.getTime() - lmpDate.getTime();
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    const weeks = Math.floor(diffDays / 7);
-    const days = diffDays % 7;
-
-    // EDC = LMP + 280 วัน
-    const edcDate = new Date(lmpDate);
-    edcDate.setDate(edcDate.getDate() + 280);
-    const edcIso = edcDate.toISOString().split("T")[0];
-
-    setField((prev) => ({
-      ...prev,
-      edc: edcIso,
-      ga: `${weeks} สัปดาห์ ${days} วัน`,
-    }));
-  }, [field.lmp]);
-
-  const formatThaiDate = (date) => {
-    if (!date) return "";
-    const jsDate = date instanceof Date ? date : date.toDate("UTC");
-    return new Intl.DateTimeFormat("th-TH-u-ca-buddhist", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }).format(jsDate);
-  };
 
   const formatThaiDateTime = (isoString) => {
     if (!isoString) return "";
@@ -329,14 +269,6 @@ export default function useHook({ closeFormService } = {}) {
   const steps = ["from_1", "from_2", "from_3", "from_4", "from_5"];
   const [activeStep, setActiveStep] = useState("from_1");
 
-  const handleReset = () => {
-    setField(initialField);
-    setSelectedAnc(null);
-    setActiveStep("from_1");
-    setEditVitalsign(defaultVitals);
-    setBmi("");
-  };
-
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (value) => {
@@ -351,7 +283,7 @@ export default function useHook({ closeFormService } = {}) {
         },
         body: JSON.stringify(value), // ✅ ใช้ validated data
       });
-      
+
       const json = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error("ลงทะเบียน ANC ไม่สำเร็จ");
 
@@ -406,167 +338,161 @@ export default function useHook({ closeFormService } = {}) {
     last: z.coerce
       .string()
       .min(1, { message: "กรุณากรอก วัน/เดือน/ปี ที่คลอดบุตรคนล่าสุด" }),
-    lmp: z
+    lmp: z.coerce
       .string()
       .min(1, { message: "กรุณากรอก วัน/เดือน/ปี ประจำเดือนมาครั้งล่าสุด" }),
-    edc: z
+    edc: z.coerce
       .string()
       .min(1, { message: "กรุณากรอก วัน/เดือน/ปี ที่คาดว่าจะคลอดบุตร" }),
     ga: z.coerce.string().min(1, { message: "กรุณากรอก อายุครรภ์" }),
     ma_id: z.coerce
       .string()
       .min(1, { message: "กรุณาเลือก ระบุประวัติการเเพ้ยา" }),
+    ma_detail: z.string().optional(),
     hr_id: z.coerce.string().min(1, { message: "กรุณาเลือก ระบุโรคประจำตัว" }),
+    hr_detail: z.string().optional(),
+    am_id: z.coerce.string().min(1, {
+      message: "กรุณาเลือก ระบุการแนะนำการเจาะน้ำคร่ำตรวจโครโมโซม",
+    }),
     gct_1_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ GCT ครั้งที่ 1" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     gct_2_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ GCT ครั้งที่ 2" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     ogtt_1_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ OGTT ครั้งที่ 1" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     ogtt_2_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ OGTT ครั้งที่ 2" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     hbsag_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ HBsAg" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     vdrl_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ VDRL" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     anti_hiv_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ Anti-HIV" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     bl_gr_wife: z
       .string()
       .min(1, { message: "กรุณากรอก หมู่เลือด" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     rh_wife: z
       .string()
       .min(1, { message: "กรุณากรอก หมู่เลือด Rh" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     hct_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ HCT" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     of_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ OF" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     dcip_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ DCIP" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     mcv_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ MCV" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     mch_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ MCH" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     hb_typing_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ Hb Typing" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     pcr_wife_id: z.coerce.string().min(1, { message: "กรุณาระบุ PCR" }),
-    cordo_id: z.coerce
-      .string()
-      .min(1, { message: "กรุณาระบุ การตรวจคัดกรองความเสี่ยงโรคทางพันธุกรรม" }),
+    pcr_wife_text: z.string().optional(),
+    cordo_id: z.coerce.string().min(1, {
+      message: "กรุณาระบุ การตรวจคัดกรองความเสี่ยงโรคทางพันธุกรรม",
+    }),
+    cordo_text: z.string().optional(),
     abortion_id: z.coerce
       .string()
       .min(1, { message: "กรุณาระบุ ประวัติการแท้ง" }),
     td_num: z.coerce
       .number()
       .min(1, { message: "กรุณากรอก จำนวนครั้งวัคซีนบาดทะยัก" }),
-    td_last_date: z
-      .string()
-      .min(1, {
-        message: "กรุณาระบุ วัน/เดือน/ปี ที่ได้รับวัคซีนบาดทะยักครั้งสุดท้าย",
-      }),
+    td_last_date: z.string().min(1, {
+      message: "กรุณาระบุ วัน/เดือน/ปี ที่ได้รับวัคซีนบาดทะยักครั้งสุดท้าย",
+    }),
     tdap_id: z.coerce.string().min(1, { message: "กรุณาระบุ การให้วัคซีน" }),
     iip_id: z.coerce
       .string()
       .min(1, { message: "กรุณาระบุ การฉีดวัคซีนไข้หวัดใหญ่" }),
-    lab_2: z
+    per_os_id: z.coerce
       .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจทางห้องปฏิบัติการ" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    vdrl_2: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ VDRL ซ้ำ" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    hct: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ HCT ซ้ำ" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    h: z
-      .string()
-      .min(1, { message: "กรุณากรอก น้ำหนัก (กก.)" })
-      .min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    bti_value_1_id: z.coerce.string().nullable(),
-    bti_value_2_id: z.coerce.string().nullable(),
-    bti_value_3_id: z.coerce.string().nullable(),
-    bti_value_4_id: z.coerce.string().nullable(),
-    bti_value_5_id: z.coerce.string().nullable(),
-    cbe_value_1_id: z.coerce.string().nullable(),
-    cbe_value_2_id: z.coerce.string().nullable(),
-    cbe_value_3_id: z.coerce.string().nullable(),
-    cbe_value_4_id: z.coerce.string().nullable(),
-    per_os_id: z.coerce.string().nullable(),
+      .min(1, { message: "กรุณาระบุ การใช้ยาผ่านปาก" }),
     hbsag_husband: z
       .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ HBsAg สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .min(1, { message: "กรุณากรอก ผลตรวจ HBsAg สามี" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     vdrl_husband: z
       .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ VDRL สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .min(1, { message: "กรุณากรอก ผลตรวจ VDRL สามี" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     anti_hiv_husband: z
       .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ Anti-HIV สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }), 
-    bl_gr_husband: z 
+      .min(1, { message: "กรุณากรอก ผลตรวจ Anti-HIV สามี" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    bl_gr_husband: z
       .string()
-      .min(1, { message: "กรุณากรอก หมู่เลือด สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .min(1, { message: "กรุณากรอก หมู่เลือด สามี" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     rh_husband: z
       .string()
-      .min(1, { message: "กรุณากรอก หมู่เลือด Rh สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .min(1, { message: "กรุณากรอก หมู่เลือด Rh สามี" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     hct_husband: z
       .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ HCT สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .min(1, { message: "กรุณากรอก ผลตรวจ HCT สามี" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     of_husband: z
       .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ OF สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .min(1, { message: "กรุณากรอก ผลตรวจ OF สามี" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     dcip_husband: z
       .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ DCIP สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .min(1, { message: "กรุณากรอก ผลตรวจ DCIP สามี" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     mcv_husband: z
       .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ MCV สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .min(1, { message: "กรุณากรอก ผลตรวจ MCV สามี" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     mch_husband: z
       .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ MCH สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .min(1, { message: "กรุณากรอก ผลตรวจ MCH สามี" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     hb_typing_husband: z
       .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ Hb Typing สามี" }).min(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    pcr_hus_id: z.coerce.string().nullable(),
+      .min(1, { message: "กรุณากรอก ผลตรวจ Hb Typing สามี" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    pcr_hus_id: z.coerce.string().min(1, { message: "กรุณาระบุ" }),
+    pcr_hus_text: z.string().optional(),
     // เพิ่มเติมตามต้องการ
   });
 
   const form = useForm({
     defaultValues,
     onSubmit: async ({ value }) => {
-      // Validate ด้วย Zod ก่อน submit
+      console.log("onSubmit triggered", value);
       try {
         const validatedData = validationSchema.parse(value);
+        console.log("validatedData:", validatedData);
         await handleSubmit(validatedData);
-        console.log("Submit:", validatedData);
       } catch (error) {
         console.error("Validation error:", error);
       }
@@ -576,16 +502,60 @@ export default function useHook({ closeFormService } = {}) {
     },
   });
 
-  const makeValidator =
-    (schema) =>
-    ({ value }) => {
-      try {
-        schema.parse(value);
-        return undefined; // ✅ ถ้า valid
-      } catch (e) {
-        return e.errors?.[0]?.message || "ไม่ถูกต้อง";
-      }
-    };
+  const handleLmpChange = (calendarDate) => {
+    if (!calendarDate) {
+      form.setFieldValue("lmp", null);
+      form.setFieldValue("edc", null);
+      form.setFieldValue("ga", "");
+      return;
+    }
+
+    const iso = `${calendarDate.year}-${String(calendarDate.month).padStart(2, "0")}-${String(calendarDate.day).padStart(2, "0")}`;
+    form.setFieldValue("lmp", iso);
+
+    // ✅ คำนวณตรงนี้เลย
+    const lmpDate = new Date(iso + "T00:00:00");
+    const today = new Date();
+    const diffMs = today.getTime() - lmpDate.getTime();
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const weeks = Math.floor(diffDays / 7);
+    const days = diffDays % 7;
+
+    const edcDate = new Date(lmpDate);
+    edcDate.setDate(edcDate.getDate() + 280);
+    const edcIso = edcDate.toISOString().split("T")[0];
+
+    form.setFieldValue("edc", edcIso);
+    form.setFieldValue("ga", `${weeks} สัปดาห์ ${days} วัน`);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    console.log(name, value); // ดูว่ากดแล้วได้ค่าไหม
+    setField((prev) => ({
+      ...prev,
+      [name]: e.target.value,
+    }));
+  };
+
+  const handleReset = () => {
+    form.reset();
+    setField(initialField);
+    setSelectedAnc(null);
+    setActiveStep("from_1");
+    setEditVitalsign(defaultVitals);
+    setBmi("");
+  };
+
+  const formatThaiDate = (date) => {
+    if (!date) return "";
+    const jsDate = date instanceof Date ? date : date.toDate("UTC");
+    return new Intl.DateTimeFormat("th-TH-u-ca-buddhist", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }).format(jsDate);
+  };
 
   return {
     data,
@@ -615,5 +585,7 @@ export default function useHook({ closeFormService } = {}) {
     handleSubmit,
     isSubmitting,
     handleChangeRefIn,
+    form,
+    validationSchema,
   };
 }

@@ -25,7 +25,7 @@ export default function page({ openModalReset, closeModalReset, onReset }) {
       >
         <ModalContent>
           {(closeModalReset) => (
-            <>
+            <form>
               <ModalHeader>ยืนยันการรีเซ็ตข้อมูล</ModalHeader>
               <ModalBody>
                 ข้อมูลทั้งหมดจะถูกล้างและไม่สามารถกู้คืนได้ <br />
@@ -56,7 +56,7 @@ export default function page({ openModalReset, closeModalReset, onReset }) {
                   ยืนยัน
                 </Button>
               </ModalFooter>
-            </>
+            </form>
           )}
         </ModalContent>
       </Modal>
