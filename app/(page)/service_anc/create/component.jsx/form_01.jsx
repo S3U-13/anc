@@ -44,22 +44,28 @@ export default function page({
             />
           )}
         </form.Field>
-        <Input
-          size="sm"
-          label="PAT REG ID"
-          type="hidden"
-          name="patreg_id"
-          value={field?.patreg_id || ""}
-          onChange={handleChange}
-        />
-        <Input
-          size="sm"
-          label="PAT VISIT ID"
-          type="hidden"
-          name="patvisit_id"
-          value={field?.patvisit_id || ""}
-          onChange={handleChange}
-        />
+        <form.Field name="patreg_id">
+          {(field) => (
+            <Input
+              size="sm"
+              label="PAT REG ID"
+              type="text"
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+            />
+          )}
+        </form.Field>
+        <form.Field name="patvisit_id">
+          {(field) => (
+            <Input
+              size="sm"
+              label="PAT VISIT ID"
+              type="text"
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+            />
+          )}
+        </form.Field>
 
         <Input
           size="sm"

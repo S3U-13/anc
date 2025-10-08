@@ -326,6 +326,14 @@ export default function App({
                   }));
 
                   form?.setFieldValue?.("anc_no", String(anc.anc_no));
+                  form?.setFieldValue?.(
+                    "patreg_id",
+                    anc.wife.pat_reg[0]?.id ?? null
+                  );
+                  form?.setFieldValue?.(
+                    "patvisit_id",
+                    anc.wife.pat_reg[0]?.patvisitid ?? null
+                  );
                   // ปิด modal
                   closeModalAnc();
 

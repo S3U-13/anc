@@ -17,6 +17,9 @@ export default function page({
   handleDateChange,
   validationSchema,
   form,
+  selectedBti,
+  selectedCbe,
+  Dates,
 }) {
   const { data } = useHook();
 
@@ -28,21 +31,25 @@ export default function page({
     <div className="grid grid-cols-4 gap-[10px] overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1 className="col-span-4">ส่วนที่ 3</h1>
       <div className="grid grid-cols-4 gap-[10px] col-span-4 px-[30px]">
-        <Input
-          size="sm"
-          className="col-span-2"
-          label="วัคซีนบาดทะยัก ก่อนตั้งครรภ์เคยฉีดกี่ครั้ง"
-          type="text"
-          name="td_num"
-          value={field.td_num}
-          onChange={handleChange}
-        />
+        <form.Field name="td_num">
+          {(field) => (
+            <Input
+              size="sm"
+              className="col-span-2"
+              label="วัคซีนบาดทะยัก ก่อนตั้งครรภ์เคยฉีดกี่ครั้ง"
+              type="text"
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+            />
+          )}
+        </form.Field>
+
         <DatePicker
           size="sm"
           className="col-span-2"
           label="ครั้งสุดท้ายวันที่"
           locale="th-TH-u-ca-buddhist"
-          value={field.td_last_date ? parseDate(field.td_last_date) : null}
+          value={Dates.td_last_date ? parseDate(Dates.td_last_date) : null}
           onChange={handleDateChange("td_last_date")}
         />
       </div>
@@ -65,7 +72,7 @@ export default function page({
             {data
               .filter((tdap) => tdap.choice_type_id === 7)
               .map((tdap) => (
-                <div key={tdap.id}>
+                <div className="px-[10px]" key={tdap.id}>
                   <Radio value={String(tdap.id)}>{tdap.choice_name}</Radio>
                   {String(tdap.id) === "14" && field.state.value === "14" && (
                     <div className="grid grid-cols-1 gap-[10px] mt-[10px] w-1/4">
@@ -73,46 +80,31 @@ export default function page({
                         size="sm"
                         label="ครั้งที่ 1"
                         value={
-                          form.getFieldValue("tdap_round_1")
-                            ? parseDate(form.getFieldValue("tdap_round_1"))
+                          Dates.tdap_round_1
+                            ? parseDate(Dates.tdap_round_1)
                             : null
                         }
-                        onChange={(date) =>
-                          form.setFieldValue(
-                            "tdap_round_1",
-                            date ? date.toString() : null
-                          )
-                        }
+                        onChange={handleDateChange("tdap_round_1")}
                       />
                       <DatePicker
                         size="sm"
                         label="ครั้งที่ 2"
                         value={
-                          form.getFieldValue("tdap_round_2")
-                            ? parseDate(form.getFieldValue("tdap_round_2"))
+                          Dates.tdap_round_2
+                            ? parseDate(Dates.tdap_round_2)
                             : null
                         }
-                        onChange={(date) =>
-                          form.setFieldValue(
-                            "tdap_round_2",
-                            date ? date.toString() : null
-                          )
-                        }
+                        onChange={handleDateChange("tdap_round_2")}
                       />
                       <DatePicker
                         size="sm"
                         label="ครั้งที่ 3"
                         value={
-                          form.getFieldValue("tdap_round_3")
-                            ? parseDate(form.getFieldValue("tdap_round_3"))
+                          Dates.tdap_round_3
+                            ? parseDate(Dates.tdap_round_3)
                             : null
                         }
-                        onChange={(date) =>
-                          form.setFieldValue(
-                            "tdap_round_3",
-                            date ? date.toString() : null
-                          )
-                        }
+                        onChange={handleDateChange("tdap_round_3")}
                       />
                     </div>
                   )}
@@ -150,17 +142,8 @@ export default function page({
                       size="sm"
                       className="w-1/4"
                       label="วันที่"
-                      value={
-                        form.getFieldValue("iip_date")
-                          ? parseDate(form.getFieldValue("iip_date"))
-                          : null
-                      }
-                      onChange={(date) =>
-                        form.setFieldValue(
-                          "iip_date",
-                          date ? date.toString() : null
-                        )
-                      }
+                      value={Dates.iip_date ? parseDate(Dates.iip_date) : null}
+                      onChange={handleDateChange("iip_date")}
                     />
                   )}
                 </div>
@@ -175,163 +158,144 @@ export default function page({
           size="sm"
           className="col-span-2 pl-[10px]"
           label="Lab 2 วันที่"
-          value={field.lab_2 ? parseDate(field.lab_2) : null}
+          value={Dates.lab_2 ? parseDate(Dates.lab_2) : null}
           onChange={handleDateChange("lab_2")}
         />
-        <Input
-          size="sm"
-          className="col-span-2 pr-[10px]"
-          label="HCT"
-          type="text"
-          name="hct"
-          value={field.hct}
-          onChange={handleChange}
-        />
-        <Input
-          size="sm"
-          className="col-span-2 pl-[10px]"
-          label="VDRL"
-          type="text"
-          name="vdrl_2"
-          value={field.vdrl_2}
-          onChange={handleChange}
-        />
-        <Input
-          size="sm"
-          className="col-span-2 pr-[10px]"
-          label="H"
-          type="text"
-          name="h"
-          value={field.h}
-          onChange={handleChange}
-        />
+        <form.Field name="hct">
+          {(field) => (
+            <Input
+              size="sm"
+              className="col-span-2 pr-[10px]"
+              label="HCT"
+              type="text"
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+            />
+          )}
+        </form.Field>
+        <form.Field name="vdrl_2">
+          {(field) => (
+            <Input
+              size="sm"
+              className="col-span-2 pl-[10px]"
+              label="VDRL"
+              type="text"
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+            />
+          )}
+        </form.Field>
+        <form.Field name="h">
+          {(field) => (
+            <Input
+              size="sm"
+              className="col-span-2 pr-[10px]"
+              label="H"
+              type="text"
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+            />
+          )}
+        </form.Field>
       </div>
+
       <CheckboxGroup
         className="col-span-4 px-[20px]"
-        label="กลุ่มสัมพันธ์ เเละ ฟังผลเลือด"
-        value={[
-          String(field.bti_value_1_id || ""),
-          String(field.bti_value_2_id || ""),
-          String(field.bti_value_3_id || ""),
-          String(field.bti_value_4_id || ""),
-          String(field.bti_value_5_id || ""),
-        ].filter((v) => v)} // กรอง empty string ออก
+        label="กลุ่มสัมพันธ์ และ ฟังผลเลือด"
+        value={selectedBti}
         onValueChange={handleChangeBti}
       >
         {data
           .filter((bti) => bti.choice_type_id === 9)
-          .map((bti) => (
-            <div
-              key={bti.id}
-              className="flex gap-[15px] items-center px-[10px]"
-            >
-              <Checkbox value={String(bti.id)}>{bti.choice_name}</Checkbox>
-              {String(bti.id) === "18" &&
-                [
-                  field.bti_value_1_id,
-                  field.bti_value_2_id,
-                  field.bti_value_3_id,
-                  field.bti_value_4_id,
-                  field.bti_value_5_id,
-                ]
-                  .map((v) => String(v))
-                  .includes("18") && (
+          .map((bti) => {
+            const isSelected = selectedBti.includes(String(bti.id));
+            return (
+              <div
+                key={bti.id}
+                className="flex gap-[15px] items-center px-[10px]"
+              >
+                <Checkbox value={String(bti.id)}>{bti.choice_name}</Checkbox>
+
+                {/* DatePicker สำหรับ id 18 */}
+                {bti.id === 18 && isSelected && (
                   <DatePicker
                     size="sm"
                     className="w-1/4"
                     label="วันที่"
                     value={
-                      field.bti_1_date ? parseDate(field.bti_1_date) : null
+                      Dates.bti_1_date ? parseDate(Dates.bti_1_date) : null
                     }
                     onChange={handleDateChange("bti_1_date")}
                   />
                 )}
-              {String(bti.id) === "19" &&
-                [
-                  field.bti_value_1_id,
-                  field.bti_value_2_id,
-                  field.bti_value_3_id,
-                  field.bti_value_4_id,
-                  field.bti_value_5_id,
-                ]
-                  .map((v) => String(v))
-                  .includes("19") && (
+
+                {/* DatePicker สำหรับ id 19 */}
+                {bti.id === 19 && isSelected && (
                   <DatePicker
                     size="sm"
                     className="w-1/4"
                     label="วันที่"
                     value={
-                      field.bti_2_date ? parseDate(field.bti_2_date) : null
+                      Dates.bti_2_date ? parseDate(Dates.bti_2_date) : null
                     }
                     onChange={handleDateChange("bti_2_date")}
                   />
                 )}
-            </div>
-          ))}
+              </div>
+            );
+          })}
       </CheckboxGroup>
+
       <CheckboxGroup
         className="col-span-4 px-[20px]"
         label="ตรวจเต้านม, หัวนม"
-        value={[
-          String(field.cbe_value_1_id || ""),
-          String(field.cbe_value_2_id || ""),
-          String(field.cbe_value_3_id || ""),
-          String(field.cbe_value_4_id || ""),
-        ].filter((v) => v)}
+        value={selectedCbe}
         onValueChange={handleChangeCbe}
       >
         {data
           .filter((cbe) => cbe.choice_type_id === 10)
-          .map((cbe) => (
-            <div key={cbe.id} className=" px-[10px]">
-              <Checkbox value={String(cbe.id)}>{cbe.choice_name}</Checkbox>
-              {String(cbe.id) === "24" &&
-                [
-                  field.cbe_value_1_id,
-                  field.cbe_value_2_id,
-                  field.cbe_value_3_id,
-                  field.cbe_value_4_id,
-                ]
-                  .map((v) => String(v))
-                  .includes("24") && (
-                  <RadioGroup
-                    className="px-[25px]"
-                    label=""
-                    value={field.birads_id} // state ที่เก็บค่าที่เลือก
-                    onValueChange={(val) =>
-                      setField((prev) => ({ ...prev, birads_id: val }))
-                    }
-                  >
-                    {data
-                      .filter((birads) => birads.choice_type_id === 11)
-                      .map((birads) => (
-                        <Radio key={birads.id} value={String(birads.id)}>
-                          {birads.choice_name}
-                        </Radio>
-                      ))}
-                  </RadioGroup>
+          .map((cbe) => {
+            const isSelected = selectedCbe.includes(String(cbe.id));
+            return (
+              <div key={cbe.id} className=" px-[10px]">
+                <Checkbox value={String(cbe.id)}>{cbe.choice_name}</Checkbox>
+                {String(cbe.id) === "24" && isSelected && (
+                  <form.Field name="birads_id">
+                    {(field) => (
+                      <RadioGroup
+                        className="px-[25px]"
+                        label=""
+                        value={field.state.value}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      >
+                        {data
+                          .filter((birads) => birads.choice_type_id === 11)
+                          .map((birads) => (
+                            <Radio key={birads.id} value={String(birads.id)}>
+                              {birads.choice_name}
+                            </Radio>
+                          ))}
+                      </RadioGroup>
+                    )}
+                  </form.Field>
                 )}
-              {String(cbe.id) === "26" &&
-                [
-                  field.cbe_value_1_id,
-                  field.cbe_value_2_id,
-                  field.cbe_value_3_id,
-                  field.cbe_value_4_id,
-                ]
-                  .map((v) => String(v))
-                  .includes("26") && (
-                  <Input
-                    className="mt-[10px] w-1/2 px-[25px]"
-                    size="sm"
-                    label="ผลตรวจ"
-                    type="text"
-                    name="cbe_result"
-                    value={field.cbe_result}
-                    onChange={handleChange}
-                  />
+                {String(cbe.id) === "26" && isSelected && (
+                  <form.Field name="cbe_result">
+                    {(field) => (
+                      <Input
+                        className="mt-[10px] w-1/2 px-[25px]"
+                        size="sm"
+                        label="ผลตรวจ"
+                        type="text"
+                        value={field.state.value}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                    )}
+                  </form.Field>
                 )}
-            </div>
-          ))}
+              </div>
+            );
+          })}
       </CheckboxGroup>
       <form.Field
         name="per_os_id"

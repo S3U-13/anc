@@ -56,6 +56,10 @@ export default function page({ openFormService, closeFormService }) {
     handleChangeRefIn,
     form,
     validationSchema,
+    selectedBti,
+    selectedCbe,
+    Dates,
+    selectedRef,
   } = useHook({ closeFormService });
 
   return (
@@ -141,6 +145,9 @@ export default function page({ openFormService, closeFormService }) {
                       handleDateChange={handleDateChange}
                       validationSchema={validationSchema}
                       form={form}
+                      selectedBti={selectedBti}
+                      selectedCbe={selectedCbe}
+                      Dates={Dates}
                     />
                   </Tab>
                   <Tab disabled key="from_4" title={<div className="" />}>
@@ -163,6 +170,7 @@ export default function page({ openFormService, closeFormService }) {
                       coverageSite={coverageSite}
                       validationSchema={validationSchema}
                       form={form}
+                      selectedRef={selectedRef}
                     />
                   </Tab>
                 </Tabs>
@@ -196,6 +204,7 @@ export default function page({ openFormService, closeFormService }) {
                     } else {
                       // Step สุดท้าย → submit form
                       try {
+                        console.log("Current form value:", form.state.values);
                         await form.handleSubmit(); // จะ trigger onSubmit ใน useForm
                         console.log("Submit triggered"); // สามารถเช็คว่าถึงบรรทัดนี้หรือไม่
                       } catch (err) {

@@ -582,15 +582,19 @@ export default function page({
         )}
       </form.Field>
 
-      <Input
-        className="col-span-4 px-[20px]"
-        size="sm"
-        label="อื่น"
-        type="text"
-        name="cordo_other_text"
-        value={field?.cordo_other_text || ""}
-        onChange={handleChange}
-      />
+      <form.Field name="cordo_other_text">
+        {(field) => (
+          <Input
+            className="col-span-4 px-[20px]"
+            size="sm"
+            label="อื่น"
+            type="text"
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+          />
+        )}
+      </form.Field>
+
       <form.Field
         name="abortion_id"
         validators={{

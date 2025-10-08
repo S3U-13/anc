@@ -85,18 +85,18 @@ export default function useHook({ closeFormService } = {}) {
     vdrl_2: "",
     hct: "",
     h: "",
-    bti_value_1_id: "",
-    bti_value_2_id: "",
-    bti_value_3_id: "",
-    bti_value_4_id: "",
-    bti_value_5_id: "",
+    bti_value_1_id: null,
+    bti_value_2_id: null,
+    bti_value_3_id: null,
+    bti_value_4_id: null,
+    bti_value_5_id: null,
     bti_1_date: null,
     bti_2_date: null,
-    cbe_value_1_id: "",
-    cbe_value_2_id: "",
-    cbe_value_3_id: "",
-    cbe_value_4_id: "",
-    birads_id: "",
+    cbe_value_1_id: null,
+    cbe_value_2_id: null,
+    cbe_value_3_id: null,
+    cbe_value_4_id: null,
+    birads_id: null,
     cbe_result: "",
     per_os_id: "",
     hbsag_husband: "",
@@ -112,8 +112,6 @@ export default function useHook({ closeFormService } = {}) {
     hb_typing_husband: "",
     pcr_hus_text: "",
     pcr_hus_id: "",
-    anc_id: "",
-    usg_id: "",
     ref_1_id: "",
     ref_2_id: "",
     receive_in_id: null,
@@ -124,34 +122,93 @@ export default function useHook({ closeFormService } = {}) {
 
   const [field, setField] = useState(initialField());
 
-  const mapCheckboxValues = (prefix, vals, count) => {
-    const obj = {};
-    for (let i = 0; i < count; i++) {
-      obj[`${prefix}_value_${i + 1}_id`] = vals[i] ?? null; // เก็บเป็น string หรือ null
+  const mapCheckboxValues = (prefix, vals, total, allOptions = []) => {
+    const result = {};
+
+    for (let i = 1; i <= total; i++) {
+      const id = allOptions[i - 1]?.id?.toString(); // เอา id ของ checkbox ตัวที่ i
+      result[`${prefix}_value_${i}_id`] = vals.includes(id) ? id : null;
     }
-    return obj;
+
+    return result;
   };
 
   // handlers
+
+  const btiChoice = [
+    { id: "18", label: "BTI 1" },
+    { id: "19", label: "BTI 2" },
+    { id: "20", label: "BTI 3" },
+    { id: "21", label: "BTI 4" },
+    { id: "22", label: "BTI 5" },
+  ];
+
+  const [selectedBti, setSelectedBti] = useState(
+    [
+      field.bti_value_1_id,
+      field.bti_value_2_id,
+      field.bti_value_3_id,
+      field.bti_value_4_id,
+      field.bti_value_5_id,
+    ].filter(Boolean)
+  );
+
+  const cbeChoice = [
+    { id: "23", label: "cbe 1" },
+    { id: "24", label: "cbe 2" },
+    { id: "25", label: "cbe 3" },
+    { id: "26", label: "cbe 4" },
+  ];
+
+  const [selectedCbe, setSelectedCbe] = useState(
+    [
+      field.cbe_value_1_id,
+      field.cbe_value_2_id,
+      field.cbe_value_3_id,
+      field.cbe_value_4_id,
+    ].filter(Boolean)
+  );
+
+  const refChoice = [
+    { id: "40", label: "ref 1" },
+    { id: "41", label: "ref 2" },
+  ];
+
+  const [selectedRef, setSelectedRef] = useState(
+    [field.ref_1_id, field.ref_2_id].filter(Boolean)
+  );
+
   const handleChangeBti = (vals) => {
-    // vals เป็น array ของค่าที่เลือก เช่น ["18", "20"]
-    const btiField = mapCheckboxValues("bti", vals, 5); // bti_value_1_id ... bti_value_5_id
-    setField((prev) => ({ ...prev, ...btiField }));
+    const updatedSelected = vals.map(String);
+    setSelectedBti(updatedSelected);
+
+    const btiField = mapCheckboxValues("bti", updatedSelected, 5, btiChoice);
+
+    Object.entries(btiField).forEach(([key, value]) => {
+      form.setFieldValue(key, value ?? null);
+    });
   };
 
   const handleChangeCbe = (vals) => {
-    const cbeField = mapCheckboxValues("cbe", vals, 4); // cbe_value_1_id ... cbe_value_4_id
-    setField((prev) => ({ ...prev, ...cbeField }));
+    const updatedSelected = vals.map(String);
+    setSelectedCbe(updatedSelected);
+
+    const cbeField = mapCheckboxValues("cbe", updatedSelected, 4, cbeChoice);
+
+    Object.entries(cbeField).forEach(([key, value]) => {
+      form.setFieldValue(key, value ?? null);
+    });
   };
 
   const handleChangeRefIn = (vals) => {
-    // keys ต้องตรงกับ field.ref_1_id / field.ref_2_id
-    const refField = mapCheckboxValues("ref", vals, 2);
-    const mapped = {
-      ref_1_id: refField.ref_value_1_id,
-      ref_2_id: refField.ref_value_2_id,
-    };
-    setField((prev) => ({ ...prev, ...mapped }));
+    const updatedSelected = vals.map(String);
+    setSelectedRef(updatedSelected);
+
+    const refField = mapCheckboxValues("ref", updatedSelected, 2, refChoice);
+
+    Object.entries(refField).forEach(([key, value]) => {
+      form.setFieldValue(key, value ?? null);
+    });
   };
 
   const [selectedAnc, setSelectedAnc] = useState(null);
@@ -229,16 +286,29 @@ export default function useHook({ closeFormService } = {}) {
     }));
   };
 
-  const handleDateChange = (fieldName) => (date) => {
-    console.log(
-      `[${fieldName}] as JS Date:`,
-      date ? date.toDate(getLocalTimeZone()) : null
-    );
+  const [Dates, setDates] = useState({
+    bti_1_date: field.bti_1_date || null,
+    bti_2_date: field.bti_2_date || null,
+    td_last_date: field.td_last_date || null,
+    tdap_round_1: field.tdap_round_1 || null,
+    tdap_round_2: field.tdap_round_2 || null,
+    tdap_round_3: field.tdap_round_3 || null,
+    iip_date: field.iip_date || null,
+    lab_2: field.lab_2 || null,
+  });
 
-    setField((prev) => ({
-      ...prev,
-      [fieldName]: date ? date.toString() : null,
-    }));
+  const handleDateChange = (fieldName) => (date) => {
+    const iso = date
+      ? `${date.year}-${String(date.month).padStart(2, "0")}-${String(date.day).padStart(2, "0")}`
+      : null;
+
+    // update state เพื่อให้ DatePicker แสดงผลทันที
+    setDates((prev) => ({ ...prev, [fieldName]: iso }));
+
+    // update form
+    form.setFieldValue(fieldName, iso);
+
+    console.log(`[${fieldName}] set to`, iso);
   };
 
   // แปลง CalendarDate -> "YYYY-MM-DD"
@@ -271,8 +341,22 @@ export default function useHook({ closeFormService } = {}) {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+
+    // ✅ อัปเดต state ปกติ (UI)
+    setField((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    // ✅ อัปเดตเข้า useForm ด้วย
+    form.setFieldValue(name, value);
+  };
+
   const handleSubmit = async (value) => {
-    console.log("submit field:", field);
+    console.log("submit field:", value);
     if (isSubmitting) return;
     try {
       setIsSubmitting(true); // เริ่มส่งข้อมูล
@@ -529,15 +613,6 @@ export default function useHook({ closeFormService } = {}) {
     form.setFieldValue("ga", `${weeks} สัปดาห์ ${days} วัน`);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    console.log(name, value); // ดูว่ากดแล้วได้ค่าไหม
-    setField((prev) => ({
-      ...prev,
-      [name]: e.target.value,
-    }));
-  };
-
   const handleReset = () => {
     form.reset();
     setField(initialField);
@@ -587,5 +662,9 @@ export default function useHook({ closeFormService } = {}) {
     handleChangeRefIn,
     form,
     validationSchema,
+    selectedBti,
+    selectedCbe,
+    Dates,
+    selectedRef,
   };
 }
