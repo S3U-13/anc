@@ -1,14 +1,12 @@
+"use client"; // ✅
 import React, { Component } from "react";
 import Layout from "./layout";
 import { AppProps } from "next/app";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 export default function Myapp({ Component, pageProps }) {
   return (
     <Layout>
-      <NextThemesProvider attribute="class" defaultTheme="dark">
-        <Component {...pageProps} />
-      </NextThemesProvider>
+      <Component {...pageProps} />
     </Layout>
   );
 }
