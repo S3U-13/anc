@@ -9,6 +9,7 @@ import {
   AutocompleteSection,
   AutocompleteItem,
 } from "@heroui/autocomplete";
+import { DatePicker } from "@heroui/date-picker";
 
 export default function page({
   field,
@@ -137,6 +138,7 @@ export default function page({
             );
           })}
       </CheckboxGroup>
+      <DatePicker label="" size="sm" portal />
     </div>
   );
 }

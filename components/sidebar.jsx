@@ -13,36 +13,35 @@ export default function SideBar() {
   const menus = [
     {
       label: "เมนู",
-      disabled: true,
       items: [
         {
-          label: "พอร์ตฟอลิโอ",
-          path: "/portfolio",
-          icon: <User size={24} />,
-        },
-      ],
-    },
-    {
-      label: "ตั้งค่า",
-      disabled: true,
-      items: [
-        {
-          label: "ผู้ใช้งาน",
+          label: "หน้าเพิ่มผู้ใช้",
           path: "/user",
-          icon: <Users size={24} />,
-        },
-        {
-          label: "คอมโพเนนต์",
-          path: "/settings",
           icon: <User size={24} />,
         },
       ],
     },
-    {
-      label: "ทดสอบ",
-      path: "/crud",
-      icon: <AlertTriangle size={24} />,
-    },
+    // {
+    //   label: "ตั้งค่า",
+    //   disabled: true,
+    //   items: [
+    //     {
+    //       label: "ผู้ใช้งาน",
+    //       path: "/profile",
+    //       icon: <Users size={24} />,
+    //     },
+    //     {
+    //       label: "คอมโพเนนต์",
+    //       path: "/settings",
+    //       icon: <User size={24} />,
+    //     },
+    //   ],
+    // },
+    // {
+    //   label: "ทดสอบ",
+    //   path: "/crud",
+    //   icon: <AlertTriangle size={24} />,
+    // },
   ];
 
   useEffect(() => {
@@ -57,13 +56,13 @@ export default function SideBar() {
       </div>
 
       {/* Menu buttons */}
-      <div className="flex flex-col gap-1 flex-grow py-[20px] px-[20px] border">
+      <div className="flex flex-col gap-1 flex-grow">
         <Tabs
           isVertical
-          color="primary"
+          color="default"
           className="w-full"
           classNames={{
-            tabList: "w-full min-h-[calc(100vh-190px)]",
+            tabList: "w-full min-h-[calc(100vh-190px)] px-[10px]",
             tabContent: "w-full",
           }}
         >
@@ -73,10 +72,12 @@ export default function SideBar() {
                 title={
                   <div className="flex items-center justify-between">
                     {menu.icon}
-                    <span>{menu.label}</span>
+                    <span className="text-lg text-default-600">
+                      {menu.label}
+                    </span>
                   </div>
                 }
-                disabled={menu.disabled}
+                disabled
               />
 
               {/* เมนูย่อย */}
@@ -90,7 +91,9 @@ export default function SideBar() {
                         <span>{subMenu.label}</span>
                       </div>
                     }
-                    onPress={() => router.push(subMenu.path)}
+                    onPress={() =>
+                      setActivePath(subMenu.path) || router.push(subMenu.path)
+                    }
                     isSelected={activePath === subMenu.path}
                   />
                 ))}

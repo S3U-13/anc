@@ -2,7 +2,9 @@
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/table";
 import React from "react";
 
+
 export default function page() {
+
   return (
     <div>
       <Table aria-label="Example static collection table" radius="sm">

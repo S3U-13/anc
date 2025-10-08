@@ -403,22 +403,14 @@ export default function useHook({ closeFormService } = {}) {
       .number()
       .int()
       .min(1, { message: "กรุณากรอก หมายเลข ANC" }),
-    para: z.coerce
+    patvisit_id: z.coerce
       .string()
-      .min(1, { message: "กรุณากรอก Para" })
-      .max(30, { message: "กรุณากรอก Para ไม่เกิน 30 ตัวอักษร" }),
-    g: z.coerce
-      .string()
-      .min(1, { message: "กรุณากรอก G" })
-      .max(30, { message: "กรุณากรอก G ไม่เกิน 30 ตัวอักษร" }),
-    p: z.coerce
-      .string()
-      .min(1, { message: "กรุณากรอก P" })
-      .max(30, { message: "กรุณากรอก P ไม่เกิน 30 ตัวอักษร" }),
-    a: z.coerce
-      .string()
-      .min(1, { message: "กรุณากรอก A" })
-      .max(30, { message: "กรุณากรอก A ไม่เกิน 30 ตัวอักษร" }),
+      .min(1, { message: "กรุณาระบุ PAT VISIT ID" }),
+    patreg_id: z.coerce.string().min(1, { message: "กรุณาระบุ PAT REG ID" }),
+    para: z.coerce.string().min(1, { message: "กรุณากรอก Para" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+    g: z.coerce.string().min(1, { message: "กรุณากรอก G" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+    p: z.coerce.string().min(1, { message: "กรุณากรอก P" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+    a: z.coerce.string().min(1, { message: "กรุณากรอก A" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
     last: z.coerce
       .string()
       .min(1, { message: "กรุณากรอก วัน/เดือน/ปี ที่คลอดบุตรคนล่าสุด" }),
@@ -431,142 +423,147 @@ export default function useHook({ closeFormService } = {}) {
     ga: z.coerce.string().min(1, { message: "กรุณากรอก อายุครรภ์" }),
     ma_id: z.coerce
       .string()
-      .min(1, { message: "กรุณาเลือก ระบุประวัติการเเพ้ยา" }),
+      .min(1, { message: "กรุณาเลือก ระบุประวัติการแพ้ยา" }),
     ma_detail: z.string().optional(),
     hr_id: z.coerce.string().min(1, { message: "กรุณาเลือก ระบุโรคประจำตัว" }),
     hr_detail: z.string().optional(),
-    am_id: z.coerce.string().min(1, {
-      message: "กรุณาเลือก ระบุการแนะนำการเจาะน้ำคร่ำตรวจโครโมโซม",
-    }),
+    am_id: z.coerce
+      .string()
+      .min(1, { message: "กรุณาเลือก ระบุการเจาะน้ำคร่ำตรวจโครโมโซม" }),
     gct_1_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ GCT ครั้งที่ 1" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30),
     gct_2_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ GCT ครั้งที่ 2" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30),
     ogtt_1_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ OGTT ครั้งที่ 1" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30),
     ogtt_2_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ OGTT ครั้งที่ 2" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30),
     hbsag_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ HBsAg" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    vdrl_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ VDRL" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30),
+    vdrl_wife: z.string().min(1, { message: "กรุณากรอก ผลตรวจ VDRL" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
     anti_hiv_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ Anti-HIV" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    bl_gr_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก หมู่เลือด" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    rh_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก หมู่เลือด Rh" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    hct_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ HCT" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    of_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ OF" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    dcip_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ DCIP" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    mcv_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ MCV" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    mch_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ MCH" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30),
+    bl_gr_wife: z.string().min(1, { message: "กรุณากรอก หมู่เลือด" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+    rh_wife: z.string().min(1, { message: "กรุณากรอก หมู่เลือด Rh" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+    hct_wife: z.string().min(1, { message: "กรุณากรอก ผลตรวจ HCT" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+    of_wife: z.string().min(1, { message: "กรุณากรอก ผลตรวจ OF" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+    dcip_wife: z.string().min(1, { message: "กรุณากรอก ผลตรวจ DCIP" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+    mcv_wife: z.string().min(1, { message: "กรุณากรอก ผลตรวจ MCV" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+    mch_wife: z.string().min(1, { message: "กรุณากรอก ผลตรวจ MCH" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
     hb_typing_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ Hb Typing" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30),
     pcr_wife_id: z.coerce.string().min(1, { message: "กรุณาระบุ PCR" }),
     pcr_wife_text: z.string().optional(),
-    cordo_id: z.coerce.string().min(1, {
-      message: "กรุณาระบุ การตรวจคัดกรองความเสี่ยงโรคทางพันธุกรรม",
-    }),
+    cordo_id: z.coerce
+      .string()
+      .min(1, { message: "กรุณาระบุ การตรวจคัดกรองความเสี่ยงโรคทางพันธุกรรม" }),
     cordo_text: z.string().optional(),
+    cordo_other_text: z.string().optional(),
     abortion_id: z.coerce
       .string()
       .min(1, { message: "กรุณาระบุ ประวัติการแท้ง" }),
     td_num: z.coerce
       .number()
       .min(1, { message: "กรุณากรอก จำนวนครั้งวัคซีนบาดทะยัก" }),
-    td_last_date: z.string().min(1, {
-      message: "กรุณาระบุ วัน/เดือน/ปี ที่ได้รับวัคซีนบาดทะยักครั้งสุดท้าย",
-    }),
+    td_last_date: z
+      .string()
+      .min(1, {
+        message: "กรุณาระบุ วัน/เดือน/ปี ที่ได้รับวัคซีนบาดทะยักครั้งสุดท้าย",
+      }),
     tdap_id: z.coerce.string().min(1, { message: "กรุณาระบุ การให้วัคซีน" }),
+    tdap_round_1: z.string().nullable(),
+    tdap_round_2: z.string().nullable(),
+    tdap_round_3: z.string().nullable(),
     iip_id: z.coerce
       .string()
       .min(1, { message: "กรุณาระบุ การฉีดวัคซีนไข้หวัดใหญ่" }),
+    iip_date: z.string().nullable(),
+    lab_2: z.string().optional(),
+    vdrl_2: z.string().optional(),
+    hct: z.string().optional(),
+    h: z.string().optional(),
+    bti_value_1_id: z.string().nullable(),
+    bti_value_2_id: z.string().nullable(),
+    bti_value_3_id: z.string().nullable(),
+    bti_value_4_id: z.string().nullable(),
+    bti_value_5_id: z.string().nullable(),
+    bti_1_date: z.string().nullable(),
+    bti_2_date: z.string().nullable(),
+    cbe_value_1_id: z.string().nullable(),
+    cbe_value_2_id: z.string().nullable(),
+    cbe_value_3_id: z.string().nullable(),
+    cbe_value_4_id: z.string().nullable(),
+    cbe_result: z.string().optional(),
     per_os_id: z.coerce
       .string()
       .min(1, { message: "กรุณาระบุ การใช้ยาผ่านปาก" }),
     hbsag_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ HBsAg สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
     vdrl_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ VDRL สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
     anti_hiv_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ Anti-HIV สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
     bl_gr_husband: z
       .string()
       .min(1, { message: "กรุณากรอก หมู่เลือด สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
     rh_husband: z
       .string()
       .min(1, { message: "กรุณากรอก หมู่เลือด Rh สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
     hct_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ HCT สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
     of_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ OF สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
     dcip_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ DCIP สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
     mcv_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ MCV สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
     mch_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ MCH สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
     hb_typing_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ Hb Typing สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    pcr_hus_id: z.coerce.string().min(1, { message: "กรุณาระบุ" }),
+      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+    pcr_hus_id: z.coerce.string().min(1, { message: "กรุณาระบุ PCR" }),
     pcr_hus_text: z.string().optional(),
-    // เพิ่มเติมตามต้องการ
+    ref_1_id: z.string().nullable(),
+    ref_2_id: z.string().nullable(),
+    receive_in_id: z.string().nullable(),
+    hos_in_id: z.string().nullable(),
+    receive_out_id: z.string().nullable(),
+    hos_out_id: z.string().nullable(),
+    birads_id: z.string().nullable(),
   });
 
   const form = useForm({

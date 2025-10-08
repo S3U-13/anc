@@ -270,6 +270,7 @@ export default function page({
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
               placeholder="เลือกวันที่"
+              withinPortal={false} // ถ้าใช้ Radix/React-datepicke
             />
           )}
         </form.Field>
