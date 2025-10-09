@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import {
   Dropdown,
@@ -6,13 +7,25 @@ import {
   DropdownTrigger,
 } from "@heroui/dropdown";
 import { Button } from "@heroui/button";
+import { useRouter } from "next/navigation";
 
 export default function DropdownUser() {
+   const router = useRouter();
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // ลบ token
+    router.push("/login"); // กลับไปหน้า login
+  };
   return (
     <div>
       <Dropdown placement="bottom-start">
         <DropdownTrigger>
-          <Button isIconOnly aria-label="Like" size="sm" color="default" variant="light">
+          <Button
+            isIconOnly
+            aria-label="Like"
+            size="sm"
+            color="default"
+            variant="light"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -40,7 +53,7 @@ export default function DropdownUser() {
           <DropdownItem key="system">System</DropdownItem>
           <DropdownItem key="configurations">Configurations</DropdownItem>
           <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-          <DropdownItem key="logout" color="danger">
+          <DropdownItem onPress={handleLogout} key="logout" color="danger">
             Log Out
           </DropdownItem>
         </DropdownMenu>

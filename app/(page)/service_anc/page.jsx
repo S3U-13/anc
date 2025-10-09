@@ -24,6 +24,8 @@ import { Tooltip } from "@heroui/tooltip";
 
 import useHook from "./useHook";
 import ModalFormService from "./create/page";
+import ModalViewAncService from "./view/page";
+import ViewById from "./components/view_by_id";
 
 export default function App() {
   const {
@@ -31,6 +33,8 @@ export default function App() {
     openModalForm,
     setOpenFormService,
     openFormService,
+    setOpenViewAncService,
+    openViewAncService,
     capitalize,
     setVisibleColumns,
     visibleColumns,
@@ -48,7 +52,11 @@ export default function App() {
     onSortChange,
     sortDescriptor,
     fetchDataAnc,
-    formatAddress
+    formatAddress,
+    handleSelectRound,
+    roundData,
+    isLoading,
+    formatThaiDateTime
   } = useHook();
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
@@ -215,18 +223,17 @@ export default function App() {
               <TableCell className="px-4">{index + 1}</TableCell>
               {headerColumns.map((col) => (
                 <TableCell key={col.uid}>
-                  {col.uid === "hn_wife" && item.AncNo.hn_wife}
+                  {col.uid === "hn_wife" && item.wife?.hn}
                   {col.uid === "wife_name" &&
-                    `${item.wife?.prename}${item.wife?.firstname} ${item.wife?.lastname}`}
+                    `${item.wife?.prename ?? ""}${item.wife?.firstname ?? ""} ${item.wife?.lastname ?? ""}`}
                   {col.uid === "address" &&
                     formatAddress(item.wife?.pat_address)}
-                  {col.uid === "phone" &&
-                    item.wife?.pat_address?.phone}
-                  {col.uid === "hn_husband" && item.AncNo.hn_husband}
+                  {col.uid === "phone" && item.wife?.pat_address?.phone}
+
+                  {col.uid === "hn_husband" && item.husband?.hn}
                   {col.uid === "husband_name" &&
-                    `${item.husband?.prename}${item.husband?.firstname} ${item.husband?.lastname}`}
-                  {col.uid === "round" &&
-                    item.round}
+                    `${item.husband?.prename ?? ""}${item.husband?.firstname ?? ""} ${item.husband?.lastname ?? ""}`}
+                  {col.ui === "gravida" && item.gravida}
                   {col.uid !== "wife_name" &&
                     col.uid !== "husband_name" &&
                     item[col.uid]}
@@ -235,28 +242,9 @@ export default function App() {
               <TableCell>
                 <div className="flex justify-center gap-[10px] items-center">
                   <Tooltip color="default" content="ดูข้อมูล">
-                    <Button size="sm" isIconOnly variant="light">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="size-6 text-[#71717A]"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                        />
-                      </svg>
-                    </Button>
+                    <ViewById item={item} handleSelectRound={handleSelectRound}/>
                   </Tooltip>
+
                   <Tooltip color="default" content="แก้ไขข้อมูล">
                     <Button size="sm" isIconOnly variant="light">
                       <svg
@@ -298,6 +286,14 @@ export default function App() {
           setOpenFormService(false);
           fetchDataAnc();
         }}
+      />
+      <ModalViewAncService
+        openViewService={openViewAncService}
+        closeViewService={() => {
+          setOpenViewAncService(false);
+        }}
+        roundData={roundData}
+        formatThaiDateTime={formatThaiDateTime}
       />
     </div>
   );

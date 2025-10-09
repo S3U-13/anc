@@ -12,6 +12,7 @@ export default function useHook() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(1);
   const [openFormService, setOpenFormService] = useState(false);
+  const [openViewAncService, setOpenViewAncService] = useState(false);
 
   useEffect(() => {
     fetchDataAnc();
@@ -30,6 +31,10 @@ export default function useHook() {
 
   const openModalForm = () => {
     setOpenFormService((prev) => !prev);
+  };
+
+  const openModalView = () => {
+    setOpenViewAncService((prev) => !prev);
   };
 
   // ✅ filter data
@@ -72,7 +77,6 @@ export default function useHook() {
   };
 
   const columns = [
-    { uid: "id", name: "ID" },
     { uid: "anc_no", name: "ANC NO" },
     { uid: "hn_wife", name: "HN (ภรรยา)" },
     { uid: "wife_name", name: "ชื่อ (ภรรยา)" },
@@ -80,7 +84,7 @@ export default function useHook() {
     { uid: "phone", name: "โทรศัพท์" },
     { uid: "hn_husband", name: "HN (สามี)" },
     { uid: "husband_name", name: "ชื่อ (สามี)" },
-    { uid: "round", name: "ฝากครรภ์รอบที่" },
+    { uid: "gravida", name: "ท้องที่" },
   ];
 
   // ✅ sort
@@ -122,7 +126,7 @@ export default function useHook() {
 
   // ค่าเริ่มต้นเลือกทุกคอลัมน์
   const [visibleColumns, setVisibleColumns] = useState(
-    new Set(["id", "anc_no", "hn_wife", "wife_name", "address", "phone", "round"])
+    new Set(["anc_no", "hn_wife", "wife_name", "address", "phone", "gravida"])
   );
 
   const onClear = () => setFilterValue("");
@@ -146,11 +150,62 @@ export default function useHook() {
     return address; // รวมเป็น string เดียว
   };
 
+  const [selectedRoundId, setSelectedRoundId] = useState(null);
+  const [roundData, setRoundData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSelectRound = async (roundId) => {
+    console.log("id ที่เลือก", selectedRoundId);
+    console.log("ข้อมูลในรอบนั้น", roundData);
+    setSelectedRoundId(roundId);
+    setOpenViewAncService(true);
+    setIsLoading(true);
+    setRoundData(null);
+
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/show-service-by-id/${roundId}`
+      );
+      const data = await res.json();
+      setRoundData(data);
+    } catch (err) {
+      console.error("Error fetching round data:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const formatThaiDateTime = (isoString) => {
+    if (!isoString) return "";
+
+    const date = new Date(isoString);
+
+    // แปลงเป็นปี พ.ศ.
+    const buddhistYear = date.getFullYear() + 543;
+
+    // format วันที่ เวลา ภาษาไทย
+    return (
+      new Intl.DateTimeFormat("th-TH", {
+        timeZone: "Asia/Bangkok",
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }).format(date) +
+      " น.".replace(`${date.getFullYear() + 543}`, buddhistYear)
+    );
+  };
+
   return {
     dataAnc,
     openModalForm,
     openFormService,
     setOpenFormService,
+    openModalView,
+    openViewAncService,
+    setOpenViewAncService,
     setSelectedKeys,
     selectedKeys,
     selectedValue,
@@ -173,5 +228,9 @@ export default function useHook() {
     sortDescriptor,
     fetchDataAnc,
     formatAddress,
+    handleSelectRound,
+    roundData,
+    isLoading,
+    formatThaiDateTime,
   };
 }

@@ -112,8 +112,8 @@ export default function useHook({ closeFormService } = {}) {
     hb_typing_husband: "",
     pcr_hus_text: "",
     pcr_hus_id: "",
-    ref_1_id: "",
-    ref_2_id: "",
+    ref_value_1_id: "",
+    ref_value_2_id: "",
     receive_in_id: null,
     hos_in_id: null,
     receive_out_id: null,
@@ -377,7 +377,10 @@ export default function useHook({ closeFormService } = {}) {
         variant: "flat",
         color: "success",
       });
-      // form.reset();
+      form.reset();
+      setSelectedBti([]);
+      setSelectedCbe([]);
+      setSelectedRef([]);
       setField(initialField);
       setSelectedAnc(null);
       setActiveStep("from_1");
@@ -557,8 +560,8 @@ export default function useHook({ closeFormService } = {}) {
       .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
     pcr_hus_id: z.coerce.string().min(1, { message: "กรุณาระบุ PCR" }),
     pcr_hus_text: z.string().optional(),
-    ref_1_id: z.string().nullable(),
-    ref_2_id: z.string().nullable(),
+    ref_value_1_id: z.string().nullable(),
+    ref_value_2_id: z.string().nullable(),
     receive_in_id: z.string().nullable(),
     hos_in_id: z.string().nullable(),
     receive_out_id: z.string().nullable(),

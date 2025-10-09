@@ -22,10 +22,10 @@ export default function page({
 }) {
   const { data } = useHook();
   return (
-    <div className="grid grid-cols-4 overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
-      <h1>ส่วนที่ 5</h1>
+    <div className="grid grid-cols-4 overflow-y-scrol px-[20px] py-[10px]">
+      <h1 className="col-span-4">ส่วนที่ 5</h1>
       <CheckboxGroup
-        className="col-span-4 px-[20px] mt-[10px]"
+        className="col-span-4 px-[20px] mt-[10px] min-h-[calc(80vh-400px)]"
         label="การ Refer"
         value={selectedRef}
         onValueChange={handleChangeRefIn} // 👈 ใช้ฟังก์ชันเฉพาะ
@@ -138,7 +138,6 @@ export default function page({
             );
           })}
       </CheckboxGroup>
-      <DatePicker label="" size="sm" portal />
     </div>
   );
 }
