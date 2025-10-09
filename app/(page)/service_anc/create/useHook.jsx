@@ -3,7 +3,6 @@ import { addToast } from "@heroui/toast";
 import React, { useEffect, useState } from "react";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 import { useForm } from "@tanstack/react-form";
-
 import * as z from "zod";
 
 export default function useHook({ closeFormService } = {}) {
@@ -343,8 +342,6 @@ export default function useHook({ closeFormService } = {}) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
-
     // ✅ อัปเดต state ปกติ (UI)
     setField((prev) => ({
       ...prev,
