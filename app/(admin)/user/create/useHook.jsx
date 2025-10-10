@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
 import { addToast } from "@heroui/toast";
+import { useAuth } from "@/context/AuthContext";
 
-export default function useHook({closeModal}) {
+export default function useHook({ closeModal }) {
+  const auth = useAuth();
   const [role, setRole] = useState([]);
   const [position, setPosition] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -16,7 +18,11 @@ export default function useHook({closeModal}) {
 
   const fetchPosition = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/position");
+      const res = await fetch("http://localhost:3000/api/admin/position", {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      });
       const json = await res.json();
       setPosition(json);
     } catch (error) {
@@ -26,7 +32,11 @@ export default function useHook({closeModal}) {
 
   const fetchRole = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/role");
+      const res = await fetch("http://localhost:3000/api/admin/role", {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      });
       const json = await res.json();
       setRole(json);
     } catch (error) {
@@ -92,9 +102,12 @@ export default function useHook({closeModal}) {
         }
 
         // ✅ ส่งข้อมูลไป API
-        const res = await fetch("http://localhost:3000/api/addUser", {
+        const res = await fetch("http://localhost:3000/api/admin/addUser", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.token}`,
+          },
           body: JSON.stringify(result.data),
         });
 

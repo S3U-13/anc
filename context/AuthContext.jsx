@@ -1,5 +1,7 @@
 "use client";
+import { addToast } from "@heroui/toast";
 import { createContext, useContext, useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 const AuthContext = createContext();
 
@@ -9,7 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true); // ✅ เพิ่ม loading
 
   useEffect(() => {
-    const savedToken = localStorage.getItem("token");
+    const savedToken = Cookies.get("token");
     const savedUser = localStorage.getItem("user");
     if (savedToken && savedUser) {
       setToken(savedToken);
@@ -21,14 +23,14 @@ export const AuthProvider = ({ children }) => {
   const login = (data) => {
     setUser(data.user);
     setToken(data.token);
-    localStorage.setItem("token", data.token);
     localStorage.setItem("user", JSON.stringify(data.user));
+    Cookies.set("token", data.token);
   };
 
   const logout = () => {
     setUser(null);
     setToken(null);
-    localStorage.removeItem("token");
+    Cookies.remove("token");
     localStorage.removeItem("user");
   };
 

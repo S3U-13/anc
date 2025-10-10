@@ -4,8 +4,10 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 
 import * as z from "zod";
+import { useAuth } from "@/context/AuthContext";
 
 export default function useHook({ closeModal }) {
+  const auth = useAuth();
   const [field, setField] = useState({
     hn_wife: "",
     hn_husband: "",
@@ -17,7 +19,11 @@ export default function useHook({ closeModal }) {
 
   const patWifeData = async (value) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/pat/${value}`);
+      const res = await fetch(`http://localhost:3000/api/user/pat/${value}`, {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      });
       const json = await res.json();
       if (!res.ok) throw new Error("ไม่พบข้อมูล");
       setPat(json);

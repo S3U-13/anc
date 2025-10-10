@@ -4,14 +4,20 @@ import React, { useEffect, useState } from "react";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
+import { useAuth } from "@/context/AuthContext";
 
 export default function useHook({ closeFormService } = {}) {
+  const auth = useAuth();
   const [data, setData] = useState([]);
   const [coverageSite, setCoverageSite] = useState([]);
-
+  console.log(data);
   const fetchData = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/mapAll");
+      const res = await fetch("http://localhost:3000/api/user/mapAll", {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      });
       const json = await res.json();
       setData(json);
     } catch (error) {
@@ -21,7 +27,11 @@ export default function useHook({ closeFormService } = {}) {
 
   const fetchCoverage = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/coveragesite");
+      const res = await fetch("http://localhost:3000/api/user/coveragesite", {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      });
       const json = await res.json();
       setCoverageSite(json);
     } catch (error) {
@@ -357,10 +367,11 @@ export default function useHook({ closeFormService } = {}) {
     if (isSubmitting) return;
     try {
       setIsSubmitting(true); // เริ่มส่งข้อมูล
-      const res = await fetch(`http://localhost:3000/api/ancservice`, {
+      const res = await fetch(`http://localhost:3000/api/user/ancservice`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${auth.token}`,
         },
         body: JSON.stringify(value), // ✅ ใช้ validated data
       });
@@ -407,10 +418,22 @@ export default function useHook({ closeFormService } = {}) {
       .string()
       .min(1, { message: "กรุณาระบุ PAT VISIT ID" }),
     patreg_id: z.coerce.string().min(1, { message: "กรุณาระบุ PAT REG ID" }),
-    para: z.coerce.string().min(1, { message: "กรุณากรอก Para" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
-    g: z.coerce.string().min(1, { message: "กรุณากรอก G" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
-    p: z.coerce.string().min(1, { message: "กรุณากรอก P" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
-    a: z.coerce.string().min(1, { message: "กรุณากรอก A" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+    para: z.coerce
+      .string()
+      .min(1, { message: "กรุณากรอก Para" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    g: z.coerce
+      .string()
+      .min(1, { message: "กรุณากรอก G" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    p: z.coerce
+      .string()
+      .min(1, { message: "กรุณากรอก P" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    a: z.coerce
+      .string()
+      .min(1, { message: "กรุณากรอก A" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     last: z.coerce
       .string()
       .min(1, { message: "กรุณากรอก วัน/เดือน/ปี ที่คลอดบุตรคนล่าสุด" }),
@@ -450,18 +473,42 @@ export default function useHook({ closeFormService } = {}) {
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ HBsAg" })
       .max(30),
-    vdrl_wife: z.string().min(1, { message: "กรุณากรอก ผลตรวจ VDRL" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+    vdrl_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ VDRL" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     anti_hiv_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ Anti-HIV" })
       .max(30),
-    bl_gr_wife: z.string().min(1, { message: "กรุณากรอก หมู่เลือด" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
-    rh_wife: z.string().min(1, { message: "กรุณากรอก หมู่เลือด Rh" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
-    hct_wife: z.string().min(1, { message: "กรุณากรอก ผลตรวจ HCT" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
-    of_wife: z.string().min(1, { message: "กรุณากรอก ผลตรวจ OF" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
-    dcip_wife: z.string().min(1, { message: "กรุณากรอก ผลตรวจ DCIP" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
-    mcv_wife: z.string().min(1, { message: "กรุณากรอก ผลตรวจ MCV" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
-    mch_wife: z.string().min(1, { message: "กรุณากรอก ผลตรวจ MCH" }).max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+    bl_gr_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก หมู่เลือด" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    rh_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก หมู่เลือด Rh" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    hct_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ HCT" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    of_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ OF" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    dcip_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ DCIP" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    mcv_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ MCV" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    mch_wife: z
+      .string()
+      .min(1, { message: "กรุณากรอก ผลตรวจ MCH" })
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     hb_typing_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ Hb Typing" })
@@ -479,11 +526,9 @@ export default function useHook({ closeFormService } = {}) {
     td_num: z.coerce
       .number()
       .min(1, { message: "กรุณากรอก จำนวนครั้งวัคซีนบาดทะยัก" }),
-    td_last_date: z
-      .string()
-      .min(1, {
-        message: "กรุณาระบุ วัน/เดือน/ปี ที่ได้รับวัคซีนบาดทะยักครั้งสุดท้าย",
-      }),
+    td_last_date: z.string().min(1, {
+      message: "กรุณาระบุ วัน/เดือน/ปี ที่ได้รับวัคซีนบาดทะยักครั้งสุดท้าย",
+    }),
     tdap_id: z.coerce.string().min(1, { message: "กรุณาระบุ การให้วัคซีน" }),
     tdap_round_1: z.string().nullable(),
     tdap_round_2: z.string().nullable(),
@@ -514,47 +559,47 @@ export default function useHook({ closeFormService } = {}) {
     hbsag_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ HBsAg สามี" })
-      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     vdrl_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ VDRL สามี" })
-      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     anti_hiv_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ Anti-HIV สามี" })
-      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     bl_gr_husband: z
       .string()
       .min(1, { message: "กรุณากรอก หมู่เลือด สามี" })
-      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     rh_husband: z
       .string()
       .min(1, { message: "กรุณากรอก หมู่เลือด Rh สามี" })
-      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     hct_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ HCT สามี" })
-      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     of_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ OF สามี" })
-      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     dcip_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ DCIP สามี" })
-      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     mcv_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ MCV สามี" })
-      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     mch_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ MCH สามี" })
-      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     hb_typing_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ Hb Typing สามี" })
-      .max(30, {message: "กรุณากรอกไม่เกิน 30 ตัวอักษร"}),
+      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     pcr_hus_id: z.coerce.string().min(1, { message: "กรุณาระบุ PCR" }),
     pcr_hus_text: z.string().optional(),
     ref_value_1_id: z.string().nullable(),

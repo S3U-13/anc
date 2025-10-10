@@ -1,9 +1,11 @@
-'use client'
+"use client";
+import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState, useMemo } from "react";
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export default function useHook() {
+  const auth = useAuth();
   const [dataAnc, setDataAnc] = useState([]);
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
@@ -20,7 +22,11 @@ export default function useHook() {
 
   const fetchDataAnc = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/anc");
+      const res = await fetch("http://localhost:3000/api/anc", {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      });
       const json = await res.json().catch(() => []);
       setDataAnc(json);
     } catch (error) {

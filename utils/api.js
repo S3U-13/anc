@@ -1,6 +1,6 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
-export async function loginAPI(user_name, password) {
+const loginAPI = async (user_name, password) => {
   const res = await fetch(`${API_URL}/api/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -9,5 +9,6 @@ export async function loginAPI(user_name, password) {
 
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || "Login failed");
-  return data;
+  return { data, res };
 }
+export {loginAPI,}

@@ -8,12 +8,13 @@ import {
 } from "@heroui/dropdown";
 import { Button } from "@heroui/button";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function DropdownUser() {
    const router = useRouter();
   const handleLogout = () => {
-    localStorage.removeItem("token"); // ลบ token
-    router.push("/login"); // กลับไปหน้า login
+    Cookies.remove("token"); // ลบ token
+    router.push("/"); // กลับไปหน้า login
   };
   return (
     <div>
