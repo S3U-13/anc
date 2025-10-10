@@ -211,17 +211,15 @@ export default function page() {
         </TableHeader>
         <TableBody emptyContent={"ไม่มีข้อมูล"}>
           {sortedItems?.map((item, index) => (
-            <TableRow key={item.anc_no}>
+            <TableRow key={item.id}>
               <TableCell className="px-4">{index + 1}</TableCell>
               {headerColumns.map((col) => (
                 <TableCell key={col.uid}>
-                  {col.uid === "wife_name" &&
-                    `${item.wife?.prename}${item.wife?.firstname} ${item.wife?.lastname}`}
-                  {col.uid === "husband_name" &&
-                    `${item.husband?.prename}${item.husband?.firstname} ${item.husband?.lastname}`}
-                  {col.uid !== "wife_name" &&
-                    col.uid !== "husband_name" &&
-                    item[col.uid]}
+                  {col.uid === "id" && item?.id}
+                  {col.uid === "user_name" && item?.user_name}
+                  {col.uid === "name" && item?.name}
+                  {col.uid === "position" && item?.Position.position_name}
+                  {col.uid === "role" && item?.Role.role_name}
                 </TableCell>
               ))}
               <TableCell>

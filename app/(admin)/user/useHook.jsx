@@ -20,7 +20,7 @@ export default function useHook() {
 
   const fetchDataAnc = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/anc");
+      const res = await fetch("http://localhost:3000/api/user");
       const json = await res.json().catch(() => []);
       setDataAnc(json);
     } catch (error) {
@@ -45,13 +45,10 @@ export default function useHook() {
     if (filterValue) {
       filtered = filtered.filter(
         (item) =>
-          String(item.hn_wife)
+          String(item.name)
             .toLowerCase()
             .includes(filterValue.toLowerCase()) ||
-          String(item.wife?.firstname || "")
-            .toLowerCase()
-            .includes(filterValue.toLowerCase()) ||
-          String(item.husband?.firstname || "")
+          String(item.user_name || "")
             .toLowerCase()
             .includes(filterValue.toLowerCase())
       );
@@ -94,12 +91,12 @@ export default function useHook() {
   const sortedItems = useMemo(() => {
     if (!sortDescriptor.column) {
       // ยังไม่ได้กด column -> เรียงตาม anc_no
-      return [...items].sort((a, b) => a.anc_no - b.anc_no);
+      return [...items].sort((a, b) => a.id - b.id);
     }
 
     return [...items].sort((a, b) => {
-      const first = `${a.wife?.prename || ""}${a.wife?.firstname || ""} ${a.wife?.lastname || ""}`;
-      const second = `${b.wife?.prename || ""}${b.wife?.firstname || ""} ${b.wife?.lastname || ""}`;
+      const first = `${a.name || ""}`;
+      const second = `${b.name || ""}`;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });

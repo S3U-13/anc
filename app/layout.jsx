@@ -7,7 +7,7 @@ import { Providers } from "./providers";
 
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
-
+import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata = {
   title: {
@@ -27,26 +27,24 @@ export const viewport = {
   ],
 };
 
-export default function RootLayout({
-  children,
-}) {
+export default function RootLayout({ children }) {
   return (
     <html suppressHydrationWarning lang="en">
       <head />
       <body
         className={clsx(
           "min-h-screen text-foreground bg-background font-sans antialiased",
-          fontSans.variable,
+          fontSans.variable
         )}
       >
+        <AuthProvider>
+          <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
+            <div className="relative  flex flex-col h-full">
+              <main className="mx-auto w-full ">{children}</main>
+            </div>
+          </Providers>
+        </AuthProvider>
         {/* bg-[#f0ebf8] */}
-        <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
-          <div className="relative  flex flex-col h-full">
-            <main className="mx-auto w-full ">
-              {children}
-            </main>
-          </div>
-        </Providers>
       </body>
     </html>
   );

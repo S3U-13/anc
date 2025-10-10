@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { Button, ButtonGroup } from "@heroui/button";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownSection, DropdownItem } from "@heroui/dropdown";
 import { ChevronDown } from "@deemlol/next-icons";
@@ -13,7 +12,7 @@ export default function Navbar() {
     const pathname = usePathname();
     const handleLogout = () => {
         localStorage.removeItem("token"); // ลบ token
-        router.push("/login"); // กลับไปหน้า login
+        router.push("/"); // กลับไปหน้า login
     };
 
     const tabs = [

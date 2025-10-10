@@ -9,13 +9,6 @@ import BarChart from "@/components/chart/bar_chart";
 import RadialBar from "@/components/chart/radial_bar";
 
 export default function Home() {
-  const router = useRouter();
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      router.push("/login"); // ถ้าไม่มี token → กลับไป login
-    }
-  }, [router]);
 
   return (
     <div className="">

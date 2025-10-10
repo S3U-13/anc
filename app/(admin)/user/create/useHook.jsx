@@ -4,7 +4,7 @@ import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
 import { addToast } from "@heroui/toast";
 
-export default function useHook() {
+export default function useHook({closeModal}) {
   const [role, setRole] = useState([]);
   const [position, setPosition] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -40,7 +40,7 @@ export default function useHook() {
       name: z.string().min(1, { message: "กรุณากรอกชื่อ-นามสกุล" }),
       user_name: z
         .string()
-        .min(1, { message: "กรุณากรอกชื่อผู้ใช้งาน" })
+        .min(1, { message: "กรุณากรอกชื่อผู้ใช้" })
         .regex(/^[A-Za-z0-9]+$/, {
           message: "ชื่อผู้ใช้ต้องเป็นตัวอักษรภาษาอังกฤษหรือตัวเลขเท่านั้น",
         }),
@@ -48,22 +48,21 @@ export default function useHook() {
         .string()
         .min(8, { message: "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร" })
         .regex(/^[A-Za-z0-9]+$/, {
-          message: "รหัสผ่านต้องประกอบด้วยตัวอักษรภาษาอังกฤษหรือตัวเลขเท่านั้น",
+          message: "รหัสผ่านห้ามมีอักษรพิเศษ",
         }),
-      confirm_password: z.string().min(1, {
-        message: "กรุณากรอกรหัสผ่านอีกครั้งเพื่อตรวจสอบ",
-      }),
-      position: z.string().min(1, { message: "กรุณาระบุตำแหน่ง" }),
-      role: z.string().min(1, { message: "กรุณาระบุบทบาท" }),
+      confirm_password: z.string().min(1, { message: "กรุณายืนยันรหัสผ่าน" }),
+      position_id: z.preprocess(
+        (val) => (val === "" || val === undefined ? 0 : Number(val)),
+        z.number().min(1, { message: "กรุณาระบุตำแหน่ง" })
+      ),
+      role_id: z.preprocess(
+        (val) => (val === "" || val === undefined ? 0 : Number(val)),
+        z.number().min(1, { message: "กรุณาระบุบทบาท" })
+      ),
     })
-    .superRefine((data, ctx) => {
-      if (data.password !== data.confirm_password) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ["confirm_password"],
-          message: "รหัสผ่านและการยืนยันรหัสผ่านไม่ตรงกัน",
-        });
-      }
+    .refine((data) => data.password === data.confirm_password, {
+      message: "รหัสผ่านไม่ตรงกัน",
+      path: ["confirm_password"],
     });
 
   const defaultValues = {
@@ -71,42 +70,51 @@ export default function useHook() {
     user_name: "",
     password: "",
     confirm_password: "",
-    position: "",
-    role: "",
+    position_id: "",
+    role_id: "",
   };
-
   // ----------------- Form -----------------
   const form = useForm({
     defaultValues,
     onSubmit: async ({ value }) => {
-      if (isSubmitting) return;
+      setIsSubmitting(true);
       try {
-        // Validate ด้วย zod
+        // ✅ Validate ด้วย Zod ตอน submit เท่านั้น
         const result = validationSchema.safeParse(value);
         if (!result.success) {
-          throw result.error;
+          const firstError = result.error.issues[0];
+          addToast({
+            title: "ข้อมูลไม่ถูกต้อง",
+            description: firstError?.message,
+            color: "warning",
+          });
+          return;
         }
 
+        // ✅ ส่งข้อมูลไป API
         const res = await fetch("http://localhost:3000/api/addUser", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(value),
+          body: JSON.stringify(result.data),
         });
 
-        if (!res.ok) throw new Error("เพิ่มผู้ใช้ไม่สำเร็จ");
+        // ✅ ตรวจจับ error ที่ส่งจาก backend เช่น user_name ซ้ำ
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.error || "เพิ่มผู้ใช้ไม่สำเร็จ");
+        }
 
         addToast({
           title: "สำเร็จ",
           description: "เพิ่มผู้ใช้สำเร็จ",
-          variant: "flat",
           color: "success",
         });
         form.reset();
-      } catch (error) {
+        closeModal();
+      } catch (err) {
         addToast({
           title: "ไม่สำเร็จ",
-          description: error?.errors?.[0]?.message || "เพิ่มผู้ใช้ไม่สำเร็จ",
-          variant: "flat",
+          description: err.message || "เกิดข้อผิดพลาด",
           color: "danger",
         });
       } finally {
@@ -120,5 +128,5 @@ export default function useHook() {
     form.setFieldValue(name, value);
   };
 
-  return { role, position, form, validationSchema, handleChange };
+  return { role, position, form, validationSchema, handleChange, isSubmitting };
 }

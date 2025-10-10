@@ -13,7 +13,8 @@ import { Select, SelectItem } from "@heroui/select";
 import useHook from "./useHook";
 
 export default function Page({ openModal, closeModal }) {
-  const { role, position, form, validationSchema, handleChange } = useHook();
+  const { role, position, form, validationSchema, handleChange, isSubmitting } =
+    useHook({ closeModal });
 
   // ฟังก์ชัน validate field แบบ safe
   const validateField = (fieldName, value) => {
@@ -28,130 +29,84 @@ export default function Page({ openModal, closeModal }) {
   };
 
   return (
-    <Modal isOpen={openModal} onOpenChange={closeModal}>
+    <Modal
+      isOpen={openModal}
+      onOpenChange={closeModal}
+      classNames={{
+        header: "border-b border-divider dark:border-[#3d3d3d]",
+        footer: "border-t border-divider dark:border-[#3d3d3d]",
+      }}
+    >
       <ModalContent>
         {(closeModal) => (
-          <>
-            <ModalHeader className="text-center py-6">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              form.handleSubmit();
+            }}
+          >
+            <ModalHeader className="flex flex-col gap-1 text-center py-[30px]">
               เพิ่มผู้ใช้งาน
             </ModalHeader>
             <ModalBody>
-              <div className="grid grid-cols-1 gap-4 px-10 py-4">
-                {/* Name */}
-                <form.Field
-                  name="name"
-                  validators={{ onChange: (v) => validateField("name", v) }}
-                >
+              <div className="grid grid-cols-1 gap-4 px-[20px] py-[10px]">
+                <form.Field name="name">
                   {(field) => (
                     <Input
                       label="ชื่อ"
                       size="sm"
                       value={field.state.value}
-                      onChange={(e) => handleChange("name", e.target.value)}
-                      onBlur={field.handleBlur}
-                      isInvalid={field.state.meta.errors.length > 0}
-                      errorMessage={field.state.meta.errors[0]?.message}
+                      onChange={(e) => field.handleChange(e.target.value)}
                     />
                   )}
                 </form.Field>
 
-                {/* User Name */}
-                <form.Field
-                  name="user_name"
-                  validators={{
-                    onChange: (v) => validateField("user_name", v),
-                  }}
-                >
+                <form.Field name="user_name">
                   {(field) => (
                     <Input
                       label="ชื่อผู้ใช้"
                       size="sm"
                       value={field.state.value}
-                      onChange={(e) =>
-                        handleChange("user_name", e.target.value)
-                      }
-                      onBlur={field.handleBlur}
-                      isInvalid={field.state.meta.errors.length > 0}
-                      errorMessage={field.state.meta.errors[0]?.message}
+                      onChange={(e) => field.handleChange(e.target.value)}
                     />
                   )}
                 </form.Field>
 
-                {/* Password */}
-                <form.Field
-                  name="password"
-                  validators={{ onChange: (v) => validateField("password", v) }}
-                >
+                <form.Field name="password">
                   {(field) => (
                     <Input
                       label="รหัสผ่าน"
-                      size="sm"
                       type="password"
+                      size="sm"
                       value={field.state.value}
-                      onChange={(e) => handleChange("password", e.target.value)}
-                      onBlur={field.handleBlur}
-                      isInvalid={field.state.meta.errors.length > 0}
-                      errorMessage={field.state.meta.errors[0]?.message}
+                      onChange={(e) => field.handleChange(e.target.value)}
                     />
                   )}
                 </form.Field>
 
-                {/* Confirm Password */}
-                <form.Field
-                  name="confirm_password"
-                  validators={{
-                    onChange: (v) =>
-                      validationSchema
-                        .pick({ password: true, confirm_password: true })
-                        .superRefine((data, ctx) => {
-                          if (v !== form.getFieldValue("password")) {
-                            ctx.addIssue({
-                              code: "custom",
-                              path: ["confirm_password"],
-                              message: "รหัสผ่านไม่ตรงกัน",
-                            });
-                          }
-                        })
-                        .safeParse({
-                          password: form.getFieldValue("password"),
-                          confirm_password: v,
-                        }).success
-                        ? true
-                        : "รหัสผ่านไม่ตรงกัน",
-                  }}
-                >
+                <form.Field name="confirm_password">
                   {(field) => (
                     <Input
                       label="ยืนยันรหัสผ่าน"
-                      size="sm"
                       type="password"
+                      size="sm"
                       value={field.state.value}
-                      onChange={(e) =>
-                        handleChange("confirm_password", e.target.value)
-                      }
-                      onBlur={field.handleBlur}
-                      isInvalid={field.state.meta.errors.length > 0}
-                      errorMessage={field.state.meta.errors[0]?.message}
+                      onChange={(e) => field.handleChange(e.target.value)}
                     />
                   )}
                 </form.Field>
 
-                {/* Position */}
-                <form.Field
-                  name="position"
-                  validators={{ onChange: (v) => validateField("position", v) }}
-                >
+                <form.Field name="position_id">
                   {(field) => (
                     <Select
                       label="ตำแหน่ง"
-                      placeholder="ระบุ ตำแหน่ง"
+                      placeholder="เลือกตำแหน่ง"
                       size="sm"
-                      onSelectionChange={(key) => handleChange("position", key)}
-                      onBlur={field.handleBlur}
-                      isInvalid={field.state.meta.errors.length > 0}
-                      errorMessage={field.state.meta.errors[0]?.message}
+                      onSelectionChange={(key) =>
+                        field.handleChange(Number(Array.from(key)[0]))
+                      }
                     >
-                      {position?.map((pos) => (
+                      {position.map((pos) => (
                         <SelectItem key={pos.id}>
                           {pos.position_name}
                         </SelectItem>
@@ -160,22 +115,17 @@ export default function Page({ openModal, closeModal }) {
                   )}
                 </form.Field>
 
-                {/* Role */}
-                <form.Field
-                  name="role"
-                  validators={{ onChange: (v) => validateField("role", v) }}
-                >
+                <form.Field name="role_id">
                   {(field) => (
                     <Select
                       label="บทบาท"
-                      placeholder="ระบุ บทบาท"
+                      placeholder="เลือกบทบาท"
                       size="sm"
-                      onSelectionChange={(key) => handleChange("role", key)}
-                      onBlur={field.handleBlur}
-                      isInvalid={field.state.meta.errors.length > 0}
-                      errorMessage={field.state.meta.errors[0]?.message}
+                      onSelectionChange={(key) =>
+                        field.handleChange(Number(Array.from(key)[0]))
+                      }
                     >
-                      {role?.map((r) => (
+                      {role.map((r) => (
                         <SelectItem key={r.id}>{r.role_name}</SelectItem>
                       ))}
                     </Select>
@@ -187,11 +137,11 @@ export default function Page({ openModal, closeModal }) {
               <Button color="danger" variant="light" onPress={closeModal}>
                 Close
               </Button>
-              <Button color="primary" onPress={() => form.handleSubmit()}>
-                Save
+              <Button type="submit" color="primary" isDisabled={isSubmitting}>
+                เพิ่มผู้ใช้
               </Button>
             </ModalFooter>
-          </>
+          </form>
         )}
       </ModalContent>
     </Modal>
