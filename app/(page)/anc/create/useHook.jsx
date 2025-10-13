@@ -69,7 +69,11 @@ export default function useHook({ closeModal }) {
 
   const patHusbandData = async (value) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/pat/${value}`);
+      const res = await fetch(`http://localhost:3000/api/user/pat/${value}`, {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      });
       const json = await res.json();
       if (!res.ok) throw new Error("ไม่พบข้อมูล");
       setPatHusband(json);
@@ -231,10 +235,11 @@ export default function useHook({ closeModal }) {
     if (isSubmitting) return;
     try {
       setIsSubmitting(true); // เริ่มส่งข้อมูล
-      const res = await fetch(`http://localhost:3000/api/anc`, {
+      const res = await fetch(`http://localhost:3000/api/user/anc`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+           Authorization: `Bearer ${auth.token}`,
         },
         body: JSON.stringify(value), // ✅ ใช้ validated data
       });

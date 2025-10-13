@@ -39,20 +39,25 @@ export default function useHook() {
 
   // ✅ filter data
   const filteredItems = useMemo(() => {
+    // ✅ ตรวจสอบก่อนเสมอว่าข้อมูลเป็น array
+    if (!Array.isArray(dataAnc)) return [];
+
     let filtered = [...dataAnc];
 
     if (filterValue) {
+      const keyword = filterValue.toLowerCase();
+
       filtered = filtered.filter(
         (item) =>
-          String(item.hn_wife)
+          String(item.hn_wife || "")
             .toLowerCase()
-            .includes(filterValue.toLowerCase()) ||
+            .includes(keyword) ||
           String(item.wife?.firstname || "")
             .toLowerCase()
-            .includes(filterValue.toLowerCase()) ||
+            .includes(keyword) ||
           String(item.husband?.firstname || "")
             .toLowerCase()
-            .includes(filterValue.toLowerCase())
+            .includes(keyword)
       );
     }
 
