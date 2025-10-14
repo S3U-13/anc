@@ -1,12 +1,13 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
+import { useDisclosure } from "@heroui/modal";
 import { useEffect, useState, useMemo } from "react";
 import React from "react";
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export default function useHook() {
   const auth = useAuth();
-  const [dataAnc, setDataAnc] = useState([]);
+  const [dataUser, setDataUser] = useState([]);
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
   const [statusFilter, setStatusFilter] = useState("all");
@@ -17,10 +18,10 @@ export default function useHook() {
   const [openModalEdit, setOpenModalEdit] = useState(false);
 
   useEffect(() => {
-    fetchDataAnc();
+    fetchDataUser();
   }, []);
 
-  const fetchDataAnc = async () => {
+  const fetchDataUser = async () => {
     try {
       const res = await fetch("http://localhost:3000/api/admin/user", {
         headers: {
@@ -28,12 +29,12 @@ export default function useHook() {
         },
       });
       const json = await res.json().catch(() => []);
-      setDataAnc(json);
+      setDataUser(json);
     } catch (error) {
       console.log(error);
     }
   };
-
+  console.log(openModal);
   const openModalForm = () => {
     setOpenModal((prev) => !prev);
   };
@@ -46,7 +47,7 @@ export default function useHook() {
 
   // ✅ filter data
   const filteredItems = useMemo(() => {
-    let filtered = [...dataAnc];
+    let filtered = [...dataUser];
 
     if (filterValue) {
       filtered = filtered.filter(
@@ -63,7 +64,7 @@ export default function useHook() {
     }
 
     return filtered;
-  }, [dataAnc, filterValue, statusFilter]);
+  }, [dataUser, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage) || 1;
 
@@ -131,7 +132,7 @@ export default function useHook() {
   const onClear = () => setFilterValue("");
 
   return {
-    dataAnc,
+    dataUser,
     openModal,
     openModalForm,
     openModalView,
@@ -158,7 +159,7 @@ export default function useHook() {
     rowsPerPage,
     onSortChange,
     sortDescriptor,
-    fetchDataAnc,
+    fetchDataUser,
     openModalEdit,
     setOpenModalEdit,
     openEditModal,

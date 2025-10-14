@@ -1,12 +1,13 @@
 "use client";
 import { addToast } from "@heroui/toast";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
 import { useAuth } from "@/context/AuthContext";
 
 export default function useHook({ closeFormService } = {}) {
+  const modalRef = useRef(null);
   const auth = useAuth();
   const [data, setData] = useState([]);
   const [coverageSite, setCoverageSite] = useState([]);
@@ -386,14 +387,24 @@ export default function useHook({ closeFormService } = {}) {
         color: "success",
       });
       form.reset();
-      setSelectedBti([]);
-      setSelectedCbe([]);
-      setSelectedRef([]);
       setField(initialField);
       setSelectedAnc(null);
       setActiveStep("from_1");
       setEditVitalsign(defaultVitals);
       setBmi("");
+      setDates({
+        bti_1_date: null,
+        bti_2_date: null,
+        td_last_date: null,
+        tdap_round_1: null,
+        tdap_round_2: null,
+        tdap_round_3: null,
+        iip_date: null,
+        lab_2: null,
+      });
+      setSelectedBti([]);
+      setSelectedCbe([]);
+      setSelectedRef([]);
       closeFormService();
     } catch (error) {
       addToast({
@@ -662,6 +673,19 @@ export default function useHook({ closeFormService } = {}) {
     setActiveStep("from_1");
     setEditVitalsign(defaultVitals);
     setBmi("");
+    setDates({
+      bti_1_date: null,
+      bti_2_date: null,
+      td_last_date: null,
+      tdap_round_1: null,
+      tdap_round_2: null,
+      tdap_round_3: null,
+      iip_date: null,
+      lab_2: null,
+    });
+    setSelectedBti([]);
+    setSelectedCbe([]);
+    setSelectedRef([]);
   };
 
   const formatThaiDate = (date) => {
@@ -708,5 +732,6 @@ export default function useHook({ closeFormService } = {}) {
     selectedCbe,
     Dates,
     selectedRef,
+    modalRef,
   };
 }

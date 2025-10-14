@@ -282,6 +282,7 @@ export default function App() {
       </div>
       <ModalFormService
         openFormService={openFormService}
+        setOpenFormService={setOpenFormService}
         closeFormService={() => {
           setOpenFormService(false);
           fetchDataAnc();

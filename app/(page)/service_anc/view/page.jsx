@@ -9,7 +9,12 @@ import {
 } from "@heroui/modal";
 import React from "react";
 
-export default function page({ openViewService, closeViewService, roundData, formatThaiDateTime }) {
+export default function page({
+  openViewService,
+  closeViewService,
+  roundData,
+  formatThaiDateTime,
+}) {
   return (
     <div>
       <Modal
@@ -17,7 +22,7 @@ export default function page({ openViewService, closeViewService, roundData, for
         onOpenChange={closeViewService}
         size="5xl"
         classNames={{
-            body: "border-t border-divider border-b py-[25px]" ,
+          body: "border-t border-divider border-b py-[25px]",
         }}
       >
         <ModalContent>
@@ -27,16 +32,28 @@ export default function page({ openViewService, closeViewService, roundData, for
                 หน้าดูข้อมูล
               </ModalHeader>
               <ModalBody>
-                <div className="grid grid-cols-4 gap-x-4 mx-auto px-[20px]">
-                  <span className="col-span-2">หมายเลข ANC : {roundData?.anc_no}</span>
+                <div className="grid grid-cols-4 gap-x-4 mx-auto px-[20px] border">
+                  <span className="col-span-2">
+                    หมายเลข ANC : {roundData?.anc_no}
+                  </span>
                   <span className="col-span-2">
                     หมายเลข PAT VISIT : {roundData?.patvisit_id}
                   </span>
-                  <span className="col-span-4">
+                  <span className="col-span-2">
                     หมายเลข PAT REG : {roundData?.patreg_id}
                   </span>
-                  <span className="col-span-2">รอบที่ : {roundData?.round}</span>
-                  <span className="col-span-2">วันที่ : {formatThaiDateTime(roundData?.service_date)}</span>
+                  <span className="col-span-2">HN : {roundData?.wife.hn}</span>
+                  <span className="col-span-2">
+                    ชื่อ : {roundData?.wife.prename}
+                    {roundData?.wife.firstname} {roundData?.wife.lastname}
+                  </span>
+                  <span className="col-span-2">หมายเลขบัตรประชาชน : {roundData?.wife.citizencardno}</span>
+                  <span className="col-span-2">
+                    รอบที่ : {roundData?.round}
+                  </span>
+                  <span className="col-span-2">
+                    วันที่ : {formatThaiDateTime(roundData?.service_date)}
+                  </span>
                 </div>
               </ModalBody>
               <ModalFooter>

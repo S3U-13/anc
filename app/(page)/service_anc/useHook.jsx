@@ -1,4 +1,5 @@
 "use client"; // ✅
+
 import { useAuth } from "@/context/AuthContext";
 import React from "react";
 import { useEffect, useState, useMemo } from "react";
@@ -170,7 +171,12 @@ export default function useHook() {
 
     try {
       const res = await fetch(
-        `http://localhost:3000/api/show-service-by-id/${roundId}`
+        `http://localhost:3000/api/user/show-service-by-id/${roundId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
       );
       const data = await res.json();
       setRoundData(data);

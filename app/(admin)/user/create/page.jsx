@@ -11,9 +11,10 @@ import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
 import useHook from "./useHook";
+import { DatePicker } from "@heroui/date-picker";
 
 export default function Page({ openModal, closeModal }) {
-  const { role, position, form, validationSchema, handleChange, isSubmitting } =
+  const { role, position, form, validationSchema, handleChange, isSubmitting, modalRef } =
     useHook({ closeModal });
 
   // ฟังก์ชัน validate field แบบ safe
@@ -37,7 +38,7 @@ export default function Page({ openModal, closeModal }) {
         footer: "border-t border-divider dark:border-[#3d3d3d]",
       }}
     >
-      <ModalContent>
+      <ModalContent ref={modalRef}>
         {(closeModal) => (
           <form
             onSubmit={(e) => {
@@ -134,7 +135,11 @@ export default function Page({ openModal, closeModal }) {
               </div>
             </ModalBody>
             <ModalFooter>
-              <Button color="danger" variant="light" onPress={closeModal}>
+              <Button
+                color="danger"
+                variant="light"
+                onPress={closeModal}
+              >
                 Close
               </Button>
               <Button type="submit" color="primary" isDisabled={isSubmitting}>

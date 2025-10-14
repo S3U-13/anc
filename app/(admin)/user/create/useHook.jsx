@@ -6,6 +6,7 @@ import { addToast } from "@heroui/toast";
 import { useAuth } from "@/context/AuthContext";
 
 export default function useHook({ closeModal }) {
+  const modalRef = useRef(null);
   const auth = useAuth();
   const [role, setRole] = useState([]);
   const [position, setPosition] = useState([]);

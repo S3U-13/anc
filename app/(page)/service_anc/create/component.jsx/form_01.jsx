@@ -4,6 +4,7 @@ import { Input } from "@heroui/input";
 import { Textarea } from "@heroui/input";
 import { DatePicker } from "@heroui/date-picker";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
+import SafeDatePicker from "@/components/SafeDatePicker";
 import useHook from "../useHook";
 
 export default function page({
@@ -270,7 +271,7 @@ export default function page({
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
               placeholder="เลือกวันที่"
-              withinPortal={false} // ถ้าใช้ Radix/React-datepicke
+              withinPortal={false}
             />
           )}
         </form.Field>

@@ -43,7 +43,7 @@ export default function page() {
     pages,
     onSortChange,
     sortDescriptor,
-    fetchDataAnc,
+    fetchDataUser,
     openModalView,
     setOpenModalView,
     setOpenModalEdit,
@@ -53,6 +53,7 @@ export default function page() {
     if (visibleColumns === "all") return columns;
     return columns.filter((col) => visibleColumns.has(col.uid));
   }, [visibleColumns, columns]);
+
   return (
     <div className="mt-[10px] bg-[#ffffff] dark:bg-[#27272a] p-2.5 rounded-lg">
       <div className="gap-[10px] flex justify-between">
@@ -296,6 +297,7 @@ export default function page() {
         openModal={openModal}
         closeModal={() => {
           setOpenModal(false);
+          fetchDataUser();
         }}
       />
       {/* <ModalForm

@@ -19,7 +19,11 @@ import Form04 from "./component.jsx/form_04";
 import Form05 from "./component.jsx/form_05";
 import useHook from "./useHook";
 
-export default function page({ openFormService, closeFormService }) {
+export default function page({
+  openFormService,
+  closeFormService,
+  setOpenFormService,
+}) {
   const [pullAnc, setPullAnc] = useState(false);
 
   const pullHandle = () => {
@@ -60,6 +64,7 @@ export default function page({ openFormService, closeFormService }) {
     selectedCbe,
     Dates,
     selectedRef,
+    modalRef,
   } = useHook({ closeFormService });
 
   return (
@@ -76,7 +81,7 @@ export default function page({ openFormService, closeFormService }) {
           body: "py-[10px]",
         }}
       >
-        <ModalContent>
+        <ModalContent ref={modalRef}>
           {(closeFormService) => (
             <form>
               <ModalHeader className="">บริการฝากครรภ์</ModalHeader>
