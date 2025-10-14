@@ -9,8 +9,10 @@ import {
 import { Button } from "@heroui/button";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { useAuth } from "@/context/AuthContext";
 
 export default function DropdownUser() {
+  const auth = useAuth();
    const router = useRouter();
   const handleLogout = () => {
     Cookies.remove("token"); // ลบ token
@@ -46,7 +48,8 @@ export default function DropdownUser() {
         <DropdownMenu aria-label="User Actions" variant="flat">
           <DropdownItem key="profile" className="h-14 gap-2">
             <p className="font-bold">Signed in as</p>
-            <p className="font-bold">@tonyreichert</p>
+            <p className="font-bold">{auth.user.name}</p>
+            <p className="font-bold">ตำเเหน่ง {auth.user.position_name}</p>
           </DropdownItem>
           <DropdownItem key="settings">My Settings</DropdownItem>
           <DropdownItem key="team_settings">Team Settings</DropdownItem>
