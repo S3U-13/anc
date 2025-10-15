@@ -56,7 +56,11 @@ export default function App() {
     handleSelectRound,
     roundData,
     isLoading,
-    formatThaiDateTime
+    formatThaiDateTime,
+    btiData,
+    cbeData,
+    ReferralValue,
+    formatThaiDateNoTime,
   } = useHook();
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
@@ -242,7 +246,10 @@ export default function App() {
               <TableCell>
                 <div className="flex justify-center gap-[10px] items-center">
                   <Tooltip color="default" content="ดูข้อมูล">
-                    <ViewById item={item} handleSelectRound={handleSelectRound}/>
+                    <ViewById
+                      item={item}
+                      handleSelectRound={handleSelectRound}
+                    />
                   </Tooltip>
 
                   <Tooltip color="default" content="แก้ไขข้อมูล">
@@ -289,12 +296,17 @@ export default function App() {
         }}
       />
       <ModalViewAncService
+        btiData={btiData}
+        cbeData={cbeData}
+        ReferralValue={ReferralValue}
+        formatAddress={formatAddress}
         openViewService={openViewAncService}
         closeViewService={() => {
           setOpenViewAncService(false);
         }}
         roundData={roundData}
         formatThaiDateTime={formatThaiDateTime}
+        formatThaiDateNoTime={formatThaiDateNoTime}
       />
     </div>
   );

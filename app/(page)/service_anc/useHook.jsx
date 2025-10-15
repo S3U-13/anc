@@ -210,6 +210,74 @@ export default function useHook() {
     );
   };
 
+  const btiData = [
+    {
+      value: roundData?.wife?.choices?.bti?.bti_value_1?.choice_name || "",
+      date: roundData?.wife?.text_values?.bti_1_date || "",
+    },
+    {
+      value: roundData?.wife?.choices?.bti?.bti_value_2?.choice_name || "",
+      date: roundData?.wife?.text_values?.bti_2_date || "",
+    },
+    {
+      value: roundData?.wife?.choices?.bti?.bti_value_3?.choice_name || "",
+    },
+    {
+      value: roundData?.wife?.choices?.bti?.bti_value_4?.choice_name || "",
+    },
+    {
+      value: roundData?.wife?.choices?.bti?.bti_value_5?.choice_name || "",
+    },
+  ].filter((item) => item.value); // กรองตัวว่างออก
+  const cbeData = [
+    {
+      value: roundData?.wife?.choices?.cbe?.cbe_value_1?.choice_name || "",
+    },
+    {
+      value: roundData?.wife?.choices?.cbe?.cbe_value_2?.choice_name || "",
+      data: roundData?.wife?.choices?.birads?.choice_name || "",
+    },
+    {
+      value: roundData?.wife?.choices?.cbe?.cbe_value_3?.choice_name || "",
+    },
+    {
+      value: roundData?.wife?.choices?.cbe?.cbe_value_4?.choice_name || "",
+      data: roundData?.wife?.text_values?.cbe_result || "",
+    },
+  ].filter((item) => item.value); // กรองตัวว่างออก
+  const ReferralValue = [
+    {
+      value:
+        roundData?.wife?.choices?.referral_value?.ref_in?.choice_name || "",
+      data:
+        roundData?.wife?.choices?.ref_in_choice?.receive_in?.choice_name || "",
+      hos: roundData?.wife?.referral?.ref_in?.[0].sitedesc || "",
+      prov: roundData?.wife?.referral?.ref_in?.[0].provdesc || "",
+    },
+    {
+      value:
+        roundData?.wife?.choices?.referral_value?.ref_out?.choice_name || "",
+      data:
+        roundData?.wife?.choices?.ref_out_choice?.receive_out?.choice_name ||
+        "",
+      hos: roundData?.wife?.referral?.ref_out?.[0].sitedesc || "",
+      prov: roundData?.wife?.referral?.ref_out?.[0].provdesc || "",
+    },
+  ].filter((item) => item.value); // กรองตัวว่างออก
+
+  const formatThaiDateNoTime = (isoString) => {
+    if (!isoString) return "";
+
+    const date = new Date(isoString);
+
+    return new Intl.DateTimeFormat("th-TH", {
+      timeZone: "Asia/Bangkok",
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    }).format(date);
+  };
+
   return {
     dataAnc,
     openModalForm,
@@ -244,5 +312,9 @@ export default function useHook() {
     roundData,
     isLoading,
     formatThaiDateTime,
+    btiData,
+    cbeData,
+    ReferralValue,
+    formatThaiDateNoTime,
   };
 }
