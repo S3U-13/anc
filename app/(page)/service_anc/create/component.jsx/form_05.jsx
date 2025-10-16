@@ -10,6 +10,7 @@ import {
   AutocompleteItem,
 } from "@heroui/autocomplete";
 import { DatePicker } from "@heroui/date-picker";
+import { Input } from "@heroui/input";
 
 export default function page({
   field,
@@ -80,6 +81,18 @@ export default function page({
                                     )}
                                   </form.Field>
                                 )}
+                              {String(rec.id) === "43" &&
+                                field.state.value === "43" && (
+                                  <form.Field name="receive_in_detail">
+                                    {(field) => (
+                                      <Input
+                                        className="w-[600px]"
+                                        label="ต่างจังหวัด"
+                                        size="sm"
+                                      />
+                                    )}
+                                  </form.Field>
+                                )}
                             </div>
                           ))}
                       </RadioGroup>
@@ -125,6 +138,18 @@ export default function page({
                                           </AutocompleteItem>
                                         ))}
                                       </Autocomplete>
+                                    )}
+                                  </form.Field>
+                                )}
+                              {String(rec.id) === "43" &&
+                                field.state.value === "43" && (
+                                  <form.Field name="receive_out_detail">
+                                    {(field) => (
+                                      <Input
+                                        className="w-[600px]"
+                                        label="ต่างจังหวัด"
+                                        size="sm"
+                                      />
                                     )}
                                   </form.Field>
                                 )}

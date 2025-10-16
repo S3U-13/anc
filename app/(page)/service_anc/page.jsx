@@ -61,6 +61,12 @@ export default function App() {
     cbeData,
     ReferralValue,
     formatThaiDateNoTime,
+    LabWife,
+    LabHusband,
+    calculateAge,
+    bmi,
+    bp,
+    height,
   } = useHook();
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
@@ -307,6 +313,12 @@ export default function App() {
         roundData={roundData}
         formatThaiDateTime={formatThaiDateTime}
         formatThaiDateNoTime={formatThaiDateNoTime}
+        LabWife={LabWife}
+        LabHusband={LabHusband}
+        calculateAge={calculateAge}
+        bmi={bmi}
+        bp={bp}
+        height={height}
       />
     </div>
   );

@@ -265,6 +265,116 @@ export default function useHook() {
     },
   ].filter((item) => item.value); // กรองตัวว่างออก
 
+  const LabWife = [
+    {
+      label: "GCT 1",
+      value: `${roundData?.wife.text_values.lab_wife.gct_1_wife} mg/dL`,
+    },
+    {
+      label: "GCT 2",
+      value: `${roundData?.wife.text_values.lab_wife.gct_2_wife} mg/dL`,
+    },
+    {
+      label: "OGTT 1",
+      value: `${roundData?.wife.text_values.lab_wife.ogtt_1_wife} mg/dL`,
+    },
+    {
+      label: "OGTT 2",
+      value: `${roundData?.wife.text_values.lab_wife.ogtt_2_wife} mg/dL`,
+    },
+    {
+      label: "HbsAg",
+      value: `${roundData?.wife.text_values.lab_wife.hbsag_wife} %`,
+    },
+    {
+      label: "VDRL",
+      value: roundData?.wife.text_values.lab_wife.vdrl_wife,
+    },
+    {
+      label: "Anti HIV",
+      value: roundData?.wife.text_values.lab_wife.anti_hiv_wife,
+    },
+    {
+      label: "Bl.gr",
+      value: roundData?.wife.text_values.lab_wife.bl_gr_wife,
+    },
+    {
+      label: "Rh",
+      value: roundData?.wife.text_values.lab_wife.rh_wife,
+    },
+    {
+      label: "Hct",
+      value: roundData?.wife.text_values.lab_wife.hct_wife,
+    },
+    {
+      label: "OF",
+      value: roundData?.wife.text_values.lab_wife.of_wife,
+    },
+    {
+      label: "DCIP",
+      value: roundData?.wife.text_values.lab_wife.dcip_wife,
+    },
+    {
+      label: "MCV",
+      value: `${roundData?.wife.text_values.lab_wife.mcv_wife} fl`,
+    },
+    {
+      label: "MCH",
+      value: `${roundData?.wife.text_values.lab_wife.mch_wife} pg`,
+    },
+    {
+      label: "HB Typing",
+      value: `${roundData?.wife.text_values.lab_wife.hb_typing_wife} %`,
+    },
+  ].filter((item) => item.value);
+
+  const LabHusband = [
+    {
+      label: "HbsAg",
+      value: roundData?.husband.choices.lab_husband.hbsag_husband,
+    },
+    {
+      label: "VDRL",
+      value: roundData?.husband.choices.lab_husband.vdrl_husband,
+    },
+    {
+      label: "Anti HIV",
+      value: roundData?.husband.choices.lab_husband.anti_hiv_husband,
+    },
+    {
+      label: "Bl.gr",
+      value: roundData?.husband.choices.lab_husband.bl_gr_husband,
+    },
+    {
+      label: "Rh",
+      value: roundData?.husband.choices.lab_husband.rh_husband,
+    },
+    {
+      label: "Hct",
+      value: `${roundData?.husband.choices.lab_husband.hct_husband} %`,
+    },
+    {
+      label: "OF",
+      value: roundData?.husband.choices.lab_husband.of_husband,
+    },
+    {
+      label: "DCIP",
+      value: roundData?.husband.choices.lab_husband.dcip_husband,
+    },
+    {
+      label: "MCV",
+      value: `${roundData?.husband.choices.lab_husband.mcv_husband} fL`,
+    },
+    {
+      label: "MCH",
+      value: `${roundData?.husband.choices.lab_husband.mch_husband} pg`,
+    },
+    {
+      label: "HB Typing",
+      value: `${roundData?.husband.choices.lab_husband.hb_typing_husband} %`,
+    },
+  ].filter((item) => item.value);
+
   const formatThaiDateNoTime = (isoString) => {
     if (!isoString) return "";
 
@@ -277,6 +387,40 @@ export default function useHook() {
       year: "numeric",
     }).format(date);
   };
+
+  const calculateAge = (birthdate) => {
+    if (!birthdate) return "";
+
+    const birth = new Date(birthdate);
+    const today = new Date();
+
+    let age = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
+
+    // ถ้ายังไม่ถึงวันเกิดของปีนี้ ให้ลบ 1
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+
+    return `${age} ปี`;
+  };
+
+  const [bmi, setBmi] = useState("");
+
+  useEffect(() => {
+    const weight = parseFloat(roundData?.wife.profile.pat_vitalsign[0].weight);
+    const heightM =
+      parseFloat(roundData?.wife.profile.pat_vitalsign[0].height) / 100;
+    if (weight && heightM) {
+      setBmi((weight / (heightM * heightM)).toFixed(2));
+    } else {
+      setBmi("");
+    }
+  });
+
+  const bp = `${roundData?.wife.profile.pat_vitalsign[0].bp_systolic}/${roundData?.wife.profile.pat_vitalsign[0].bp_diastolic}`;
+
+  const height = Math.round(roundData?.wife.profile.pat_vitalsign[0].height);
 
   return {
     dataAnc,
@@ -316,5 +460,11 @@ export default function useHook() {
     cbeData,
     ReferralValue,
     formatThaiDateNoTime,
+    LabWife,
+    LabHusband,
+    calculateAge,
+    bmi,
+    bp,
+    height,
   };
 }

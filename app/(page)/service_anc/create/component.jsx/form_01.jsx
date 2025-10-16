@@ -178,9 +178,9 @@ export default function page({
           )}
         </form.Field>
         <form.Field
-          name="g"
+          name="gravida"
           validators={{
-            onChange: validationSchema.shape.g,
+            onChange: validationSchema.shape.gravida,
           }}
         >
           {(field) => (

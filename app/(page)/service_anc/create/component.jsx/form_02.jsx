@@ -265,7 +265,7 @@ export default function page({
             <Input
               className="col-span-2"
               size="sm"
-              label="HbsAg"
+              label="Hbs Ag"
               type="text"
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}

@@ -50,7 +50,7 @@ export default function useHook({ closeFormService } = {}) {
     patvisit_id: "",
     patreg_id: "",
     para: "",
-    g: "",
+    gravida: "",
     p: "",
     a: "",
     last: "",
@@ -125,9 +125,11 @@ export default function useHook({ closeFormService } = {}) {
     ref_value_1_id: "",
     ref_value_2_id: "",
     receive_in_id: null,
+    receive_in_detail: "",
     hos_in_id: null,
     receive_out_id: null,
     hos_out_id: null,
+    receive_out_detail: "",
   });
 
   const [field, setField] = useState(initialField());
@@ -431,19 +433,19 @@ export default function useHook({ closeFormService } = {}) {
     patreg_id: z.coerce.string().min(1, { message: "กรุณาระบุ PAT REG ID" }),
     para: z.coerce
       .string()
-      .min(1, { message: "กรุณากรอก Para" })
+      .min(1, { message: "กรุณากรอก" })
       .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    g: z.coerce
+    gravida: z.coerce
       .string()
-      .min(1, { message: "กรุณากรอก G" })
+      .min(1, { message: "กรุณากรอก" })
       .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     p: z.coerce
       .string()
-      .min(1, { message: "กรุณากรอก P" })
+      .min(1, { message: "กรุณากรอก" })
       .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     a: z.coerce
       .string()
-      .min(1, { message: "กรุณากรอก A" })
+      .min(1, { message: "กรุณากรอก" })
       .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
     last: z.coerce
       .string()
@@ -616,8 +618,10 @@ export default function useHook({ closeFormService } = {}) {
     ref_value_1_id: z.string().nullable(),
     ref_value_2_id: z.string().nullable(),
     receive_in_id: z.string().nullable(),
+    receive_in_detail: z.string().nullable(),
     hos_in_id: z.string().nullable(),
     receive_out_id: z.string().nullable(),
+    receive_out_detail: z.string().nullable(),
     hos_out_id: z.string().nullable(),
     birads_id: z.string().nullable(),
   });
