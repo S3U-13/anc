@@ -67,6 +67,8 @@ export default function App() {
     bmi,
     bp,
     height,
+    checkLabRisk,
+    getLabWarning,
   } = useHook();
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
@@ -319,6 +321,8 @@ export default function App() {
         bmi={bmi}
         bp={bp}
         height={height}
+        checkLabRisk={checkLabRisk}
+        getLabWarning={getLabWarning}
       />
     </div>
   );

@@ -89,6 +89,10 @@ export default function page({
                                         className="w-[600px]"
                                         label="ต่างจังหวัด"
                                         size="sm"
+                                        value={field.state.value}
+                                        onChange={(e) =>
+                                          field.handleChange(e.target.value)
+                                        }
                                       />
                                     )}
                                   </form.Field>
@@ -149,6 +153,10 @@ export default function page({
                                         className="w-[600px]"
                                         label="ต่างจังหวัด"
                                         size="sm"
+                                        value={field.state.value}
+                                        onChange={(e) =>
+                                          field.handleChange(e.target.value)
+                                        }
                                       />
                                     )}
                                   </form.Field>

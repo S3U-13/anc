@@ -23,7 +23,7 @@ export default function useHook() {
 
   const fetchDataAnc = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/user/ancservice", {
+      const res = await fetch("http://172.16.30.38:3000/api/user/ancservice", {
         headers: {
           Authorization: `Bearer ${auth.token}`,
         },
@@ -171,7 +171,7 @@ export default function useHook() {
 
     try {
       const res = await fetch(
-        `http://localhost:3000/api/user/show-service-by-id/${roundId}`,
+        `http://172.16.30.38:3000/api/user/show-service-by-id/${roundId}`,
         {
           headers: {
             Authorization: `Bearer ${auth.token}`,
@@ -265,6 +265,68 @@ export default function useHook() {
     },
   ].filter((item) => item.value); // กรองตัวว่างออก
 
+  const checkLabRisk = (label, value) => {
+    if (!value) return false;
+
+    const num = parseFloat(value);
+    const str = String(value).trim().toLowerCase();
+
+    switch (label) {
+      case "GCT 1":
+      case "GCT 2":
+        return !isNaN(num) && num >= 140;
+      case "OGTT 1":
+      case "OGTT 2":
+        return !isNaN(num) && num > 140;
+      case "Hct":
+        return !isNaN(num) && num <= 33;
+      case "MCV":
+        return !isNaN(num) && (num <= 80 || num >= 100);
+      case "MCH":
+        return !isNaN(num) && num > 33;
+      case "HbsAg":
+        return str === "positive";
+      case "VDRL":
+        return str === "reactive";
+      case "Anti HIV":
+        return str === "positive";
+      case "Rh":
+        return str === "negative";
+      case "DCIP":
+        return str === "abnormal";
+      default:
+        return false;
+    }
+  };
+
+  // ✅ ฟังก์ชันคืน “ข้อความเตือน” เฉพาะของแต่ละ Lab
+  const getLabWarning = (label) => {
+    switch (label) {
+      case "GCT 1":
+      case "GCT 2":
+      case "OGTT 1":
+      case "OGTT 2":
+        return "เสี่ยงเบาหวานขณะตั้งครรภ์";
+      case "Hct":
+        return "ภาวะโลหิตจาง";
+      case "HbsAg":
+        return "อาจมีเชื้อไวรัสตับอักเสบบี";
+      case "Anti HIV":
+        return "ผลบวก HIV (ควรตรวจยืนยัน)";
+      case "VDRL":
+        return "สงสัยซิฟิลิส (ควรตรวจยืนยัน)";
+      case "Rh":
+        return "Rh ลบ — เสี่ยง Rh incompatibility";
+      case "DCIP":
+        return "สงสัยพาหะธาลัสซีเมีย";
+      case "MCV":
+      case "MCH":
+        return "อาจมีภาวะเม็ดเลือดแดงผิดปกติ";
+      default:
+        return "ค่าผิดปกติ";
+    }
+  };
+
   const LabWife = [
     {
       label: "GCT 1",
@@ -284,23 +346,24 @@ export default function useHook() {
     },
     {
       label: "HbsAg",
-      value: `${roundData?.wife.text_values.lab_wife.hbsag_wife} %`,
+      value: roundData?.wife.text_values.lab_wife.hbsag_wife_detail.choice_name,
     },
     {
       label: "VDRL",
-      value: roundData?.wife.text_values.lab_wife.vdrl_wife,
+      value: roundData?.wife.text_values.lab_wife.vdrl_wife_detail.choice_name,
     },
     {
       label: "Anti HIV",
-      value: roundData?.wife.text_values.lab_wife.anti_hiv_wife,
+      value:
+        roundData?.wife.text_values.lab_wife.anti_hiv_wife_detail.choice_name,
     },
     {
       label: "Bl.gr",
-      value: roundData?.wife.text_values.lab_wife.bl_gr_wife,
+      value: roundData?.wife.text_values.lab_wife.bl_gr_wife_detail.choice_name,
     },
     {
       label: "Rh",
-      value: roundData?.wife.text_values.lab_wife.rh_wife,
+      value: roundData?.wife.text_values.lab_wife.rh_wife_detail.choice_name,
     },
     {
       label: "Hct",
@@ -312,7 +375,7 @@ export default function useHook() {
     },
     {
       label: "DCIP",
-      value: roundData?.wife.text_values.lab_wife.dcip_wife,
+      value: roundData?.wife.text_values.lab_wife.dcip_wife_detail.choice_name,
     },
     {
       label: "MCV",
@@ -331,23 +394,29 @@ export default function useHook() {
   const LabHusband = [
     {
       label: "HbsAg",
-      value: roundData?.husband.choices.lab_husband.hbsag_husband,
+      value:
+        roundData?.husband.choices.lab_husband.hbsag_husband_detail.choice_name,
     },
     {
       label: "VDRL",
-      value: roundData?.husband.choices.lab_husband.vdrl_husband,
+      value:
+        roundData?.husband.choices.lab_husband.vdrl_husband_detail.choice_name,
     },
     {
       label: "Anti HIV",
-      value: roundData?.husband.choices.lab_husband.anti_hiv_husband,
+      value:
+        roundData?.husband.choices.lab_husband.anti_hiv_husband_detail
+          .choice_name,
     },
     {
       label: "Bl.gr",
-      value: roundData?.husband.choices.lab_husband.bl_gr_husband,
+      value:
+        roundData?.husband.choices.lab_husband.bl_gr_husband_detail.choice_name,
     },
     {
       label: "Rh",
-      value: roundData?.husband.choices.lab_husband.rh_husband,
+      value:
+        roundData?.husband.choices.lab_husband.rh_husband_detail.choice_name,
     },
     {
       label: "Hct",
@@ -359,7 +428,8 @@ export default function useHook() {
     },
     {
       label: "DCIP",
-      value: roundData?.husband.choices.lab_husband.dcip_husband,
+      value:
+        roundData?.husband.choices.lab_husband.dcip_husband_detail.choice_name,
     },
     {
       label: "MCV",
@@ -466,5 +536,7 @@ export default function useHook() {
     bmi,
     bp,
     height,
+    checkLabRisk,
+    getLabWarning,
   };
 }

@@ -3,6 +3,7 @@ import React from "react";
 import { RadioGroup, Radio } from "@heroui/radio";
 import useHook from "../useHook";
 import { Input } from "@heroui/input";
+import { Select, SelectItem } from "@heroui/select";
 
 export default function page({
   field,
@@ -152,28 +153,6 @@ export default function page({
       </form.Field>
       <h1 className="col-span-4 text-[#71717A] px-[20px]">ค่า Lab</h1>
       <div className="col-span-4 px-[30px] grid grid-cols-4 gap-[10px]">
-        {/* <Input
-          variant="flat"
-          className="col-span-2"
-          size="sm"
-          label="WARD"
-          value={selectedAnc?.wife?.pat_reg?.[0]?.Location?.detailtext ?? ""}
-          type="text"
-          readOnly
-          disabled
-        />
-        <Input
-          variant="flat"
-          className="col-span-2"
-          size="sm"
-          label="VISIT DATE"
-          value={formatThaiDateTime(
-            selectedAnc?.wife?.pat_reg?.[0]?.PatVisit?.visitdatetime
-          )}
-          type="text"
-          readOnly
-          disabled
-        /> */}
         <form.Field
           name="gct_1_wife"
           validators={{
@@ -262,17 +241,26 @@ export default function page({
           }}
         >
           {(field) => (
-            <Input
-              className="col-span-2"
+            <Select
               size="sm"
+              className="col-span-2"
               label="Hbs Ag"
-              type="text"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
+              selectedKeys={
+                field.state.value ? new Set([field.state.value]) : new Set()
+              }
+              onSelectionChange={(key) =>
+                field.handleChange(Array.from(key)[0])
+              }
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
-            />
+            >
+              {data
+                .filter((hbsag) => hbsag.choice_type_id === 17)
+                .map((hbsag) => (
+                  <SelectItem key={hbsag.id}>{hbsag.choice_name}</SelectItem>
+                ))}
+            </Select>
           )}
         </form.Field>
         <form.Field
@@ -282,17 +270,28 @@ export default function page({
           }}
         >
           {(field) => (
-            <Input
-              className="col-span-2"
+            <Select
               size="sm"
+              className="col-span-2"
               label="VDRL"
-              type="text"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
+              selectedKeys={
+                field.state.value ? new Set([field.state.value]) : new Set()
+              }
+              onSelectionChange={(key) =>
+                field.handleChange(Array.from(key)[0])
+              }
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
-            />
+            >
+              {data
+                .filter((vdrl_wife) => vdrl_wife.choice_type_id === 18)
+                .map((vdrl_wife) => (
+                  <SelectItem key={vdrl_wife.id}>
+                    {vdrl_wife.choice_name}
+                  </SelectItem>
+                ))}
+            </Select>
           )}
         </form.Field>
         <form.Field
@@ -302,17 +301,28 @@ export default function page({
           }}
         >
           {(field) => (
-            <Input
-              className="col-span-2"
+            <Select
               size="sm"
-              label="Anti HIV"
-              type="text"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
+              className="col-span-2"
+              label="Anti-hiv"
+              selectedKeys={
+                field.state.value ? new Set([field.state.value]) : new Set()
+              }
+              onSelectionChange={(key) =>
+                field.handleChange(Array.from(key)[0])
+              }
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
-            />
+            >
+              {data
+                .filter((anti_hiv) => anti_hiv.choice_type_id === 19)
+                .map((anti_hiv) => (
+                  <SelectItem key={anti_hiv.id}>
+                    {anti_hiv.choice_name}
+                  </SelectItem>
+                ))}
+            </Select>
           )}
         </form.Field>
         <form.Field
@@ -344,17 +354,26 @@ export default function page({
           }}
         >
           {(field) => (
-            <Input
-              className="col-span-1 "
+            <Select
               size="sm"
+              className="col-span-1"
               label="Bl.gr"
-              type="text"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
+              selectedKeys={
+                field.state.value ? new Set([field.state.value]) : new Set()
+              }
+              onSelectionChange={(key) =>
+                field.handleChange(Array.from(key)[0])
+              }
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
-            />
+            >
+              {data
+                .filter((bl_gr) => bl_gr.choice_type_id === 20)
+                .map((bl_gr) => (
+                  <SelectItem key={bl_gr.id}>{bl_gr.choice_name}</SelectItem>
+                ))}
+            </Select>
           )}
         </form.Field>
         <form.Field
@@ -364,17 +383,26 @@ export default function page({
           }}
         >
           {(field) => (
-            <Input
-              className="col-span-1 "
+            <Select
               size="sm"
-              label="Rh"
-              type="text"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
+              className="col-span-1"
+              label="rh"
+              selectedKeys={
+                field.state.value ? new Set([field.state.value]) : new Set()
+              }
+              onSelectionChange={(key) =>
+                field.handleChange(Array.from(key)[0])
+              }
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
-            />
+            >
+              {data
+                .filter((rh) => rh.choice_type_id === 21)
+                .map((rh) => (
+                  <SelectItem key={rh.id}>{rh.choice_name}</SelectItem>
+                ))}
+            </Select>
           )}
         </form.Field>
         <form.Field
@@ -426,17 +454,26 @@ export default function page({
           }}
         >
           {(field) => (
-            <Input
-              className="col-span-2"
+            <Select
               size="sm"
+              className="col-span-2"
               label="DCIP"
-              type="text"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
+              selectedKeys={
+                field.state.value ? new Set([field.state.value]) : new Set()
+              }
+              onSelectionChange={(key) =>
+                field.handleChange(Array.from(key)[0])
+              }
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
-            />
+            >
+              {data
+                .filter((dcip) => dcip.choice_type_id === 22)
+                .map((dcip) => (
+                  <SelectItem key={dcip.id}>{dcip.choice_name}</SelectItem>
+                ))}
+            </Select>
           )}
         </form.Field>
         <form.Field

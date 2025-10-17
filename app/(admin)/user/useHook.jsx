@@ -23,7 +23,7 @@ export default function useHook() {
 
   const fetchDataUser = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/admin/user", {
+      const res = await fetch("http://172.16.30.38:3000/api/admin/user", {
         headers: {
           Authorization: `Bearer ${auth.token}`,
         },

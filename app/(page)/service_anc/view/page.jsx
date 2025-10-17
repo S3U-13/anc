@@ -1,5 +1,5 @@
 "use client";
-import { AlertCircle, AlertOctagon } from "@deemlol/next-icons";
+import { AlertCircle, AlertOctagon, AlertTriangle } from "@deemlol/next-icons";
 import { Button } from "@heroui/button";
 import {
   Modal,
@@ -28,6 +28,8 @@ export default function page({
   bmi,
   bp,
   height,
+  checkLabRisk,
+  getLabWarning,
 }) {
   return (
     <div>
@@ -135,25 +137,15 @@ export default function page({
                                 {age}
                               </span>
                               {isRisk && (
-                                // <Tooltip
-                                //   content={
-                                //     <div className="px-1 py-2">
-                                //       <div className="text-small font-bold">
-                                //         Custom Content
-                                //       </div>
-                                //       <div className="text-tiny">
-                                //         This is a custom tooltip content
-                                //       </div>
-                                //     </div>
-                                //   }
-                                // >
                                 <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold ml-2 flex gap-1 items-center">
-                                  <AlertOctagon size={18} />{" "}
+                                  <AlertOctagon
+                                    className="animate-pulse"
+                                    size={18}
+                                  />{" "}
                                   <span className="text-[12px]">
                                     มีความเสี่ยง
                                   </span>
                                 </div>
-                                // </Tooltip>
                               )}
                             </div>
                           );
@@ -190,7 +182,10 @@ export default function page({
                             <span>{`${height} ซม.`}</span>
                             {height <= 140 && (
                               <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
-                                <AlertOctagon size={18} />
+                                <AlertOctagon
+                                  className="animate-pulse"
+                                  size={18}
+                                />
                                 <span className="text-[12px]">
                                   ต่ำกว่าเกณฑ์
                                 </span>
@@ -222,7 +217,10 @@ export default function page({
                                 }
                               >
                                 <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
-                                  <AlertOctagon size={18} />
+                                  <AlertOctagon
+                                    className="animate-pulse"
+                                    size={18}
+                                  />
                                   <span className="text-[12px]">
                                     ต่ำกว่าเกณฑ์
                                   </span>
@@ -244,7 +242,10 @@ export default function page({
                                 }
                               >
                                 <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
-                                  <AlertOctagon size={18} />
+                                  <AlertOctagon
+                                    className="animate-pulse"
+                                    size={18}
+                                  />
                                   <span className="text-[12px]">
                                     สูงกว่าเกณฑ์
                                   </span>
@@ -269,7 +270,10 @@ export default function page({
                             if (systolic >= 160 || diastolic >= 110) {
                               riskBadge = (
                                 <div className="text-pink-600 bg-pink-100 border border-pink-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
-                                  <AlertOctagon size={18} />
+                                  <AlertOctagon
+                                    className="animate-pulse"
+                                    size={18}
+                                  />
                                   <span className="text-[12px]">
                                     มีความเสี่ยงสูง
                                   </span>
@@ -278,7 +282,10 @@ export default function page({
                             } else if (systolic >= 140 || diastolic >= 90) {
                               riskBadge = (
                                 <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
-                                  <AlertOctagon size={18} />
+                                  <AlertOctagon
+                                    className="animate-pulse"
+                                    size={18}
+                                  />
                                   <span className="text-[12px]">
                                     มีความเสี่ยง
                                   </span>
@@ -582,19 +589,43 @@ export default function page({
                     {/* Content */}
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 px-6">
                       {LabWife.length > 0 ? (
-                        LabWife.map((item, index) => (
-                          <div
-                            key={index}
-                            className="flex flex-col justify-center bg-[#f6f6f6] hover:bg-[#d1d1d1] transition rounded-xl p-3 border border-[#b0b0b0]"
-                          >
-                            <span className="text-sm text-gray-900 font-semibold">
-                              {item.label}
-                            </span>
-                            <span className="text-gray-700">
-                              {item.value || "-"}
-                            </span>
-                          </div>
-                        ))
+                        LabWife.map((item, index) => {
+                          const isRisk = checkLabRisk(item.label, item.value);
+                          const warning = getLabWarning(item.label);
+
+                          return (
+                            <div
+                              key={index}
+                              className={`flex flex-col justify-center rounded-xl p-3 border transition ${
+                                isRisk
+                                  ? "bg-yellow-100 border-yellow-400 shadow-sm"
+                                  : "bg-gray-50 hover:bg-gray-100 border-gray-200"
+                              }`}
+                            >
+                              <div className="flex items-center justify-between">
+                                <span className="text-sm text-gray-900 font-semibold">
+                                  {item.label}
+                                </span>
+                                {isRisk && (
+                                  <AlertTriangle
+                                    size={20}
+                                    className="text-yellow-500 animate-pulse"
+                                  />
+                                )}
+                              </div>
+
+                              <span className="text-gray-700 text-sm mt-1">
+                                {item.value}
+                              </span>
+
+                              {isRisk && (
+                                <span className="text-[12px] text-yellow-800 font-medium mt-1">
+                                  {warning}
+                                </span>
+                              )}
+                            </div>
+                          );
+                        })
                       ) : (
                         <p className="col-span-full text-gray-400 text-center italic">
                           ไม่มีข้อมูลการแปลผล
@@ -664,29 +695,52 @@ export default function page({
                         ค่า Lab (สามี)
                       </h3>
                     </div>
-
                     {/* Lab Section */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 px-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 px-6">
                       {LabHusband.length > 0 ? (
-                        LabHusband.map((item, index) => (
-                          <div
-                            key={index}
-                            className="flex flex-col justify-center bg-[#f6f6f6] hover:bg-[#d1d1d1] transition rounded-xl p-3 border border-[#b0b0b0]"
-                          >
-                            <span className="text-sm font-semibold text-gray-900">
-                              {item.label}
-                            </span>
-                            <span className="text-gray-700">
-                              {item.value || "-"}
-                            </span>
-                          </div>
-                        ))
+                        LabHusband.map((item, index) => {
+                          const isRisk = checkLabRisk(item.label, item.value);
+                          const warning = getLabWarning(item.label);
+
+                          return (
+                            <div
+                              key={index}
+                              className={`flex flex-col justify-center rounded-xl p-3 border transition ${
+                                isRisk
+                                  ? "bg-yellow-100 border-yellow-400 shadow-sm"
+                                  : "bg-gray-50 hover:bg-gray-100 border-gray-200"
+                              }`}
+                            >
+                              <div className="flex items-center justify-between">
+                                <span className="text-sm text-gray-900 font-semibold">
+                                  {item.label}
+                                </span>
+                                {isRisk && (
+                                  <AlertTriangle
+                                    size={20}
+                                    className="text-yellow-500 animate-pulse"
+                                  />
+                                )}
+                              </div>
+
+                              <span className="text-gray-700 text-sm mt-1">
+                                {item.value}
+                              </span>
+
+                              {isRisk && (
+                                <span className="text-[12px] text-yellow-800 font-medium mt-1">
+                                  {warning}
+                                </span>
+                              )}
+                            </div>
+                          );
+                        })
                       ) : (
                         <p className="col-span-full text-gray-400 text-center italic">
                           ไม่มีข้อมูลการแปลผล
                         </p>
                       )}
-
+                      
                       {/* PCR Row */}
                       <div className="col-span-full mt-2">
                         <span className="text-sm font-semibold text-gray-900">

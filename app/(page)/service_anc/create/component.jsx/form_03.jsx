@@ -7,6 +7,7 @@ import useHook from "../useHook";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 import { Input } from "@heroui/input";
 import { Radio, RadioGroup } from "@heroui/radio";
+import { Select, SelectItem } from "@heroui/select";
 
 export default function page({
   field,
@@ -175,14 +176,28 @@ export default function page({
         </form.Field>
         <form.Field name="vdrl_2">
           {(field) => (
-            <Input
+            <Select
               size="sm"
               className="col-span-2 pl-[10px]"
               label="VDRL"
-              type="text"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
-            />
+              selectedKeys={
+                field.state.value ? new Set([field.state.value]) : new Set()
+              }
+              onSelectionChange={(key) =>
+                field.handleChange(Array.from(key)[0])
+              }
+              onBlur={field.handleBlur}
+              isInvalid={field.state.meta.errors.length > 0}
+              errorMessage={field.state.meta.errors[0]?.message}
+            >
+              {data
+                .filter((vdrl_wife) => vdrl_wife.choice_type_id === 18)
+                .map((vdrl_wife) => (
+                  <SelectItem key={vdrl_wife.id}>
+                    {vdrl_wife.choice_name}
+                  </SelectItem>
+                ))}
+            </Select>
           )}
         </form.Field>
         <form.Field name="h">

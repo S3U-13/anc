@@ -19,7 +19,7 @@ export default function useHook({ closeModal }) {
 
   const fetchPosition = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/admin/position", {
+      const res = await fetch("http://172.16.30.38:3000/api/admin/position", {
         headers: {
           Authorization: `Bearer ${auth.token}`,
         },
@@ -33,7 +33,7 @@ export default function useHook({ closeModal }) {
 
   const fetchRole = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/admin/role", {
+      const res = await fetch("http://172.16.30.38:3000/api/admin/role", {
         headers: {
           Authorization: `Bearer ${auth.token}`,
         },
@@ -103,7 +103,7 @@ export default function useHook({ closeModal }) {
         }
 
         // ✅ ส่งข้อมูลไป API
-        const res = await fetch("http://localhost:3000/api/admin/addUser", {
+        const res = await fetch("http://172.16.30.38:3000/api/admin/addUser", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

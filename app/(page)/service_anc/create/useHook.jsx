@@ -482,26 +482,61 @@ export default function useHook({ closeFormService } = {}) {
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ OGTT ครั้งที่ 2" })
       .max(30),
-    hbsag_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ HBsAg" })
-      .max(30),
-    vdrl_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ VDRL" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    anti_hiv_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ Anti-HIV" })
-      .max(30),
-    bl_gr_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก หมู่เลือด" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    rh_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก หมู่เลือด Rh" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    hbsag_wife: z.preprocess(
+      (val) => {
+        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
+        if (val instanceof Set) {
+          const first = Array.from(val)[0];
+          return first || "";
+        }
+        return val ?? "";
+      },
+      z.string().min(1, { message: "กรุณาเลือกผลตรวจ HBsAg" })
+    ),
+    vdrl_wife: z.preprocess(
+      (val) => {
+        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
+        if (val instanceof Set) {
+          const first = Array.from(val)[0];
+          return first || "";
+        }
+        return val ?? "";
+      },
+      z.string().min(1, { message: "กรุณาเลือกผลตรวจ VDRL" })
+    ),
+    anti_hiv_wife: z.preprocess(
+      (val) => {
+        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
+        if (val instanceof Set) {
+          const first = Array.from(val)[0];
+          return first || "";
+        }
+        return val ?? "";
+      },
+      z.string().min(1, { message: "กรุณาเลือกผลตรวจ Anti-HIV" })
+    ),
+    bl_gr_wife: z.preprocess(
+      (val) => {
+        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
+        if (val instanceof Set) {
+          const first = Array.from(val)[0];
+          return first || "";
+        }
+        return val ?? "";
+      },
+      z.string().min(1, { message: "กรุณาเลือกหมู่เลือด" })
+    ),
+    rh_wife: z.preprocess(
+      (val) => {
+        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
+        if (val instanceof Set) {
+          const first = Array.from(val)[0];
+          return first || "";
+        }
+        return val ?? "";
+      },
+      z.string().min(1, { message: "กรุณาเลือกผลตรวจ" })
+    ),
     hct_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ HCT" })
@@ -510,10 +545,17 @@ export default function useHook({ closeFormService } = {}) {
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ OF" })
       .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    dcip_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ DCIP" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    dcip_wife: z.preprocess(
+      (val) => {
+        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
+        if (val instanceof Set) {
+          const first = Array.from(val)[0];
+          return first || "";
+        }
+        return val ?? "";
+      },
+      z.string().min(1, { message: "กรุณาเลือกผลตรวจ DCIP" })
+    ),
     mcv_wife: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ MCV" })
@@ -569,26 +611,61 @@ export default function useHook({ closeFormService } = {}) {
     per_os_id: z.coerce
       .string()
       .min(1, { message: "กรุณาระบุ การใช้ยาผ่านปาก" }),
-    hbsag_husband: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ HBsAg สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    vdrl_husband: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ VDRL สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    anti_hiv_husband: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ Anti-HIV สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    bl_gr_husband: z
-      .string()
-      .min(1, { message: "กรุณากรอก หมู่เลือด สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    rh_husband: z
-      .string()
-      .min(1, { message: "กรุณากรอก หมู่เลือด Rh สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    hbsag_husband: z.preprocess(
+      (val) => {
+        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
+        if (val instanceof Set) {
+          const first = Array.from(val)[0];
+          return first || "";
+        }
+        return val ?? "";
+      },
+      z.string().min(1, { message: "กรุณาเลือกผลตรวจ HBsAg" })
+    ),
+    vdrl_husband: z.preprocess(
+      (val) => {
+        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
+        if (val instanceof Set) {
+          const first = Array.from(val)[0];
+          return first || "";
+        }
+        return val ?? "";
+      },
+      z.string().min(1, { message: "กรุณาเลือกผลตรวจ VDRL" })
+    ),
+    anti_hiv_husband: z.preprocess(
+      (val) => {
+        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
+        if (val instanceof Set) {
+          const first = Array.from(val)[0];
+          return first || "";
+        }
+        return val ?? "";
+      },
+      z.string().min(1, { message: "กรุณาเลือกผลตรวจ Anti-HIV" })
+    ),
+    bl_gr_husband: z.preprocess(
+      (val) => {
+        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
+        if (val instanceof Set) {
+          const first = Array.from(val)[0];
+          return first || "";
+        }
+        return val ?? "";
+      },
+      z.string().min(1, { message: "กรุณาเลือกหมู่เลือด" })
+    ),
+    rh_husband: z.preprocess(
+      (val) => {
+        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
+        if (val instanceof Set) {
+          const first = Array.from(val)[0];
+          return first || "";
+        }
+        return val ?? "";
+      },
+      z.string().min(1, { message: "กรุณาเลือกผลตรวจ" })
+    ),
     hct_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ HCT สามี" })
@@ -597,10 +674,17 @@ export default function useHook({ closeFormService } = {}) {
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ OF สามี" })
       .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    dcip_husband: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ DCIP สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
+    dcip_husband: z.preprocess(
+      (val) => {
+        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
+        if (val instanceof Set) {
+          const first = Array.from(val)[0];
+          return first || "";
+        }
+        return val ?? "";
+      },
+      z.string().min(1, { message: "กรุณาเลือกผลตรวจ DCIP" })
+    ),
     mcv_husband: z
       .string()
       .min(1, { message: "กรุณากรอก ผลตรวจ MCV สามี" })

@@ -3,6 +3,7 @@ import { Input } from "@heroui/input";
 import { Radio, RadioGroup } from "@heroui/radio";
 import React from "react";
 import useHook from "../useHook";
+import { Select, SelectItem } from "@heroui/select";
 
 export default function page({
   selectedAnc,
@@ -70,17 +71,26 @@ export default function page({
           }}
         >
           {(field) => (
-            <Input
+            <Select
               size="sm"
               className="col-span-2"
-              label="HbsAg"
-              type="text"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
+              label="Hbs Ag"
+              selectedKeys={
+                field.state.value ? new Set([field.state.value]) : new Set()
+              }
+              onSelectionChange={(key) =>
+                field.handleChange(Array.from(key)[0])
+              }
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
-            />
+            >
+              {data
+                .filter((hbsag) => hbsag.choice_type_id === 17)
+                .map((hbsag) => (
+                  <SelectItem key={hbsag.id}>{hbsag.choice_name}</SelectItem>
+                ))}
+            </Select>
           )}
         </form.Field>
         <form.Field
@@ -90,17 +100,28 @@ export default function page({
           }}
         >
           {(field) => (
-            <Input
+            <Select
               size="sm"
               className="col-span-2"
               label="VDRL"
-              type="text"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
+              selectedKeys={
+                field.state.value ? new Set([field.state.value]) : new Set()
+              }
+              onSelectionChange={(key) =>
+                field.handleChange(Array.from(key)[0])
+              }
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
-            />
+            >
+              {data
+                .filter((vdrl_wife) => vdrl_wife.choice_type_id === 18)
+                .map((vdrl_wife) => (
+                  <SelectItem key={vdrl_wife.id}>
+                    {vdrl_wife.choice_name}
+                  </SelectItem>
+                ))}
+            </Select>
           )}
         </form.Field>
         <form.Field
@@ -110,17 +131,28 @@ export default function page({
           }}
         >
           {(field) => (
-            <Input
+            <Select
               size="sm"
               className="col-span-2"
-              label="Anti HIV"
-              type="text"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
+              label="Anti-hiv"
+              selectedKeys={
+                field.state.value ? new Set([field.state.value]) : new Set()
+              }
+              onSelectionChange={(key) =>
+                field.handleChange(Array.from(key)[0])
+              }
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
-            />
+            >
+              {data
+                .filter((anti_hiv) => anti_hiv.choice_type_id === 19)
+                .map((anti_hiv) => (
+                  <SelectItem key={anti_hiv.id}>
+                    {anti_hiv.choice_name}
+                  </SelectItem>
+                ))}
+            </Select>
           )}
         </form.Field>
         <form.Field
@@ -152,17 +184,26 @@ export default function page({
             }}
           >
             {(field) => (
-              <Input
+              <Select
                 size="sm"
                 className="col-span-1"
                 label="Bl.gr"
-                type="text"
-                value={field.state.value}
-                onChange={(e) => field.handleChange(e.target.value)}
+                selectedKeys={
+                  field.state.value ? new Set([field.state.value]) : new Set()
+                }
+                onSelectionChange={(key) =>
+                  field.handleChange(Array.from(key)[0])
+                }
                 onBlur={field.handleBlur}
                 isInvalid={field.state.meta.errors.length > 0}
                 errorMessage={field.state.meta.errors[0]?.message}
-              />
+              >
+                {data
+                  .filter((bl_gr) => bl_gr.choice_type_id === 20)
+                  .map((bl_gr) => (
+                    <SelectItem key={bl_gr.id}>{bl_gr.choice_name}</SelectItem>
+                  ))}
+              </Select>
             )}
           </form.Field>
           <form.Field
@@ -172,17 +213,26 @@ export default function page({
             }}
           >
             {(field) => (
-              <Input
+              <Select
                 size="sm"
                 className="col-span-1"
-                label="Rh"
-                type="text"
-                value={field.state.value}
-                onChange={(e) => field.handleChange(e.target.value)}
+                label="rh"
+                selectedKeys={
+                  field.state.value ? new Set([field.state.value]) : new Set()
+                }
+                onSelectionChange={(key) =>
+                  field.handleChange(Array.from(key)[0])
+                }
                 onBlur={field.handleBlur}
                 isInvalid={field.state.meta.errors.length > 0}
                 errorMessage={field.state.meta.errors[0]?.message}
-              />
+              >
+                {data
+                  .filter((rh) => rh.choice_type_id === 21)
+                  .map((rh) => (
+                    <SelectItem key={rh.id}>{rh.choice_name}</SelectItem>
+                  ))}
+              </Select>
             )}
           </form.Field>
           <form.Field
@@ -233,17 +283,26 @@ export default function page({
           }}
         >
           {(field) => (
-            <Input
+            <Select
               size="sm"
               className="col-span-2"
               label="DCIP"
-              type="text"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
+              selectedKeys={
+                field.state.value ? new Set([field.state.value]) : new Set()
+              }
+              onSelectionChange={(key) =>
+                field.handleChange(Array.from(key)[0])
+              }
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
-            />
+            >
+              {data
+                .filter((dcip) => dcip.choice_type_id === 22)
+                .map((dcip) => (
+                  <SelectItem key={dcip.id}>{dcip.choice_name}</SelectItem>
+                ))}
+            </Select>
           )}
         </form.Field>
         <form.Field
