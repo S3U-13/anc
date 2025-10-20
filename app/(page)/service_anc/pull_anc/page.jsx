@@ -63,6 +63,7 @@ export default function App({
     selectedKeys,
     headerColumns,
     handleSelectionChange,
+    modalRef,
   } = useHook();
 
   return (
@@ -72,7 +73,7 @@ export default function App({
       size="5xl"
       onOpenChange={closeModalAnc}
     >
-      <ModalContent>
+      <ModalContent ref={modalRef}>
         {(closeModalAnc) => (
           <>
             <ModalHeader>ทะเบียน ANC</ModalHeader>

@@ -1,12 +1,13 @@
 "use client"; // ✅
 import { useAuth } from "@/context/AuthContext";
-import React from "react";
+import React, { useRef } from "react";
 import { useEffect, useState, useMemo } from "react";
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export default function useHook() {
   const auth = useAuth();
+  const modalRef = useRef(null);
   const [dataAnc, setDataAnc] = useState([]);
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
@@ -53,6 +54,9 @@ export default function useHook() {
             .toLowerCase()
             .includes(keyword) ||
           String(item.wife?.firstname || "")
+            .toLowerCase()
+            .includes(keyword) ||
+          String(item.hn_husband || "")
             .toLowerCase()
             .includes(keyword) ||
           String(item.husband?.firstname || "")
@@ -175,5 +179,6 @@ export default function useHook() {
     sortDescriptor,
     fetchDataAnc,
     headerColumns,
+    modalRef,
   };
 }

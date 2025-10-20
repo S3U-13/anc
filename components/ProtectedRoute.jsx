@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { CircularProgress } from "@heroui/progress";
 import { addToast } from "@heroui/toast";
+import { Spinner } from "@heroui/react";
 
 export default function ProtectedRoute({ children, role }) {
   const { user, loading } = useAuth();
@@ -19,12 +20,11 @@ export default function ProtectedRoute({ children, role }) {
   if (loading)
     return (
       <div className="fixed inset-0 flex justify-center items-center">
-        <CircularProgress
-          aria-label="Loading..."
-          color="default"
+        <Spinner
           size="lg"
-          isIndeterminate={true}
-          showValueLabel={true}
+          classNames={{ label: "text-foreground" }}
+          label="loading"
+          variant="wave"
         />
       </div>
     ); // รอ context โหลดก่อน

@@ -16,14 +16,16 @@ export default function useHook() {
   const [page, setPage] = useState(1);
   const [openFormService, setOpenFormService] = useState(false);
   const [openViewAncService, setOpenViewAncService] = useState(false);
+  const [openEditAncService, setOpenEditAncService] = useState(false);
 
+  console.log(dataAnc);
   useEffect(() => {
     fetchDataAnc();
   }, []);
 
   const fetchDataAnc = async () => {
     try {
-      const res = await fetch("http://172.16.30.38:3000/api/user/ancservice", {
+      const res = await fetch("http://localhost:3000/api/user/ancservice", {
         headers: {
           Authorization: `Bearer ${auth.token}`,
         },
@@ -42,6 +44,9 @@ export default function useHook() {
 
   const openModalView = () => {
     setOpenViewAncService((prev) => !prev);
+  };
+  const openModalEdit = () => {
+    setOpenEditAncService((prev) => !prev);
   };
 
   // ✅ filter data
@@ -92,6 +97,8 @@ export default function useHook() {
     { uid: "hn_husband", name: "HN (สามี)" },
     { uid: "husband_name", name: "ชื่อ (สามี)" },
     { uid: "gravida", name: "ท้องที่" },
+    { uid: "status", name: "สถานะการตั้งครรภ์" },
+    { uid: "check", name: "ฝากครรภ์ตามเกณฑ์" },
   ];
 
   // ✅ sort
@@ -133,7 +140,16 @@ export default function useHook() {
 
   // ค่าเริ่มต้นเลือกทุกคอลัมน์
   const [visibleColumns, setVisibleColumns] = useState(
-    new Set(["anc_no", "hn_wife", "wife_name", "address", "phone", "gravida"])
+    new Set([
+      "anc_no",
+      "hn_wife",
+      "wife_name",
+      "address",
+      "phone",
+      "gravida",
+      "status",
+      "check",
+    ])
   );
 
   const onClear = () => setFilterValue("");
@@ -162,8 +178,6 @@ export default function useHook() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSelectRound = async (roundId) => {
-    console.log("id ที่เลือก", selectedRoundId);
-    console.log("ข้อมูลในรอบนั้น", roundData);
     setSelectedRoundId(roundId);
     setOpenViewAncService(true);
     setIsLoading(true);
@@ -171,7 +185,7 @@ export default function useHook() {
 
     try {
       const res = await fetch(
-        `http://172.16.30.38:3000/api/user/show-service-by-id/${roundId}`,
+        `http://localhost:3000/api/user/show-service-by-id/${roundId}`,
         {
           headers: {
             Authorization: `Bearer ${auth.token}`,
@@ -184,6 +198,34 @@ export default function useHook() {
       console.error("Error fetching round data:", err);
     } finally {
       setIsLoading(false);
+    }
+  };
+  const [selectedEditId, setSelectedEditId] = useState(null);
+  const [currentData, setCurrentData] = useState(null);
+  const [isEditLoading, setIsEditLoading] = useState(false);
+  console.log(selectedEditId)
+
+  const handleSelectEditId = async (roundId) => {
+    setSelectedEditId(roundId);
+    setOpenEditAncService(true);
+    setIsEditLoading(true);
+    setCurrentData(null);
+
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/user/show-service-by-id/${roundId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      );
+      const data = await res.json();
+      setCurrentData(data);
+    } catch (err) {
+      console.error("Error fetching round data:", err);
+    } finally {
+      setIsEditLoading(false);
     }
   };
 
@@ -538,5 +580,10 @@ export default function useHook() {
     height,
     checkLabRisk,
     getLabWarning,
+    handleSelectEditId,
+    openEditAncService,
+    setOpenEditAncService,
+    currentData,
+    isEditLoading,
   };
 }

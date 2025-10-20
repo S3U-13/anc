@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://172.16.30.38:3000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 const loginAPI = async (user_name, password) => {
   const res = await fetch(`${API_URL}/api/login`, {
