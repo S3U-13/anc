@@ -187,7 +187,7 @@ export default function useHook({ closeFormService } = {}) {
   ];
 
   const [selectedRef, setSelectedRef] = useState(
-    [field.ref_1_id, field.ref_2_id].filter(Boolean)
+    [field.ref_value_1_id, field.ref_value_2_id].filter(Boolean)
   );
 
   const handleChangeBti = (vals) => {

@@ -5,12 +5,15 @@ import { parseDate, getLocalTimeZone } from "@internationalized/date";
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
 import { useAuth } from "@/context/AuthContext";
+import { useParams } from "next/navigation";
 
 export default function useHook({
   openEditService,
   closeEditService,
   currentData,
+  selectedEditId,
 } = {}) {
+  const id = selectedEditId;
   const modalRef = useRef(null);
   const auth = useAuth();
   const [data, setData] = useState([]);
@@ -126,8 +129,8 @@ export default function useHook({
     hb_typing_husband: "",
     pcr_hus_text: "",
     pcr_hus_id: "",
-    ref_value_1_id: "",
-    ref_value_2_id: "",
+    ref_value_1_id: null,
+    ref_value_2_id: null,
     receive_in_id: null,
     receive_in_detail: "",
     hos_in_id: null,
@@ -191,7 +194,10 @@ export default function useHook({
   ];
 
   const [selectedRef, setSelectedRef] = useState(
-    [field.ref_1_id, field.ref_2_id].filter(Boolean)
+    [
+      field.ref_value_1_id, 
+      field.ref_value_2_id
+    ].filter(Boolean)
   );
 
   const handleChangeBti = (vals) => {
@@ -372,21 +378,24 @@ export default function useHook({
     if (isSubmitting) return;
     try {
       setIsSubmitting(true); // เริ่มส่งข้อมูล
-      const res = await fetch(`http://localhost:3000/api/user/ancservice`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${auth.token}`,
-        },
-        body: JSON.stringify(value), // ✅ ใช้ validated data
-      });
+      const res = await fetch(
+        `http://localhost:3000/api/user/edit-service-by-id/${id}`, // id ต้องมีค่า
+        {
+          method: "PUT", // ใช้ PUT ตาม backend
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.token}`,
+          },
+          body: JSON.stringify(value),
+        }
+      );
 
       const json = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error("ลงทะเบียน ANC ไม่สำเร็จ");
+      if (!res.ok) throw new Error("แก้ไขข้อมูลไม่สำเร็จ");
 
       addToast({
         title: "สำเร็จ",
-        description: "เพิ่มข้อมูลสำเร็จ",
+        description: "เเก้ไขข้อมูลสำเร็จ",
         variant: "flat",
         color: "success",
       });
@@ -413,7 +422,7 @@ export default function useHook({
     } catch (error) {
       addToast({
         title: "ไม่สำเร็จ",
-        description: "เพิ่มข้อมูลไม่สำเร็จ",
+        description: "เเก้ไขข้อมูลไม่สำเร็จ",
         variant: "flat",
         color: "danger",
       });

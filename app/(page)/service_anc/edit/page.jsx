@@ -23,6 +23,7 @@ export default function page({
   closeEditService,
   currentData,
   isEditLoading,
+  selectedEditId,
 }) {
   const [pullAnc, setPullAnc] = useState(false);
 
@@ -65,7 +66,12 @@ export default function page({
     Dates,
     selectedRef,
     modalRef,
-  } = useHook({ openEditService, closeEditService, currentData });
+  } = useHook({
+    openEditService,
+    closeEditService,
+    currentData,
+    selectedEditId,
+  });
 
   return (
     <div>

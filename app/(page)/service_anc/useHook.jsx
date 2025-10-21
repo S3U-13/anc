@@ -18,7 +18,6 @@ export default function useHook() {
   const [openViewAncService, setOpenViewAncService] = useState(false);
   const [openEditAncService, setOpenEditAncService] = useState(false);
 
-  console.log(dataAnc);
   useEffect(() => {
     fetchDataAnc();
   }, []);
@@ -203,7 +202,7 @@ export default function useHook() {
   const [selectedEditId, setSelectedEditId] = useState(null);
   const [currentData, setCurrentData] = useState(null);
   const [isEditLoading, setIsEditLoading] = useState(false);
-  console.log(selectedEditId)
+  console.log(selectedEditId);
 
   const handleSelectEditId = async (roundId) => {
     setSelectedEditId(roundId);
@@ -585,5 +584,6 @@ export default function useHook() {
     setOpenEditAncService,
     currentData,
     isEditLoading,
+    selectedEditId,
   };
 }

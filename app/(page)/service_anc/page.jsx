@@ -78,6 +78,7 @@ export default function App() {
     setOpenEditAncService,
     currentData,
     isEditLoading,
+    selectedEditId,
   } = useHook();
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
@@ -282,19 +283,11 @@ export default function App() {
               ))}
               <TableCell>
                 <div className="flex justify-center gap-[10px] items-center">
-                  <Tooltip color="default" content="ดูข้อมูล">
-                    <ViewById
-                      item={item}
-                      handleSelectRound={handleSelectRound}
-                    />
-                  </Tooltip>
-
-                  <Tooltip color="default" content="แก้ไขข้อมูล">
-                    <EditById
-                      item={item}
-                      handleSelectEditId={handleSelectEditId}
-                    />
-                  </Tooltip>
+                  <ViewById item={item} handleSelectRound={handleSelectRound} />
+                  <EditById
+                    item={item}
+                    handleSelectEditId={handleSelectEditId}
+                  />
                 </div>
               </TableCell>
             </TableRow>
@@ -343,9 +336,13 @@ export default function App() {
       />
       <ModalEditAncService
         openEditService={openEditAncService}
-        closeEditService={() => setOpenEditAncService(false)}
+        closeEditService={() => {
+          setOpenEditAncService(false);
+          fetchDataAnc();
+        }}
         currentData={currentData}
         isEditLoading={isEditLoading}
+        selectedEditId={selectedEditId}
       />
     </div>
   );

@@ -13,9 +13,6 @@ import { DatePicker } from "@heroui/date-picker";
 import { Input } from "@heroui/input";
 
 export default function page({
-  field,
-  setField,
-  handleChange,
   coverageSite,
   handleChangeRefIn,
   selectedRef,
@@ -68,6 +65,9 @@ export default function page({
                                         label="รพช/รพสต"
                                         placeholder="ค้นหา.."
                                         scrollShadowProps={{ isEnabled: false }}
+                                        selectedKey={String(
+                                          field.state.value || ""
+                                        )}
                                         value={String(field.state.value || "")} // แปลงเป็น string
                                         onSelectionChange={(key) =>
                                           field.handleChange(key)
@@ -135,6 +135,9 @@ export default function page({
                                         label="รพช/รพสต"
                                         placeholder="ค้นหา.."
                                         scrollShadowProps={{ isEnabled: false }}
+                                        selectedKey={String(
+                                          field.state.value || ""
+                                        )}
                                         value={String(field.state.value || "")} // แปลงเป็น string
                                         onSelectionChange={(key) =>
                                           field.handleChange(key)

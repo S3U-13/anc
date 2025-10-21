@@ -91,7 +91,7 @@ export default function Navbar() {
           classNames={{
             tabList:
               "gap-6 w-full bg-[#ffffff] mt-[10px] relative rounded-lg p-1 border-b border-divider px-4",
-            cursor: "w-full bg-[#7828C8]",
+            cursor: "w-full bg-default-500",
             tab: "max-w-fit ",
             tabContent: "group-data-[selected=true]:text-[#000000]",
           }}

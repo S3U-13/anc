@@ -1,9 +1,15 @@
 "use client";
 import { Button } from "@heroui/button";
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/dropdown";
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from "@heroui/dropdown";
+import { Tooltip } from "@heroui/tooltip";
 import React from "react";
 
-export default function ViewById({item, handleSelectRound}) {
+export default function ViewById({ item, handleSelectRound }) {
   return (
     <div>
       <Dropdown>
@@ -37,7 +43,7 @@ export default function ViewById({item, handleSelectRound}) {
               key={r.id}
               onClick={() => handleSelectRound(r.id)} // ✅ ส่ง id ที่เลือก
             >
-            {r.label}
+              {r.label}
             </DropdownItem>
           ))}
         </DropdownMenu>
