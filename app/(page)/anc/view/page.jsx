@@ -16,7 +16,12 @@ export default function page({ openModalView, closeModalView }) {
   const { activeStep, setActiveStep, steps } = useHook();
   return (
     <div>
-      <Modal size="5xl" isOpen={openModalView} onOpenChange={closeModalView}>
+      <Modal
+        className="dark:border dark:border-divider"
+        size="5xl"
+        isOpen={openModalView}
+        onOpenChange={closeModalView}
+      >
         <ModalContent>
           {(closeModalView) => (
             <>

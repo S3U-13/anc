@@ -80,6 +80,7 @@ export default function page({
           footer: "border-t border-divider",
           body: "py-[10px]",
         }}
+        className="dark:border dark:border-divider"
       >
         <ModalContent ref={modalRef}>
           {(closeFormService) => (
@@ -91,7 +92,7 @@ export default function page({
                   onSelectionChange={setActiveStep}
                   size="sm"
                   classNames={{
-                    tabList: "mx-auto w-full bg-[#ffffff]",
+                    tabList: "mx-auto w-full bg-[#ffffff] dark:bg-[#18181b]",
                     tabContent:
                       "group-data-[selected=true]:bg-[#AE7EDE] p-1 rounded-sm w-full bg-[#D4D4D8]",
                   }}

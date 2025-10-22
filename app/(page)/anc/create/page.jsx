@@ -46,11 +46,11 @@ export default function page({ openModal, closeModal }) {
   } = useHook({ closeModal });
   return (
     <Modal
+    className="dark:border dark:border-divider"
       classNames={{
         header:
           "flex justify-center border-b border-divider mt-[10px] mb-[10px] text-2xl",
         footer: "border-t border-divider",
-        body: "my-[10px]",
       }}
       backdrop="blur"
       size="3xl"

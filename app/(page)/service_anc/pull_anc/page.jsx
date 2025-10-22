@@ -78,7 +78,7 @@ export default function App({
           <>
             <ModalHeader>ทะเบียน ANC</ModalHeader>
             <ModalBody>
-              <div className="mt-[10px] bg-[#ffffff] rounded-lg">
+              <div className="mt-[10px] rounded-lg">
                 <div className="mb-[10px] gap-[10px] flex justify-between">
                   <Input
                     value={filterValue}

@@ -57,6 +57,7 @@ export default function page({
                               <Radio value={String(rec.id)}>
                                 {rec.choice_name}
                               </Radio>
+
                               {String(rec.id) === "42" &&
                                 field.state.value === "42" && (
                                   <form.Field name="hos_in_id">
@@ -68,6 +69,7 @@ export default function page({
                                         label="รพช/รพสต"
                                         placeholder="ค้นหา.."
                                         scrollShadowProps={{ isEnabled: false }}
+                                        selectedKey={field.state.value}
                                         onSelectionChange={(key) =>
                                           field.handleChange(key)
                                         }
@@ -132,6 +134,7 @@ export default function page({
                                         label="รพช/รพสต"
                                         placeholder="ค้นหา.."
                                         scrollShadowProps={{ isEnabled: false }}
+                                        selectedKey={field.state.value}
                                         onSelectionChange={(key) =>
                                           field.handleChange(key)
                                         }

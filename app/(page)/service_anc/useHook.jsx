@@ -202,7 +202,6 @@ export default function useHook() {
   const [selectedEditId, setSelectedEditId] = useState(null);
   const [currentData, setCurrentData] = useState(null);
   const [isEditLoading, setIsEditLoading] = useState(false);
-  console.log(selectedEditId);
 
   const handleSelectEditId = async (roundId) => {
     setSelectedEditId(roundId);

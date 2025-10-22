@@ -18,7 +18,7 @@ export default function useHook({
   const auth = useAuth();
   const [data, setData] = useState([]);
   const [coverageSite, setCoverageSite] = useState([]);
-  console.log(data);
+
   const fetchData = async () => {
     try {
       const res = await fetch("http://localhost:3000/api/user/mapAll", {
@@ -194,10 +194,7 @@ export default function useHook({
   ];
 
   const [selectedRef, setSelectedRef] = useState(
-    [
-      field.ref_value_1_id, 
-      field.ref_value_2_id
-    ].filter(Boolean)
+    [field.ref_value_1_id, field.ref_value_2_id].filter(Boolean)
   );
 
   const handleChangeBti = (vals) => {
@@ -223,14 +220,36 @@ export default function useHook({
   };
 
   const handleChangeRefIn = (vals) => {
+    // vals มาจาก CheckboxGroup (array) — แปลงเป็น string array ให้แน่นอน
     const updatedSelected = vals.map(String);
+
+    // หา checkbox ที่ถูกยกเลิก: ค่าเก่าที่ไม่มีใน updatedSelected
+    const removed = selectedRef.filter((v) => !updatedSelected.includes(v));
+
+    // อัปเดต state หลัก แค่ครั้งเดียว
     setSelectedRef(updatedSelected);
 
+    // คำนวณค่า field ที่ต้องเซ็ตจาก selected ใหม่ (เหมือนเดิม)
     const refField = mapCheckboxValues("ref", updatedSelected, 2, refChoice);
 
     Object.entries(refField).forEach(([key, value]) => {
+      // value ที่ได้ ถ้าเป็น undefined ให้เป็น null (หรือ "" แล้วแต่ convention ของคุณ)
       form.setFieldValue(key, value ?? null);
     });
+
+    // ถ้ามีการ uncheck "ส่งใน" (id 40) ให้ล้างฟิลด์ที่เกี่ยวข้อง
+    if (removed.includes("40")) {
+      form.setFieldValue("receive_in_id", null);
+      form.setFieldValue("hos_in_id", null);
+      form.setFieldValue("receive_in_detail", null);
+    }
+
+    // ถ้ามีการ uncheck "ส่งนอก" (id 41) ให้ล้างฟิลด์ที่เกี่ยวข้อง
+    if (removed.includes("41")) {
+      form.setFieldValue("receive_out_id", null);
+      form.setFieldValue("hos_out_id", null);
+      form.setFieldValue("receive_out_detail", null);
+    }
   };
 
   const [selectedAnc, setSelectedAnc] = useState(null);
@@ -374,7 +393,7 @@ export default function useHook({
   };
 
   const handleSubmit = async (value) => {
-    console.log("submit field:", value);
+    // console.log("submit field:", value);
     if (isSubmitting) return;
     try {
       setIsSubmitting(true); // เริ่มส่งข้อมูล
@@ -724,10 +743,10 @@ export default function useHook({
   const form = useForm({
     defaultValues,
     onSubmit: async ({ value }) => {
-      console.log("onSubmit triggered", value);
+      // console.log("onSubmit triggered", value);
       try {
         const validatedData = validationSchema.parse(value);
-        console.log("validatedData:", validatedData);
+        // console.log("validatedData:", validatedData);
         await handleSubmit(validatedData);
       } catch (error) {
         console.error("Validation error:", error);
@@ -866,11 +885,23 @@ export default function useHook({
       }
 
       // 7️⃣ เซ็ต selected state ของ Referral
-      if (currentData.wife?.choices?.referral_value) {
+      if (currentData?.wife?.choices?.referral_value) {
         const ref = currentData.wife.choices.referral_value;
-        setSelectedRef(
-          [ref.ref_value_1_id, ref.ref_value_2_id].filter(Boolean).map(String)
+        const initialSelected = [ref.ref_value_1_id, ref.ref_value_2_id]
+          .filter(Boolean)
+          .map(String);
+
+        setSelectedRef(initialSelected);
+
+        const refField = mapCheckboxValues(
+          "ref",
+          initialSelected,
+          2,
+          refChoice
         );
+        Object.entries(refField).forEach(([key, value]) => {
+          form.setFieldValue(key, value ?? null);
+        });
       }
 
       // 8️⃣ เซ็ต Dates สำหรับ DatePicker (HeroUI parseDate)

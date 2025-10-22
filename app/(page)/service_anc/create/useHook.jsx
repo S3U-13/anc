@@ -11,7 +11,7 @@ export default function useHook({ closeFormService } = {}) {
   const auth = useAuth();
   const [data, setData] = useState([]);
   const [coverageSite, setCoverageSite] = useState([]);
-  console.log(data);
+
   const fetchData = async () => {
     try {
       const res = await fetch("http://localhost:3000/api/user/mapAll", {
@@ -213,14 +213,36 @@ export default function useHook({ closeFormService } = {}) {
   };
 
   const handleChangeRefIn = (vals) => {
+    // vals มาจาก CheckboxGroup (array) — แปลงเป็น string array ให้แน่นอน
     const updatedSelected = vals.map(String);
+
+    // หา checkbox ที่ถูกยกเลิก: ค่าเก่าที่ไม่มีใน updatedSelected
+    const removed = selectedRef.filter((v) => !updatedSelected.includes(v));
+
+    // อัปเดต state หลัก แค่ครั้งเดียว
     setSelectedRef(updatedSelected);
 
+    // คำนวณค่า field ที่ต้องเซ็ตจาก selected ใหม่ (เหมือนเดิม)
     const refField = mapCheckboxValues("ref", updatedSelected, 2, refChoice);
 
     Object.entries(refField).forEach(([key, value]) => {
+      // value ที่ได้ ถ้าเป็น undefined ให้เป็น null (หรือ "" แล้วแต่ convention ของคุณ)
       form.setFieldValue(key, value ?? null);
     });
+
+    // ถ้ามีการ uncheck "ส่งใน" (id 40) ให้ล้างฟิลด์ที่เกี่ยวข้อง
+    if (removed.includes("40")) {
+      form.setFieldValue("receive_in_id", null);
+      form.setFieldValue("hos_in_id", null);
+      form.setFieldValue("receive_in_detail", null);
+    }
+
+    // ถ้ามีการ uncheck "ส่งนอก" (id 41) ให้ล้างฟิลด์ที่เกี่ยวข้อง
+    if (removed.includes("41")) {
+      form.setFieldValue("receive_out_id", null);
+      form.setFieldValue("hos_out_id", null);
+      form.setFieldValue("receive_out_detail", null);
+    }
   };
 
   const [selectedAnc, setSelectedAnc] = useState(null);
@@ -319,8 +341,6 @@ export default function useHook({ closeFormService } = {}) {
 
     // update form
     form.setFieldValue(fieldName, iso);
-
-    console.log(`[${fieldName}] set to`, iso);
   };
 
   // แปลง CalendarDate -> "YYYY-MM-DD"

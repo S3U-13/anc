@@ -34,95 +34,135 @@ export default function page({
   return (
     <div>
       <Modal
+        backdrop="blur"
         isOpen={openViewService}
         onOpenChange={closeViewService}
         size="4xl"
         classNames={{
-          base: "bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-gray-100",
-          body: "border-t border-gray-200 py-6 px-6 overflow-y-auto max-h-[calc(85vh-110px)]",
-          footer: "border-t border-gray-200 flex justify-end gap-3 py-4 px-6",
+          base: "bg-white/95 dark:bg-[#18181b] backdrop-blur-md rounded-2xl shadow-xl border border-gray-100",
+          body: "border-t border-gray-200 dark:border-divider py-6 px-6 overflow-y-auto max-h-[calc(85vh-110px)]",
+          footer:
+            "border-t border-gray-200 dark:border-divider flex justify-end gap-3 py-4 px-6",
         }}
+        className="dark:border dark:border-divider"
       >
         <ModalContent>
           {(closeViewService) => (
             <>
-              <ModalHeader className="flex justify-center text-center text-2xl font-semibold text-gray-800 tracking-wide py-6">
+              <ModalHeader className="flex justify-center text-center text-2xl font-semibold text-gray-800 dark:text-white tracking-wide py-6">
                 หน้าดูข้อมูลบริการ ANC
               </ModalHeader>
 
               <ModalBody>
                 <div className="space-y-10 text-gray-700 text-sm">
                   {/* ------------------ ส่วนที่ 1 ------------------ */}
-                  <section className="bg-white shadow-sm rounded-2xl border border-gray-200 p-6 mb-8">
-                    <h2 className="text-xl font-semibold text-gray-800 border-l-4 border-gray-500 pl-3 mb-5">
+                  <section className="bg-white dark:border-[#3d3d3d] dark:bg-[#27272a] shadow-sm rounded-2xl border border-gray-200 p-6 mb-8">
+                    <h2 className="text-xl font-semibold text-gray-800 dark:text-white border-l-4 border-gray-500 dark:border-[#ffffff] pl-3 mb-5">
                       ส่วนที่ 1 : ข้อมูลทั่วไป
                     </h2>
-                    <hr className="col-span-2 my-2 border-gray-200 pb-2" />
+                    <hr className="col-span-2 my-2 border-gray-200 dark:border-[#3d3d3d] pb-2" />
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-gray-700 px-6">
                       <span>
-                        <strong className="text-gray-900">รอบที่ :</strong>{" "}
-                        {roundData?.service_info.round}
+                        <strong className="text-gray-900 dark:text-white">
+                          รอบที่ :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.service_info.round}
+                        </span>
                       </span>
 
                       <span>
-                        <strong className="text-gray-900">วันที่ :</strong>{" "}
-                        {formatThaiDateTime(
-                          roundData?.service_info.service_date
-                        )}
+                        <strong className="text-gray-900 dark:text-white">
+                          วันที่ :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {" "}
+                          {formatThaiDateTime(
+                            roundData?.service_info.service_date
+                          )}
+                        </span>
                       </span>
 
                       <span>
-                        <strong className="text-gray-900">หมายเลข ANC :</strong>{" "}
-                        {roundData?.service_info.anc_no}
+                        <strong className="text-gray-900 dark:text-white">
+                          หมายเลข ANC :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.service_info.anc_no}
+                        </span>
                       </span>
                       <span>
-                        <strong className="text-gray-900">HN :</strong>{" "}
-                        {roundData?.wife.profile.hn}
+                        <strong className="text-gray-900 dark:text-white">
+                          HN :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.wife.profile.hn}
+                        </span>
                       </span>
                       <span>
-                        <strong className="text-gray-900">
+                        <strong className="text-gray-900 dark:text-white">
                           หมายเลข PAT VISIT :
                         </strong>{" "}
-                        {roundData?.service_info.patvisit_id}
+                        <span className="dark:text-gray-400">
+                          {roundData?.service_info.patvisit_id}
+                        </span>
                       </span>
 
                       <span>
-                        <strong className="text-gray-900">
+                        <strong className="text-gray-900 dark:text-white">
                           PAT VISIT DATE :
                         </strong>{" "}
-                        {formatThaiDateTime(
-                          roundData?.wife.profile.pat_reg[0].PatVisit
-                            .visitdatetime
-                        )}
+                        <span className="dark:text-gray-400">
+                          {" "}
+                          {formatThaiDateTime(
+                            roundData?.wife.profile.pat_reg[0].PatVisit
+                              .visitdatetime
+                          )}
+                        </span>
                       </span>
 
                       <span>
-                        <strong className="text-gray-900">
+                        <strong className="text-gray-900 dark:text-white">
                           หมายเลข PAT REG :
                         </strong>{" "}
-                        {roundData?.service_info.patreg_id}
+                        <span className="dark:text-gray-400">
+                          {roundData?.service_info.patreg_id}
+                        </span>
                       </span>
 
                       <span>
-                        <strong className="text-gray-900">
+                        <strong className="text-gray-900 dark:text-white">
                           PAT REG LOCATION :
                         </strong>{" "}
-                        {roundData?.wife.profile.pat_reg[0].Location.detailtext}
+                        <span className="dark:text-gray-400">
+                          {
+                            roundData?.wife.profile.pat_reg[0].Location
+                              .detailtext
+                          }
+                        </span>
                       </span>
 
                       <span>
-                        <strong className="text-gray-900">ชื่อ :</strong>{" "}
-                        {`${roundData?.wife.profile.prename}${roundData?.wife.profile.firstname} ${roundData?.wife.profile.lastname}`}
+                        <strong className="text-gray-900 dark:text-white">
+                          ชื่อ :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {`${roundData?.wife.profile.prename}${roundData?.wife.profile.firstname} ${roundData?.wife.profile.lastname}`}
+                        </span>
                       </span>
 
                       <span>
-                        <strong className="text-gray-900">
+                        <strong className="text-gray-900 dark:text-white">
                           เลขบัตรประชาชน :
                         </strong>{" "}
-                        {roundData?.wife.profile.citizencardno}
+                        <span className="dark:text-gray-400">
+                          {roundData?.wife.profile.citizencardno}
+                        </span>
                       </span>
                       <span className="flex gap-1 items-center">
-                        <strong className="text-gray-900">อายุ :</strong>{" "}
+                        <strong className="text-gray-900 dark:text-white">
+                          อายุ :
+                        </strong>{" "}
                         {(() => {
                           const age = calculateAge(
                             roundData?.wife.profile.birthdatetime
@@ -133,7 +173,7 @@ export default function page({
 
                           return (
                             <div className="flex items-center">
-                              <span className="text-gray-900 font-medium">
+                              <span className="text-gray-900 dark:text-gray-400 font-medium">
                                 {age}
                               </span>
                               {isRisk && (
@@ -152,34 +192,54 @@ export default function page({
                         })()}
                       </span>
                       <span>
-                        <strong className="text-gray-900">อาชีพ :</strong>{" "}
-                        {roundData?.wife.profile.occupation_detail.lookupname}
+                        <strong className="text-gray-900 dark:text-white">
+                          อาชีพ :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.wife.profile.occupation_detail.lookupname}
+                        </span>
                       </span>
                       <span>
-                        <strong className="text-gray-900">เบอร์โทร :</strong>{" "}
-                        {roundData?.wife.profile.pat_address.phone}
+                        <strong className="text-gray-900 dark:text-white">
+                          เบอร์โทร :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.wife.profile.pat_address.phone}
+                        </span>
                       </span>
                       <span>
-                        <strong className="text-gray-900">Email :</strong>{" "}
-                        {roundData?.wife.profile.pat_address.email || "ไม่ระบุ"}
+                        <strong className="text-gray-900 dark:text-white">
+                          Email :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.wife.profile.pat_address.email ||
+                            "ไม่ระบุ"}
+                        </span>
                       </span>
                       <span className="col-span-2">
-                        <strong className="text-gray-900">ที่อยู่ :</strong>{" "}
-                        {formatAddress(roundData?.wife.profile.pat_address)}
+                        <strong className="text-gray-900 dark:text-white">
+                          ที่อยู่ :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {formatAddress(roundData?.wife.profile.pat_address)}
+                        </span>
                       </span>
 
-                      <hr className="col-span-2 my-2 border-gray-200" />
+                      <hr className="col-span-2 my-2 border-gray-200 dark:border-divider" />
 
                       <span>
-                        <strong className="text-gray-900">น้ำหนัก :</strong>{" "}
-                        {`${Math.round(roundData?.wife.profile.pat_vitalsign[0].weight)} กก.`}
+                        <strong className="text-gray-900 dark:text-white">
+                          น้ำหนัก :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">{`${Math.round(roundData?.wife.profile.pat_vitalsign[0].weight)} กก.`}</span>
                       </span>
-
                       <span className="flex items-center gap-1">
-                        <strong className="text-gray-900">ส่วนสูง :</strong>{" "}
+                        <strong className="text-gray-900 dark:text-white">
+                          ส่วนสูง :
+                        </strong>{" "}
                         {height && (
                           <div className="flex items-center gap-1">
-                            <span>{`${height} ซม.`}</span>
+                            <span className="dark:text-gray-400">{`${height} ซม.`}</span>
                             {height <= 140 && (
                               <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
                                 <AlertOctagon
@@ -196,10 +256,12 @@ export default function page({
                       </span>
 
                       <span className="flex items-center gap-1">
-                        <strong className="text-gray-900">BMI :</strong>
+                        <strong className="text-gray-900 dark:text-white">
+                          BMI :
+                        </strong>
                         {bmi && (
                           <div className="flex items-center gap-1">
-                            <span className="text-gray-900 font-medium">
+                            <span className="text-gray-900 dark:text-gray-400 font-medium">
                               {bmi}
                             </span>
                             {bmi <= 18.5 && (
@@ -257,7 +319,7 @@ export default function page({
                       </span>
 
                       <span className="flex items-center gap-1">
-                        <strong className="text-gray-900">
+                        <strong className="text-gray-900 dark:text-white">
                           ความดันโลหิต :
                         </strong>{" "}
                         {bp &&
@@ -295,250 +357,354 @@ export default function page({
 
                             return (
                               <div className="flex items-center gap-2">
-                                <span>{bp} mmHg</span>
+                                <span className="dark:text-gray-400">
+                                  {bp} mmHg
+                                </span>
                                 {riskBadge}
                               </div>
                             );
                           })()}
                       </span>
 
-                      <hr className="col-span-2 my-2 border-gray-200" />
+                      <hr className="col-span-2 my-2 border-gray-200 dark:border-divider" />
 
                       <span>
-                        <strong className="text-gray-900">Para :</strong>{" "}
-                        {roundData?.wife.text_values.para}
+                        <strong className="text-gray-900 dark:text-white">
+                          Para :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.wife.text_values.para}
+                        </span>
                       </span>
                       <span>
-                        <strong className="text-gray-900">G :</strong>{" "}
-                        {roundData?.service_info.gravida}
+                        <strong className="text-gray-900 dark:text-white">
+                          G :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.service_info.gravida}
+                        </span>
                       </span>
                       <span>
-                        <strong className="text-gray-900">P :</strong>{" "}
-                        {roundData?.wife.text_values.p}
+                        <strong className="text-gray-900 dark:text-white">
+                          P :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.wife.text_values.p}
+                        </span>
                       </span>
                       <span>
-                        <strong className="text-gray-900">A :</strong>{" "}
-                        {roundData?.wife.text_values.a}
+                        <strong className="text-gray-900 dark:text-white">
+                          A :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.wife.text_values.a}
+                        </span>
                       </span>
 
                       <span className="col-span-2">
-                        <strong className="text-gray-900">Last :</strong>{" "}
-                        {roundData?.wife.text_values.last}
+                        <strong className="text-gray-900 dark:text-white">
+                          Last :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.wife.text_values.last}
+                        </span>
                       </span>
 
                       <span>
-                        <strong className="text-gray-900">
+                        <strong className="text-gray-900 dark:text-white">
                           วันที่ประจำเดือนครั้งสุดท้าย :
                         </strong>{" "}
-                        {formatThaiDateNoTime(roundData?.wife.text_values.lmp)}
+                        <span className="dark:text-gray-400">
+                          {formatThaiDateNoTime(
+                            roundData?.wife.text_values.lmp
+                          )}
+                        </span>
                       </span>
 
                       <span>
-                        <strong className="text-gray-900">
+                        <strong className="text-gray-900 dark:text-white">
                           วันกำหนดคลอด :
                         </strong>{" "}
-                        {formatThaiDateNoTime(roundData?.wife.text_values.edc)}
+                        <span className="dark:text-gray-400">
+                          {formatThaiDateNoTime(
+                            roundData?.wife.text_values.edc
+                          )}
+                        </span>
                       </span>
 
                       <span>
-                        <strong className="text-gray-900">อายุครรภ์ :</strong>{" "}
-                        {roundData?.wife.text_values.ga}
+                        <strong className="text-gray-900 dark:text-white">
+                          อายุครรภ์ :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.wife.text_values.ga}
+                        </span>
                       </span>
                     </div>
                   </section>
 
                   {/* ------------------ ส่วนที่ 2 ------------------ */}
-                  <section className="bg-white shadow-sm rounded-2xl border border-gray-200 p-6 mb-8">
-                    <h2 className="text-xl font-semibold text-gray-800 border-l-4 border-gray-500 pl-3 mb-5">
+                  <section className="bg-white dark:border-[#3d3d3d] dark:bg-[#27272a] shadow-sm rounded-2xl border border-gray-200 p-6 mb-8">
+                    <h2 className="text-xl font-semibold text-gray-800 dark:text-white border-l-4 border-gray-500 dark:border-[#ffffff] pl-3 mb-5">
                       ส่วนที่ 2 : ประวัติสุขภาพและความเสี่ยง
                     </h2>
-                    <hr className="col-span-2 my-2 border-gray-200 pb-2" />
+                    <hr className="col-span-2 my-2 border-gray-200 dark:border-divider pb-2" />
                     <div className="space-y-3 text-gray-700 px-6">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
                         <span>
-                          <strong className="text-gray-900">
+                          <strong className="text-gray-900 dark:text-white">
                             ประวัติแพ้ยา :
                           </strong>{" "}
-                          {roundData?.wife.choices.ma.choice_name}
+                          <span className="dark:text-gray-400">
+                            {roundData?.wife.choices.ma.choice_name}
+                          </span>
                           {roundData?.wife.choices.ma.choice_name === "เคย" && (
                             <div className="text-gray-500">
-                              <strong className="text-gray-900">
+                              <strong className="text-gray-900 dark:text-white">
                                 รายละเอียด :
                               </strong>{" "}
-                              {roundData?.wife.text_values.ma_detail}
+                              <span className="dark:text-gray-400">
+                                {roundData?.wife.text_values.ma_detail}
+                              </span>
                             </div>
                           )}
                         </span>
 
                         <span>
-                          <strong className="text-gray-900">HIGH RISK :</strong>{" "}
-                          {roundData?.wife.choices.hr.choice_name}
+                          <strong className="text-gray-900 dark:text-white">
+                            HIGH RISK :
+                          </strong>{" "}
+                          <span className="dark:text-gray-400">
+                            {roundData?.wife.choices.hr.choice_name}
+                          </span>
                           {roundData?.wife.choices.hr.choice_name === "ใช่" && (
                             <div className="text-gray-500">
-                              <strong className="text-gray-900">
+                              <strong className="text-gray-900 dark:text-white">
                                 รายละเอียด :
                               </strong>{" "}
-                              {roundData?.wife.text_values.hr_detail}
+                              <span className="dark:text-gray-400">
+                                {roundData?.wife.text_values.hr_detail}
+                              </span>
                             </div>
                           )}
                         </span>
 
                         <span>
-                          <strong className="text-gray-900">
+                          <strong className="text-gray-900 dark:text-white">
                             แนะนำเจาะน้ำคร่ำ :
                           </strong>{" "}
-                          {roundData?.wife.choices.am.choice_name}
+                          <span className="dark:text-gray-400">
+                            {roundData?.wife.choices.am.choice_name}
+                          </span>
                         </span>
 
                         <span className="flex gap-2">
-                          <strong className="text-gray-900">PCR :</strong>{" "}
-                          {roundData?.wife.choices.pcr_wife.choice_name}
+                          <strong className="text-gray-900 dark:text-white">
+                            PCR :
+                          </strong>{" "}
+                          <span className="dark:text-gray-400">
+                            {roundData?.wife.choices.pcr_wife.choice_name}
+                          </span>
                           {roundData?.wife.choices.pcr_wife.choice_name ===
                             "ใช่" && (
                             <div className="text-gray-500 ml-2">
-                              <strong className="text-gray-900">
+                              <strong className="text-gray-900 dark:text-white">
                                 รายละเอียด :
                               </strong>{" "}
-                              {roundData?.wife.text_values.pcr_wife_text}
+                              <span className="dark:text-gray-400">
+                                {roundData?.wife.text_values.pcr_wife_text}
+                              </span>
                             </div>
                           )}
                         </span>
 
                         <span>
-                          <strong className="text-gray-900">Cordo :</strong>{" "}
-                          {roundData?.wife.choices.cordo.choice_name}
+                          <strong className="text-gray-900 dark:text-white">
+                            Cordo :
+                          </strong>{" "}
+                          <span className="dark:text-gray-400">
+                            {roundData?.wife.choices.cordo.choice_name}
+                          </span>
                           {roundData?.wife.choices.cordo.choice_name ===
                             "ใช่" && (
                             <div className="text-gray-500 mt-1">
-                              <strong className="text-gray-900">
+                              <strong className="text-gray-900 dark:text-white">
                                 รายละเอียด :
                               </strong>{" "}
-                              {roundData?.wife.text_values.cordo_text}
+                              <span className="dark:text-gray-400">
+                                {roundData?.wife.text_values.cordo_text}
+                              </span>
                             </div>
                           )}
                         </span>
 
                         <span>
-                          <strong className="text-gray-900">อื่นๆ :</strong>{" "}
-                          {roundData?.wife.text_values.cordo_other_text}
+                          <strong className="text-gray-900 dark:text-white">
+                            อื่นๆ :
+                          </strong>{" "}
+                          <span className="dark:text-gray-400">
+                            {roundData?.wife.text_values.cordo_other_text}
+                          </span>
                         </span>
 
                         <span>
-                          <strong className="text-gray-900">การแท้ง :</strong>{" "}
-                          {roundData?.wife.choices.abortion.choice_name}
+                          <strong className="text-gray-900 dark:text-white">
+                            การแท้ง :
+                          </strong>{" "}
+                          <span className="dark:text-gray-400">
+                            {roundData?.wife.choices.abortion.choice_name}
+                          </span>
                         </span>
 
                         <span>
-                          <strong className="text-gray-900">
+                          <strong className="text-gray-900 dark:text-white">
                             ในระหว่างตั้งครรภ์ :
                           </strong>{" "}
-                          {roundData?.wife.choices.tdap.choice_name}
+                          <span className="dark:text-gray-400">
+                            {roundData?.wife.choices.tdap.choice_name}
+                          </span>
                           {roundData?.wife.choices.tdap.choice_name ===
                             "ฉีดวัคซีน" && (
                             <div className="text-gray-500 space-y-1 mt-2">
                               <div>
-                                <strong className="text-gray-900">
+                                <strong className="text-gray-900 dark:text-white">
                                   รอบที่ 1 :
                                 </strong>{" "}
-                                {formatThaiDateNoTime(
-                                  roundData?.wife.text_values.tdap_round_1
-                                )}
+                                <span className="dark:text-gray-400">
+                                  {formatThaiDateNoTime(
+                                    roundData?.wife.text_values.tdap_round_1
+                                  )}
+                                </span>
                               </div>
                               <div>
-                                <strong className="text-gray-900">
+                                <strong className="text-gray-900 dark:text-white">
                                   รอบที่ 2 :
                                 </strong>{" "}
-                                {formatThaiDateNoTime(
-                                  roundData?.wife.text_values.tdap_round_2
-                                )}
+                                <span className="dark:text-gray-400">
+                                  {" "}
+                                  {formatThaiDateNoTime(
+                                    roundData?.wife.text_values.tdap_round_2
+                                  )}
+                                </span>
                               </div>
                               <div>
-                                <strong className="text-gray-900">
+                                <strong className="text-gray-900 dark:text-white">
                                   รอบที่ 3 :
                                 </strong>{" "}
-                                {formatThaiDateNoTime(
-                                  roundData?.wife.text_values.tdap_round_3
-                                )}
+                                <span className="dark:text-gray-400">
+                                  {formatThaiDateNoTime(
+                                    roundData?.wife.text_values.tdap_round_3
+                                  )}
+                                </span>
                               </div>
                             </div>
                           )}
                         </span>
 
                         <span>
-                          <strong className="text-gray-900">
+                          <strong className="text-gray-900 dark:text-white">
                             ฉีดวัคซีนกระตุ้นครรภ์นี้ :
                           </strong>{" "}
-                          {roundData?.wife.choices.iip.choice_name}
+                          <span className="dark:text-gray-400">
+                            {roundData?.wife.choices.iip.choice_name}
+                          </span>
                           {roundData?.wife.choices.iip.choice_name ===
                             "กระตุ้นครรภ์นี้" && (
                             <div className="text-gray-500 mt-1">
-                              <strong className="text-gray-900">
+                              <strong className="text-gray-900 dark:text-white">
                                 วันที่ :
                               </strong>{" "}
-                              {formatThaiDateNoTime(
-                                roundData?.wife.text_values.iip_date
-                              )}
+                              <span className="dark:text-gray-400">
+                                {formatThaiDateNoTime(
+                                  roundData?.wife.text_values.iip_date
+                                )}
+                              </span>
                             </div>
                           )}
                         </span>
 
                         <span>
-                          <strong className="text-gray-900">ได้รับยา :</strong>{" "}
-                          {roundData?.wife.choices.per_os.choice_name}
+                          <strong className="text-gray-900 dark:text-white">
+                            ได้รับยา :
+                          </strong>{" "}
+                          <span className="dark:text-gray-400">
+                            {roundData?.wife.choices.per_os.choice_name}
+                          </span>
                         </span>
 
                         <span className="col-span-2 flex gap-2 items-center">
-                          <strong className="text-gray-900">
+                          <strong className="text-gray-900 dark:text-white">
                             เคยฉีดวัคซีนกันบาดทะยักก่อนตั้งครรภ์กี่ครั้ง :
                           </strong>{" "}
-                          {`${roundData?.wife.text_values.td_num} ครั้ง`}
+                          <span className="dark:text-gray-400">{`${roundData?.wife.text_values.td_num} ครั้ง`}</span>
                           {roundData?.wife.text_values.td_num && (
                             <div className="text-gray-500 ml-14">
-                              <strong className="text-gray-900">
+                              <strong className="text-gray-900 dark:text-white">
                                 ครั้งสุดท้ายวันที่ :
                               </strong>{" "}
-                              {formatThaiDateNoTime(
-                                roundData?.wife.text_values.td_last_date
-                              )}
+                              <span className="dark:text-gray-400">
+                                {formatThaiDateNoTime(
+                                  roundData?.wife.text_values.td_last_date
+                                )}
+                              </span>
                             </div>
                           )}
                         </span>
 
                         <span>
-                          <strong className="text-gray-900">LAB 2 :</strong>{" "}
-                          {formatThaiDateNoTime(
-                            roundData?.wife.text_values.lab_2
-                          )}
+                          <strong className="text-gray-900 dark:text-white">
+                            LAB 2 :
+                          </strong>{" "}
+                          <span className="dark:text-gray-400">
+                            {formatThaiDateNoTime(
+                              roundData?.wife.text_values.lab_2
+                            )}
+                          </span>
                         </span>
 
                         <span>
-                          <strong className="text-gray-900">VDRL :</strong>{" "}
-                          {roundData?.wife.text_values.vdrl_2}
+                          <strong className="text-gray-900 dark:text-white">
+                            VDRL :
+                          </strong>{" "}
+                          <span className="dark:text-gray-400">
+                            {roundData?.wife.text_values.vdrl_2}
+                          </span>
                         </span>
 
                         <span>
-                          <strong className="text-gray-900">HCT :</strong>{" "}
-                          {roundData?.wife.text_values.hct}
+                          <strong className="text-gray-900 dark:text-white">
+                            HCT :
+                          </strong>{" "}
+                          <span className="dark:text-gray-400">
+                            {roundData?.wife.text_values.hct}
+                          </span>
                         </span>
 
                         <span>
-                          <strong className="text-gray-900">H :</strong>{" "}
-                          {roundData?.wife.text_values.h}
+                          <strong className="text-gray-900 dark:text-white">
+                            H :
+                          </strong>{" "}
+                          <span className="dark:text-gray-400">
+                            {roundData?.wife.text_values.h}
+                          </span>
                         </span>
                       </div>
 
-                      <hr className="my-5 border-gray-200" />
+                      <hr className="my-5 border-gray-200 dark:border-divider" />
 
                       <div>
-                        <h3 className="text-gray-900 font-semibold mb-2">
+                        <h3 className="text-gray-900 dark:text-white font-semibold mb-2">
                           กลุ่มสัมพันธ์ และ ฟังผลเลือด
                         </h3>
                         {btiData.length > 0 ? (
                           btiData.map((item, index) => (
-                            <div key={index} className="ml-4 text-gray-700">
+                            <div
+                              key={index}
+                              className="ml-4 text-gray-700 dark:text-gray-300"
+                            >
                               {item.value}
                               {item.date && (
-                                <span className="ml-2 text-gray-500">
+                                <span className="ml-2 text-gray-500 dark:text-gray-400">
                                   วันที่ : {formatThaiDateNoTime(item.date)}
                                 </span>
                               )}
@@ -549,23 +715,26 @@ export default function page({
                         )}
                       </div>
 
-                      <hr className="my-5 border-gray-200" />
+                      <hr className="my-5 border-gray-200 dark:border-divider" />
 
                       <div>
-                        <h3 className="text-gray-900 font-semibold mb-2">
+                        <h3 className="text-gray-900 dark:text-white font-semibold mb-2">
                           ตรวจเต้านม, หัวนม
                         </h3>
                         {cbeData.length > 0 ? (
                           cbeData.map((item, index) => (
-                            <div key={index} className="ml-4 text-gray-700">
+                            <div
+                              key={index}
+                              className="ml-4 text-gray-700 dark:text-gray-300"
+                            >
                               {item.value}
                               {item.value === "ไม่ปกติ" && (
-                                <span className="ml-2 text-gray-500">
+                                <span className="ml-2 text-gray-500 dark:text-gray-400">
                                   {item.data}
                                 </span>
                               )}
                               {item.value === "ANC Pap smear" && (
-                                <span className="ml-2 text-gray-500">
+                                <span className="ml-2 text-gray-500 dark:text-gray-400">
                                   ผลตรวจ : {item.data}
                                 </span>
                               )}
@@ -579,13 +748,13 @@ export default function page({
                   </section>
 
                   {/* ------------------ ส่วนที่ 3 ------------------ */}
-                  <section className="bg-white shadow-md rounded-2xl p-6 border border-gray-100">
+                  <section className="bg-white dark:border-[#3d3d3d] dark:bg-[#27272a] shadow-md rounded-2xl p-6 border border-gray-100">
                     {/* Header */}
 
-                    <h2 className="text-xl font-semibold text-gray-800 border-l-4 border-gray-500 pl-3 mb-5">
+                    <h2 className="text-xl font-semibold text-gray-800 dark:text-white border-l-4 border-gray-500 dark:border-[#ffffff] pl-3 mb-5">
                       ส่วนที่ 3 : ค่า Lab (ภรรยา)
                     </h2>
-                    <hr className="col-span-2 my-2 border-gray-200 pb-2" />
+                    <hr className="col-span-2 my-2 border-gray-200 dark:border-divider pb-2" />
                     {/* Content */}
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 px-6">
                       {LabWife.length > 0 ? (
@@ -599,7 +768,7 @@ export default function page({
                               className={`flex flex-col justify-center rounded-xl p-3 border transition ${
                                 isRisk
                                   ? "bg-yellow-100 border-yellow-400 shadow-sm"
-                                  : "bg-gray-50 hover:bg-gray-100 border-gray-200"
+                                  : "bg-gray-50 dark:bg-[#dadadd] hover:bg-gray-100 dark:hover:bg-[#eeeef0] border-gray-200 dark:border-divider"
                               }`}
                             >
                               <div className="flex items-center justify-between">
@@ -635,63 +804,87 @@ export default function page({
                   </section>
 
                   {/* ------------------ ส่วนที่ 4 ------------------ */}
-                  <section className="bg-white shadow-md rounded-2xl p-6 border border-gray-100">
+                  <section className="bg-white dark:border-[#3d3d3d] dark:bg-[#27272a] shadow-md rounded-2xl p-6 border border-gray-100">
                     {/* Header */}
-                    <h2 className="text-xl font-semibold text-gray-800 border-l-4 border-gray-500 pl-3 mb-5">
+                    <h2 className="text-xl font-semibold text-gray-800 dark:text-white border-l-4 border-gray-500 dark:border-[#ffffff] pl-3 mb-5">
                       ส่วนที่ 4 : ข้อมูลสามี
                     </h2>
-                    <hr className="col-span-2 my-2 border-gray-200 pb-2" />
+                    <hr className="col-span-2 my-2 border-gray-200 pb-2 dark:border-divider" />
 
                     {/* Husband Info */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 px-6 py-4">
                       <span>
-                        <strong className="text-gray-900">HN :</strong>{" "}
-                        {roundData?.husband.profile.hn}
+                        <strong className="text-gray-900 dark:text-white">
+                          HN :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.husband.profile.hn}
+                        </span>
                       </span>
 
                       <span>
-                        <strong className="text-gray-900">ชื่อ :</strong>{" "}
-                        {`${roundData?.husband.profile.prename}${roundData?.husband.profile.firstname} ${roundData?.husband.profile.lastname}`}
+                        <strong className="text-gray-900 dark:text-white">
+                          ชื่อ :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">{`${roundData?.husband.profile.prename}${roundData?.husband.profile.firstname} ${roundData?.husband.profile.lastname}`}</span>
                       </span>
 
                       <span>
-                        <strong className="text-gray-900">
+                        <strong className="text-gray-900 dark:text-white">
                           เลขบัตรประชาชน :
                         </strong>{" "}
-                        {roundData?.husband.profile.citizencardno}
+                        <span className="dark:text-gray-400">
+                          {roundData?.husband.profile.citizencardno}
+                        </span>
                       </span>
                       <span>
-                        <strong className="text-gray-900">อายุ :</strong>{" "}
-                        {calculateAge(
-                          roundData?.husband.profile.birthdatetime
-                        ) || ""}
+                        <strong className="text-gray-900 dark:text-white">
+                          อายุ :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {" "}
+                          {calculateAge(
+                            roundData?.husband.profile.birthdatetime
+                          ) || ""}
+                        </span>
                       </span>
                       <span>
-                        <strong className="text-gray-900">อาชีพ :</strong>{" "}
-                        {
-                          roundData?.husband.profile.occupation_detail
-                            .lookupname
-                        }
+                        <strong className="text-gray-900 dark:text-white">
+                          อาชีพ :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {" "}
+                          {
+                            roundData?.husband.profile.occupation_detail
+                              .lookupname
+                          }
+                        </span>
                       </span>
 
                       <span>
-                        <strong className="text-gray-900">อาชีพ :</strong>{" "}
-                        {
-                          roundData?.husband.profile.occupation_detail
-                            .lookupname
-                        }
+                        <strong className="text-gray-900 dark:text-white">
+                          Email :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.husband.profile.pat_address.email ||
+                            "ไม่ระบุ"}
+                        </span>
                       </span>
                       <span>
-                        <strong className="text-gray-900">เบอร์โทร :</strong>{" "}
-                        {roundData?.husband.profile.pat_address.phone}
+                        <strong className="text-gray-900 dark:text-white">
+                          เบอร์โทร :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.husband.profile.pat_address.phone}
+                        </span>
                       </span>
                     </div>
 
-                    <hr className="col-span-2 my-4 border-gray-200 " />
+                    <hr className="col-span-2 my-4 border-gray-200 dark:border-divider" />
 
                     {/* Lab Header */}
-                    <div className="flex items-center gap-2 mb-4 border-l-4 border-gray-500 pl-3">
-                      <h3 className="text-xl font-bold text-gray-800">
+                    <div className="flex items-center gap-2 mb-4 border-l-4 border-gray-500 dark:border-white  pl-3">
+                      <h3 className="text-xl font-bold text-gray-800 dark:text-white">
                         ค่า Lab (สามี)
                       </h3>
                     </div>
@@ -708,7 +901,7 @@ export default function page({
                               className={`flex flex-col justify-center rounded-xl p-3 border transition ${
                                 isRisk
                                   ? "bg-yellow-100 border-yellow-400 shadow-sm"
-                                  : "bg-gray-50 hover:bg-gray-100 border-gray-200"
+                                  : "bg-gray-50 dark:bg-[#dadadd] hover:bg-gray-100 dark:hover:bg-[#eeeef0] border-gray-200 dark:border-divider"
                               }`}
                             >
                               <div className="flex items-center justify-between">
@@ -740,22 +933,24 @@ export default function page({
                           ไม่มีข้อมูลการแปลผล
                         </p>
                       )}
-                      
+
                       {/* PCR Row */}
                       <div className="col-span-full mt-2">
-                        <span className="text-sm font-semibold text-gray-900">
+                        <span className="text-sm font-semibold text-gray-900 dark:text-white">
                           PCR :
                         </span>{" "}
-                        <span className="text-gray-700">
+                        <span className="text-gray-700 dark:text-gray-400">
                           {roundData?.husband.choices.pcr_hus.choice_name ||
                             "-"}
                         </span>
                         {roundData?.husband.choices.pcr_hus_id === 9 && (
                           <span className="block mt-1 text-gray-700">
-                            <span className="font-medium text-gray-900">
+                            <span className="font-medium text-gray-900 dark:text-white">
                               รายละเอียด :
                             </span>{" "}
-                            {roundData?.husband.choices.pcr_hus_text || "-"}
+                            <span className="text-gray-700 dark:text-gray-400">
+                              {roundData?.husband.choices.pcr_hus_text || "-"}
+                            </span>
                           </span>
                         )}
                       </div>
@@ -763,19 +958,19 @@ export default function page({
                   </section>
 
                   {/* ------------------ ส่วนที่ 5 ------------------ */}
-                  <section className="bg-white shadow-md rounded-2xl p-6 border border-gray-100">
+                  <section className="bg-white dark:border-[#3d3d3d] dark:bg-[#27272a] shadow-md rounded-2xl p-6 border border-gray-100">
                     {/* Header */}
-                    <h2 className="text-xl font-semibold text-gray-800 border-l-4 border-gray-500 pl-3 mb-5">
+                    <h2 className="text-xl font-semibold text-gray-800 dark:text-white border-l-4 border-gray-500 dark:border-[#ffffff] pl-3 mb-5">
                       ส่วนที่ 5 : ข้อมูล Refer
                     </h2>
-                    <hr className="col-span-2 my-2 border-gray-200 pb-2" />
+                    <hr className="col-span-2 my-2 border-gray-200 dark:border-divider pb-2" />
                     {/* Content */}
                     <div className="space-y-4 px-2">
                       {ReferralValue.length > 0 ? (
                         ReferralValue.map((item, index) => (
                           <div
                             key={index}
-                            className=" transition rounded-xl p-4 bg-[#f6f6f6] hover:bg-[#d1d1d1] border border-[#b0b0b0]"
+                            className=" transition rounded-xl p-4 bg-[#f6f6f6] dark:bg-[#dadadd] hover:bg-[#d1d1d1] dark:hover:bg-[#eeeef0] border border-[#b0b0b0] dark:border-divider"
                           >
                             <p className="text-gray-800 font-medium">
                               {item.value || "ไม่ระบุรายละเอียดการ Refer"}

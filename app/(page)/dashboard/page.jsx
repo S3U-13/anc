@@ -6,26 +6,26 @@ import { IoPersonAddSharp, IoPersonRemove } from "react-icons/io5";
 import { TbVaccine } from "react-icons/tb";
 import { MdVaccines } from "react-icons/md";
 import BarChart from "@/components/chart/bar_chart";
-import RadialBar from "@/components/chart/radial_bar";
+import RadialChart from "@/components/chart/radial_chart";
 import useHook from "./useHook";
 
 export default function Home() {
-  const { sumData } = useHook();
+  const { sumData, chartBarData, chartRadialData} = useHook();
   return (
-    <div className="bg-white p-3 mt-[10px] rounded-lg">
-      <div className="bg-white py-4">
+    <div className="bg-white p-3 mt-[10px] rounded-lg  border border-divider dark:bg-[#27272a] dark:border-[#3d3d3d]">
+      <div className=" py-4">
         <h1 className="text-center text-2xl">Dashboard</h1>
       </div>
       <div className="grid grid-cols-12 gap-[10px]">
         <div className="mt-[10px] col-span-8">
           <div className="grid grid-cols-4 gap-[10px]">
-            <div className=" rounded-lg bg-white shadow-lg p-3 border border-default-100">
+            <div className=" rounded-lg bg-white shadow-lg p-3 border border-default-100 dark:bg-[#27272a] dark:border-[#3d3d3d]">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xl">
                     <span>{sumData.referral_in_count?.ref_in ?? 0}</span> คน
                   </p>
-                  <h1 className="text-sm text-gray-600">จำนวนการรับ Refer</h1>
+                  <h1 className="text-sm text-gray-600 dark:text-gray-400">จำนวนการรับ Refer</h1>
                   <p className="text-sm">
                     <strong>ประจำเดือน</strong>{" "}
                     <span>{sumData.month_name}</span>
@@ -43,13 +43,13 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className=" rounded-lg bg-white shadow-lg p-3 border border-default-100">
+            <div className=" rounded-lg bg-white shadow-lg p-3 border border-default-100 dark:bg-[#27272a] dark:border-[#3d3d3d]">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xl">
                     <span>{sumData.referral_out_count?.ref_out ?? 0}</span> คน
                   </p>
-                  <h1 className="text-sm text-gray-600">จำนวนส่งต่อ Refer</h1>
+                  <h1 className="text-sm text-gray-600 dark:text-gray-400">จำนวนส่งต่อ Refer</h1>
                   <p className="text-sm">
                     <strong>ประจำเดือน</strong>{" "}
                     <span>{sumData.month_name}</span>
@@ -67,13 +67,13 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className=" rounded-lg bg-white shadow-lg p-3 border border-default-100">
+            <div className=" rounded-lg bg-white shadow-lg p-3 border border-default-100 dark:bg-[#27272a] dark:border-[#3d3d3d]">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xl">
                     <span>{sumData.tdap_count?.tdap_1 ?? 0}</span> คน
                   </p>
-                  <h1 className="text-sm text-gray-600">
+                  <h1 className="text-sm text-gray-600 dark:text-gray-400">
                     จำนวนการกระตุ้นวัคซีนในครรภ์
                   </h1>
                   <p className="text-sm">
@@ -86,13 +86,13 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className=" rounded-lg bg-white shadow-lg p-3 border border-default-100">
+            <div className=" rounded-lg bg-white shadow-lg p-3 border border-default-100 dark:bg-[#27272a] dark:border-[#3d3d3d]">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xl">
                     <span>{sumData.iip_count?.iip_1 ?? 0}</span> คน
                   </p>
-                  <h1 className="text-sm text-gray-600">
+                  <h1 className="text-sm text-gray-600 dark:text-gray-400">
                     ฉีดวัคซีนในระหว่างตั้งครรภ์
                   </h1>
                   <p className="text-sm">
@@ -106,16 +106,18 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className=" p-[10px] rounded-lg shadow-lg bg-white mt-[10px] border border-default-100">
-            <h1 className="text-center text-xl">สรุปผลจำนวนเคสANC</h1>
-            <BarChart />
+          <div className=" p-[10px] rounded-lg shadow-lg bg-white mt-[10px] border border-default-100 dark:bg-[#27272a] dark:border-[#3d3d3d]">
+            <h1 className="text-center text-xl">
+              สรุปผลจำนวนเคสANC ปี {chartBarData.year}
+            </h1>
+            <BarChart chartBarData={chartBarData}  />
           </div>
         </div>
-        <div className="col-span-4 bg-white mt-[10px] rounded-lg shadow-lg overflow-hidden p-[10px] border border-default-100">
+        <div className="col-span-4 bg-white mt-[10px] rounded-lg shadow-lg overflow-hidden p-[10px] border border-default-100 dark:bg-[#27272a] dark:border-[#3d3d3d]">
           <h1 className="text-center text-xl mt-[20px]">
-            แนะนำการเจาะน้ำคร่ำตรวจโครโมโซม
+            แนะนำการเจาะน้ำคร่ำตรวจโครโมโซม ปี {chartRadialData.year}
           </h1>
-          <RadialBar />
+          <RadialChart chartRadialData={chartRadialData} />
         </div>
       </div>
     </div>

@@ -82,10 +82,11 @@ export default function page({
         onOpenChange={closeEditService}
         classNames={{
           header:
-            "flex justify-center border-b border-divider text-center text-2xl",
+            "flex justify-center border-b border-divider  text-center text-2xl",
           footer: "border-t border-divider",
           body: "py-[10px]",
         }}
+        className="dark:border dark:border-divider"
       >
         <ModalContent ref={modalRef}>
           {(closeEditService) => (
@@ -97,7 +98,7 @@ export default function page({
                   onSelectionChange={setActiveStep}
                   size="sm"
                   classNames={{
-                    tabList: "mx-auto w-full bg-[#ffffff]",
+                    tabList: "mx-auto w-full bg-[#ffffff] dark:bg-[#18181b]",
                     tabContent:
                       "group-data-[selected=true]:bg-[#AE7EDE] p-1 rounded-sm w-full bg-[#D4D4D8]",
                   }}
@@ -211,9 +212,9 @@ export default function page({
                     } else {
                       // Step สุดท้าย → submit form
                       try {
-                        console.log("Current form value:", form.state.values);
+                        // console.log("Current form value:", form.state.values);
                         await form.handleSubmit(); // จะ trigger onSubmit ใน useForm
-                        console.log("Submit triggered"); // สามารถเช็คว่าถึงบรรทัดนี้หรือไม่
+                        // console.log("Submit triggered");
                       } catch (err) {
                         console.error("Validation failed:", err);
                       }
