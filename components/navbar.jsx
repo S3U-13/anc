@@ -20,9 +20,26 @@ export default function Navbar() {
   const auth = useAuth();
   const router = useRouter();
   const pathname = usePathname();
-  const handleLogout = () => {
-    Cookies.remove("token"); // ลบ token
-    router.push("/"); // กลับไปหน้า login
+  const handleLogout = async () => {
+    try {
+      console.log("🔹 เริ่ม logout...");
+
+      const res = await fetch("http://localhost:3000/api/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth.token}`,
+        },
+      });
+
+      const data = await res.json();
+      console.log("🔹 Logout API response:", data);
+
+      Cookies.remove("token"); // ✅ ลบ token ที่ frontend
+      router.push("/"); // กลับไปหน้า login
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const tabs = [
