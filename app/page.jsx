@@ -14,7 +14,7 @@ export default function Page() {
   useEffect(() => {
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-    // 🎬 โลโก้เข้ามา + เด้งวน
+    // โลโก้เข้ามา + เด้ง
     tl.fromTo(
       logoRef.current,
       { opacity: 0, y: -30 },
@@ -28,7 +28,7 @@ export default function Page() {
       repeat: -1,
     });
 
-    // 🪄 ข้อความ fade-in ทีละบรรทัด
+    // ข้อความ fade-in ทีละบรรทัด
     tl.fromTo(
       textRefs.current,
       { opacity: 0, y: 20 },
@@ -36,7 +36,7 @@ export default function Page() {
       "-=0.3"
     );
 
-    // 🧠 ปุ่ม: ขึ้นมาทีหลังพร้อมเด้งเล็กน้อย
+    // ปุ่มขึ้นมาทีหลัง
     tl.fromTo(
       buttonRef.current,
       { opacity: 0, scale: 0.9, y: 20 },
@@ -44,7 +44,7 @@ export default function Page() {
       "-=0.2"
     );
 
-    // 👩‍⚕️ ภาพหมอ: เคลื่อนจากขวา + fade-in
+    // ภาพหมอเลื่อนเข้าจากขวา
     tl.fromTo(
       iconRef.current,
       { opacity: 0, x: 50 },
@@ -70,44 +70,42 @@ export default function Page() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50 overflow-hidden">
-      <div className="grid grid-cols-12 gap-10 items-center max-w-6xl mx-auto px-8">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-500 overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center max-w-6xl mx-auto px-6 py-10">
         {/* ด้านข้อความ */}
-        <div className="col-span-6 flex flex-col justify-center space-y-6">
-          <div className="flex justify-center">
-            <img
-              ref={logoRef}
-              src="/images/logoppk.png"
-              alt="logo"
-              className="w-28 h-28 object-contain"
-            />
-          </div>
+        <div className="flex flex-col justify-center items-center space-y-6 text-center">
+          <img
+            ref={logoRef}
+            src="/images/logoppk.png"
+            alt="logo"
+            className="w-24 h-24 md:w-28 md:h-28 object-contain drop-shadow-md"
+          />
 
-          <div className="text-center space-y-2">
+          <div className="space-y-2">
             <h1
               ref={(el) => (textRefs.current[0] = el)}
-              className="text-2xl text-gray-500"
+              className="text-xl md:text-2xl text-gray-500 dark:text-gray-300"
             >
               Welcome To
             </h1>
             <h2
               ref={(el) => (textRefs.current[1] = el)}
-              className="text-3xl font-semibold text-gray-800"
+              className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-gray-100"
             >
               สมุดฝากครรภ์ Online
             </h2>
             <h3
               ref={(el) => (textRefs.current[2] = el)}
-              className="text-xl text-gray-600"
+              className="text-lg md:text-xl text-gray-600 dark:text-gray-400"
             >
               โรงพยาบาลพระปกเกล้า
             </h3>
           </div>
 
-          <div className="pt-4 px-10">
+          <div className="pt-4 w-full md:w-3/4">
             <Button
               ref={buttonRef}
-              className="w-full text-xl font-medium py-6 rounded-xl shadow-sm bg-green-500 hover:bg-green-600 text-white transition-all duration-200"
+              className="w-full text-lg md:text-xl font-medium py-5 rounded-xl shadow-md bg-green-500 hover:bg-green-600 text-white transition-all duration-200"
               variant="flat"
               onPress={() => setOpenLoginModal(true)}
               onMouseEnter={handleMouseEnter}
@@ -119,11 +117,11 @@ export default function Page() {
         </div>
 
         {/* ด้านภาพ */}
-        <div className="col-span-6 w-[700px]">
+        <div className="flex justify-center md:justify-end">
           <img
             ref={iconRef}
             src="/images/doctor_anc.png"
-            className="w-full h-auto object-contain"
+            className="w-[80%] md:w-[90%] lg:w-[700px] max-w-full h-auto object-contain drop-shadow-lg"
             alt="หมอหญิง"
           />
         </div>
@@ -132,6 +130,12 @@ export default function Page() {
           openModalLogin={openLoginModal}
           closeModalLogin={() => setOpenLoginModal(false)}
         />
+      </div>
+
+      {/* แสงตกแต่งเบา ๆ */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-10 -left-10 w-[300px] h-[300px] bg-green-200 opacity-30 blur-3xl rounded-full" />
+        <div className="absolute bottom-0 right-0 w-[250px] h-[250px] bg-blue-200 opacity-30 blur-3xl rounded-full" />
       </div>
     </div>
   );

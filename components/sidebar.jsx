@@ -36,14 +36,14 @@ export default function SideBar() {
     .find((item) => item.path === pathname);
   const activeKey = activeItem ? activeItem.key : "dashboard_admin";
   return (
-    <div className="flex flex-col h-full bg-white px-[10px] dark:bg-[#27272a]">
+    <div className="flex flex-col h-full bg-white px-[10px] py-2 dark:bg-[#27272a] ">
       {/* User info */}
-      <div className="px-[20px] py-[10px] mb-[10px] mt-[10px] text-default-500">
+      <div className="px-[20px] py-[10px] mb-[10px] text-default-500">
         <img src="/images/logo.png" className="w-3/5" alt="" />
       </div>
 
       {/* Menu buttons */}
-      <div className="flex flex-col gap-1 flex-grow px-[5px]">
+      <div className="flex flex-col gap-1 flex-grow px-[5px] dark:border-divider dark:border rounded-xl">
         <Tabs
           isVertical
           color="default"

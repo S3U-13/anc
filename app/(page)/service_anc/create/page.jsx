@@ -81,6 +81,7 @@ export default function page({
           body: "py-[10px]",
         }}
         className="dark:border dark:border-divider"
+        placement="center"
       >
         <ModalContent ref={modalRef}>
           {(closeFormService) => (

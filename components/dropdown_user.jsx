@@ -37,7 +37,7 @@ export default function DropdownUser() {
   };
   return (
     <div>
-      <Dropdown placement="bottom-start">
+      <Dropdown classNames={{ content:"p-2 mt-4" }} placement="bottom-start">
         <DropdownTrigger>
           <Button
             isIconOnly

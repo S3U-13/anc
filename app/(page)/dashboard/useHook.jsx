@@ -1,67 +1,48 @@
-"use client";
 import { useAuth } from "@/context/AuthContext";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 export default function useHook() {
   const auth = useAuth();
   const [sumData, setSumData] = useState([]);
   const [chartBarData, setChartBarData] = useState([]);
   const [chartRadialData, setChartRadialData] = useState([]);
+  const didFetch = useRef(false); // 🔑 flag ป้องกันเบิ้ล
 
   useEffect(() => {
-    fetchSumData();
-    fetchChartBar();
-    fetchChartRadial();
-  }, []);
+    if (!auth.token || didFetch.current) return;
 
-  const fetchSumData = async () => {
-    try {
-      const res = await fetch(
-        "http://localhost:3000/api/user/sum-anc-service",
-        {
-          headers: {
-            Authorization: `Bearer ${auth.token}`,
-          },
-        }
-      );
-      const json = await res.json().catch(() => []);
-      setSumData(json);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const fetchChartBar = async () => {
-    try {
-      const res = await fetch(
-        "http://localhost:3000/api/user/chart-anc-service",
-        {
-          headers: {
-            Authorization: `Bearer ${auth.token}`,
-          },
-        }
-      );
-      const json = await res.json().catch(() => []);
-      setChartBarData(json);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const fetchChartRadial = async () => {
-    try {
-      const res = await fetch(
-        "http://localhost:3000/api/user/radial-anc-service",
-        {
-          headers: {
-            Authorization: `Bearer ${auth.token}`,
-          },
-        }
-      );
-      const json = await res.json().catch(() => []);
-      setChartRadialData(json);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    didFetch.current = true; // mark ว่า fetch แล้ว
+
+    const fetchAllData = async () => {
+      try {
+        const [sumRes, barRes, radialRes] = await Promise.all([
+          fetch("http://localhost:3000/api/user/sum-anc-service", {
+            headers: { Authorization: `Bearer ${auth.token}` },
+          }),
+          fetch("http://localhost:3000/api/user/chart-anc-service", {
+            headers: { Authorization: `Bearer ${auth.token}` },
+          }),
+          fetch("http://localhost:3000/api/user/radial-anc-service", {
+            headers: { Authorization: `Bearer ${auth.token}` },
+          }),
+        ]);
+
+        const [sumJson, barJson, radialJson] = await Promise.all([
+          sumRes.json().catch(() => []),
+          barRes.json().catch(() => []),
+          radialRes.json().catch(() => []),
+        ]);
+
+        setSumData(sumJson);
+        setChartBarData(barJson);
+        setChartRadialData(radialJson);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchAllData();
+  }, [auth.token]);
 
   return { sumData, chartBarData, chartRadialData };
 }

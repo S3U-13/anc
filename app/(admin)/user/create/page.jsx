@@ -14,8 +14,15 @@ import useHook from "./useHook";
 import { DatePicker } from "@heroui/date-picker";
 
 export default function Page({ openModal, closeModal }) {
-  const { role, position, form, validationSchema, handleChange, isSubmitting, modalRef } =
-    useHook({ closeModal });
+  const {
+    role,
+    position,
+    form,
+    validationSchema,
+    handleChange,
+    isSubmitting,
+    modalRef,
+  } = useHook({ closeModal });
 
   // ฟังก์ชัน validate field แบบ safe
   const validateField = (fieldName, value) => {
@@ -37,6 +44,7 @@ export default function Page({ openModal, closeModal }) {
         header: "border-b border-divider dark:border-[#3d3d3d]",
         footer: "border-t border-divider dark:border-[#3d3d3d]",
       }}
+      placement="center"
     >
       <ModalContent ref={modalRef}>
         {(closeModal) => (
@@ -135,11 +143,7 @@ export default function Page({ openModal, closeModal }) {
               </div>
             </ModalBody>
             <ModalFooter>
-              <Button
-                color="danger"
-                variant="light"
-                onPress={closeModal}
-              >
+              <Button color="danger" variant="light" onPress={closeModal}>
                 Close
               </Button>
               <Button type="submit" color="primary" isDisabled={isSubmitting}>

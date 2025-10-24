@@ -7,6 +7,7 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export default function useHook() {
   const auth = useAuth();
+  const didFetch = useRef(false);
   const modalRef = useRef(null);
   const [dataAnc, setDataAnc] = useState([]);
   const [filterValue, setFilterValue] = useState("");
@@ -17,6 +18,8 @@ export default function useHook() {
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
+    if (!auth.token || didFetch.current) return; // check flag ก่อน
+    didFetch.current = true;
     fetchDataAnc();
   }, []);
 

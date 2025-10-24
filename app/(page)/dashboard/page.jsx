@@ -16,13 +16,13 @@ export default function Home() {
       <div className=" py-4">
         <h1 className="text-center text-2xl">Dashboard</h1>
       </div>
-      <div className="grid grid-cols-12 gap-[10px]">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-[10px]">
         <div className="mt-[10px] col-span-8">
-          <div className="grid grid-cols-4 gap-[10px]">
+          <div className="grid grid-cols-1 sd:grid-cols-3 md:grid-cols-4 gap-[10px]">
             <div className=" rounded-lg bg-white shadow-lg p-3 border border-default-100 dark:bg-[#27272a] dark:border-[#3d3d3d]">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xl">
+                  <p className="sm:text-md lg:text-xl">
                     <span>{sumData.referral_in_count?.ref_in ?? 0}</span> คน
                   </p>
                   <h1 className="text-sm text-gray-600 dark:text-gray-400">จำนวนการรับ Refer</h1>
@@ -46,7 +46,7 @@ export default function Home() {
             <div className=" rounded-lg bg-white shadow-lg p-3 border border-default-100 dark:bg-[#27272a] dark:border-[#3d3d3d]">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xl">
+                  <p className="sm:text-md lg:text-xl">
                     <span>{sumData.referral_out_count?.ref_out ?? 0}</span> คน
                   </p>
                   <h1 className="text-sm text-gray-600 dark:text-gray-400">จำนวนส่งต่อ Refer</h1>
@@ -70,7 +70,7 @@ export default function Home() {
             <div className=" rounded-lg bg-white shadow-lg p-3 border border-default-100 dark:bg-[#27272a] dark:border-[#3d3d3d]">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xl">
+                  <p className="sm:text-md lg:text-xl">
                     <span>{sumData.tdap_count?.tdap_1 ?? 0}</span> คน
                   </p>
                   <h1 className="text-sm text-gray-600 dark:text-gray-400">
@@ -89,7 +89,7 @@ export default function Home() {
             <div className=" rounded-lg bg-white shadow-lg p-3 border border-default-100 dark:bg-[#27272a] dark:border-[#3d3d3d]">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xl">
+                  <p className="sm:text-md lg:text-xl">
                     <span>{sumData.iip_count?.iip_1 ?? 0}</span> คน
                   </p>
                   <h1 className="text-sm text-gray-600 dark:text-gray-400">
@@ -107,14 +107,14 @@ export default function Home() {
             </div>
           </div>
           <div className=" p-[10px] rounded-lg shadow-lg bg-white mt-[10px] border border-default-100 dark:bg-[#27272a] dark:border-[#3d3d3d]">
-            <h1 className="text-center text-xl">
+            <h1 className="text-center sm:text-md lg:text-xl">
               สรุปผลจำนวนเคสANC ปี {chartBarData.year}
             </h1>
             <BarChart chartBarData={chartBarData}  />
           </div>
         </div>
-        <div className="col-span-4 bg-white mt-[10px] rounded-lg shadow-lg overflow-hidden p-[10px] border border-default-100 dark:bg-[#27272a] dark:border-[#3d3d3d]">
-          <h1 className="text-center text-xl mt-[20px]">
+        <div className="col-span-4 w-full bg-white mt-[10px] rounded-lg shadow-lg overflow-hidden p-[10px] border border-default-100 dark:bg-[#27272a] dark:border-[#3d3d3d]">
+          <h1 className="text-center sm:text-md lg:text-xl mt-[20px]">
             แนะนำการเจาะน้ำคร่ำตรวจโครโมโซม ปี {chartRadialData.year}
           </h1>
           <RadialChart chartRadialData={chartRadialData} />

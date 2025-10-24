@@ -45,6 +45,7 @@ export default function page({
             "border-t border-gray-200 dark:border-divider flex justify-end gap-3 py-4 px-6",
         }}
         className="dark:border dark:border-divider"
+        placement="center"
       >
         <ModalContent>
           {(closeViewService) => (

@@ -22,6 +22,7 @@ export default function ({ openModalLogin, closeModalLogin }) {
         onOpenChange={closeModalLogin}
         backdrop="blur"
         classNames={{ footer: "flex justify-center px-[54px] pb-[40px]" }}
+        placement="center"
       >
         <ModalContent>
           {(closeModalLogin) => (

@@ -10,7 +10,6 @@ import {
 import { Button, ButtonGroup } from "@heroui/button";
 import { Tabs, Tab } from "@heroui/tabs";
 
-import ResetValue from "./component.jsx/modal_reset_value";
 import Form01 from "./component.jsx/form_01";
 import Form02 from "./component.jsx/form_02";
 import Form03 from "./component.jsx/form_03";
@@ -87,6 +86,7 @@ export default function page({
           body: "py-[10px]",
         }}
         className="dark:border dark:border-divider"
+        placement="center"
       >
         <ModalContent ref={modalRef}>
           {(closeEditService) => (
@@ -186,13 +186,6 @@ export default function page({
 
               <ModalFooter>
                 <Button
-                  variant="light"
-                  color="default"
-                  onPress={() => SetModalResetValue(true)}
-                >
-                  reset
-                </Button>
-                <Button
                   variant="shadow"
                   onPress={() => {
                     const idx = steps.indexOf(activeStep);
@@ -228,11 +221,6 @@ export default function page({
           )}
         </ModalContent>
       </Modal>
-      <ResetValue
-        openModalReset={ModalResetValue}
-        closeModalReset={() => SetModalResetValue(false)}
-        onReset={handleReset}
-      />
     </div>
   );
 }

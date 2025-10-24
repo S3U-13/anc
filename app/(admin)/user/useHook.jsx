@@ -1,12 +1,13 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
 import { useDisclosure } from "@heroui/modal";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import React from "react";
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export default function useHook() {
   const auth = useAuth();
+  const didFetch = useRef(false);
   const [dataUser, setDataUser] = useState([]);
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
@@ -18,6 +19,8 @@ export default function useHook() {
   const [openModalEdit, setOpenModalEdit] = useState(false);
 
   useEffect(() => {
+    if (!auth.token || didFetch.current) return; // check flag ก่อน
+    didFetch.current = true;
     fetchDataUser();
   }, []);
 

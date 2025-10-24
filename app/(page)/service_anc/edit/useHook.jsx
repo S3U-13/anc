@@ -16,6 +16,7 @@ export default function useHook({
   const id = selectedEditId;
   const modalRef = useRef(null);
   const auth = useAuth();
+  const didFetch = useRef(false); // 🔑 flag ป้องกันเบิ้ล
   const [data, setData] = useState([]);
   const [coverageSite, setCoverageSite] = useState([]);
 
@@ -48,6 +49,8 @@ export default function useHook({
   };
 
   useEffect(() => {
+    if (!auth.token || didFetch.current) return; // check flag ก่อน
+    didFetch.current = true;
     fetchData();
     fetchCoverage();
   }, []);
@@ -241,14 +244,14 @@ export default function useHook({
     if (removed.includes("40")) {
       form.setFieldValue("receive_in_id", null);
       form.setFieldValue("hos_in_id", null);
-      form.setFieldValue("receive_in_detail", null);
+      form.setFieldValue("receive_in_detail", "");
     }
 
     // ถ้ามีการ uncheck "ส่งนอก" (id 41) ให้ล้างฟิลด์ที่เกี่ยวข้อง
     if (removed.includes("41")) {
       form.setFieldValue("receive_out_id", null);
       form.setFieldValue("hos_out_id", null);
-      form.setFieldValue("receive_out_detail", null);
+      form.setFieldValue("receive_out_detail", "");
     }
   };
 

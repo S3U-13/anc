@@ -1,11 +1,12 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export default function useHook() {
   const auth = useAuth();
+  const didFetch = useRef(false); // 🔑 flag ป้องกันเบิ้ล
   const [dataAnc, setDataAnc] = useState([]);
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
@@ -13,12 +14,12 @@ export default function useHook() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(1);
   const [openModal, setOpenModal] = useState(false);
-  const [openModalView, setOpenModalView] = useState(false);
-  const [openModalEdit, setOpenModalEdit] = useState(false);
 
   useEffect(() => {
+    if (!auth.token || didFetch.current) return; // check flag ก่อน
+    didFetch.current = true;
     fetchDataAnc();
-  }, []);
+  }, [auth.token]);
 
   const fetchDataAnc = async () => {
     try {
@@ -36,12 +37,6 @@ export default function useHook() {
 
   const openModalForm = () => {
     setOpenModal((prev) => !prev);
-  };
-  const openViewModal = () => {
-    setOpenModalView((prev) => !prev);
-  };
-  const openEditModal = () => {
-    setOpenModalEdit((prev) => !prev);
   };
 
   // ✅ filter data
@@ -135,7 +130,7 @@ export default function useHook() {
 
   // ค่าเริ่มต้นเลือกทุกคอลัมน์
   const [visibleColumns, setVisibleColumns] = useState(
-    new Set(["anc_no", "hn_wife", "wife_name"])
+    new Set(["anc_no", "hn_wife", "wife_name", "hn_husband", "husband_name"])
   );
 
   const onClear = () => setFilterValue("");
@@ -144,9 +139,6 @@ export default function useHook() {
     dataAnc,
     openModal,
     openModalForm,
-    openModalView,
-    openViewModal,
-    setOpenModalView,
     setOpenModal,
     setSelectedKeys,
     selectedKeys,
@@ -169,8 +161,5 @@ export default function useHook() {
     onSortChange,
     sortDescriptor,
     fetchDataAnc,
-    openModalEdit,
-    setOpenModalEdit,
-    openEditModal,
   };
 }

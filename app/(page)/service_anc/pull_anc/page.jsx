@@ -72,6 +72,7 @@ export default function App({
       isOpen={openModalAnc}
       size="5xl"
       onOpenChange={closeModalAnc}
+      placement="center"
     >
       <ModalContent ref={modalRef}>
         {(closeModalAnc) => (
