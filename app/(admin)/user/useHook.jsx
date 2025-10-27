@@ -1,5 +1,6 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
+import { useApiRequest } from "@/hooks/useApi";
 import { useDisclosure } from "@heroui/modal";
 import { useEffect, useState, useMemo, useRef } from "react";
 import React from "react";
@@ -7,7 +8,9 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export default function useHook() {
   const auth = useAuth();
+  const { fetchDataUser, submitUserById } = useApiRequest();
   const didFetch = useRef(false);
+  const modalRef = useRef(null);
   const [dataUser, setDataUser] = useState([]);
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
@@ -18,26 +21,17 @@ export default function useHook() {
   const [openModalView, setOpenModalView] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
 
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [dataUserById, setDataUserById] = useState(null);
+
   useEffect(() => {
     if (!auth.token || didFetch.current) return; // check flag ก่อน
     didFetch.current = true;
-    fetchDataUser();
-  }, []);
+    fetchDataUser()
+      .then((data) => setDataUser(data))
+      .catch(console.error);
+  }, [fetchDataUser]);
 
-  const fetchDataUser = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/admin/user", {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-      const json = await res.json().catch(() => []);
-      setDataUser(json);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  console.log(openModal);
   const openModalForm = () => {
     setOpenModal((prev) => !prev);
   };
@@ -134,6 +128,14 @@ export default function useHook() {
 
   const onClear = () => setFilterValue("");
 
+  const handleView = async (id) => {
+    setSelectedUserId(null);
+    setDataUserById(null);
+    const data = await submitUserById(id); // ✅ รอให้ fetch เสร็จ
+    setDataUserById(data);
+    setSelectedUserId(id);
+  };
+
   return {
     dataUser,
     openModal,
@@ -166,5 +168,10 @@ export default function useHook() {
     openModalEdit,
     setOpenModalEdit,
     openEditModal,
+    setDataUser,
+    handleView,
+    dataUserById,
+    modalRef,
+    selectedUserId,
   };
 }

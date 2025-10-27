@@ -15,26 +15,16 @@ import { Tabs, Tab } from "@heroui/tabs";
 import { useAuth } from "@/context/AuthContext";
 import Cookies from "js-cookie";
 import { ThemeSwitchUser } from "./theme-switch-user";
+import { useApiRequest } from "@/hooks/useApi";
 
 export default function Navbar() {
   const auth = useAuth();
+  const { logoutAPI } = useApiRequest();
   const router = useRouter();
   const pathname = usePathname();
   const handleLogout = async () => {
     try {
-      console.log("🔹 เริ่ม logout...");
-
-      const res = await fetch("http://localhost:3000/api/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-
-      const data = await res.json();
-      console.log("🔹 Logout API response:", data);
-
+      await logoutAPI();
       Cookies.remove("token"); // ✅ ลบ token ที่ frontend
       router.push("/"); // กลับไปหน้า login
     } catch (err) {

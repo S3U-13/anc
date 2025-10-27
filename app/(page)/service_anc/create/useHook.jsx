@@ -5,47 +5,26 @@ import { parseDate, getLocalTimeZone } from "@internationalized/date";
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
 import { useAuth } from "@/context/AuthContext";
+import { useApiRequest } from "@/hooks/useApi";
 
 export default function useHook({ closeFormService } = {}) {
   const modalRef = useRef(null);
   const auth = useAuth();
+  const { fetchChoice, fetchCoverage, submitCreateAncService } =
+    useApiRequest();
   const didFetch = useRef(false);
   const [data, setData] = useState([]);
   const [coverageSite, setCoverageSite] = useState([]);
 
-  const fetchData = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/user/mapAll", {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-      const json = await res.json();
-      setData(json);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchCoverage = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/user/coveragesite", {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-      const json = await res.json();
-      setCoverageSite(json);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     if (!auth.token || didFetch.current) return; // check flag ก่อน
     didFetch.current = true;
-    fetchData();
-    fetchCoverage();
+    fetchChoice()
+      .then((data) => setData(data))
+      .catch(console.error);
+    fetchCoverage()
+      .then((data) => setCoverageSite(data))
+      .catch(console.error);
   }, []);
 
   const initialField = () => ({
@@ -392,25 +371,7 @@ export default function useHook({ closeFormService } = {}) {
     console.log("submit field:", value);
     if (isSubmitting) return;
     try {
-      setIsSubmitting(true); // เริ่มส่งข้อมูล
-      const res = await fetch(`http://localhost:3000/api/user/ancservice`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${auth.token}`,
-        },
-        body: JSON.stringify(value), // ✅ ใช้ validated data
-      });
-
-      const json = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error("ลงทะเบียน ANC ไม่สำเร็จ");
-
-      addToast({
-        title: "สำเร็จ",
-        description: "เพิ่มข้อมูลสำเร็จ",
-        variant: "flat",
-        color: "success",
-      });
+      await submitCreateAncService(value);
       form.reset();
       setField(initialField);
       setSelectedAnc(null);
@@ -432,12 +393,7 @@ export default function useHook({ closeFormService } = {}) {
       setSelectedRef([]);
       closeFormService();
     } catch (error) {
-      addToast({
-        title: "ไม่สำเร็จ",
-        description: "เพิ่มข้อมูลไม่สำเร็จ",
-        variant: "flat",
-        color: "danger",
-      });
+      console.log(error);
     } finally {
       setIsSubmitting(false); // ส่งเสร็จแล้ว เปิดให้กดได้อีก
     }

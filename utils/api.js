@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 const apiRequest = async (
   endpoint,
@@ -24,26 +24,4 @@ const apiRequest = async (
 const loginAPI = (user_name, password) =>
   apiRequest("/api/login", "POST", { user_name, password });
 
-const fetchAllData = (token) =>
-  Promise.all([
-    apiRequest("/api/user/sum-anc-service", "GET", null, token),
-    apiRequest("/api/user/chart-anc-service", "GET", null, token),
-    apiRequest("/api/user/radial-anc-service", "GET", null, token),
-  ]).then(([sum, bar, radial]) => ({
-    sumData: sum.data || [],
-    chartBarData: bar.data || [],
-    chartRadialData: radial.data || [],
-  }));
-
-const fetchDataAnc = (token) =>
-  apiRequest("/api/user/ancservice", "GET", null, token);
-const fetchRoundById = (roundId, token) =>
-  apiRequest(`/api/user/show-service-by-id/${roundId}`, "GET", null, token);
-
-export {
-  loginAPI,
-  fetchAllData,
-  fetchDataAnc,
-  fetchRoundById,
-  apiRequest,
-};
+export { loginAPI, apiRequest };

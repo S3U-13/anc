@@ -1,5 +1,6 @@
 "use client"; // ✅
 import { useAuth } from "@/context/AuthContext";
+import { useApiRequest } from "@/hooks/useApi";
 import React, { useRef } from "react";
 import { useEffect, useState, useMemo } from "react";
 
@@ -7,6 +8,7 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export default function useHook() {
   const auth = useAuth();
+  const { fetchSelectDataAnc } = useApiRequest();
   const didFetch = useRef(false);
   const modalRef = useRef(null);
   const [dataAnc, setDataAnc] = useState([]);
@@ -20,22 +22,10 @@ export default function useHook() {
   useEffect(() => {
     if (!auth.token || didFetch.current) return; // check flag ก่อน
     didFetch.current = true;
-    fetchDataAnc();
+    fetchSelectDataAnc()
+      .then((data) => setDataAnc(data))
+      .catch(console.error);
   }, []);
-
-  const fetchDataAnc = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/user/pull-anc", {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-      const json = await res.json().catch(() => []);
-      setDataAnc(json);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const openModalForm = () => {
     setOpenModal((prev) => !prev);
@@ -180,7 +170,6 @@ export default function useHook() {
     rowsPerPage,
     onSortChange,
     sortDescriptor,
-    fetchDataAnc,
     headerColumns,
     modalRef,
   };

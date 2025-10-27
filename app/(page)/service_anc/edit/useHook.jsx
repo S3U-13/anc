@@ -6,6 +6,7 @@ import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
 import { useAuth } from "@/context/AuthContext";
 import { useParams } from "next/navigation";
+import { useApiRequest } from "@/hooks/useApi";
 
 export default function useHook({
   openEditService,
@@ -13,6 +14,7 @@ export default function useHook({
   currentData,
   selectedEditId,
 } = {}) {
+  const { fetchChoice, fetchCoverage, submitEditAncService } = useApiRequest();
   const id = selectedEditId;
   const modalRef = useRef(null);
   const auth = useAuth();
@@ -20,39 +22,15 @@ export default function useHook({
   const [data, setData] = useState([]);
   const [coverageSite, setCoverageSite] = useState([]);
 
-  const fetchData = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/user/mapAll", {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-      const json = await res.json();
-      setData(json);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchCoverage = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/user/coveragesite", {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-      const json = await res.json();
-      setCoverageSite(json);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     if (!auth.token || didFetch.current) return; // check flag ก่อน
     didFetch.current = true;
-    fetchData();
-    fetchCoverage();
+    fetchChoice()
+      .then((data) => setData(data))
+      .catch(console.error);
+    fetchCoverage()
+      .then((data) => setCoverageSite(data))
+      .catch(console.error);
   }, []);
 
   const initialField = () => ({
@@ -400,27 +378,8 @@ export default function useHook({
     if (isSubmitting) return;
     try {
       setIsSubmitting(true); // เริ่มส่งข้อมูล
-      const res = await fetch(
-        `http://localhost:3000/api/user/edit-service-by-id/${id}`, // id ต้องมีค่า
-        {
-          method: "PUT", // ใช้ PUT ตาม backend
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${auth.token}`,
-          },
-          body: JSON.stringify(value),
-        }
-      );
 
-      const json = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error("แก้ไขข้อมูลไม่สำเร็จ");
-
-      addToast({
-        title: "สำเร็จ",
-        description: "เเก้ไขข้อมูลสำเร็จ",
-        variant: "flat",
-        color: "success",
-      });
+      await submitEditAncService(value, id);
       form.reset();
       setField(initialField);
       setSelectedAnc(null);
@@ -442,12 +401,7 @@ export default function useHook({
       setSelectedRef([]);
       closeEditService();
     } catch (error) {
-      addToast({
-        title: "ไม่สำเร็จ",
-        description: "เเก้ไขข้อมูลไม่สำเร็จ",
-        variant: "flat",
-        color: "danger",
-      });
+      console.log(error);
     } finally {
       setIsSubmitting(false); // ส่งเสร็จแล้ว เปิดให้กดได้อีก
     }

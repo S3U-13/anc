@@ -55,7 +55,7 @@ export default function App() {
     pages,
     onSortChange,
     sortDescriptor,
-    fetchDataAnc,
+    fetchDataAncService,
     formatAddress,
     handleSelectRound,
     roundData,
@@ -79,6 +79,7 @@ export default function App() {
     currentData,
     isEditLoading,
     selectedEditId,
+    setDataAnc,
   } = useHook();
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
@@ -310,7 +311,9 @@ export default function App() {
         setOpenFormService={setOpenFormService}
         closeFormService={() => {
           setOpenFormService(false);
-          fetchDataAnc();
+          fetchDataAncService()
+            .then((data) => setDataAnc(data || []))
+            .catch(console.error);
         }}
       />
       <ModalViewAncService
@@ -338,7 +341,9 @@ export default function App() {
         openEditService={openEditAncService}
         closeEditService={() => {
           setOpenEditAncService(false);
-          fetchDataAnc();
+          fetchDataAncService()
+            .then((data) => setDataAnc(data || []))
+            .catch(console.error);
         }}
         currentData={currentData}
         isEditLoading={isEditLoading}

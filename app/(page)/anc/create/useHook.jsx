@@ -5,114 +5,50 @@ import { useForm } from "@tanstack/react-form";
 
 import * as z from "zod";
 import { useAuth } from "@/context/AuthContext";
+import { useApiRequest } from "@/hooks/useApi";
 
 export default function useHook({ closeModal }) {
   const auth = useAuth();
+  const { patWifeData, patHusbandData, submitAnc, fetchDataAnc } =
+    useApiRequest();
+  const [pat, setPat] = useState(null); // 👈 เก็บ object คนเดียว
+  const [patHusband, setPatHusband] = useState(null);
+  const [hnInputWife, setHnInputWife] = useState("");
+  const [hnInputHusband, setHnInputHusband] = useState("");
+  const steps = ["wife", "husband"];
+  const [activeStep, setActiveStep] = useState("wife");
+  const defaultVitals = { weight: "", height: "" };
+  const [editVitalsign, setEditVitalsign] = useState(defaultVitals);
+
   const [field, setField] = useState({
     hn_wife: "",
     hn_husband: "",
   });
 
-  const [pat, setPat] = useState(null); // 👈 เก็บ object คนเดียว
-
-  const [patHusband, setPatHusband] = useState(null);
-
-  const patWifeData = async (value) => {
-    try {
-      const res = await fetch(`http://localhost:3000/api/user/pat/${value}`, {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error("ไม่พบข้อมูล");
-      setPat(json);
-      // อัปเดต field
-
-      form.setFieldValue("hn_wife", json.hn || "");
-
-      // setField((prev) => ({
-      //   ...prev,
-      //   hn_wife: json.hn || "",
-      // }));
-      addToast({
-        title: "สำเร็จ",
-        description: "ดึงข้อมูลสำเร็จ",
-        variant: "flat",
-        color: "primary",
-      });
-    } catch (error) {
-      console.log(error);
-      addToast({
-        title: "ไม่พบข้อมูล",
-        description: "error",
-        variant: "flat",
-        color: "danger",
-      });
-    }
-  };
-
-  const [hnInputWife, setHnInputWife] = useState("");
-
   const handleSearchHnWife = async () => {
     if (!hnInputWife) {
       addToast({
-        title: "กรุณากรอก HN Wife ก่อน",
-        description: "คุณยังไม่ได้กรอกค่า HN Wife",
+        title: "กรุณากรอก HN ภรรยา ก่อน",
+        description: "คุณยังไม่ได้กรอกค่า HN ภรรยา",
         variant: "flat",
         color: "warning",
       });
       return;
     }
-    await patWifeData(hnInputWife); // รอ fetch เสร็จก่อน
+    await patWifeData(hnInputWife, form, setPat); // ✅ ส่ง setter
   };
-
-  const patHusbandData = async (value) => {
-    try {
-      const res = await fetch(`http://localhost:3000/api/user/pat/${value}`, {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error("ไม่พบข้อมูล");
-      setPatHusband(json);
-
-      form.setFieldValue("hn_husband", json.hn || "");
-      // อัปเดต field
-      // setField((prev) => ({
-      //   ...prev,
-      //   hn_husband: json.hn || "",
-      // }));
-      addToast({
-        title: "สำเร็จ",
-        description: "ดึงข้อมูลสำเร็จ",
-        variant: "flat",
-        color: "primary",
-      });
-    } catch (error) {
-      addToast({
-        title: "ไม่พบข้อมูล",
-        description: "error",
-        variant: "flat",
-        color: "danger",
-      });
-    }
-  };
-
-  const [hnInputHusband, setHnInputHusband] = useState("");
 
   const handleSearchHnHusband = async () => {
     if (!hnInputHusband) {
       addToast({
-        title: "กรุณากรอก HN Wife ก่อน",
-        description: "คุณยังไม่ได้กรอกค่า HN Wife",
+        title: "กรุณากรอก HN สามี ก่อน",
+        description: "คุณยังไม่ได้กรอกค่า HN สามี",
         variant: "flat",
         color: "warning",
       });
       return;
     }
-    await patHusbandData(hnInputHusband); // รอ fetch เสร็จก่อน
+    await patHusbandData(hnInputHusband, form, setPatHusband); // รอ fetch เสร็จก่อน
   };
 
   useEffect(() => {
@@ -180,10 +116,6 @@ export default function useHook({ closeModal }) {
     return address; // รวมเป็น string เดียว
   };
 
-  const defaultVitals = { weight: "", height: "" };
-
-  const [editVitalsign, setEditVitalsign] = useState(defaultVitals);
-
   const vitals = pat?.pat_vitalsign?.[0];
   // sync editVitalsign กับ pat หลังจาก fetch เสร็จ
   useEffect(() => {
@@ -226,36 +158,14 @@ export default function useHook({ closeModal }) {
     }));
   };
 
-  const steps = ["wife", "husband"];
-  const [activeStep, setActiveStep] = useState("wife");
-
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (value) => {
     if (isSubmitting) return;
     try {
       setIsSubmitting(true); // เริ่มส่งข้อมูล
-      const res = await fetch(`http://localhost:3000/api/user/anc`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-           Authorization: `Bearer ${auth.token}`,
-        },
-        body: JSON.stringify(value), // ✅ ใช้ validated data
-      });
-
-      const json = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error("ลงทะเบียน ANC ไม่สำเร็จ");
-
-      addToast({
-        title: "สำเร็จ",
-        description: "ลงทะเบียน ANC สำเร็จ",
-        variant: "flat",
-        color: "success",
-      });
-
+      await submitAnc(value);
       form.reset();
-
       setPat(null);
       setPatHusband(null);
       setBmi("");
@@ -263,15 +173,9 @@ export default function useHook({ closeModal }) {
       setHnInputWife("");
       setHnInputHusband("");
       setActiveStep("wife");
-
       closeModal();
     } catch (error) {
-      addToast({
-        title: "ไม่สำเร็จ",
-        description: "ลงทะเบียน ANC ไม่สำเร็จ",
-        variant: "flat",
-        color: "danger",
-      });
+      console.error(error);
     } finally {
       setIsSubmitting(false); // ส่งเสร็จแล้ว เปิดให้กดได้อีก
     }
@@ -318,18 +222,6 @@ export default function useHook({ closeModal }) {
       }
     };
 
-  //   const isCurrentStepValid = () => {
-  //   if (activeStep === "wife") {
-  //     const field = form.state.fields?.hn_wife;
-  //     return field && field.value.trim() !== "" && field.meta.errors.length === 0;
-  //   }
-  //   if (activeStep === "husband") {
-  //     const field = form.state.fields?.hn_husband;
-  //     return field && field.value.trim() !== "" && field.meta.errors.length === 0;
-  //   }
-  //   return true;
-  // };
-
   return {
     field,
     handleSearchHnWife,
@@ -358,6 +250,5 @@ export default function useHook({ closeModal }) {
     validationSchema,
     makeValidator,
     isSubmitting,
-    // isCurrentStepValid,
   };
 }

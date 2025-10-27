@@ -24,9 +24,7 @@ import useHook from "./useHook";
 
 export default function page() {
   const {
-    dataAnc,
     openModal,
-    openModalForm,
     setOpenModal,
     capitalize,
     setVisibleColumns,
@@ -44,7 +42,8 @@ export default function page() {
     pages,
     onSortChange,
     sortDescriptor,
-    fetchAncAPI
+    fetchDataAnc,
+    setDataAnc,
   } = useHook();
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
@@ -167,7 +166,7 @@ export default function page() {
 
       <Table
         isHeaderSticky
-        classNames={{ td: "p-2 pt-2.5 pb-2.5", th: "p-2 pt-4 pb-4" }}
+        classNames={{ td: "p-2 py-4", th: "p-2 pt-4 pb-4" }}
         isStriped
         aria-label="Example table"
       >
@@ -238,7 +237,9 @@ export default function page() {
         openModal={openModal}
         closeModal={() => {
           setOpenModal(false);
-          fetchAncAPI();
+          fetchDataAnc()
+            .then((data) => setDataAnc(data || []))
+            .catch(console.error);
         }}
       />
     </div>

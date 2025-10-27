@@ -20,6 +20,8 @@ import {
 import { Pagination } from "@heroui/pagination";
 import useHook from "./useHook";
 import ModalCreate from "./create/page";
+import ModalView from "./view/page";
+import ModalEdit from "./edit/page";
 
 export default function page() {
   const {
@@ -48,6 +50,11 @@ export default function page() {
     setOpenModalView,
     setOpenModalEdit,
     openModalEdit,
+    setDataUser,
+    modalRef,
+    handleView,
+    dataUserById,
+    selectedUserId,
   } = useHook();
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
@@ -230,7 +237,10 @@ export default function page() {
                       size="sm"
                       isIconOnly
                       variant="light"
-                      onPress={() => setOpenModalView(true)}
+                      onPress={() => {
+                        setOpenModalView(true);
+                        handleView(item.id);
+                      }}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -258,7 +268,10 @@ export default function page() {
                       size="sm"
                       isIconOnly
                       variant="light"
-                      onPress={() => setOpenModalEdit(true)}
+                      onPress={() => {
+                        setOpenModalEdit(true);
+                        handleView(item.id);
+                      }}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -297,24 +310,31 @@ export default function page() {
         openModal={openModal}
         closeModal={() => {
           setOpenModal(false);
-          fetchDataUser();
+          fetchDataUser()
+            .then((data) => setDataUser(data))
+            .catch(console.error);
         }}
+        modalRef={modalRef}
       />
-      {/* <ModalForm
-        openModal={openModal}
-        closeModal={() => {
-          setOpenModal(false);
-          fetchDataAnc();
-        }}
-      /> */}
-      {/* <ModalView
+
+      <ModalView
         openModalView={openModalView}
         closeModalView={() => setOpenModalView(false)}
-      /> */}
-      {/* <ModalEdit
+        modalRef={modalRef}
+        dataUserById={dataUserById}
+      />
+      <ModalEdit
         openModalEdit={openModalEdit}
-        closeModalEdit={() => setOpenModalEdit(false)}
-      /> */}
+        closeModalEdit={() => {
+          setOpenModalEdit(false);
+          fetchDataUser()
+            .then((data) => setDataUser(data))
+            .catch(console.error);
+        }}
+        modalRef={modalRef}
+        dataUserById={dataUserById}
+        selectedUserId={selectedUserId}
+      />
     </div>
   );
 }

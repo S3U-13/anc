@@ -6,13 +6,18 @@ import { addToast } from "@heroui/toast";
 import { useAuth } from "@/context/AuthContext";
 import { useApiRequest } from "@/hooks/useApi";
 
-export default function useHook({ closeModal }) {
+export default function useHook({
+  closeModalEdit,
+  dataUserById,
+  selectedUserId,
+  openModalEdit,
+}) {
   const auth = useAuth();
-  const { fetchPosition, fetchRole, submitCreateUser } = useApiRequest();
+  const { fetchPosition, fetchRole, submitEditUser } = useApiRequest();
   const [role, setRole] = useState([]);
   const [position, setPosition] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const id = selectedUserId;
   useEffect(() => {
     fetchRole()
       .then((data) => setRole(data))
@@ -53,6 +58,20 @@ export default function useHook({ closeModal }) {
       path: ["confirm_password"],
     });
 
+  useEffect(() => {
+    if (openModalEdit && dataUserById) {
+      // เซ็ตค่าเริ่มต้นให้ field ต่าง ๆ
+      form.setFieldValue("name", dataUserById.name || "");
+      form.setFieldValue("user_name", dataUserById.user_name || "");
+      form.setFieldValue("position_id", dataUserById.position_id || null);
+      form.setFieldValue("role_id", dataUserById.role_id || null);
+
+      // ช่อง password / confirm_password ปล่อยว่างไว้
+      form.setFieldValue("password", "");
+      form.setFieldValue("confirm_password", "");
+    }
+  }, [openModalEdit, dataUserById]); // เมื่อ modal เปิดหรือข้อมูลเปลี่ยน
+
   const defaultValues = {
     name: "",
     user_name: "",
@@ -79,9 +98,9 @@ export default function useHook({ closeModal }) {
           return;
         }
         // ✅ ส่งข้อมูลไป API
-        await submitCreateUser(value);
+        await submitEditUser(value, id);
         form.reset();
-        closeModal();
+        closeModalEdit();
       } catch (error) {
         console.log(error);
       } finally {

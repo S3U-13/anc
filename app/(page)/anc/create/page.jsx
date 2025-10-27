@@ -88,7 +88,7 @@ export default function page({ openModal, closeModal }) {
                           isIconOnly
                           aria-label="Search HN Wife"
                           variant="flat"
-                          onClick={handleSearchHnWife}
+                          onPress={handleSearchHnWife}
                           type="button"
                         >
                           <svg
@@ -225,7 +225,7 @@ export default function page({ openModal, closeModal }) {
                         isIconOnly
                         aria-label="Search HN"
                         variant="flat"
-                        onClick={handleSearchHnHusband}
+                        onPress={handleSearchHnHusband}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"

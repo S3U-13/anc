@@ -1,11 +1,13 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
+import { useApiRequest } from "@/hooks/useApi";
 import { useEffect, useState, useMemo, useRef } from "react";
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export default function useHook() {
   const auth = useAuth();
+  const { fetchDataAnc } = useApiRequest();
   const didFetch = useRef(false); // 🔑 flag ป้องกันเบิ้ล
   const [dataAnc, setDataAnc] = useState([]);
   const [filterValue, setFilterValue] = useState("");
@@ -18,22 +20,10 @@ export default function useHook() {
   useEffect(() => {
     if (!auth.token || didFetch.current) return; // check flag ก่อน
     didFetch.current = true;
-    fetchDataAnc();
-  }, [auth.token]);
-
-  const fetchDataAnc = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/user/anc", {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-      const json = await res.json().catch(() => []);
-      setDataAnc(json);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    fetchDataAnc()
+      .then((data) => setDataAnc(data || []))
+      .catch(console.error);
+  }, [fetchDataAnc]);
 
   const openModalForm = () => {
     setOpenModal((prev) => !prev);
@@ -136,9 +126,7 @@ export default function useHook() {
   const onClear = () => setFilterValue("");
 
   return {
-    dataAnc,
     openModal,
-    openModalForm,
     setOpenModal,
     setSelectedKeys,
     selectedKeys,
@@ -161,5 +149,6 @@ export default function useHook() {
     onSortChange,
     sortDescriptor,
     fetchDataAnc,
+    setDataAnc,
   };
 }

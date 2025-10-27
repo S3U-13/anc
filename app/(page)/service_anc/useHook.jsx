@@ -1,6 +1,7 @@
 "use client"; // ✅
 
 import { useAuth } from "@/context/AuthContext";
+import { useApiRequest } from "@/hooks/useApi";
 import React, { useRef } from "react";
 import { useEffect, useState, useMemo } from "react";
 
@@ -8,6 +9,7 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export default function useHook() {
   const auth = useAuth();
+  const { fetchDataAncService, selectedRoundById } = useApiRequest();
   const didFetch = useRef(false); // 🔑 flag ป้องกันเบิ้ล
   const [dataAnc, setDataAnc] = useState([]);
   const [filterValue, setFilterValue] = useState("");
@@ -22,23 +24,10 @@ export default function useHook() {
   useEffect(() => {
     if (!auth.token || didFetch.current) return; // check flag ก่อน
     didFetch.current = true;
-    fetchDataAnc();
-  }, []);
-
-  const fetchDataAnc = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/user/ancservice", {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-      const json = await res.json().catch(() => []);
-
-      setDataAnc(json);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    fetchDataAncService()
+      .then((data) => setDataAnc(data || []))
+      .catch(console.error);
+  }, [fetchDataAncService]);
 
   const openModalForm = () => {
     setOpenFormService((prev) => !prev);
@@ -186,15 +175,7 @@ export default function useHook() {
     setRoundData(null);
 
     try {
-      const res = await fetch(
-        `http://localhost:3000/api/user/show-service-by-id/${roundId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${auth.token}`,
-          },
-        }
-      );
-      const data = await res.json();
+      const data = await selectedRoundById(roundId); // ✅ ไม่ต้องส่ง token
       setRoundData(data);
     } catch (err) {
       console.error("Error fetching round data:", err);
@@ -213,15 +194,7 @@ export default function useHook() {
     setCurrentData(null);
 
     try {
-      const res = await fetch(
-        `http://localhost:3000/api/user/show-service-by-id/${roundId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${auth.token}`,
-          },
-        }
-      );
-      const data = await res.json();
+      const data = await selectedRoundById(roundId); // ✅ ไม่ต้องส่ง token
       setCurrentData(data);
     } catch (err) {
       console.error("Error fetching round data:", err);
@@ -563,7 +536,7 @@ export default function useHook() {
     rowsPerPage,
     onSortChange,
     sortDescriptor,
-    fetchDataAnc,
+    fetchDataAncService,
     formatAddress,
     handleSelectRound,
     roundData,
@@ -587,5 +560,6 @@ export default function useHook() {
     currentData,
     isEditLoading,
     selectedEditId,
+    setDataAnc,
   };
 }
