@@ -5,14 +5,7 @@ import React from "react";
 import useHook from "../useHook";
 import { Select, SelectItem } from "@heroui/select";
 
-export default function page({
-  selectedAnc,
-  field,
-  setField,
-  handleChange,
-  validationSchema,
-  form,
-}) {
+export default function page({ selectedAnc, form }) {
   const { data, calculateAge, formatName } = useHook();
   return (
     <div className="overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
@@ -64,12 +57,7 @@ export default function page({
           value={selectedAnc?.husband?.pat_address?.email || ""}
           readOnly
         />
-        <form.Field
-          name="hbsag_husband"
-          validators={{
-            onChange: validationSchema.shape.hbsag_husband,
-          }}
-        >
+        <form.Field name="hbsag_husband">
           {(field) => (
             <Select
               size="sm"
@@ -78,12 +66,10 @@ export default function page({
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
-              onSelectionChange={(key) =>
-                field.handleChange(Array.from(key)[0])
-              }
-              onBlur={field.handleBlur}
-              isInvalid={field.state.meta.errors.length > 0}
-              errorMessage={field.state.meta.errors[0]?.message}
+              onSelectionChange={(key) => {
+                const selected = Array.from(key)[0];
+                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+              }}
             >
               {data
                 .filter((hbsag) => hbsag.choice_type_id === 17)
@@ -93,12 +79,7 @@ export default function page({
             </Select>
           )}
         </form.Field>
-        <form.Field
-          name="vdrl_husband"
-          validators={{
-            onChange: validationSchema.shape.vdrl_husband,
-          }}
-        >
+        <form.Field name="vdrl_husband">
           {(field) => (
             <Select
               size="sm"
@@ -107,12 +88,10 @@ export default function page({
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
-              onSelectionChange={(key) =>
-                field.handleChange(Array.from(key)[0])
-              }
-              onBlur={field.handleBlur}
-              isInvalid={field.state.meta.errors.length > 0}
-              errorMessage={field.state.meta.errors[0]?.message}
+              onSelectionChange={(key) => {
+                const selected = Array.from(key)[0];
+                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+              }}
             >
               {data
                 .filter((vdrl_wife) => vdrl_wife.choice_type_id === 18)
@@ -124,12 +103,7 @@ export default function page({
             </Select>
           )}
         </form.Field>
-        <form.Field
-          name="anti_hiv_husband"
-          validators={{
-            onChange: validationSchema.shape.anti_hiv_husband,
-          }}
-        >
+        <form.Field name="anti_hiv_husband">
           {(field) => (
             <Select
               size="sm"
@@ -138,12 +112,10 @@ export default function page({
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
-              onSelectionChange={(key) =>
-                field.handleChange(Array.from(key)[0])
-              }
-              onBlur={field.handleBlur}
-              isInvalid={field.state.meta.errors.length > 0}
-              errorMessage={field.state.meta.errors[0]?.message}
+              onSelectionChange={(key) => {
+                const selected = Array.from(key)[0];
+                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+              }}
             >
               {data
                 .filter((anti_hiv) => anti_hiv.choice_type_id === 19)
@@ -155,34 +127,21 @@ export default function page({
             </Select>
           )}
         </form.Field>
-        <form.Field
-          name="hb_typing_husband"
-          validators={{
-            onChange: validationSchema.shape.hb_typing_husband,
-          }}
-        >
+        <form.Field name="hb_typing_husband">
           {(field) => (
             <Input
               size="sm"
               className="col-span-2"
               label="Hb Typing"
               type="text"
-              value={field.state.value}
+               value={field.state.value ?? ""} // ✅ null → ""
               onChange={(e) => field.handleChange(e.target.value)}
-              onBlur={field.handleBlur}
-              isInvalid={field.state.meta.errors.length > 0}
-              errorMessage={field.state.meta.errors[0]?.message}
             />
           )}
         </form.Field>
 
         <div className="col-span-4 grid grid-cols-3 gap-[10px]">
-          <form.Field
-            name="bl_gr_husband"
-            validators={{
-              onChange: validationSchema.shape.bl_gr_husband,
-            }}
-          >
+          <form.Field name="bl_gr_husband">
             {(field) => (
               <Select
                 size="sm"
@@ -191,12 +150,10 @@ export default function page({
                 selectedKeys={
                   field.state.value ? new Set([field.state.value]) : new Set()
                 }
-                onSelectionChange={(key) =>
-                  field.handleChange(Array.from(key)[0])
-                }
-                onBlur={field.handleBlur}
-                isInvalid={field.state.meta.errors.length > 0}
-                errorMessage={field.state.meta.errors[0]?.message}
+                onSelectionChange={(key) => {
+                  const selected = Array.from(key)[0];
+                  field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                }}
               >
                 {data
                   .filter((bl_gr) => bl_gr.choice_type_id === 20)
@@ -206,12 +163,7 @@ export default function page({
               </Select>
             )}
           </form.Field>
-          <form.Field
-            name="rh_husband"
-            validators={{
-              onChange: validationSchema.shape.rh_husband,
-            }}
-          >
+          <form.Field name="rh_husband">
             {(field) => (
               <Select
                 size="sm"
@@ -220,12 +172,10 @@ export default function page({
                 selectedKeys={
                   field.state.value ? new Set([field.state.value]) : new Set()
                 }
-                onSelectionChange={(key) =>
-                  field.handleChange(Array.from(key)[0])
-                }
-                onBlur={field.handleBlur}
-                isInvalid={field.state.meta.errors.length > 0}
-                errorMessage={field.state.meta.errors[0]?.message}
+                onSelectionChange={(key) => {
+                  const selected = Array.from(key)[0];
+                  field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                }}
               >
                 {data
                   .filter((rh) => rh.choice_type_id === 21)
@@ -235,53 +185,32 @@ export default function page({
               </Select>
             )}
           </form.Field>
-          <form.Field
-            name="hct_husband"
-            validators={{
-              onChange: validationSchema.shape.hct_husband,
-            }}
-          >
+          <form.Field name="hct_husband">
             {(field) => (
               <Input
                 size="sm"
                 className="col-span-1"
                 label="Hct"
                 type="text"
-                value={field.state.value}
+                 value={field.state.value ?? ""} // ✅ null → ""
                 onChange={(e) => field.handleChange(e.target.value)}
-                onBlur={field.handleBlur}
-                isInvalid={field.state.meta.errors.length > 0}
-                errorMessage={field.state.meta.errors[0]?.message}
               />
             )}
           </form.Field>
         </div>
-        <form.Field
-          name="of_husband"
-          validators={{
-            onChange: validationSchema.shape.of_husband,
-          }}
-        >
+        <form.Field name="of_husband">
           {(field) => (
             <Input
               size="sm"
               className="col-span-2"
               label="OF"
               type="text"
-              value={field.state.value}
+               value={field.state.value ?? ""} // ✅ null → ""
               onChange={(e) => field.handleChange(e.target.value)}
-              onBlur={field.handleBlur}
-              isInvalid={field.state.meta.errors.length > 0}
-              errorMessage={field.state.meta.errors[0]?.message}
             />
           )}
         </form.Field>
-        <form.Field
-          name="dcip_husband"
-          validators={{
-            onChange: validationSchema.shape.dcip_husband,
-          }}
-        >
+        <form.Field name="dcip_husband">
           {(field) => (
             <Select
               size="sm"
@@ -290,12 +219,10 @@ export default function page({
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
-              onSelectionChange={(key) =>
-                field.handleChange(Array.from(key)[0])
-              }
-              onBlur={field.handleBlur}
-              isInvalid={field.state.meta.errors.length > 0}
-              errorMessage={field.state.meta.errors[0]?.message}
+              onSelectionChange={(key) => {
+                const selected = Array.from(key)[0];
+                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+              }}
             >
               {data
                 .filter((dcip) => dcip.choice_type_id === 22)
@@ -305,63 +232,39 @@ export default function page({
             </Select>
           )}
         </form.Field>
-        <form.Field
-          name="mcv_husband"
-          validators={{
-            onChange: validationSchema.shape.mch_husband,
-          }}
-        >
+        <form.Field name="mcv_husband">
           {(field) => (
             <Input
               size="sm"
               className="col-span-2"
               label="MCV"
               type="text"
-              value={field.state.value}
+               value={field.state.value ?? ""} // ✅ null → ""
               onChange={(e) => field.handleChange(e.target.value)}
-              onBlur={field.handleBlur}
-              isInvalid={field.state.meta.errors.length > 0}
-              errorMessage={field.state.meta.errors[0]?.message}
             />
           )}
         </form.Field>
-        <form.Field
-          name="mch_husband"
-          validators={{
-            onChange: validationSchema.shape.mch_husband,
-          }}
-        >
+        <form.Field name="mch_husband">
           {(field) => (
             <Input
               size="sm"
               className="col-span-2"
               label="MCH"
               type="text"
-              value={field.state.value}
+               value={field.state.value ?? ""} // ✅ null → ""
               onChange={(e) => field.handleChange(e.target.value)}
-              onBlur={field.handleBlur}
-              isInvalid={field.state.meta.errors.length > 0}
-              errorMessage={field.state.meta.errors[0]?.message}
             />
           )}
         </form.Field>
       </div>
 
-      <form.Field
-        name="pcr_hus_id"
-        validators={{
-          onChange: validationSchema.shape.pcr_hus_id,
-        }}
-      >
+      <form.Field name="pcr_hus_id">
         {(field) => (
           <RadioGroup
             className="col-span-4 px-[20px] mt-[10px]"
             label="PCR"
-            value={field.state.value}
+             value={field.state.value ?? ""} // ✅ null → ""
             onChange={(e) => field.handleChange(e.target.value)}
-            onBlur={field.handleBlur}
-            isInvalid={field.state.meta.errors.length > 0}
-            errorMessage={field.state.meta.errors[0]?.message}
           >
             {data
               .filter((pcr) => pcr.choice_type_id === 4)
@@ -372,12 +275,7 @@ export default function page({
                 >
                   <Radio value={String(pcr.id)}>{pcr.choice_name}</Radio>
                   {String(pcr.id) === "9" && field.state.value === "9" && (
-                    <form.Field
-                      name="pcr_hus_text"
-                      validators={{
-                        onChange: validationSchema.shape.pcr_hus_text,
-                      }}
-                    >
+                    <form.Field name="pcr_hus_text">
                       {(subField) => (
                         <Input
                           className="w-[300px]"

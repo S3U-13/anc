@@ -253,12 +253,7 @@ export default function page({ openModal, closeModal }) {
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-[10px] mt-[15px] p-2">
-                    <form.Field
-                      name="hn_husband"
-                      validators={{
-                        onChange: validationSchema.shape.hn_husband,
-                      }}
-                    >
+                    <form.Field name="hn_husband">
                       {(field) => (
                         <Input
                           label="HN สามี"
@@ -267,9 +262,6 @@ export default function page({ openModal, closeModal }) {
                           // onChange={handleChange}
                           value={field.state.value}
                           onChange={(e) => field.handleChange(e.target.value)}
-                          onBlur={field.handleBlur}
-                          isInvalid={field.state.meta.errors.length > 0}
-                          errorMessage={field.state.meta.errors[0]?.message}
                           type="text"
                         />
                       )}

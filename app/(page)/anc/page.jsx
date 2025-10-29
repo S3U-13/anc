@@ -219,7 +219,9 @@ export default function page() {
                   {col.uid === "wife_name" &&
                     `${item.wife?.prename}${item.wife?.firstname} ${item.wife?.lastname}`}
                   {col.uid === "husband_name" &&
-                    `${item.husband?.prename}${item.husband?.firstname} ${item.husband?.lastname}`}
+                    (item.husband?.firstname
+                      ? `${item.husband?.prename}${item.husband?.firstname} ${item.husband?.lastname}`
+                      : "ไม่พบสามี")}
                   {col.uid !== "wife_name" &&
                     col.uid !== "husband_name" &&
                     item[col.uid]}

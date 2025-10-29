@@ -663,22 +663,45 @@ export default function page({
                           </span>
                         </span>
 
-                        <span>
+                        <span className="flex items-center gap-1">
                           <strong className="text-gray-900 dark:text-white">
                             VDRL :
                           </strong>{" "}
                           <span className="dark:text-gray-400">
-                            {roundData?.wife.text_values.vdrl_2}
+                            {roundData?.wife?.text_values?.vdrl_2_name
+                              ?.choice_name || "—"}
                           </span>
+                          {/* ถ้าผลเป็น Reactive ให้แสดงคำเตือน */}
+                          {roundData?.wife?.text_values?.vdrl_2_name
+                            ?.choice_name === "Reactive" && (
+                            <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
+                              <AlertOctagon
+                                className="animate-pulse"
+                                size={18}
+                              />
+                              <span className="text-[12px]">
+                                เสี่ยง เป็นโรคซิฟิลิส
+                              </span>
+                            </div>
+                          )}
                         </span>
 
-                        <span>
+                        <span className="flex items-center gap-1">
                           <strong className="text-gray-900 dark:text-white">
                             HCT :
                           </strong>{" "}
                           <span className="dark:text-gray-400">
                             {roundData?.wife.text_values.hct}
                           </span>
+                          {roundData?.wife.text_values.hct <= 33 && (
+                            <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
+                              <AlertOctagon
+                                className="animate-pulse"
+                                size={18}
+                              />
+                              <span className="text-[12px]">ภาวะโลหิตจาง</span>
+                            </div>
+                          )}
                         </span>
 
                         <span>
@@ -819,7 +842,7 @@ export default function page({
                           HN :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {roundData?.husband.profile.hn}
+                          {roundData?.husband?.profile?.hn ?? "-"}
                         </span>
                       </span>
 
@@ -827,7 +850,11 @@ export default function page({
                         <strong className="text-gray-900 dark:text-white">
                           ชื่อ :
                         </strong>{" "}
-                        <span className="dark:text-gray-400">{`${roundData?.husband.profile.prename}${roundData?.husband.profile.firstname} ${roundData?.husband.profile.lastname}`}</span>
+                        <span className="dark:text-gray-400">
+                          {roundData?.husband?.profile
+                            ? `${roundData.husband.profile.prename ?? ""}${roundData.husband.profile.firstname ?? ""} ${roundData.husband.profile.lastname ?? ""}`
+                            : "-"}
+                        </span>
                       </span>
 
                       <span>
@@ -835,30 +862,30 @@ export default function page({
                           เลขบัตรประชาชน :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {roundData?.husband.profile.citizencardno}
+                          {roundData?.husband?.profile?.citizencardno ?? "-"}
                         </span>
                       </span>
+
                       <span>
                         <strong className="text-gray-900 dark:text-white">
                           อายุ :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {" "}
-                          {calculateAge(
-                            roundData?.husband.profile.birthdatetime
-                          ) || ""}
+                          {roundData?.husband?.profile?.birthdatetime
+                            ? calculateAge(
+                                roundData.husband.profile.birthdatetime
+                              )
+                            : "-"}
                         </span>
                       </span>
+
                       <span>
                         <strong className="text-gray-900 dark:text-white">
                           อาชีพ :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {" "}
-                          {
-                            roundData?.husband.profile.occupation_detail
-                              .lookupname
-                          }
+                          {roundData?.husband?.profile?.occupation_detail
+                            ?.lookupname ?? "-"}
                         </span>
                       </span>
 
@@ -867,16 +894,18 @@ export default function page({
                           Email :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {roundData?.husband.profile.pat_address.email ||
+                          {roundData?.husband?.profile?.pat_address?.email ??
                             "ไม่ระบุ"}
                         </span>
                       </span>
+
                       <span>
                         <strong className="text-gray-900 dark:text-white">
                           เบอร์โทร :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {roundData?.husband.profile.pat_address.phone}
+                          {roundData?.husband?.profile?.pat_address?.phone ??
+                            "-"}
                         </span>
                       </span>
                     </div>
@@ -941,7 +970,7 @@ export default function page({
                           PCR :
                         </span>{" "}
                         <span className="text-gray-700 dark:text-gray-400">
-                          {roundData?.husband.choices.pcr_hus.choice_name ||
+                          {roundData?.husband?.choices?.pcr_hus?.choice_name ??
                             "-"}
                         </span>
                         {roundData?.husband.choices.pcr_hus_id === 9 && (
@@ -977,7 +1006,7 @@ export default function page({
                               {item.value || "ไม่ระบุรายละเอียดการ Refer"}
                             </p>
 
-                            {item.data && (
+                            {item.data === "ในจังหวัด" && (
                               <div className="mt-2 text-sm text-gray-600 leading-relaxed pl-3 border-l-2 border-gray-500">
                                 <p>
                                   <span className="font-medium text-gray-900">
@@ -996,6 +1025,22 @@ export default function page({
                                     จังหวัด :
                                   </span>{" "}
                                   {item.prov || "-"}
+                                </p>
+                              </div>
+                            )}
+                            {item.data === "ต่างจังหวัด" && (
+                              <div className="mt-2 text-sm text-gray-600 leading-relaxed pl-3 border-l-2 border-gray-500">
+                                <p>
+                                  <span className="font-medium text-gray-900">
+                                    รายละเอียด :
+                                  </span>{" "}
+                                  {item.data}
+                                </p>
+                                <p>
+                                  <span className="font-medium text-gray-900">
+                                    รพช/รพสต :
+                                  </span>{" "}
+                                  {item.out_province || "-"}
                                 </p>
                               </div>
                             )}

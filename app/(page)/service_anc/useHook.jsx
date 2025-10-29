@@ -269,6 +269,7 @@ export default function useHook() {
         roundData?.wife?.choices?.ref_in_choice?.receive_in?.choice_name || "",
       hos: roundData?.wife?.referral?.ref_in?.[0].sitedesc || "",
       prov: roundData?.wife?.referral?.ref_in?.[0].provdesc || "",
+      out_province: roundData?.wife?.choices.ref_in_choice.receive_in_detail,
     },
     {
       value:
@@ -278,6 +279,7 @@ export default function useHook() {
         "",
       hos: roundData?.wife?.referral?.ref_out?.[0].sitedesc || "",
       prov: roundData?.wife?.referral?.ref_out?.[0].provdesc || "",
+      out_province: roundData?.wife?.choices.ref_out_choice.receive_out_detail,
     },
   ].filter((item) => item.value); // กรองตัวว่างออก
 
@@ -411,55 +413,74 @@ export default function useHook() {
     {
       label: "HbsAg",
       value:
-        roundData?.husband.choices.lab_husband.hbsag_husband_detail.choice_name,
+        roundData?.husband?.choices?.lab_husband?.hbsag_husband_detail
+          ?.choice_name ?? null,
     },
     {
       label: "VDRL",
       value:
-        roundData?.husband.choices.lab_husband.vdrl_husband_detail.choice_name,
+        roundData?.husband?.choices?.lab_husband?.vdrl_husband_detail
+          ?.choice_name ?? null,
     },
     {
       label: "Anti HIV",
       value:
-        roundData?.husband.choices.lab_husband.anti_hiv_husband_detail
-          .choice_name,
+        roundData?.husband?.choices?.lab_husband?.anti_hiv_husband_detail
+          ?.choice_name ?? null,
     },
     {
       label: "Bl.gr",
       value:
-        roundData?.husband.choices.lab_husband.bl_gr_husband_detail.choice_name,
+        roundData?.husband?.choices?.lab_husband?.bl_gr_husband_detail
+          ?.choice_name ?? null,
     },
     {
       label: "Rh",
       value:
-        roundData?.husband.choices.lab_husband.rh_husband_detail.choice_name,
+        roundData?.husband?.choices?.lab_husband?.rh_husband_detail
+          ?.choice_name ?? null,
     },
     {
       label: "Hct",
-      value: `${roundData?.husband.choices.lab_husband.hct_husband} %`,
+      value: roundData?.husband?.choices?.lab_husband?.hct_husband
+        ? `${roundData.husband.choices.lab_husband.hct_husband} %`
+        : null,
     },
     {
       label: "OF",
-      value: roundData?.husband.choices.lab_husband.of_husband,
+      value: roundData?.husband?.choices?.lab_husband?.of_husband ?? null,
     },
     {
       label: "DCIP",
       value:
-        roundData?.husband.choices.lab_husband.dcip_husband_detail.choice_name,
+        roundData?.husband?.choices?.lab_husband?.dcip_husband_detail
+          ?.choice_name ?? null,
     },
     {
       label: "MCV",
-      value: `${roundData?.husband.choices.lab_husband.mcv_husband} fL`,
+      value: roundData?.husband?.choices?.lab_husband?.mcv_husband
+        ? `${roundData.husband.choices.lab_husband.mcv_husband} fL`
+        : null,
     },
     {
       label: "MCH",
-      value: `${roundData?.husband.choices.lab_husband.mch_husband} pg`,
+      value: roundData?.husband?.choices?.lab_husband?.mch_husband
+        ? `${roundData.husband.choices.lab_husband.mch_husband} pg`
+        : null,
     },
     {
       label: "HB Typing",
-      value: `${roundData?.husband.choices.lab_husband.hb_typing_husband} %`,
+      value: roundData?.husband?.choices?.lab_husband?.hb_typing_husband
+        ? `${roundData.husband.choices.lab_husband.hb_typing_husband} %`
+        : null,
     },
-  ].filter((item) => item.value);
+  ];
+
+  // แทนค่าที่เป็น null เวลาจะแสดงผล
+  const LabHusbandDisplay = LabHusband.map((item) => ({
+    label: item.label,
+    value: item.value ?? "-",
+  }));
 
   const formatThaiDateNoTime = (isoString) => {
     if (!isoString) return "";

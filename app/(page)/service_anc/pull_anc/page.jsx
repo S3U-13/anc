@@ -167,114 +167,116 @@ export default function App({
                     </select>
                   </label>
                 </div>
-
-                <Table
-                  isHeaderSticky
-                  classNames={{
-                    td: "p-2 pt-2.5 pb-2.5]",
-                    th: "p-2",
-                  }}
-                  isStriped
-                  selectionMode="multiple"
-                  selectedKeys={selectedKeys}
-                  onSelectionChange={handleSelectionChange} // ✅ ฟังก์ชันคุมเอง
-                >
-                  <TableHeader>
-                    <TableColumn>ลำดับ</TableColumn>
-                    {headerColumns.map((col) => (
-                      <TableColumn key={col.uid}>
-                        <div
-                          className="flex items-center"
-                          onClick={() => onSortChange(col.uid)}
-                        >
-                          {capitalize(col.name)}
-                          {sortDescriptor.column === col.uid && (
-                            <svg
-                              className={`w-4 h-3 ml-1 transition-transform ${
-                                sortDescriptor.direction === "ascending"
-                                  ? "rotate-0"
-                                  : "rotate-180"
-                              }`}
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              strokeWidth={2}
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M5 15l7-7 7 7"
-                              />
-                            </svg>
-                          )}
-                        </div>
-                      </TableColumn>
-                    ))}
-                    <TableColumn className="text-center">จัดการ</TableColumn>
-                  </TableHeader>
-                  <TableBody emptyContent={"ไม่มีข้อมูล"}>
-                    {sortedItems?.map((item, index) => (
-                      <TableRow key={item.anc_no}>
-                        <TableCell className="px-4">{index + 1}</TableCell>
-                        {headerColumns.map((col) => (
-                          <TableCell key={col.uid}>
-                            {col.uid === "wife_name"
-                              ? `${item.wife?.prename || ""}${item.wife?.firstname || ""} ${item.wife?.lastname || ""}`
-                              : col.uid === "husband_name"
-                                ? `${item.husband?.prename || ""}${item.husband?.firstname || ""} ${item.husband?.lastname || ""}`
-                                : getKeyValue(item, col.uid)}
-                          </TableCell>
-                        ))}
-                        <TableCell>
-                          <div className="flex justify-center gap-[10px] items-center">
-                            <Tooltip color="default" content="ดูข้อมูล">
-                              <Button size="sm" isIconOnly variant="light">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="size-6 text-[#71717A]"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-                                  />
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                                  />
-                                </svg>
-                              </Button>
-                            </Tooltip>
-                            <Tooltip color="default" content="แก้ไขข้อมูล">
-                              <Button size="sm" isIconOnly variant="light">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="size-6 text-[#71717A]"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-                                  />
-                                </svg>
-                              </Button>
-                            </Tooltip>
+                <div className="overflow-y-scroll max-h-[calc(80vh-400px)] p-2">
+                  <Table
+                    isHeaderSticky
+                    classNames={{
+                      td: "px-4 py-2.5 ",
+                      th: "p-4",
+                    }}
+                    isStriped
+                    selectionMode="multiple"
+                    selectedKeys={selectedKeys}
+                    onSelectionChange={handleSelectionChange} // ✅ ฟังก์ชันคุมเอง
+                  >
+                    <TableHeader>
+                      <TableColumn>ลำดับ</TableColumn>
+                      {headerColumns.map((col) => (
+                        <TableColumn key={col.uid}>
+                          <div
+                            className="flex items-center"
+                            onClick={() => onSortChange(col.uid)}
+                          >
+                            {capitalize(col.name)}
+                            {sortDescriptor.column === col.uid && (
+                              <svg
+                                className={`w-4 h-3 ml-1 transition-transform ${
+                                  sortDescriptor.direction === "ascending"
+                                    ? "rotate-0"
+                                    : "rotate-180"
+                                }`}
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M5 15l7-7 7 7"
+                                />
+                              </svg>
+                            )}
                           </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                        </TableColumn>
+                      ))}
+                      <TableColumn className="text-center">จัดการ</TableColumn>
+                    </TableHeader>
+                    <TableBody emptyContent={"ไม่มีข้อมูล"}>
+                      {sortedItems?.map((item, index) => (
+                        <TableRow key={item.anc_no}>
+                          <TableCell className="px-4">{index + 1 + (page - 1) * rowsPerPage}</TableCell>
+                          {headerColumns.map((col) => (
+                            <TableCell key={col.uid}>
+                              {col.uid === "wife_name"
+                                ? `${item.wife?.prename || ""}${item.wife?.firstname || ""} ${item.wife?.lastname || ""}`
+                                : col.uid === "husband_name"
+                                  ? `${item.husband?.prename || ""}${item.husband?.firstname || ""} ${item.husband?.lastname || "ไม่พบสามี"}`
+                                  : getKeyValue(item, col.uid)}
+                            </TableCell>
+                          ))}
+                          <TableCell>
+                            <div className="flex justify-center gap-[10px] items-center">
+                              <Tooltip color="default" content="ดูข้อมูล">
+                                <Button size="sm" isIconOnly variant="light">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    className="size-6 text-[#71717A]"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                                    />
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                    />
+                                  </svg>
+                                </Button>
+                              </Tooltip>
+                              <Tooltip color="default" content="แก้ไขข้อมูล">
+                                <Button size="sm" isIconOnly variant="light">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    className="size-6 text-[#71717A]"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                                    />
+                                  </svg>
+                                </Button>
+                              </Tooltip>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+
                 <div className="mt-[20px] flex justify-end px-[20px]">
                   <Pagination
                     isCompact

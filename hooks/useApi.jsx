@@ -7,21 +7,47 @@ export const useApiRequest = () => {
   const { token } = useAuth(); // ✅ ดึง token จาก context อัตโนมัติ
 
   const apiRequest = async (endpoint, method = "GET", body = null) => {
-    if (!token) throw new Error("No token provided"); // เช็ค token
+    if (!token) {
+      addToast({
+        title: "ข้อผิดพลาด",
+        description: "Token ไม่ถูกต้อง",
+        variant: "flat",
+        color: "danger",
+      });
+      return null;
+    }
 
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     };
-
     const options = { method, headers };
     if (body && method !== "GET") options.body = JSON.stringify(body);
 
-    const res = await fetch(`${API_URL}${endpoint}`, options);
-    const data = await res.json().catch(() => ({}));
+    try {
+      const res = await fetch(`${API_URL}${endpoint}`, options);
+      const data = await res.json().catch(() => ({}));
 
-    if (!res.ok) throw new Error(data?.error || "API request failed");
-    return data;
+      if (!res.ok) {
+        addToast({
+          title: "เกิดข้อผิดพลาด",
+          description: data?.error || "API request failed",
+          variant: "flat",
+          color: "danger",
+        });
+        return null; // ❌ ไม่ throw
+      }
+
+      return data;
+    } catch (err) {
+      addToast({
+        title: "เกิดข้อผิดพลาด",
+        description: "ไม่สามารถเชื่อมต่อกับ server ได้ โปรดลองใหม่ภายหลัง",
+        variant: "flat",
+        color: "danger",
+      });
+      return null; // ❌ ไม่ throw
+    }
   };
 
   // ไม่ต้องส่ง token อีกแล้ว
@@ -59,7 +85,7 @@ export const useApiRequest = () => {
 
       return data;
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       addToast({
         title: "ไม่พบข้อมูล",
         description: err.message || "เกิดข้อผิดพลาด",
@@ -88,7 +114,7 @@ export const useApiRequest = () => {
 
       return data;
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       addToast({
         title: "ไม่พบข้อมูล",
         description: err.message || "เกิดข้อผิดพลาด",
@@ -112,7 +138,7 @@ export const useApiRequest = () => {
 
       return data;
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       addToast({
         title: "ไม่สำเร็จ",
         description: err.message || "ลงทะเบียน ANC ไม่สำเร็จ",
@@ -139,7 +165,7 @@ export const useApiRequest = () => {
 
       return data;
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       addToast({
         title: "ไม่สำเร็จ",
         description: err.message || "เเก้ไขทะเบียน ANC ไม่สำเร็จ",
@@ -171,7 +197,7 @@ export const useApiRequest = () => {
 
       return data;
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       addToast({
         title: "ไม่สำเร็จ",
         description: "เพิ่มข้อมูลไม่สำเร็จ",
@@ -197,7 +223,7 @@ export const useApiRequest = () => {
       });
       return data;
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       addToast({
         title: "ไม่สำเร็จ",
         description: "เเก้ไขข้อมูลไม่สำเร็จ",
@@ -227,7 +253,7 @@ export const useApiRequest = () => {
       });
       return data;
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       addToast({
         title: "ไม่สำเร็จ",
         description: err.message || "เกิดข้อผิดพลาด",
@@ -248,7 +274,7 @@ export const useApiRequest = () => {
       });
       return data;
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       addToast({
         title: "ไม่สำเร็จ",
         description: "เเก้ไขข้อมูลไม่สำเร็จ",

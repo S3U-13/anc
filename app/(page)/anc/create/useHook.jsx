@@ -23,7 +23,7 @@ export default function useHook({ closeModal }) {
   const [field, setField] = useState({
     hn_wife: "",
     sex: "",
-    hn_husband: "",
+    hn_husband: null,
   });
 
   const handleSearchHnWife = async () => {
@@ -189,17 +189,14 @@ export default function useHook({ closeModal }) {
 
   const defaultValues = {
     hn_wife: "",
-    hn_husband: "",
+    hn_husband: null,
     sex: "",
   };
 
   const validationSchema = z.object({
     hn_wife: z.coerce.number().int().min(1, { message: "กรุณากรอก HN ภรรยา" }),
     sex: z.string(),
-    hn_husband: z.coerce
-      .number()
-      .int()
-      .min(1, { message: "กรุณากรอก HN สามี" }),
+    hn_husband: z.coerce.number().int().nullable(),
   });
 
   const form = useForm({

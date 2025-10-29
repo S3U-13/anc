@@ -91,19 +91,19 @@ export default function useHook({ closeFormService } = {}) {
     birads_id: null,
     cbe_result: "",
     per_os_id: "",
-    hbsag_husband: "",
-    vdrl_husband: "",
-    anti_hiv_husband: "",
-    bl_gr_husband: "",
-    rh_husband: "",
-    hct_husband: "",
-    of_husband: "",
-    dcip_husband: "",
-    mcv_husband: "",
-    mch_husband: "",
-    hb_typing_husband: "",
+    hbsag_husband: null,
+    vdrl_husband: null,
+    anti_hiv_husband: null,
+    bl_gr_husband: null,
+    rh_husband: null,
+    hct_husband: null,
+    of_husband: null,
+    dcip_husband: null,
+    mcv_husband: null,
+    mch_husband: null,
+    hb_typing_husband: null,
     pcr_hus_text: "",
-    pcr_hus_id: "",
+    pcr_hus_id: null,
     ref_value_1_id: "",
     ref_value_2_id: "",
     receive_in_id: null,
@@ -590,93 +590,19 @@ export default function useHook({ closeFormService } = {}) {
     per_os_id: z.coerce
       .string()
       .min(1, { message: "กรุณาระบุ การใช้ยาผ่านปาก" }),
-    hbsag_husband: z.preprocess(
-      (val) => {
-        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
-        if (val instanceof Set) {
-          const first = Array.from(val)[0];
-          return first || "";
-        }
-        return val ?? "";
-      },
-      z.string().min(1, { message: "กรุณาเลือกผลตรวจ HBsAg" })
-    ),
-    vdrl_husband: z.preprocess(
-      (val) => {
-        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
-        if (val instanceof Set) {
-          const first = Array.from(val)[0];
-          return first || "";
-        }
-        return val ?? "";
-      },
-      z.string().min(1, { message: "กรุณาเลือกผลตรวจ VDRL" })
-    ),
-    anti_hiv_husband: z.preprocess(
-      (val) => {
-        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
-        if (val instanceof Set) {
-          const first = Array.from(val)[0];
-          return first || "";
-        }
-        return val ?? "";
-      },
-      z.string().min(1, { message: "กรุณาเลือกผลตรวจ Anti-HIV" })
-    ),
-    bl_gr_husband: z.preprocess(
-      (val) => {
-        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
-        if (val instanceof Set) {
-          const first = Array.from(val)[0];
-          return first || "";
-        }
-        return val ?? "";
-      },
-      z.string().min(1, { message: "กรุณาเลือกหมู่เลือด" })
-    ),
-    rh_husband: z.preprocess(
-      (val) => {
-        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
-        if (val instanceof Set) {
-          const first = Array.from(val)[0];
-          return first || "";
-        }
-        return val ?? "";
-      },
-      z.string().min(1, { message: "กรุณาเลือกผลตรวจ" })
-    ),
-    hct_husband: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ HCT สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    of_husband: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ OF สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    dcip_husband: z.preprocess(
-      (val) => {
-        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
-        if (val instanceof Set) {
-          const first = Array.from(val)[0];
-          return first || "";
-        }
-        return val ?? "";
-      },
-      z.string().min(1, { message: "กรุณาเลือกผลตรวจ DCIP" })
-    ),
-    mcv_husband: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ MCV สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    mch_husband: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ MCH สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    hb_typing_husband: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ Hb Typing สามี" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    pcr_hus_id: z.coerce.string().min(1, { message: "กรุณาระบุ PCR" }),
+    hbsag_husband: z.coerce.number().nullable(),
+    vdrl_husband: z.coerce.number().nullable(),
+    anti_hiv_husband: z.coerce.number().nullable(),
+    bl_gr_husband: z.coerce.number().nullable(),
+    rh_husband: z.coerce.number().nullable(),
+    hct_husband: z.string().nullable(),
+    of_husband: z.string().nullable(),
+    dcip_husband: z.coerce.number().nullable(),
+
+    mcv_husband: z.string().nullable(),
+    mch_husband: z.string().nullable(),
+    hb_typing_husband: z.string().nullable(),
+    pcr_hus_id: z.coerce.string().nullable(),
     pcr_hus_text: z.string().optional(),
     ref_value_1_id: z.string().nullable(),
     ref_value_2_id: z.string().nullable(),
