@@ -7,7 +7,7 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export default function useHook() {
   const auth = useAuth();
-  const { fetchDataAnc } = useApiRequest();
+  const { fetchDataAnc, selectedAncById } = useApiRequest();
   const didFetch = useRef(false); // 🔑 flag ป้องกันเบิ้ล
   const [dataAnc, setDataAnc] = useState([]);
   const [filterValue, setFilterValue] = useState("");
@@ -16,6 +16,9 @@ export default function useHook() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(1);
   const [openModal, setOpenModal] = useState(false);
+  const [openModalEdit, setOpenModalEdit] = useState(false);
+  const [selectedAncId, setSelectedAncId] = useState(null);
+  const [dataAncById, setDataAncById] = useState(null);
 
   useEffect(() => {
     if (!auth.token || didFetch.current) return; // check flag ก่อน
@@ -27,6 +30,7 @@ export default function useHook() {
 
   const openModalForm = () => {
     setOpenModal((prev) => !prev);
+    setOpenModalEdit((prev) => !prev);
   };
 
   // ✅ filter data
@@ -125,6 +129,14 @@ export default function useHook() {
 
   const onClear = () => setFilterValue("");
 
+  const handleView = async (AncNo) => {
+    setSelectedAncId(null);
+    setDataAncById(null);
+    const data = await selectedAncById(AncNo); // ✅ รอให้ fetch เสร็จ
+    setDataAncById(data);
+    setSelectedAncId(AncNo);
+  };
+
   return {
     openModal,
     setOpenModal,
@@ -150,5 +162,10 @@ export default function useHook() {
     sortDescriptor,
     fetchDataAnc,
     setDataAnc,
+    openModalEdit,
+    setOpenModalEdit,
+    handleView,
+    dataAncById,
+    selectedAncId,
   };
 }

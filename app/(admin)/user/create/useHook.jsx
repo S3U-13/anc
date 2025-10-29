@@ -29,7 +29,7 @@ export default function useHook({ closeModal }) {
       user_name: z
         .string()
         .min(1, { message: "กรุณากรอกชื่อผู้ใช้" })
-        .regex(/^[A-Za-z0-9]+$/, {
+        .regex(/^[A-Za-z0-9_.-]+$/, {
           message: "ชื่อผู้ใช้ต้องเป็นตัวอักษรภาษาอังกฤษหรือตัวเลขเท่านั้น",
         }),
       password: z

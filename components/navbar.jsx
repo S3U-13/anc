@@ -42,21 +42,20 @@ export default function Navbar() {
     tabs.find((tab) => tab.path === pathname)?.key || "dashboard";
 
   const [currentTheme, setCurrentTheme] = useState("light");
-  console.log(currentTheme);
   return (
     <div>
       <div className="w-full bg-white border border-divider dark:bg-[#27272a] dark:border-[#3d3d3d] rounded-xl shadow-lg p-2 pl-[40px] pr-[40px] ">
         <div className="flex justify-between items-center">
-          <div className="w-[195px] h-[55px] overflow-hidden">
+          <div className="w-[140px] h-[35px] xl:w-[195px] xl:h-[55px] overflow-hidden">
             <img className="w-full h-full" src="/images/logo.png" />
           </div>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
             <div className="flex flex-col items-start">
-              <h1 className="text-sm">
+              <h1 className="text-[8px] xl:text-sm">
                 <span className="font-bold">ชื่อ: </span>
                 {auth.user.name}
               </h1>
-              <h1 className="text-[11px] text-right">
+              <h1 className="text-[7px] xl:text-[11px] text-right">
                 <span className="font-bold">ตำเเหน่ง: </span>
                 {auth.user.position_name}
               </h1>
@@ -108,7 +107,7 @@ export default function Navbar() {
             tabList:
               "gap-6 w-full bg-white border border-divider dark:bg-[#27272a] dark:border-[#3d3d3d] mt-[10px] relative rounded-lg p-1 border-b border-divider px-4 dark:text-white",
             cursor: "w-full bg-default-500",
-            tab: "max-w-fit ",
+            tab: "max-w-fit",
             tabContent:
               "group-data-[selected=true]:text-[#000000] dark:group-data-[selected=true]:text-[#ffffff]",
           }}

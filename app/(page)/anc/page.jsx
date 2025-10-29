@@ -11,6 +11,7 @@ import React, { useState } from "react";
 
 import { Button } from "@heroui/button";
 import ModalForm from "./create/page";
+import ModalFormEdit from "./edit/page";
 import { Tooltip } from "@heroui/tooltip";
 import { Input } from "@heroui/input";
 import {
@@ -44,6 +45,11 @@ export default function page() {
     sortDescriptor,
     fetchDataAnc,
     setDataAnc,
+    openModalEdit,
+    setOpenModalEdit,
+    handleView,
+    dataAncById,
+    selectedAncId,
   } = useHook();
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
@@ -58,7 +64,7 @@ export default function page() {
           onValueChange={setFilterValue}
           type="search"
           className="w-1/4"
-          placeholder="Search by wife HN..."
+          placeholder="Search..."
           startContent={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -166,7 +172,7 @@ export default function page() {
 
       <Table
         isHeaderSticky
-        classNames={{ td: "p-2 py-4", th: "p-2 pt-4 pb-4" }}
+        classNames={{ td: "p-2 pt-2.5 pb-2.5", th: "p-2 pt-4 pb-4" }}
         isStriped
         aria-label="Example table"
       >
@@ -202,11 +208,12 @@ export default function page() {
               </div>
             </TableColumn>
           ))}
+          <TableColumn className="text-center">จัดการ</TableColumn>
         </TableHeader>
         <TableBody emptyContent={"ไม่มีข้อมูล"}>
           {sortedItems?.map((item, index) => (
             <TableRow key={item.anc_no}>
-              <TableCell className="px-4">{index + 1}</TableCell>
+              <TableCell>{index + 1 + (page - 1) * rowsPerPage}</TableCell>
               {headerColumns.map((col) => (
                 <TableCell key={col.uid}>
                   {col.uid === "wife_name" &&
@@ -218,6 +225,36 @@ export default function page() {
                     item[col.uid]}
                 </TableCell>
               ))}
+              <TableCell>
+                <div className="flex justify-center gap-[10px] items-center">
+                  <Tooltip color="default" content="แก้ไขข้อมูล">
+                    <Button
+                      size="sm"
+                      isIconOnly
+                      variant="light"
+                      onPress={() => {
+                        setOpenModalEdit(true);
+                        handleView(item.anc_no);
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="size-6 text-[#71717A]"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                        />
+                      </svg>
+                    </Button>
+                  </Tooltip>
+                </div>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -241,6 +278,17 @@ export default function page() {
             .then((data) => setDataAnc(data || []))
             .catch(console.error);
         }}
+      />
+      <ModalFormEdit
+        openModal={openModalEdit}
+        closeModal={() => {
+          setOpenModalEdit(false);
+          fetchDataAnc()
+            .then((data) => setDataAnc(data || []))
+            .catch(console.error);
+        }}
+        dataAncById={dataAncById}
+        selectedAncId={selectedAncId}
       />
     </div>
   );

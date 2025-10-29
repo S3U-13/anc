@@ -1,20 +1,22 @@
 "use client";
+import dynamic from "next/dynamic";
+import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import ApexCharts from "apexcharts";
-import { useTheme } from "next-themes"; // ✅ เพิ่มเข้ามา
+
+// ✅ ReactApexChart dynamic import (ไม่ SSR)
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+  ssr: false,
+});
 
 export default function RadialChart({ chartRadialData }) {
-  const [data, setData] = useState({
-    series: [],
-    labels: [],
-  });
+  const [data, setData] = useState({ series: [], labels: [] });
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
-  const { theme } = useTheme(); // ✅ ดึง theme จาก next-themes
-
+  // ✅ เตรียมข้อมูล
   useEffect(() => {
-    if (chartRadialData && chartRadialData.am_count) {
+    if (chartRadialData?.am_count) {
       const amCount = chartRadialData.am_count;
-
       const labels = Object.keys(amCount).map((key) => {
         switch (key) {
           case "am_5":
@@ -27,80 +29,57 @@ export default function RadialChart({ chartRadialData }) {
             return key;
         }
       });
-
       const series = Object.values(amCount);
-
       setData({ labels, series });
     }
   }, [chartRadialData]);
 
-  useEffect(() => {
-    if (typeof window === "undefined" || data.series.length === 0) return;
+  const colors = isDark
+    ? ["#3b82f6", "#60a5fa", "#93c5fd"]
+    : ["#60a5fa", "#93c5fd", "#bfdbfe"];
+  const textColor = isDark ? "#d1d5db" : "#374151";
 
-    const isDark = theme === "dark";
-
-    // 🎨 ปรับสีให้เหมาะกับ theme
-    const colors = isDark
-      ? ["#3b82f6", "#60a5fa", "#93c5fd"] // โทนน้ำเงินเข้มฟ้าใน dark mode
-      : ["#60a5fa", "#93c5fd", "#bfdbfe"]; // โทนฟ้าอ่อนใน light mode
-
-    const textColor = isDark ? "#d1d5db" : "#374151"; // สีตัวอักษร
-    const bgColor = isDark ? "transparent" : "#ffffff";
-
-    const options = {
-      series: data.series,
-      chart: {
-        height: 500,
-        type: "radialBar",
-        background: bgColor,
-      },
-      colors,
-      plotOptions: {
-        radialBar: {
-          dataLabels: {
-            total: {
-              show: true,
-              label: "รวมทั้งหมด",
-              color: textColor,
-              formatter: function (w) {
-                return w.globals.series.reduce((a, b) => a + b, 0) + " คน";
-              },
-            },
-            name: {
-              show: true,
-              color: textColor,
-            },
-            value: {
-              show: true,
-              color: textColor,
-              formatter: function (val) {
-                return val + " คน";
-              },
-            },
+  const options = {
+    chart: { type: "radialBar", background: "transparent" },
+    colors,
+    plotOptions: {
+      radialBar: {
+        dataLabels: {
+          total: {
+            show: true,
+            label: "รวมทั้งหมด",
+            color: textColor,
+            formatter: (w) =>
+              w.globals.series.reduce((a, b) => a + b, 0) + " คน",
+          },
+          name: { show: true, color: textColor },
+          value: {
+            show: true,
+            color: textColor,
+            formatter: (val) => val + " คน",
           },
         },
       },
-      labels: data.labels,
-      theme: {
-        mode: isDark ? "dark" : "light",
-      },
-    };
+    },
+    labels: data.labels,
+    theme: { mode: isDark ? "dark" : "light" },
+  };
 
-    const chart = new ApexCharts(document.querySelector("#chart-02"), options);
-    chart.render();
-
-    return () => chart.destroy();
-  }, [data, theme]); // ✅ อัปเดตเมื่อ theme เปลี่ยน
-
-  // ✅ รวมยอดทั้งหมด
   const total = data.series.reduce((a, b) => a + b, 0);
 
   return (
     <div>
-      <div id="chart-02"></div>
+      {/* ✅ container เดิม */}
+      <div id="chart-02">
+        <ReactApexChart
+          options={options}
+          series={data.series}
+          type="radialBar"
+        />
+      </div>
 
       {data.series.length > 0 && (
-        <div className="mx-auto w-[300px] text-center">
+        <div className="mx-auto text-[10px] xl:text-lg w-[300px] text-center">
           <h1 className="text-gray-600 dark:text-gray-300">
             รวมทั้งหมด {total} <span>คน</span>
           </h1>

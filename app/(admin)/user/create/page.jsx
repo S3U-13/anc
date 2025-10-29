@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -12,10 +12,13 @@ import { Input } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
 import useHook from "./useHook";
 import { DatePicker } from "@heroui/date-picker";
+import { Eye, EyeOff } from "@deemlol/next-icons";
 
 export default function Page({ openModal, closeModal, modalRef }) {
   const { role, position, form, validationSchema, handleChange, isSubmitting } =
     useHook({ closeModal });
+  const [isVisible, setIsVisible] = useState(false);
+  const toggleVisibility = () => setIsVisible(!isVisible);
   return (
     <Modal
       isOpen={openModal}
@@ -84,8 +87,22 @@ export default function Page({ openModal, closeModal, modalRef }) {
                   <form.Field name="password">
                     {(field) => (
                       <Input
-                        label="รหัสผ่านใหม่ (หากต้องการเปลี่ยน)"
-                        type="password"
+                        endContent={
+                          <button
+                            aria-label="toggle password visibility"
+                            className="focus:outline-solid outline-transparent"
+                            type="button"
+                            onClick={toggleVisibility}
+                          >
+                            {isVisible ? (
+                              <Eye className="text-xl text-default-400 pointer-events-none" />
+                            ) : (
+                              <EyeOff className="text-xl text-default-400 pointer-events-none" />
+                            )}
+                          </button>
+                        }
+                        label="รหัสผ่าน"
+                        type={isVisible ? "text" : "password"}
                         size="sm"
                         value={field.state.value}
                         onChange={(e) => field.handleChange(e.target.value)}
@@ -98,7 +115,7 @@ export default function Page({ openModal, closeModal, modalRef }) {
                     {(field) => (
                       <Input
                         label="ยืนยันรหัสผ่านใหม่"
-                        type="password"
+                        type={isVisible ? "text" : "password"}
                         size="sm"
                         value={field.state.value}
                         onChange={(e) => field.handleChange(e.target.value)}

@@ -15,7 +15,12 @@ import { Textarea } from "@heroui/input";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 import useHook from "./useHook";
 
-export default function page({ openModal, closeModal }) {
+export default function page({
+  openModal,
+  closeModal,
+  dataAncById,
+  selectedAncId,
+}) {
   const {
     field,
     handleSearchHnWife,
@@ -42,7 +47,7 @@ export default function page({ openModal, closeModal }) {
     form,
     validationSchema,
     isSubmitting,
-  } = useHook({ closeModal });
+  } = useHook({ openModal, closeModal, dataAncById, selectedAncId });
   return (
     <Modal
       className="dark:border dark:border-divider"
@@ -60,7 +65,7 @@ export default function page({ openModal, closeModal }) {
       <ModalContent>
         {(closeModal) => (
           <form>
-            <ModalHeader>ลงทะเบียน ANC</ModalHeader>
+            <ModalHeader>เเก้ไขทะเบียน ANC {dataAncById?.anc_no}</ModalHeader>
             <ModalBody>
               <Tabs
                 selectedKey={activeStep}
@@ -72,7 +77,7 @@ export default function page({ openModal, closeModal }) {
                 aria-label="Dynamic tabs"
               >
                 <Tab disabled key="wife" title="ส่วนของภรรยา">
-                  <div className="overflow-y-scroll sm:max-h-[calc(90vh-350px)]">
+                  <div className="overflow-y-scroll max-h-[calc(90vh-300px)]">
                     <div className="grid grid-cols-8 justify-between">
                       <h1 className="col-span-5">ส่วนของภรรยา</h1>
                       <div className="flex gap-[5px] items-center col-span-3">
@@ -106,6 +111,13 @@ export default function page({ openModal, closeModal }) {
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-[10px] mt-[15px] p-2">
+                      <Input
+                        size="sm"
+                        label="ANC NO"
+                        value={dataAncById?.anc_no}
+                        readOnly
+                        type="text"
+                      />
                       <form.Field
                         name="hn_wife"
                         validators={{
@@ -159,18 +171,19 @@ export default function page({ openModal, closeModal }) {
                         type="text"
                         readOnly
                       />
-                      <Textarea
-                        className="col-span-2"
-                        label="ที่อยู่"
-                        value={formatAddress(pat?.pat_address)}
-                        readOnly
-                      />
                       <Input
                         size="sm"
                         label="เบอร์โทรศัพท์"
                         value={pat?.pat_address.phone || ""}
                         type="text"
                       />
+                      <Textarea
+                        className="col-span-2"
+                        label="ที่อยู่"
+                        value={formatAddress(pat?.pat_address)}
+                        readOnly
+                      />
+
                       <Input
                         size="sm"
                         label="อาชีพ"

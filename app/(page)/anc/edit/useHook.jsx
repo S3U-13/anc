@@ -7,10 +7,15 @@ import * as z from "zod";
 import { useAuth } from "@/context/AuthContext";
 import { useApiRequest } from "@/hooks/useApi";
 
-export default function useHook({ closeModal }) {
+export default function useHook({
+  openModal,
+  closeModal,
+  dataAncById,
+  selectedAncId,
+}) {
   const auth = useAuth();
-  const { patWifeData, patHusbandData, submitAnc, fetchDataAnc } =
-    useApiRequest();
+  const AncNo = selectedAncId;
+  const { patWifeData, patHusbandData, submitEditAnc } = useApiRequest();
   const [pat, setPat] = useState(null); // 👈 เก็บ object คนเดียว
   const [patHusband, setPatHusband] = useState(null);
   const [hnInputWife, setHnInputWife] = useState("");
@@ -36,7 +41,7 @@ export default function useHook({ closeModal }) {
       });
       return;
     }
-    await patWifeData(hnInputWife, form, setPat); // ✅ ส่ง setter
+    await patWifeData(hnInputWife, form, setPat); // ✅ ใช้ state ปัจจุบัน
   };
 
   const handleSearchHnHusband = async () => {
@@ -49,8 +54,27 @@ export default function useHook({ closeModal }) {
       });
       return;
     }
-    await patHusbandData(hnInputHusband, form, setPatHusband); // รอ fetch เสร็จก่อน
+    await patHusbandData(hnInputHusband, form, setPatHusband); // ✅ ใช้ state ปัจจุบัน
   };
+
+  const [autoSearched, setAutoSearched] = useState(false);
+
+  useEffect(() => {
+    if (openModal && dataAncById && !autoSearched) {
+      // อัพเดต state ก่อน
+      setHnInputWife(dataAncById.hn_wife || "");
+      setHnInputHusband(dataAncById.hn_husband || "");
+
+      // ใช้ dataAncById เรียก search โดยตรง (ไม่ใช้ state)
+      if (dataAncById.hn_wife) patWifeData(dataAncById.hn_wife, form, setPat);
+      if (dataAncById.hn_husband)
+        patHusbandData(dataAncById.hn_husband, form, setPatHusband);
+
+      setAutoSearched(true);
+    }
+
+    if (!openModal) setAutoSearched(false);
+  }, [openModal, dataAncById]);
 
   const formatName = (pat) => {
     if (!pat) return "";
@@ -170,7 +194,7 @@ export default function useHook({ closeModal }) {
     }
     try {
       setIsSubmitting(true); // เริ่มส่งข้อมูล
-      await submitAnc(value);
+      await submitEditAnc(value, AncNo);
       form.reset();
       setPat(null);
       setPatHusband(null);
@@ -189,8 +213,8 @@ export default function useHook({ closeModal }) {
 
   const defaultValues = {
     hn_wife: "",
-    hn_husband: "",
     sex: "",
+    hn_husband: "",
   };
 
   const validationSchema = z.object({
@@ -258,5 +282,6 @@ export default function useHook({ closeModal }) {
     validationSchema,
     makeValidator,
     isSubmitting,
+    dataAncById,
   };
 }

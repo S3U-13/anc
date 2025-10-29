@@ -48,6 +48,7 @@ export const useApiRequest = () => {
 
       // อัปเดต form field
       form.setFieldValue("hn_wife", data.hn || "");
+      form.setFieldValue("sex", data.sex_name.lookupname || "");
 
       addToast({
         title: "สำเร็จ",
@@ -121,7 +122,33 @@ export const useApiRequest = () => {
       throw err;
     }
   };
+  // data anc by id
+  const selectedAncById = async (AncNo) => {
+    return apiRequest(`/api/user/anc/${AncNo}`, "GET");
+  };
+  const submitEditAnc = async (value, AncNo) => {
+    try {
+      const data = await apiRequest(`/api/user/anc/${AncNo}`, "PUT", value);
 
+      addToast({
+        title: "สำเร็จ",
+        description: "เเก้ไขทะเบียน ANC สำเร็จ",
+        variant: "flat",
+        color: "success",
+      });
+
+      return data;
+    } catch (err) {
+      console.error(err);
+      addToast({
+        title: "ไม่สำเร็จ",
+        description: err.message || "เเก้ไขทะเบียน ANC ไม่สำเร็จ",
+        variant: "flat",
+        color: "danger",
+      });
+      throw err;
+    }
+  };
   //anc service page
   const fetchDataAncService = () => apiRequest("/api/user/ancservice", "GET");
   const selectedRoundById = async (roundId) => {
@@ -241,6 +268,8 @@ export const useApiRequest = () => {
     patWifeData,
     patHusbandData,
     submitAnc,
+    selectedAncById,
+    submitEditAnc,
     selectedRoundById,
     fetchChoice,
     fetchCoverage,

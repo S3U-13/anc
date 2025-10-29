@@ -12,7 +12,7 @@ import { Eye, EyeOff } from "@deemlol/next-icons";
 import useHook from "./useHook";
 
 export default function ({ openModalLogin, closeModalLogin }) {
-  const [isVisible, setIsVisible] = React.useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const { handleSubmit, field, handleChange } = useHook();
   return (

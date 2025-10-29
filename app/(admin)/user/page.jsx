@@ -220,7 +220,7 @@ export default function page() {
         <TableBody emptyContent={"ไม่มีข้อมูล"}>
           {sortedItems?.map((item, index) => (
             <TableRow key={item.id}>
-              <TableCell className="px-4">{index + 1}</TableCell>
+              <TableCell className="px-4">{index + 1 + (page - 1) * rowsPerPage}</TableCell>
               {headerColumns.map((col) => (
                 <TableCell key={col.uid}>
                   {col.uid === "id" && item?.id}

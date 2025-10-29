@@ -10,25 +10,15 @@ import { Button } from "@heroui/button";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { useAuth } from "@/context/AuthContext";
+import { useApiRequest } from "@/hooks/useApi";
 
 export default function DropdownUser() {
   const auth = useAuth();
+  const { logoutAPI } = useApiRequest();
   const router = useRouter();
   const handleLogout = async () => {
     try {
-      console.log("🔹 เริ่ม logout...");
-
-      const res = await fetch("http://localhost:3000/api/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-
-      const data = await res.json();
-      console.log("🔹 Logout API response:", data);
-
+      await logoutAPI();
       Cookies.remove("token"); // ✅ ลบ token ที่ frontend
       router.push("/"); // กลับไปหน้า login
     } catch (err) {
@@ -37,7 +27,7 @@ export default function DropdownUser() {
   };
   return (
     <div>
-      <Dropdown classNames={{ content:"p-2 mt-4" }} placement="bottom-start">
+      <Dropdown classNames={{ content: "p-2 mt-4" }} placement="bottom-start">
         <DropdownTrigger>
           <Button
             isIconOnly
@@ -68,12 +58,6 @@ export default function DropdownUser() {
             <p className="font-bold">{auth.user.name}</p>
             <p className="font-bold">ตำเเหน่ง {auth.user.position_name}</p>
           </DropdownItem>
-          <DropdownItem key="settings">My Settings</DropdownItem>
-          <DropdownItem key="team_settings">Team Settings</DropdownItem>
-          <DropdownItem key="analytics">Analytics</DropdownItem>
-          <DropdownItem key="system">System</DropdownItem>
-          <DropdownItem key="configurations">Configurations</DropdownItem>
-          <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
           <DropdownItem onPress={handleLogout} key="logout" color="danger">
             Log Out
           </DropdownItem>

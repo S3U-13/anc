@@ -7,10 +7,11 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@heroui/modal";
-import React from "react";
+import React, { useState } from "react";
 import useHook from "./useHook";
 import { Input } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
+import { Eye, EyeOff } from "@deemlol/next-icons";
 
 export default function page({
   openModalEdit,
@@ -21,6 +22,8 @@ export default function page({
 }) {
   const { role, position, form, validationSchema, handleChange, isSubmitting } =
     useHook({ openModalEdit, closeModalEdit, dataUserById, selectedUserId });
+  const [isVisible, setIsVisible] = useState(false);
+  const toggleVisibility = () => setIsVisible(!isVisible);
   return (
     <div>
       {" "}
@@ -90,8 +93,22 @@ export default function page({
                     <form.Field name="password">
                       {(field) => (
                         <Input
+                          endContent={
+                            <button
+                              aria-label="toggle password visibility"
+                              className="focus:outline-solid outline-transparent"
+                              type="button"
+                              onClick={toggleVisibility}
+                            >
+                              {isVisible ? (
+                                <Eye className="text-xl text-default-400 pointer-events-none" />
+                              ) : (
+                                <EyeOff className="text-xl text-default-400 pointer-events-none" />
+                              )}
+                            </button>
+                          }
                           label="รหัสผ่านใหม่ (หากต้องการเปลี่ยน)"
-                          type="password"
+                          type={isVisible ? "text" : "password"}
                           size="sm"
                           value={field.state.value}
                           onChange={(e) => field.handleChange(e.target.value)}
@@ -104,7 +121,7 @@ export default function page({
                       {(field) => (
                         <Input
                           label="ยืนยันรหัสผ่านใหม่"
-                          type="password"
+                          type={isVisible ? "text" : "password"}
                           size="sm"
                           value={field.state.value}
                           onChange={(e) => field.handleChange(e.target.value)}

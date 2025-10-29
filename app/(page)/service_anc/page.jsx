@@ -94,7 +94,7 @@ export default function App() {
           onValueChange={setFilterValue}
           type="search"
           className="w-1/4"
-          placeholder="Search by wife HN..."
+          placeholder="Search..."
           startContent={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -243,7 +243,7 @@ export default function App() {
         <TableBody emptyContent={"ไม่มีข้อมูล"}>
           {sortedItems?.map((item, index) => (
             <TableRow key={item.id}>
-              <TableCell className="px-4">{index + 1}</TableCell>
+              <TableCell className="px-4">{index + 1 + (page - 1) * rowsPerPage}</TableCell>
               {headerColumns.map((col) => (
                 <TableCell key={col.uid}>
                   {col.uid === "hn_wife" && item.wife?.hn}
