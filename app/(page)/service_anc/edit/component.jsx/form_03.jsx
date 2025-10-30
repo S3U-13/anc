@@ -35,7 +35,8 @@ export default function page({
               size="sm"
               className="col-span-2"
               label="วัคซีนบาดทะยัก ก่อนตั้งครรภ์เคยฉีดกี่ครั้ง"
-              type="text"
+              type="number"
+              min={0}
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
             />

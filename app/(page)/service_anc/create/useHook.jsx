@@ -575,13 +575,7 @@ export default function useHook({ closeFormService } = {}) {
       .string()
       .min(1, { message: "กรุณาระบุ ประวัติการแท้ง" }),
     td_num: z
-      .string()
-      .nonempty({ message: "กรุณากรอกตัวเลข" })
-      .regex(/^\d+$/, { message: "กรุณากรอกตัวเลขเท่านั้น" }) // ตรวจเฉพาะตัวเลข
-      .transform(Number)
-      .refine((val) => val >= 1, {
-        message: "กรุณากรอก จำนวนครั้งวัคซีนบาดทะยัก",
-      }),
+      .coerce.number().nullable(),
     td_last_date: z.string().min(1, {
       message: "กรุณาระบุ วัน/เดือน/ปี ที่ได้รับวัคซีนบาดทะยักครั้งสุดท้าย",
     }),

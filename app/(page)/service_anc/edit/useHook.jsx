@@ -584,9 +584,7 @@ export default function useHook({
     abortion_id: z.coerce
       .string()
       .min(1, { message: "กรุณาระบุ ประวัติการแท้ง" }),
-    td_num: z.coerce
-      .number()
-      .min(1, { message: "กรุณากรอก จำนวนครั้งวัคซีนบาดทะยัก" }),
+    td_num: z.coerce.number().nullable(),
     td_last_date: z.string().min(1, {
       message: "กรุณาระบุ วัน/เดือน/ปี ที่ได้รับวัคซีนบาดทะยักครั้งสุดท้าย",
     }),
