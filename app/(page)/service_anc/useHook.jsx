@@ -414,65 +414,65 @@ export default function useHook() {
       label: "HbsAg",
       value:
         roundData?.husband?.choices?.lab_husband?.hbsag_husband_detail
-          ?.choice_name ?? null,
+          ?.choice_name ?? "-",
     },
     {
       label: "VDRL",
       value:
         roundData?.husband?.choices?.lab_husband?.vdrl_husband_detail
-          ?.choice_name ?? null,
+          ?.choice_name ?? "-",
     },
     {
       label: "Anti HIV",
       value:
         roundData?.husband?.choices?.lab_husband?.anti_hiv_husband_detail
-          ?.choice_name ?? null,
+          ?.choice_name ?? "-",
     },
     {
       label: "Bl.gr",
       value:
         roundData?.husband?.choices?.lab_husband?.bl_gr_husband_detail
-          ?.choice_name ?? null,
+          ?.choice_name ?? "-",
     },
     {
       label: "Rh",
       value:
         roundData?.husband?.choices?.lab_husband?.rh_husband_detail
-          ?.choice_name ?? null,
+          ?.choice_name ?? "-",
     },
     {
       label: "Hct",
       value: roundData?.husband?.choices?.lab_husband?.hct_husband
         ? `${roundData.husband.choices.lab_husband.hct_husband} %`
-        : null,
+        : "-",
     },
     {
       label: "OF",
-      value: roundData?.husband?.choices?.lab_husband?.of_husband ?? null,
+      value: roundData?.husband?.choices?.lab_husband?.of_husband ?? "-",
     },
     {
       label: "DCIP",
       value:
         roundData?.husband?.choices?.lab_husband?.dcip_husband_detail
-          ?.choice_name ?? null,
+          ?.choice_name ?? "-",
     },
     {
       label: "MCV",
       value: roundData?.husband?.choices?.lab_husband?.mcv_husband
         ? `${roundData.husband.choices.lab_husband.mcv_husband} fL`
-        : null,
+        : "-",
     },
     {
       label: "MCH",
       value: roundData?.husband?.choices?.lab_husband?.mch_husband
         ? `${roundData.husband.choices.lab_husband.mch_husband} pg`
-        : null,
+        : "-",
     },
     {
       label: "HB Typing",
       value: roundData?.husband?.choices?.lab_husband?.hb_typing_husband
         ? `${roundData.husband.choices.lab_husband.hb_typing_husband} %`
-        : null,
+        : "-",
     },
   ];
 
@@ -530,38 +530,30 @@ export default function useHook() {
   const height = Math.round(roundData?.wife.profile.pat_vitalsign[0].height);
 
   return {
-    dataAnc,
-    openModalForm,
-    openFormService,
     setOpenFormService,
-    openModalView,
-    openViewAncService,
+    openFormService,
     setOpenViewAncService,
-    setSelectedKeys,
-    selectedKeys,
-    selectedValue,
-    sortedItems,
-    page,
-    setPage,
-    pages,
+    openViewAncService,
+    capitalize,
+    setVisibleColumns,
+    visibleColumns,
+    columns,
     onClear,
     filterValue,
     setFilterValue,
-    // ✅ เพิ่มอันนี้ให้ UI ใช้งาน
-    columns,
-    visibleColumns,
-    setVisibleColumns,
-    capitalize,
+    sortedItems,
     filteredItems,
     onRowsPerPageChange,
     rowsPerPage,
+    setPage,
+    page,
+    pages,
     onSortChange,
     sortDescriptor,
     fetchDataAncService,
     formatAddress,
     handleSelectRound,
     roundData,
-    isLoading,
     formatThaiDateTime,
     btiData,
     cbeData,

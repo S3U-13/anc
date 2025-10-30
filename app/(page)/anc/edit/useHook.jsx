@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 
 import * as z from "zod";
-import { useAuth } from "@/context/AuthContext";
 import { useApiRequest } from "@/hooks/useApi";
 
 export default function useHook({
@@ -13,7 +12,6 @@ export default function useHook({
   dataAncById,
   selectedAncId,
 }) {
-  const auth = useAuth();
   const AncNo = selectedAncId;
   const { patWifeData, patHusbandData, submitEditAnc } = useApiRequest();
   const [pat, setPat] = useState(null); // 👈 เก็บ object คนเดียว
@@ -28,7 +26,7 @@ export default function useHook({
   const [field, setField] = useState({
     hn_wife: "",
     sex: "",
-    hn_husband: "",
+    hn_husband: null,
   });
 
   const handleSearchHnWife = async () => {
@@ -214,16 +212,13 @@ export default function useHook({
   const defaultValues = {
     hn_wife: "",
     sex: "",
-    hn_husband: "",
+    hn_husband: null,
   };
 
   const validationSchema = z.object({
     hn_wife: z.coerce.number().int().min(1, { message: "กรุณากรอก HN ภรรยา" }),
     sex: z.string(),
-    hn_husband: z.coerce
-      .number()
-      .int()
-      .min(1, { message: "กรุณากรอก HN สามี" }),
+    hn_husband: z.coerce.number().int().nullable(),
   });
 
   const form = useForm({
@@ -255,7 +250,6 @@ export default function useHook({
     };
 
   return {
-    field,
     handleSearchHnWife,
     hnInputWife,
     setHnInputWife,
@@ -267,21 +261,16 @@ export default function useHook({
     formatAddress,
     formatName,
     formatNameHusband,
-    calculateAge,
-    editVitalsign,
-    handleEditChange,
     vitals,
     bmi,
-    setField,
-    handleChange,
-    handleSubmit,
+    editVitalsign,
+    handleEditChange,
+    calculateAge,
     steps,
     activeStep,
     setActiveStep,
     form,
     validationSchema,
-    makeValidator,
     isSubmitting,
-    dataAncById,
   };
 }

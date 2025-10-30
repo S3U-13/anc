@@ -1,22 +1,32 @@
-"use client"; // ✅ ต้องมี
+"use client";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { CircularProgress } from "@heroui/progress";
-import { addToast } from "@heroui/toast";
 import { Spinner } from "@heroui/react";
 
 export default function ProtectedRoute({ children, role }) {
-  const { user, loading } = useAuth();
+  const { user, loading, checkTokenTimeOut, logout } = useAuth(); // ✅ เพิ่ม checkTokenTimeOut, logout
   const router = useRouter();
 
   useEffect(() => {
     if (!loading) {
-      if (!user) router.replace("/");
-      else if (role && user.role_id !== role) router.replace("/unauthorized");
-    }
-  }, [user, loading, router, role]);
+      const verifyToken = async () => {
+        const valid = await checkTokenTimeOut(); // ✅ ตรวจ token หมดอายุไหม
+        if (!valid) {
+          logout();
+          router.replace("/"); // กลับหน้า login
+          return;
+        }
 
+        if (!user) router.replace("/");
+        else if (role && user.role_id !== role) router.replace("/unauthorized");
+      };
+
+      verifyToken();
+    }
+  }, [user, loading, role, router, checkTokenTimeOut, logout]);
+
+  // ✅ แสดง loading spinner ระหว่างตรวจ token
   if (loading)
     return (
       <div className="fixed inset-0 flex justify-center items-center">
@@ -27,8 +37,9 @@ export default function ProtectedRoute({ children, role }) {
           variant="wave"
         />
       </div>
-    ); // รอ context โหลดก่อน
-  if (!user) return null; // ป้องกัน render ก่อนโหลด user
+    );
+
+  if (!user) return null; // ป้องกัน render ก่อนตรวจ user เสร็จ
 
   return children;
 }

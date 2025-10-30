@@ -19,11 +19,7 @@ import Form04 from "./component.jsx/form_04";
 import Form05 from "./component.jsx/form_05";
 import useHook from "./useHook";
 
-export default function page({
-  openFormService,
-  closeFormService,
-  setOpenFormService,
-}) {
+export default function page({ openFormService, closeFormService }) {
   const [pullAnc, setPullAnc] = useState(false);
 
   const pullHandle = () => {
@@ -54,9 +50,7 @@ export default function page({
     vitals,
     bmi,
     coverageSite,
-    handleSubmit,
     handleDateChange,
-    isSubmitting,
     handleChangeRefIn,
     form,
     validationSchema,
@@ -120,10 +114,6 @@ export default function page({
                     </div>
                     <Form01
                       selectedAnc={selectedAnc}
-                      setSelectedAnc={setSelectedAnc}
-                      field={field}
-                      setField={setField}
-                      handleChange={handleChange}
                       handleLmpChange={handleLmpChange}
                       handleEditChange={handleEditChange}
                       vitals={vitals}
@@ -134,19 +124,10 @@ export default function page({
                     />
                   </Tab>
                   <Tab disabled key="from_2" title={<div className="" />}>
-                    <Form02
-                      field={field}
-                      setField={setField}
-                      handleChange={handleChange}
-                      validationSchema={validationSchema}
-                      form={form}
-                    />
+                    <Form02 validationSchema={validationSchema} form={form} />
                   </Tab>
                   <Tab disabled key="from_3" title={<div className="" />}>
                     <Form03
-                      field={field}
-                      setField={setField}
-                      handleChange={handleChange}
                       handleChangeCbe={handleChangeCbe}
                       handleChangeBti={handleChangeBti}
                       handleDateChange={handleDateChange}
@@ -158,24 +139,12 @@ export default function page({
                     />
                   </Tab>
                   <Tab disabled key="from_4" title={<div className="" />}>
-                    <Form04
-                      selectedAnc={selectedAnc}
-                      setSelectedAnc={setSelectedAnc}
-                      field={field}
-                      setField={setField}
-                      handleChange={handleChange}
-                      validationSchema={validationSchema}
-                      form={form}
-                    />
+                    <Form04 selectedAnc={selectedAnc} form={form} />
                   </Tab>
                   <Tab disabled key="from_5" title={<div className="" />}>
                     <Form05
-                      field={field}
-                      setField={setField}
-                      handleChange={handleChange}
                       handleChangeRefIn={handleChangeRefIn}
                       coverageSite={coverageSite}
-                      validationSchema={validationSchema}
                       form={form}
                       selectedRef={selectedRef}
                     />

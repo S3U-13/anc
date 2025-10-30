@@ -30,10 +30,11 @@ export const useApiRequest = () => {
 
       if (!res.ok) {
         addToast({
-          title: "เกิดข้อผิดพลาด",
-          description: data?.error || "API request failed",
-          variant: "flat",
+          title: "การเชื่อมต่อล้มเหลว",
+          description:
+            "ไม่สามารถติดต่อกับเซิร์ฟเวอร์ได้ในขณะนี้ โปรดติดต่อ ศูนย์คอม",
           color: "danger",
+          variant: "flat",
         });
         return null; // ❌ ไม่ throw
       }
@@ -309,5 +310,6 @@ export const useApiRequest = () => {
     logoutAPI,
     submitUserById,
     submitEditUser,
+   
   };
 };

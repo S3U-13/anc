@@ -30,30 +30,13 @@ export default function Unauthorized() {
           </p>
 
           {/* actions */}
-          <div className="mt-6 flex flex-col sm:flex-row gap-3">
-            {/* <button
-              type="button"
-              onClick={() => window.history.back()}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-800 hover:bg-gray-50 transition"
-            >
-              ← ย้อนกลับ
-            </button> */}
-
-            {/* <a
-              href="/"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition"
-            >
-              เข้าสู่ระบบ
-            </a> */}
-          </div>
 
           <p className="mt-4 text-xs text-gray-400">
             ต้องการความช่วยเหลือ? ติดต่อ{" "}
             <a
               className="text-blue-600 underline"
-              href="mailto:admin@example.com"
             >
-              admin@example.com
+              ศูนย์คอมพิวเตอร์
             </a>
           </p>
         </div>

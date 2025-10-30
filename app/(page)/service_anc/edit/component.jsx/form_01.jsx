@@ -4,24 +4,18 @@ import { Input } from "@heroui/input";
 import { Textarea } from "@heroui/input";
 import { DatePicker } from "@heroui/date-picker";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
-import SafeDatePicker from "@/components/SafeDatePicker";
+
 import useHook from "../useHook";
 
 export default function page({
-  field,
-  setField,
   handleLmpChange,
-  selectedAnc,
   handleEditChange,
   vitals,
   editVitalsign,
   bmi,
-  handleChange,
-  setSelectedAnc,
   validationSchema,
   form,
   currentData,
-  isEditLoading,
 }) {
   const { calculateAge, formatAddress, formatName } = useHook();
 

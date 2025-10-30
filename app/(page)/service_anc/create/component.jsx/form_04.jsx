@@ -4,6 +4,7 @@ import { Radio, RadioGroup } from "@heroui/radio";
 import React from "react";
 import useHook from "../useHook";
 import { Select, SelectItem } from "@heroui/select";
+import { AlertOctagon } from "@deemlol/next-icons";
 
 export default function page({ selectedAnc, form }) {
   const { data, calculateAge, formatName } = useHook();
@@ -11,18 +12,24 @@ export default function page({ selectedAnc, form }) {
     <div className="overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1>ส่วนที่ 4</h1>
       <div className="grid grid-cols-4 gap-[10px] px-[30px] mt-[10px]">
+         {!selectedAnc?.hn_husband && (
+          <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold  flex gap-1 items-center col-span-4">
+            <AlertOctagon className="animate-pulse" size={20} />{" "}
+            <span className="text-lg">ไม่พบข้อมูลสามี</span>
+          </div>
+        )}
         <Input
           size="sm"
           className="col-span-2"
           label="HN สามี"
-          value={selectedAnc?.hn_husband || ""}
+          value={selectedAnc?.hn_husband ?? ""}
           type="text"
         />
         <Input
           size="sm"
           className="col-span-2"
           label="ชื่อสามี"
-          value={formatName(selectedAnc?.husband) || ""}
+          value={formatName(selectedAnc?.husband) ?? ""}
           type="text"
           readOnly
         />
@@ -30,7 +37,7 @@ export default function page({ selectedAnc, form }) {
           size="sm"
           className="col-span-2"
           label="อายุ"
-          value={calculateAge(selectedAnc?.husband?.birthdatetime) || ""}
+          value={calculateAge(selectedAnc?.husband?.birthdatetime) ?? ""}
           type="text"
           readOnly
         />
@@ -39,14 +46,14 @@ export default function page({ selectedAnc, form }) {
           className="col-span-2"
           label="บัตรประชาชน"
           type="text"
-          value={selectedAnc?.husband?.citizencardno || ""}
+          value={selectedAnc?.husband?.citizencardno ?? ""}
         />
         <Input
           size="sm"
           className="col-span-2"
           label="อาชีพ"
           type="text"
-          value={selectedAnc?.husband?.occupation_detail?.lookupname || ""}
+          value={selectedAnc?.husband?.occupation_detail?.lookupname ?? ""}
           readOnly
         />
         <Input
@@ -54,7 +61,7 @@ export default function page({ selectedAnc, form }) {
           className="col-span-2"
           label="email"
           type="email"
-          value={selectedAnc?.husband?.pat_address?.email || ""}
+          value={selectedAnc?.husband?.pat_address?.email ?? ""}
           readOnly
         />
         <form.Field name="hbsag_husband">

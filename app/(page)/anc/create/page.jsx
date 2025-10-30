@@ -9,15 +9,14 @@ import {
 } from "@heroui/modal";
 import { Button, ButtonGroup } from "@heroui/button";
 import { Input } from "@heroui/input";
-import { DatePicker } from "@heroui/date-picker";
+
 import { Tabs, Tab } from "@heroui/tabs";
 import { Textarea } from "@heroui/input";
-import { parseDate, getLocalTimeZone } from "@internationalized/date";
+
 import useHook from "./useHook";
 
 export default function page({ openModal, closeModal }) {
   const {
-    field,
     handleSearchHnWife,
     hnInputWife,
     setHnInputWife,
@@ -34,8 +33,6 @@ export default function page({ openModal, closeModal }) {
     editVitalsign,
     handleEditChange,
     calculateAge,
-    handleChange,
-    handleSubmit,
     steps,
     activeStep,
     setActiveStep,
@@ -116,8 +113,6 @@ export default function page({ openModal, closeModal }) {
                           <Input
                             size="sm"
                             label="HN"
-                            // value={field.hn_wife}
-                            // onChange={handleChange}
                             value={field.state.value}
                             onChange={(e) => field.handleChange(e.target.value)}
                             onBlur={field.handleBlur}
@@ -258,10 +253,11 @@ export default function page({ openModal, closeModal }) {
                         <Input
                           label="HN สามี"
                           size="sm"
-                          // value={field.hn_husband}
-                          // onChange={handleChange}
-                          value={field.state.value}
-                          onChange={(e) => field.handleChange(e.target.value)}
+                          value={field.state.value ?? ""}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.handleChange(value === "" ? null : value);
+                          }}
                           type="text"
                         />
                       )}

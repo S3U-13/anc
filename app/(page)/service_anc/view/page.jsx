@@ -1,5 +1,5 @@
 "use client";
-import { AlertCircle, AlertOctagon, AlertTriangle } from "@deemlol/next-icons";
+import { AlertOctagon, AlertTriangle } from "@deemlol/next-icons";
 import { Button } from "@heroui/button";
 import {
   Modal,
@@ -9,7 +9,6 @@ import {
   ModalHeader,
 } from "@heroui/modal";
 import React from "react";
-import { Alert } from "@heroui/alert";
 import { Tooltip } from "@heroui/tooltip";
 
 export default function page({
@@ -830,12 +829,20 @@ export default function page({
                   {/* ------------------ ส่วนที่ 4 ------------------ */}
                   <section className="bg-white dark:border-[#3d3d3d] dark:bg-[#27272a] shadow-md rounded-2xl p-6 border border-gray-100">
                     {/* Header */}
+
                     <h2 className="text-xl font-semibold text-gray-800 dark:text-white border-l-4 border-gray-500 dark:border-[#ffffff] pl-3 mb-5">
                       ส่วนที่ 4 : ข้อมูลสามี
                     </h2>
+
                     <hr className="col-span-2 my-2 border-gray-200 pb-2 dark:border-divider" />
 
                     {/* Husband Info */}
+                    {!roundData?.husband?.profile?.hn && (
+                      <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold  flex gap-1 items-center w-full">
+                        <AlertOctagon className="animate-pulse" size={20} />{" "}
+                        <span className="text-lg">ไม่พบข้อมูลสามี</span>
+                      </div>
+                    )}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 px-6 py-4">
                       <span>
                         <strong className="text-gray-900 dark:text-white">

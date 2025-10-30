@@ -8,16 +8,12 @@ import SafeDatePicker from "@/components/SafeDatePicker";
 import useHook from "../useHook";
 
 export default function page({
-  field,
-  setField,
   handleLmpChange,
   selectedAnc,
   handleEditChange,
   vitals,
   editVitalsign,
   bmi,
-  handleChange,
-  setSelectedAnc,
   validationSchema,
   form,
 }) {

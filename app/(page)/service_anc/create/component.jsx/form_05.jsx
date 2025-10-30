@@ -4,18 +4,11 @@ import useHook from "../useHook";
 import { Radio, RadioGroup } from "@heroui/radio";
 import { Checkbox, CheckboxGroup } from "@heroui/checkbox";
 
-import {
-  Autocomplete,
-  AutocompleteSection,
-  AutocompleteItem,
-} from "@heroui/autocomplete";
-import { DatePicker } from "@heroui/date-picker";
+import { Autocomplete, AutocompleteItem } from "@heroui/autocomplete";
+
 import { Input } from "@heroui/input";
 
 export default function page({
-  field,
-  setField,
-  handleChange,
   coverageSite,
   handleChangeRefIn,
   selectedRef,

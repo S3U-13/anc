@@ -4,11 +4,9 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 
 import * as z from "zod";
-import { useAuth } from "@/context/AuthContext";
 import { useApiRequest } from "@/hooks/useApi";
 
 export default function useHook({ closeModal }) {
-  const auth = useAuth();
   const { patWifeData, patHusbandData, submitAnc, fetchDataAnc } =
     useApiRequest();
   const [pat, setPat] = useState(null); // 👈 เก็บ object คนเดียว
@@ -228,7 +226,6 @@ export default function useHook({ closeModal }) {
     };
 
   return {
-    field,
     handleSearchHnWife,
     hnInputWife,
     setHnInputWife,
@@ -240,20 +237,16 @@ export default function useHook({ closeModal }) {
     formatAddress,
     formatName,
     formatNameHusband,
-    calculateAge,
-    editVitalsign,
-    handleEditChange,
     vitals,
     bmi,
-    setField,
-    handleChange,
-    handleSubmit,
+    editVitalsign,
+    handleEditChange,
+    calculateAge,
     steps,
     activeStep,
     setActiveStep,
     form,
     validationSchema,
-    makeValidator,
     isSubmitting,
   };
 }

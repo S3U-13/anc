@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { useState } from "react";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { Pagination } from "@heroui/pagination";
@@ -12,15 +11,12 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/table";
-import { User } from "@heroui/user";
 import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
-  DropdownSection,
   DropdownItem,
 } from "@heroui/dropdown";
-import { Tooltip } from "@heroui/tooltip";
 
 import useHook from "./useHook";
 import ModalFormService from "./create/page";
@@ -33,8 +29,6 @@ import { Chip } from "@heroui/chip";
 
 export default function App() {
   const {
-    dataAnc,
-    openModalForm,
     setOpenFormService,
     openFormService,
     setOpenViewAncService,
@@ -59,7 +53,6 @@ export default function App() {
     formatAddress,
     handleSelectRound,
     roundData,
-    isLoading,
     formatThaiDateTime,
     btiData,
     cbeData,
@@ -243,7 +236,9 @@ export default function App() {
         <TableBody emptyContent={"ไม่มีข้อมูล"}>
           {sortedItems?.map((item, index) => (
             <TableRow key={item.id}>
-              <TableCell className="px-4">{index + 1 + (page - 1) * rowsPerPage}</TableCell>
+              <TableCell className="px-4">
+                {index + 1 + (page - 1) * rowsPerPage}
+              </TableCell>
               {headerColumns.map((col) => (
                 <TableCell key={col.uid}>
                   {col.uid === "hn_wife" && item.wife?.hn}

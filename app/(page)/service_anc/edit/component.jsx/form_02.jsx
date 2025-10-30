@@ -6,14 +6,10 @@ import { Input } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
 
 export default function page({
-  field,
-  setField,
-  handleChange,
-  selectedAnc,
   validationSchema,
   form,
 }) {
-  const { data, formatThaiDateTime } = useHook();
+  const { data, } = useHook();
   return (
     <div className="grid grid-cols-4 gap-[10px] overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1 className="col-span-4">ส่วนที่ 2</h1>

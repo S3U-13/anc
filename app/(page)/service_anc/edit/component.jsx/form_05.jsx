@@ -6,7 +6,6 @@ import { Checkbox, CheckboxGroup } from "@heroui/checkbox";
 
 import {
   Autocomplete,
-  AutocompleteSection,
   AutocompleteItem,
 } from "@heroui/autocomplete";
 import { DatePicker } from "@heroui/date-picker";

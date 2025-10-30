@@ -1,7 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@heroui/button";
-import { Chip } from "@heroui/chip";
+
 import { Input } from "@heroui/input";
 import { Pagination } from "@heroui/pagination";
 import {
@@ -13,12 +13,12 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/table";
-import { User } from "@heroui/user";
+
 import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
-  DropdownSection,
+
   DropdownItem,
 } from "@heroui/dropdown";
 import { Tooltip } from "@heroui/tooltip";
@@ -41,9 +41,6 @@ export default function App({
 }) {
   const {
     dataAnc,
-    openModal,
-    openModalForm,
-    setOpenModal,
     capitalize,
     setVisibleColumns,
     visibleColumns,

@@ -10,9 +10,6 @@ import { Radio, RadioGroup } from "@heroui/radio";
 import { Select, SelectItem } from "@heroui/select";
 
 export default function page({
-  field,
-  setField,
-  handleChange,
   handleChangeCbe,
   handleChangeBti,
   handleDateChange,

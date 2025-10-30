@@ -150,7 +150,6 @@ export default function useHook() {
     onClear,
     filterValue,
     setFilterValue,
-    // ✅ เพิ่มอันนี้ให้ UI ใช้งาน
     columns,
     visibleColumns,
     setVisibleColumns,

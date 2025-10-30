@@ -6,10 +6,6 @@ import { Input } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
 
 export default function page({
-  field,
-  setField,
-  handleChange,
-  selectedAnc,
   validationSchema,
   form,
 }) {
