@@ -29,15 +29,22 @@ export default function page({
     <div className="grid grid-cols-4 gap-[10px] overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1 className="col-span-4">ส่วนที่ 3</h1>
       <div className="grid grid-cols-4 gap-[10px] col-span-4 px-[30px]">
-        <form.Field name="td_num">
+        <form.Field
+          name="td_num"
+          validationSchema={{ onChange: validationSchema.shape.td_num }}
+        >
           {(field) => (
             <Input
               size="sm"
               className="col-span-2"
               label="วัคซีนบาดทะยัก ก่อนตั้งครรภ์เคยฉีดกี่ครั้ง"
-              type="text"
+              type="number"
+              min={0}
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
+              onBlur={field.handleBlur}
+              isInvalid={field.state.meta.errors.length > 0}
+              errorMessage={field.state.meta.errors[0]?.message}
             />
           )}
         </form.Field>

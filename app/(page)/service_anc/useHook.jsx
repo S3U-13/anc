@@ -295,7 +295,7 @@ export default function useHook() {
         return !isNaN(num) && num >= 140;
       case "OGTT 1":
       case "OGTT 2":
-        return !isNaN(num) && num > 140;
+        return !isNaN(num) && num >= 140;
       case "Hct":
         return !isNaN(num) && num <= 33;
       case "MCV":
@@ -405,7 +405,7 @@ export default function useHook() {
     },
     {
       label: "HB Typing",
-      value: `${roundData?.wife.text_values.lab_wife.hb_typing_wife} %`,
+      value: `${roundData?.wife.text_values.lab_wife.hb_typing_wife}`,
     },
   ].filter((item) => item.value);
 
@@ -471,7 +471,7 @@ export default function useHook() {
     {
       label: "HB Typing",
       value: roundData?.husband?.choices?.lab_husband?.hb_typing_husband
-        ? `${roundData.husband.choices.lab_husband.hb_typing_husband} %`
+        ? `${roundData.husband.choices.lab_husband.hb_typing_husband}`
         : "-",
     },
   ];

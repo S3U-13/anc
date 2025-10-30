@@ -178,6 +178,17 @@ export default function useHook({
     [field.ref_value_1_id, field.ref_value_2_id].filter(Boolean)
   );
 
+  const [Dates, setDates] = useState({
+    bti_1_date: field.bti_1_date || null,
+    bti_2_date: field.bti_2_date || null,
+    td_last_date: field.td_last_date || null,
+    tdap_round_1: field.tdap_round_1 || null,
+    tdap_round_2: field.tdap_round_2 || null,
+    tdap_round_3: field.tdap_round_3 || null,
+    iip_date: field.iip_date || null,
+    lab_2: field.lab_2 || null,
+  });
+
   const handleChangeBti = (vals) => {
     const updatedSelected = vals.map(String);
     setSelectedBti(updatedSelected);
@@ -187,17 +198,36 @@ export default function useHook({
     Object.entries(btiField).forEach(([key, value]) => {
       form.setFieldValue(key, value ?? null);
     });
+
+    // ล้างวันที่ถ้าไม่ได้เลือก
+    if (!updatedSelected.includes("18")) {
+      form.setFieldValue("bti_1_date", null);
+      setDates((prev) => ({ ...prev, bti_1_date: null }));
+    }
+    if (!updatedSelected.includes("19")) {
+      form.setFieldValue("bti_2_date", null);
+      setDates((prev) => ({ ...prev, bti_2_date: null }));
+    }
   };
 
   const handleChangeCbe = (vals) => {
     const updatedSelected = vals.map(String);
     setSelectedCbe(updatedSelected);
 
+    // Map checkbox value
     const cbeField = mapCheckboxValues("cbe", updatedSelected, 4, cbeChoice);
 
     Object.entries(cbeField).forEach(([key, value]) => {
       form.setFieldValue(key, value ?? null);
     });
+
+    // เช็คถ้า checkbox 24 หรือ 26 ไม่อยู่ใน selected ให้ล้างค่า
+    if (!updatedSelected.includes("24")) {
+      form.setFieldValue("birads_id", null);
+    }
+    if (!updatedSelected.includes("26")) {
+      form.setFieldValue("cbe_result", "");
+    }
   };
 
   const handleChangeRefIn = (vals) => {
@@ -307,17 +337,6 @@ export default function useHook({
       [name]: value,
     }));
   };
-
-  const [Dates, setDates] = useState({
-    bti_1_date: field.bti_1_date || null,
-    bti_2_date: field.bti_2_date || null,
-    td_last_date: field.td_last_date || null,
-    tdap_round_1: field.tdap_round_1 || null,
-    tdap_round_2: field.tdap_round_2 || null,
-    tdap_round_3: field.tdap_round_3 || null,
-    iip_date: field.iip_date || null,
-    lab_2: field.lab_2 || null,
-  });
 
   const handleDateChange = (fieldName) => (date) => {
     const iso = date
@@ -598,19 +617,19 @@ export default function useHook({
     per_os_id: z.coerce
       .string()
       .min(1, { message: "กรุณาระบุ การใช้ยาผ่านปาก" }),
-       hbsag_husband: z.coerce.number().nullable(),
-       vdrl_husband: z.coerce.number().nullable(),
-       anti_hiv_husband: z.coerce.number().nullable(),
-       bl_gr_husband: z.coerce.number().nullable(),
-       rh_husband: z.coerce.number().nullable(),
-       hct_husband: z.string().nullable(),
-       of_husband: z.string().nullable(),
-       dcip_husband: z.coerce.number().nullable(),
-       mcv_husband: z.string().nullable(),
-       mch_husband: z.string().nullable(),
-       hb_typing_husband: z.string().nullable(),
-       pcr_hus_id: z.coerce.string().nullable(),
-       pcr_hus_text: z.string().optional(),
+    hbsag_husband: z.coerce.number().nullable(),
+    vdrl_husband: z.coerce.number().nullable(),
+    anti_hiv_husband: z.coerce.number().nullable(),
+    bl_gr_husband: z.coerce.number().nullable(),
+    rh_husband: z.coerce.number().nullable(),
+    hct_husband: z.string().nullable(),
+    of_husband: z.string().nullable(),
+    dcip_husband: z.coerce.number().nullable(),
+    mcv_husband: z.string().nullable(),
+    mch_husband: z.string().nullable(),
+    hb_typing_husband: z.string().nullable(),
+    pcr_hus_id: z.coerce.string().nullable(),
+    pcr_hus_text: z.string().optional(),
     ref_value_1_id: z.string().nullable(),
     ref_value_2_id: z.string().nullable(),
     receive_in_id: z.string().nullable(),
