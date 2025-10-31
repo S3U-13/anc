@@ -80,12 +80,12 @@ export default function page({
                           value={hnInputWife}
                           onChange={(e) => setHnInputWife(e.target.value)}
                           size="sm"
-                          label="Search HN Wife"
+                          label="Search HN"
                           type="search"
                         />
                         <Button
                           isIconOnly
-                          aria-label="Search HN Wife"
+                          aria-label="Search HN"
                           variant="flat"
                           onPress={handleSearchHnWife}
                           type="button"
@@ -123,8 +123,6 @@ export default function page({
                           <Input
                             size="sm"
                             label="HN"
-                            // value={field.hn_wife}
-                            // onChange={handleChange}
                             value={field.state.value}
                             onChange={(e) => field.handleChange(e.target.value)}
                             onBlur={field.handleBlur}
@@ -151,6 +149,7 @@ export default function page({
                         value={formatName(pat) || ""}
                         type="text"
                         readOnly
+                        disabled
                       />
                       <Input
                         size="sm"
@@ -158,6 +157,7 @@ export default function page({
                         type="text"
                         value={calculateAge(pat?.birthdatetime) || ""}
                         readOnly
+                        disabled
                       />
                       <Input
                         size="sm"
@@ -165,18 +165,22 @@ export default function page({
                         value={pat?.citizencardno || ""}
                         type="text"
                         readOnly
+                        disabled
                       />
                       <Input
                         size="sm"
                         label="เบอร์โทรศัพท์"
                         value={pat?.pat_address.phone || ""}
                         type="text"
+                        readOnly
+                        disabled
                       />
                       <Textarea
                         className="col-span-2"
                         label="ที่อยู่"
                         value={formatAddress(pat?.pat_address)}
                         readOnly
+                        disabled
                       />
 
                       <Input
@@ -184,12 +188,16 @@ export default function page({
                         label="อาชีพ"
                         value={pat?.occupation_detail?.lookupname || ""}
                         type="text"
+                        readOnly
+                        disabled
                       />
                       <Input
                         size="sm"
                         label="email"
                         value={pat?.pat_address.email || ""}
                         type="email"
+                        readOnly
+                        disabled
                       />
                       <Input
                         size="sm"
@@ -198,6 +206,8 @@ export default function page({
                         value={editVitalsign.weight}
                         type="text"
                         onChange={handleEditChange}
+                        readOnly
+                        disabled
                       />
                       <Input
                         size="sm"
@@ -206,6 +216,8 @@ export default function page({
                         value={editVitalsign.height}
                         type="text"
                         onChange={handleEditChange}
+                        readOnly
+                        disabled
                       />
                       <Input
                         size="sm"
@@ -213,6 +225,7 @@ export default function page({
                         value={bmi}
                         type="text"
                         readOnly
+                        disabled
                       />
                       <Input
                         size="sm"
@@ -224,6 +237,7 @@ export default function page({
                         }
                         type="text"
                         readOnly
+                        disabled
                       />
                     </div>
                   </div>
@@ -283,30 +297,40 @@ export default function page({
                       size="sm"
                       value={formatNameHusband(patHusband)}
                       type="text"
+                      readOnly
+                      disabled
                     />
                     <Input
                       label="อายุ"
                       size="sm"
                       value={calculateAge(patHusband?.birthdatetime) || ""}
                       type="text"
+                      readOnly
+                      disabled
                     />
                     <Input
                       label="บัตรประชาชน"
                       size="sm"
                       value={patHusband?.citizencardno || ""}
                       type="text"
+                      readOnly
+                      disabled
                     />
                     <Input
                       label="อาชีพ"
                       size="sm"
                       value={patHusband?.occupation_detail.lookupname || ""}
                       type="text"
+                      readOnly
+                      disabled
                     />
                     <Input
                       label="email"
                       size="sm"
                       value={patHusband?.pat_address?.email || ""}
                       type="email"
+                      readOnly
+                      disabled
                     />
                   </div>
                 </Tab>

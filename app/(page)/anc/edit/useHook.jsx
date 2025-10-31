@@ -58,20 +58,39 @@ export default function useHook({
   const [autoSearched, setAutoSearched] = useState(false);
 
   useEffect(() => {
-    if (openModal && dataAncById && !autoSearched) {
-      // อัพเดต state ก่อน
-      setHnInputWife(dataAncById.hn_wife || "");
-      setHnInputHusband(dataAncById.hn_husband || "");
+    // ถ้าเปิด modal และมีข้อมูลใหม่ (dataAncById เปลี่ยน)
+    if (openModal && dataAncById) {
+      // ล้างค่า form ก่อน เพื่อป้องกันข้อมูลค้าง
+      form.reset(); // ✅ ถ้าใช้ react-hook-form
+      // หรือถ้าเป็น formik: form.resetForm();
 
-      // ใช้ dataAncById เรียก search โดยตรง (ไม่ใช้ state)
-      if (dataAncById.hn_wife) patWifeData(dataAncById.hn_wife, form, setPat);
-      if (dataAncById.hn_husband)
-        patHusbandData(dataAncById.hn_husband, form, setPatHusband);
+      setPat(null);
+      setPatHusband(null);
+      setHnInputWife("");
+      setHnInputHusband("");
+      setAutoSearched(false);
 
-      setAutoSearched(true);
+      // ✅ ดีเล็กน้อย (หรือใช้ Promise.resolve().then()) เพื่อรอ state update
+      setTimeout(() => {
+        if (dataAncById.hn_wife) {
+          setHnInputWife(dataAncById.hn_wife);
+          patWifeData(dataAncById.hn_wife, form, setPat);
+        }
+        if (dataAncById.hn_husband) {
+          setHnInputHusband(dataAncById.hn_husband);
+          patHusbandData(dataAncById.hn_husband, form, setPatHusband);
+        }
+
+        setAutoSearched(true);
+      }, 100);
     }
 
-    if (!openModal) setAutoSearched(false);
+    if (!openModal) {
+      // ปิด modal → reset state ทั้งหมด
+      setAutoSearched(false);
+      setPat(null);
+      setPatHusband(null);
+    }
   }, [openModal, dataAncById]);
 
   const formatName = (pat) => {

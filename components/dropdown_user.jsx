@@ -34,7 +34,7 @@ export default function DropdownUser() {
             aria-label="Like"
             size="sm"
             color="default"
-            variant="light"
+            // variant="light"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +52,7 @@ export default function DropdownUser() {
             </svg>
           </Button>
         </DropdownTrigger>
-        <DropdownMenu aria-label="User Actions" variant="shadow">
+        <DropdownMenu aria-label="User Actions" variant="flat">
           <DropdownItem key="profile" className="h-14 gap-2">
             <p className="font-bold">Signed in as</p>
             <p className="font-bold">{auth.user.name}</p>
@@ -62,6 +62,8 @@ export default function DropdownUser() {
             onPress={handleLogout}
             key="logout"
             color="danger"
+            variant="flat"
+            className="border mt-2"
           >
             Log Out
           </DropdownItem>

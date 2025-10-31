@@ -77,12 +77,12 @@ export default function page({ openModal, closeModal }) {
                           value={hnInputWife}
                           onChange={(e) => setHnInputWife(e.target.value)}
                           size="sm"
-                          label="Search HN Wife"
+                          label="Search HN"
                           type="search"
                         />
                         <Button
                           isIconOnly
-                          aria-label="Search HN Wife"
+                          aria-label="Search HN"
                           variant="flat"
                           onPress={handleSearchHnWife}
                           type="button"
@@ -283,7 +283,7 @@ export default function page({ openModal, closeModal }) {
                     <Input
                       label="อาชีพ"
                       size="sm"
-                      value={patHusband?.occupation_detail.lookupname || ""}
+                      value={patHusband?.occupation_detail?.lookupname || ""}
                       type="text"
                     />
                     <Input

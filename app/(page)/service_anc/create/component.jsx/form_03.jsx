@@ -40,7 +40,7 @@ export default function page({
               label="วัคซีนบาดทะยัก ก่อนตั้งครรภ์เคยฉีดกี่ครั้ง"
               type="number"
               min={0}
-              value={field.state.value}
+              value={field.state.value ?? ""}
               onChange={(e) => field.handleChange(e.target.value)}
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
@@ -173,7 +173,7 @@ export default function page({
               className="col-span-2 pr-[10px]"
               label="HCT"
               type="text"
-              value={field.state.value}
+              value={field.state.value ?? ""}
               onChange={(e) => field.handleChange(e.target.value)}
             />
           )}
@@ -209,7 +209,7 @@ export default function page({
               className="col-span-2 pr-[10px]"
               label="H"
               type="text"
-              value={field.state.value}
+              value={field.state.value ?? ""}
               onChange={(e) => field.handleChange(e.target.value)}
             />
           )}
