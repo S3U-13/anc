@@ -25,10 +25,8 @@ export default function Page({ openModal, closeModal, modalRef }) {
       onOpenChange={closeModal}
       placement="center"
       classNames={{
-        base: "max-w-xl bg-white rounded-2xl shadow-lg border border-gray-200",
-        header: "border-b border-gray-100 bg-blue-50/60 text-gray-700",
-        footer: "border-t border-gray-100 bg-gray-50",
-        body: "bg-white",
+        header: "border-b border-divider ",
+        footer: "border-t border-divider ",
       }}
     >
       <ModalContent ref={modalRef}>
@@ -52,8 +50,8 @@ export default function Page({ openModal, closeModal, modalRef }) {
 
             {/* Body */}
             <ModalBody>
-              <section className="bg-white dark:bg-[#27272a] rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-5 space-y-4">
-                <h2 className="text-blue-500 font-semibold text-base border-b border-blue-100 dark:border-gray-600 pb-1">
+              <section className=" rounded-2xl border border-divider shadow-sm p-5 space-y-4">
+                <h2 className="text-blue-500 font-semibold text-base border-b border-divider  pb-1">
                   ข้อมูลทั่วไป
                 </h2>
 
@@ -126,8 +124,8 @@ export default function Page({ openModal, closeModal, modalRef }) {
                 </div>
               </section>
 
-              <section className="bg-white dark:bg-[#27272a] rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-5 space-y-4">
-                <h2 className="text-blue-500 font-semibold text-base border-b border-blue-100 dark:border-gray-600 pb-1">
+              <section className="rounded-2xl border border-divider  shadow-sm p-5 space-y-4">
+                <h2 className="text-blue-500 font-semibold text-base border-b border-divider  pb-1">
                   สิทธิ์และตำแหน่ง
                 </h2>
 

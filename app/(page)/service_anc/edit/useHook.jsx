@@ -71,7 +71,7 @@ export default function useHook({
     cordo_text: "",
     cordo_other_text: "",
     abortion_id: "",
-    td_num: "",
+    td_num: null,
     td_last_date: null,
     tdap_id: "",
     tdap_round_1: null,
@@ -79,10 +79,10 @@ export default function useHook({
     tdap_round_3: null,
     iip_id: "",
     iip_date: null,
-    lab_2: "",
-    vdrl_2: "",
-    hct: "",
-    h: "",
+    lab_2: null,
+    vdrl_2: null,
+    hct: null,
+    h: null,
     bti_value_1_id: null,
     bti_value_2_id: null,
     bti_value_3_id: null,
@@ -110,8 +110,8 @@ export default function useHook({
     hb_typing_husband: null,
     pcr_hus_text: "",
     pcr_hus_id: null,
-    ref_value_1_id: null,
-    ref_value_2_id: null,
+    ref_value_1_id: "",
+    ref_value_2_id: "",
     receive_in_id: null,
     receive_in_detail: "",
     hos_in_id: null,
@@ -584,10 +584,8 @@ export default function useHook({
     abortion_id: z.coerce
       .string()
       .min(1, { message: "กรุณาระบุ ประวัติการแท้ง" }),
-    td_num: z.coerce.number().nullable(),
-    td_last_date: z.string().min(1, {
-      message: "กรุณาระบุ วัน/เดือน/ปี ที่ได้รับวัคซีนบาดทะยักครั้งสุดท้าย",
-    }),
+    td_num: z.string().nullable(),
+    td_last_date: z.string().nullable(),
     tdap_id: z.coerce.string().min(1, { message: "กรุณาระบุ การให้วัคซีน" }),
     tdap_round_1: z.string().nullable(),
     tdap_round_2: z.string().nullable(),
@@ -596,10 +594,10 @@ export default function useHook({
       .string()
       .min(1, { message: "กรุณาระบุ การฉีดวัคซีนไข้หวัดใหญ่" }),
     iip_date: z.string().nullable(),
-    lab_2: z.string().optional(),
-    vdrl_2: z.string().optional(),
-    hct: z.string().optional(),
-    h: z.string().optional(),
+    lab_2: z.string().nullable(),
+    vdrl_2: z.string().nullable(),
+    hct: z.string().nullable(),
+    h: z.string().nullable(),
     bti_value_1_id: z.string().nullable(),
     bti_value_2_id: z.string().nullable(),
     bti_value_3_id: z.string().nullable(),
@@ -642,10 +640,10 @@ export default function useHook({
   const form = useForm({
     defaultValues,
     onSubmit: async ({ value }) => {
-      // console.log("onSubmit triggered", value);
+      console.log("onSubmit triggered", value);
       try {
         const validatedData = validationSchema.parse(value);
-        // console.log("validatedData:", validatedData);
+        console.log("validatedData:", validatedData);
         await handleSubmit(validatedData);
       } catch (error) {
         console.error("Validation error:", error);

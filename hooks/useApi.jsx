@@ -28,7 +28,7 @@ export const useApiRequest = () => {
       const res = await fetch(`${API_URL}${endpoint}`, options);
       const data = await res.json().catch(() => ({}));
 
-      if (!res.ok) {
+      if (res.status === 500) {
         addToast({
           title: "การเชื่อมต่อล้มเหลว",
           description:

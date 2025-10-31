@@ -37,7 +37,7 @@ export default function page({
               label="วัคซีนบาดทะยัก ก่อนตั้งครรภ์เคยฉีดกี่ครั้ง"
               type="number"
               min={0}
-              value={field.state.value}
+              value={field.state.value ?? ""}
               onChange={(e) => field.handleChange(e.target.value)}
             />
           )}
@@ -167,7 +167,7 @@ export default function page({
               className="col-span-2 pr-[10px]"
               label="HCT"
               type="text"
-              value={field.state.value}
+              value={field.state.value ?? ""}
               onChange={(e) => field.handleChange(e.target.value)}
             />
           )}
@@ -181,12 +181,10 @@ export default function page({
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
-              onSelectionChange={(key) =>
-                field.handleChange(Array.from(key)[0])
-              }
-              onBlur={field.handleBlur}
-              isInvalid={field.state.meta.errors.length > 0}
-              errorMessage={field.state.meta.errors[0]?.message}
+              onSelectionChange={(key) => {
+                const selected = Array.from(key)[0];
+                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+              }}
             >
               {data
                 .filter((vdrl_wife) => vdrl_wife.choice_type_id === 18)
@@ -205,7 +203,7 @@ export default function page({
               className="col-span-2 pr-[10px]"
               label="H"
               type="text"
-              value={field.state.value}
+              value={field.state.value ?? ""}
               onChange={(e) => field.handleChange(e.target.value)}
             />
           )}

@@ -212,7 +212,7 @@ export default function page({ selectedAnc, form }) {
               className="col-span-2"
               label="OF"
               type="text"
-               value={field.state.value ?? ""} // ✅ null → ""
+              value={field.state.value ?? ""} // ✅ null → ""
               onChange={(e) => field.handleChange(e.target.value)}
             />
           )}

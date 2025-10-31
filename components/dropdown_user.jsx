@@ -52,13 +52,17 @@ export default function DropdownUser() {
             </svg>
           </Button>
         </DropdownTrigger>
-        <DropdownMenu aria-label="User Actions" variant="flat">
+        <DropdownMenu aria-label="User Actions" variant="shadow">
           <DropdownItem key="profile" className="h-14 gap-2">
             <p className="font-bold">Signed in as</p>
             <p className="font-bold">{auth.user.name}</p>
             <p className="font-bold">ตำเเหน่ง {auth.user.position_name}</p>
           </DropdownItem>
-          <DropdownItem onPress={handleLogout} key="logout" color="danger">
+          <DropdownItem
+            onPress={handleLogout}
+            key="logout"
+            color="danger"
+          >
             Log Out
           </DropdownItem>
         </DropdownMenu>

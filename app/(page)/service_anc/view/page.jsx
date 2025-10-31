@@ -636,8 +636,8 @@ export default function page({
                           <strong className="text-gray-900 dark:text-white">
                             เคยฉีดวัคซีนกันบาดทะยักก่อนตั้งครรภ์กี่ครั้ง :
                           </strong>{" "}
-                          <span className="dark:text-gray-400">{`${roundData?.wife.text_values.td_num} ครั้ง`}</span>
-                          {roundData?.wife.text_values.td_num && (
+                          <span className="dark:text-gray-400">{`${roundData?.wife.text_values.td_num ?? 0} ครั้ง`}</span>
+                          {roundData?.wife.text_values.td_num > 0 && (
                             <div className="text-gray-500 ml-14">
                               <strong className="text-gray-900 dark:text-white">
                                 ครั้งสุดท้ายวันที่ :
@@ -657,7 +657,7 @@ export default function page({
                           </strong>{" "}
                           <span className="dark:text-gray-400">
                             {formatThaiDateNoTime(
-                              roundData?.wife.text_values.lab_2
+                              roundData?.wife?.text_values?.lab_2
                             )}
                           </span>
                         </span>
@@ -692,14 +692,20 @@ export default function page({
                           <span className="dark:text-gray-400">
                             {roundData?.wife.text_values.hct}
                           </span>
-                          {roundData?.wife.text_values.hct <= 33 && (
-                            <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
-                              <AlertOctagon
-                                className="animate-pulse"
-                                size={18}
-                              />
-                              <span className="text-[12px]">ภาวะโลหิตจาง</span>
-                            </div>
+                          {roundData?.wife?.text_values?.hct != null ? (
+                            roundData.wife.text_values.hct <= 33 && (
+                              <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
+                                <AlertOctagon
+                                  className="animate-pulse"
+                                  size={18}
+                                />
+                                <span className="text-[12px]">
+                                  ภาวะโลหิตจาง
+                                </span>
+                              </div>
+                            )
+                          ) : (
+                            <span></span>
                           )}
                         </span>
 
