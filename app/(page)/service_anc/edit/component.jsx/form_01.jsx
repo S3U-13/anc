@@ -43,6 +43,7 @@ export default function page({
               type="text"
               value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
+              readOnly
               disabled
             />
           )}
@@ -55,6 +56,8 @@ export default function page({
               type="text"
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
+              readOnly
+              disabled
             />
           )}
         </form.Field>
@@ -66,6 +69,8 @@ export default function page({
               type="text"
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
+              readOnly
+              disabled
             />
           )}
         </form.Field>
@@ -75,6 +80,8 @@ export default function page({
           label="HN"
           type="text"
           value={currentData?.wife.profile.hn || ""}
+          readOnly
+          disabled
         />
         {/* value={`${selectedAnc?.prename}${selectedAnc?.firstname} ${selectedAnc?.lastname}` || ""} */}
         <Input
@@ -83,6 +90,7 @@ export default function page({
           value={formatName(currentData?.wife.profile) || "" || undefined}
           type="text"
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -94,6 +102,7 @@ export default function page({
           }
           type="text"
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -101,6 +110,7 @@ export default function page({
           value={currentData?.wife?.profile.citizencardno || "" || undefined}
           type="text"
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -110,6 +120,7 @@ export default function page({
           }
           type="text"
           readOnly
+          disabled
         />
         <Textarea
           size="sm"
@@ -121,6 +132,7 @@ export default function page({
           }
           label="ที่อยู่"
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -132,15 +144,17 @@ export default function page({
           }
           type="text"
           readOnly
+          disabled
         />
         <Input
           size="sm"
           label="email"
           value={
-            currentData?.wife?.profile.pat_address?.email || "" || undefined
+            currentData?.wife?.profile.pat_address?.email || "-" || undefined
           }
           type="email"
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -149,6 +163,8 @@ export default function page({
           value={editVitalsign.weight}
           onValueChange={(value) => handleEditChange("weight", value)}
           type="text"
+          readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -157,6 +173,8 @@ export default function page({
           value={editVitalsign.height}
           onValueChange={(value) => handleEditChange("height", value)}
           type="text"
+          readOnly
+          disabled
         />
         <Input size="sm" label="BMI" value={bmi || ""} type="text" isReadOnly />
         <Input
@@ -169,6 +187,7 @@ export default function page({
           }
           type="text"
           readOnly
+          disabled
         />
         <form.Field
           name="para"

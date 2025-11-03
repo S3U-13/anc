@@ -19,7 +19,7 @@ export default function Home() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-[10px] xl:text-xl">
-                    <span>{sumData.referral_in_count?.ref_in ?? 0}</span> คน
+                    <span>{sumData.referral_in_count?.ref_in ?? 0}</span> ครั้ง
                   </p>
                   <h1 className="text-[8px] xl:text-sm text-gray-600 dark:text-gray-400">
                     จำนวนการรับ Refer
@@ -45,7 +45,7 @@ export default function Home() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-[10px] xl:text-xl">
-                    <span>{sumData.referral_out_count?.ref_out ?? 0}</span> คน
+                    <span>{sumData.referral_out_count?.ref_out ?? 0}</span> ครั้ง
                   </p>
                   <h1 className="text-[8px] xl:text-sm text-gray-600 dark:text-gray-400">
                     จำนวนส่งต่อ Refer

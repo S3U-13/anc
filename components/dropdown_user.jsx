@@ -34,7 +34,7 @@ export default function DropdownUser() {
             aria-label="Like"
             size="sm"
             color="default"
-            // variant="light"
+            variant="flat"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

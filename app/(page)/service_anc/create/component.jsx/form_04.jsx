@@ -12,7 +12,7 @@ export default function page({ selectedAnc, form }) {
     <div className="overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1>ส่วนที่ 4</h1>
       <div className="grid grid-cols-4 gap-[10px] px-[30px] mt-[10px]">
-         {!selectedAnc?.hn_husband && (
+        {!selectedAnc?.hn_husband && (
           <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold  flex gap-1 items-center col-span-4">
             <AlertOctagon className="animate-pulse" size={20} />{" "}
             <span className="text-lg">ไม่พบข้อมูลสามี</span>
@@ -24,6 +24,8 @@ export default function page({ selectedAnc, form }) {
           label="HN สามี"
           value={selectedAnc?.hn_husband ?? ""}
           type="text"
+          readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -32,6 +34,7 @@ export default function page({ selectedAnc, form }) {
           value={formatName(selectedAnc?.husband) ?? ""}
           type="text"
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -40,6 +43,7 @@ export default function page({ selectedAnc, form }) {
           value={calculateAge(selectedAnc?.husband?.birthdatetime) ?? ""}
           type="text"
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -47,6 +51,8 @@ export default function page({ selectedAnc, form }) {
           label="บัตรประชาชน"
           type="text"
           value={selectedAnc?.husband?.citizencardno ?? ""}
+          readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -55,6 +61,7 @@ export default function page({ selectedAnc, form }) {
           type="text"
           value={selectedAnc?.husband?.occupation_detail?.lookupname ?? ""}
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -63,6 +70,7 @@ export default function page({ selectedAnc, form }) {
           type="email"
           value={selectedAnc?.husband?.pat_address?.email ?? ""}
           readOnly
+          disabled
         />
         <form.Field name="hbsag_husband">
           {(field) => (
@@ -141,7 +149,7 @@ export default function page({ selectedAnc, form }) {
               className="col-span-2"
               label="Hb Typing"
               type="text"
-               value={field.state.value ?? ""} // ✅ null → ""
+              value={field.state.value ?? ""} // ✅ null → ""
               onChange={(e) => field.handleChange(e.target.value)}
             />
           )}
@@ -199,7 +207,7 @@ export default function page({ selectedAnc, form }) {
                 className="col-span-1"
                 label="Hct"
                 type="text"
-                 value={field.state.value ?? ""} // ✅ null → ""
+                value={field.state.value ?? ""} // ✅ null → ""
                 onChange={(e) => field.handleChange(e.target.value)}
               />
             )}
@@ -246,7 +254,7 @@ export default function page({ selectedAnc, form }) {
               className="col-span-2"
               label="MCV"
               type="text"
-               value={field.state.value ?? ""} // ✅ null → ""
+              value={field.state.value ?? ""} // ✅ null → ""
               onChange={(e) => field.handleChange(e.target.value)}
             />
           )}
@@ -258,7 +266,7 @@ export default function page({ selectedAnc, form }) {
               className="col-span-2"
               label="MCH"
               type="text"
-               value={field.state.value ?? ""} // ✅ null → ""
+              value={field.state.value ?? ""} // ✅ null → ""
               onChange={(e) => field.handleChange(e.target.value)}
             />
           )}
@@ -270,7 +278,7 @@ export default function page({ selectedAnc, form }) {
           <RadioGroup
             className="col-span-4 px-[20px] mt-[10px]"
             label="PCR"
-             value={field.state.value ?? ""} // ✅ null → ""
+            value={field.state.value ?? ""} // ✅ null → ""
             onChange={(e) => field.handleChange(e.target.value)}
           >
             {data

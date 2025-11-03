@@ -28,6 +28,7 @@ export default function page({
           value={currentData?.husband?.profile?.hn ?? ""}
           type="text"
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -36,6 +37,7 @@ export default function page({
           value={formatName(currentData?.husband?.profile ?? "")}
           type="text"
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -46,6 +48,7 @@ export default function page({
           }
           type="text"
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -54,6 +57,7 @@ export default function page({
           type="text"
           value={currentData?.husband?.profile?.citizencardno ?? ""}
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -64,14 +68,16 @@ export default function page({
             currentData?.husband?.profile?.occupation_detail?.lookupname ?? ""
           }
           readOnly
+          disabled
         />
         <Input
           size="sm"
           className="col-span-2"
           label="email"
           type="email"
-          value={currentData?.husband?.profile?.pat_address?.email ?? ""}
+          value={currentData?.husband?.profile?.pat_address?.email ?? "-"}
           readOnly
+          disabled
         />
         <form.Field name="hbsag_husband">
           {(field) => (

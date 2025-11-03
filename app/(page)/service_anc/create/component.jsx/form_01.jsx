@@ -69,6 +69,8 @@ export default function page({
           label="HN"
           type="text"
           value={selectedAnc?.hn_wife || ""}
+          readOnly
+          disabled
         />
         {/* value={`${selectedAnc?.prename}${selectedAnc?.firstname} ${selectedAnc?.lastname}` || ""} */}
         <Input
@@ -77,6 +79,7 @@ export default function page({
           value={formatName(selectedAnc?.wife) || "" || undefined}
           type="text"
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -86,6 +89,7 @@ export default function page({
           }
           type="text"
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -93,6 +97,7 @@ export default function page({
           value={selectedAnc?.wife?.citizencardno || "" || undefined}
           type="text"
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -100,6 +105,7 @@ export default function page({
           value={selectedAnc?.wife?.pat_address?.phone || "" || undefined}
           type="text"
           readOnly
+          disabled
         />
         <Textarea
           size="sm"
@@ -109,6 +115,7 @@ export default function page({
           }
           label="ที่อยู่"
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -118,6 +125,7 @@ export default function page({
           }
           type="text"
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -125,6 +133,7 @@ export default function page({
           value={selectedAnc?.wife?.pat_address?.email || "" || undefined}
           type="email"
           readOnly
+          disabled
         />
         <Input
           size="sm"
@@ -142,7 +151,14 @@ export default function page({
           onValueChange={(value) => handleEditChange("height", value)}
           type="text"
         />
-        <Input size="sm" label="BMI" value={bmi || ""} type="text" isReadOnly />
+        <Input
+          size="sm"
+          label="BMI"
+          value={bmi || ""}
+          type="text"
+          readOnly
+          disabled
+        />
         <Input
           size="sm"
           label="ความดันโลหิต"
