@@ -63,7 +63,7 @@ export default function useHook({
       // ล้างค่า form ก่อน เพื่อป้องกันข้อมูลค้าง
       form.reset(); // ✅ ถ้าใช้ react-hook-form
       // หรือถ้าเป็น formik: form.resetForm();
-
+      setActiveStep("wife");
       setPat(null);
       setPatHusband(null);
       setHnInputWife("");

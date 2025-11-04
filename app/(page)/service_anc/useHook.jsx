@@ -443,7 +443,7 @@ export default function useHook() {
     {
       label: "Hct",
       value: roundData?.husband?.choices?.lab_husband?.hct_husband
-        ? `${roundData.husband.choices.lab_husband.hct_husband} %`
+        ? `${roundData.husband.choices.lab_husband.hct_husband}`
         : "-",
     },
     {

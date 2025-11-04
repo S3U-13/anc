@@ -163,7 +163,7 @@ export default function page({ openModal, closeModal }) {
                       <Input
                         size="sm"
                         label="เบอร์โทรศัพท์"
-                        value={pat?.pat_address.phone || ""}
+                        value={pat?.pat_address?.phone || ""}
                         type="text"
                       />
                       <Input
@@ -175,14 +175,14 @@ export default function page({ openModal, closeModal }) {
                       <Input
                         size="sm"
                         label="email"
-                        value={pat?.pat_address.email || ""}
+                        value={pat?.pat_address?.email || ""}
                         type="email"
                       />
                       <Input
                         size="sm"
                         label="น้ำหนัก"
                         name="weight"
-                        value={editVitalsign.weight}
+                        value={editVitalsign?.weight}
                         type="text"
                         onChange={handleEditChange}
                       />
@@ -190,7 +190,7 @@ export default function page({ openModal, closeModal }) {
                         size="sm"
                         label="ส่วนสูง"
                         name="height"
-                        value={editVitalsign.height}
+                        value={editVitalsign?.height}
                         type="text"
                         onChange={handleEditChange}
                       />
