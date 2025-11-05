@@ -15,15 +15,31 @@ export const AuthProvider = ({ children }) => {
     const savedToken = Cookies.get("token");
     const savedUser = localStorage.getItem("user");
 
-    if (savedToken && savedUser) {
-      setToken(savedToken);
-      setUser(JSON.parse(savedUser));
+    if (
+      savedToken &&
+      savedToken !== "undefined" &&
+      savedUser &&
+      savedUser !== "undefined"
+    ) {
+      try {
+        setToken(savedToken);
+        setUser(JSON.parse(savedUser));
+      } catch (err) {
+        console.warn("⚠️ Invalid user data:", err);
+        localStorage.removeItem("user");
+        Cookies.remove("token");
+      }
+    } else {
+      Cookies.remove("token");
+      localStorage.removeItem("user");
     }
+
     setLoading(false);
   }, []);
 
   // 🟢 ฟังก์ชัน login/logout
   const login = (data) => {
+    if (!data?.token || !data?.user) return;
     setUser(data.user);
     setToken(data.token);
     localStorage.setItem("user", JSON.stringify(data.user));
@@ -37,9 +53,9 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
   };
 
-  // 🟢 ตรวจว่า token หมดอายุไหม (เรียกได้จาก ProtectedRoute)
+  // 🟢 ตรวจ token หมดอายุไหม
   const checkTokenTimeOut = async () => {
-    if (!token) {
+    if (!token || token === "undefined") {
       logout();
       return false;
     }
@@ -62,12 +78,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // 🟢 ตั้ง interval ตรวจ token ทุก 1 นาที
+  // 🕒 ตั้ง interval ตรวจ token ทุก 5 นาที
   useEffect(() => {
     if (!token) return;
-    const interval = setInterval(() => {
-      checkTokenTimeOut();
-    }, 30 * 60 * 1000);
+    const interval = setInterval(
+      () => {
+        checkTokenTimeOut();
+      },
+      30 * 60 * 1000
+    );
 
     return () => clearInterval(interval);
   }, [token]);

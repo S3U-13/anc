@@ -18,11 +18,16 @@ const apiRequest = async (
     });
 
     const data = await res.json().catch(() => ({}));
-    if (res.status === 500) {
+    if (
+      res.status === 400 ||
+      res.status === 401 ||
+      res.status === 403 ||
+      res.status === 404 ||
+      res.status === 409
+    ) {
       addToast({
-        title: "การเชื่อมต่อล้มเหลว",
-        description:
-          "ไม่สามารถติดต่อกับเซิร์ฟเวอร์ได้ในขณะนี้ โปรดติดต่อ ศูนย์คอม",
+        title: "ไม่สำเร็จ",
+        description: "เข้าสู่ระบบไม่สำเร็จ",
         color: "danger",
         variant: "flat",
       });

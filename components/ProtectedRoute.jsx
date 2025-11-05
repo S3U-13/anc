@@ -5,12 +5,18 @@ import { useEffect } from "react";
 import { Spinner } from "@heroui/react";
 
 export default function ProtectedRoute({ children, role }) {
-  const { user, loading, checkTokenTimeOut, logout } = useAuth(); // ✅ เพิ่ม checkTokenTimeOut, logout
+  const { token, user, loading, checkTokenTimeOut, logout } = useAuth(); // ✅ เพิ่ม checkTokenTimeOut, logout
   const router = useRouter();
 
   useEffect(() => {
     if (!loading) {
       const verifyToken = async () => {
+        if (!token || token === "undefined" || token === "null") {
+          logout();
+          router.replace("/"); // กลับหน้า login
+          return;
+        }
+
         const valid = await checkTokenTimeOut(); // ✅ ตรวจ token หมดอายุไหม
         if (!valid) {
           logout();

@@ -113,7 +113,7 @@ export default function page({ openModal, closeModal }) {
                           <Input
                             size="sm"
                             label="HN"
-                            value={field.state.value}
+                            value={field.state.value ?? ""}
                             onChange={(e) => field.handleChange(e.target.value)}
                             onBlur={field.handleBlur}
                             isInvalid={field.state.meta.errors.length > 0}
@@ -128,7 +128,7 @@ export default function page({ openModal, closeModal }) {
                             size="sm"
                             type="hidden"
                             label="sex"
-                            value={field.state.value}
+                            value={field.state.value ?? ""}
                             onChange={(e) => field.handleChange(e.target.value)}
                           />
                         )}
@@ -136,7 +136,7 @@ export default function page({ openModal, closeModal }) {
                       <Input
                         size="sm"
                         label="ชื่อ"
-                        value={formatName(pat) || ""}
+                        value={formatName(pat) ?? ""}
                         type="text"
                         readOnly
                       />
@@ -144,13 +144,13 @@ export default function page({ openModal, closeModal }) {
                         size="sm"
                         label="อายุ"
                         type="text"
-                        value={calculateAge(pat?.birthdatetime) || ""}
+                        value={calculateAge(pat?.birthdatetime) ?? ""}
                         readOnly
                       />
                       <Input
                         size="sm"
                         label="บัตรประชาชน"
-                        value={pat?.citizencardno || ""}
+                        value={pat?.citizencardno ?? ""}
                         type="text"
                         readOnly
                       />
@@ -163,19 +163,19 @@ export default function page({ openModal, closeModal }) {
                       <Input
                         size="sm"
                         label="เบอร์โทรศัพท์"
-                        value={pat?.pat_address?.phone || ""}
+                        value={pat?.pat_address?.phone ?? ""}
                         type="text"
                       />
                       <Input
                         size="sm"
                         label="อาชีพ"
-                        value={pat?.occupation_detail?.lookupname || ""}
+                        value={pat?.occupation_detail?.lookupname ?? ""}
                         type="text"
                       />
                       <Input
                         size="sm"
                         label="email"
-                        value={pat?.pat_address?.email || ""}
+                        value={pat?.pat_address?.email ?? ""}
                         type="email"
                       />
                       <Input
@@ -271,25 +271,25 @@ export default function page({ openModal, closeModal }) {
                     <Input
                       label="อายุ"
                       size="sm"
-                      value={calculateAge(patHusband?.birthdatetime) || ""}
+                      value={calculateAge(patHusband?.birthdatetime) ?? ""}
                       type="text"
                     />
                     <Input
                       label="บัตรประชาชน"
                       size="sm"
-                      value={patHusband?.citizencardno || ""}
+                      value={patHusband?.citizencardno ?? ""}
                       type="text"
                     />
                     <Input
                       label="อาชีพ"
                       size="sm"
-                      value={patHusband?.occupation_detail?.lookupname || ""}
+                      value={patHusband?.occupation_detail?.lookupname ?? ""}
                       type="text"
                     />
                     <Input
                       label="email"
                       size="sm"
-                      value={patHusband?.pat_address?.email || ""}
+                      value={patHusband?.pat_address?.email ?? ""}
                       type="email"
                     />
                   </div>

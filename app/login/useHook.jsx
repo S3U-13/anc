@@ -35,13 +35,7 @@ export default function useHook() {
         });
       }
     } catch (err) {
-      addToast({
-        title: "ไม่สำเร็จ",
-        // description: err.message || "เกิดข้อผิดพลาด",
-        description: "login ไม่สำเร็จ",
-        color: "danger",
-        variant: "solid",
-      });
+      console.error;
     }
   };
 

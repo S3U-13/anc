@@ -7,10 +7,10 @@ export const useApiRequest = () => {
   const { token } = useAuth(); // ✅ ดึง token จาก context อัตโนมัติ
 
   const apiRequest = async (endpoint, method = "GET", body = null) => {
-    if (!token) {
+    if (!token || token === "undefined") {
       addToast({
         title: "ข้อผิดพลาด",
-        description: "Token ไม่ถูกต้อง",
+        description: "Token ไม่ถูกต้องหรือหมดอายุ",
         variant: "flat",
         color: "danger",
       });
@@ -21,33 +21,64 @@ export const useApiRequest = () => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     };
+
     const options = { method, headers };
     if (body && method !== "GET") options.body = JSON.stringify(body);
 
     try {
       const res = await fetch(`${API_URL}${endpoint}`, options);
-      const data = await res.json().catch(() => ({}));
+      const text = await res.text(); // 👉 ดัก error ที่ไม่ใช่ JSON
+      const data = text ? JSON.parse(text) : {};
+
+      // ✅ เช็คตาม status
+      if (res.status === 401 || res.status === 403) {
+        addToast({
+          title: "หมดเวลาใช้งาน",
+          description: "กรุณาเข้าสู่ระบบใหม่อีกครั้ง",
+          color: "danger",
+        });
+        return null;
+      }
+
+      if (res.status === 404) {
+        addToast({
+          title: "ไม่พบข้อมูล",
+          description: "ไม่พบข้อมูลที่ร้องขอ",
+          color: "warning",
+        });
+        return null;
+      }
 
       if (res.status === 500) {
         addToast({
           title: "การเชื่อมต่อล้มเหลว",
           description:
-            "ไม่สามารถติดต่อกับเซิร์ฟเวอร์ได้ในขณะนี้ โปรดติดต่อ ศูนย์คอม",
+            "ไม่สามารถติดต่อกับเซิร์ฟเวอร์ได้ในขณะนี้ โปรดติดต่อเจ้าหน้าที่",
           color: "danger",
-          variant: "flat",
         });
-        return null; // ❌ ไม่ throw
+        return null;
+      }
+
+      // ✅ แสดง Toast เมื่อสำเร็จ (เลือกได้ว่าจะเปิดหรือไม่)
+      if (["POST", "PUT", "DELETE"].includes(method) && res.ok) {
+        addToast({
+          title: "สำเร็จ",
+          description: "ดำเนินการสำเร็จ",
+          variant: "flat",
+          color: "success",
+        });
       }
 
       return data;
     } catch (err) {
+      console.error("❌ Fetch error:", err);
       addToast({
         title: "เกิดข้อผิดพลาด",
         description: "ไม่สามารถเชื่อมต่อกับ server ได้ โปรดลองใหม่ภายหลัง",
         variant: "flat",
         color: "danger",
       });
-      return null; // ❌ ไม่ throw
+      return null;
     }
   };
 
@@ -72,28 +103,13 @@ export const useApiRequest = () => {
 
       // set state
       setPat(data);
-
       // อัปเดต form field
-      form.setFieldValue("hn_wife", data.hn || "");
-      form.setFieldValue("sex", data.sex_name.lookupname || "");
-
-      addToast({
-        title: "สำเร็จ",
-        description: "ดึงข้อมูลสำเร็จ",
-        variant: "flat",
-        color: "primary",
-      });
+      form.setFieldValue("hn_wife", data?.hn || "");
+      form.setFieldValue("sex", data?.sex_name?.lookupname || "");
 
       return data;
     } catch (err) {
-      // console.error(err);
-      addToast({
-        title: "ไม่พบข้อมูล",
-        description: err.message || "เกิดข้อผิดพลาด",
-        variant: "flat",
-        color: "danger",
-      });
-      throw err;
+      console.error(err);
     }
   };
   const patHusbandData = async (value, form, setPatHusband) => {
@@ -106,23 +122,9 @@ export const useApiRequest = () => {
       // อัปเดต form field
       form.setFieldValue("hn_husband", data.hn || "");
 
-      addToast({
-        title: "สำเร็จ",
-        description: "ดึงข้อมูลสำเร็จ",
-        variant: "flat",
-        color: "primary",
-      });
-
       return data;
     } catch (err) {
-      // console.error(err);
-      addToast({
-        title: "ไม่พบข้อมูล",
-        description: err.message || "เกิดข้อผิดพลาด",
-        variant: "flat",
-        color: "danger",
-      });
-      throw err;
+      console.error(err);
     }
   };
   // anc submit
@@ -130,23 +132,9 @@ export const useApiRequest = () => {
     try {
       const data = await apiRequest("/api/user/anc", "POST", value);
 
-      addToast({
-        title: "สำเร็จ",
-        description: "ลงทะเบียน ANC สำเร็จ",
-        variant: "flat",
-        color: "success",
-      });
-
       return data;
     } catch (err) {
-      // console.error(err);
-      addToast({
-        title: "ไม่สำเร็จ",
-        description: err.message || "ลงทะเบียน ANC ไม่สำเร็จ",
-        variant: "flat",
-        color: "danger",
-      });
-      throw err;
+      console.error(err);
     }
   };
   // data anc by id
@@ -157,23 +145,9 @@ export const useApiRequest = () => {
     try {
       const data = await apiRequest(`/api/user/anc/${AncNo}`, "PUT", value);
 
-      addToast({
-        title: "สำเร็จ",
-        description: "เเก้ไขทะเบียน ANC สำเร็จ",
-        variant: "flat",
-        color: "success",
-      });
-
       return data;
     } catch (err) {
-      // console.error(err);
-      addToast({
-        title: "ไม่สำเร็จ",
-        description: err.message || "เเก้ไขทะเบียน ANC ไม่สำเร็จ",
-        variant: "flat",
-        color: "danger",
-      });
-      throw err;
+      console.error(err);
     }
   };
   //anc service page
@@ -189,22 +163,9 @@ export const useApiRequest = () => {
     try {
       const data = await apiRequest("/api/user/ancservice", "POST", value);
 
-      addToast({
-        title: "สำเร็จ",
-        description: "เพิ่มข้อมูลสำเร็จ",
-        variant: "flat",
-        color: "success",
-      });
-
       return data;
     } catch (err) {
-      // console.error(err);
-      addToast({
-        title: "ไม่สำเร็จ",
-        description: "เพิ่มข้อมูลไม่สำเร็จ",
-        variant: "flat",
-        color: "danger",
-      });
+      console.error(err);
     }
   };
   //anc service edit
@@ -216,21 +177,9 @@ export const useApiRequest = () => {
         value
       );
 
-      addToast({
-        title: "สำเร็จ",
-        description: "เเก้ไขข้อมูลสำเร็จ",
-        variant: "flat",
-        color: "success",
-      });
       return data;
     } catch (err) {
-      // console.error(err);
-      addToast({
-        title: "ไม่สำเร็จ",
-        description: "เเก้ไขข้อมูลไม่สำเร็จ",
-        variant: "flat",
-        color: "danger",
-      });
+      console.error(err);
     }
   };
 
@@ -247,19 +196,9 @@ export const useApiRequest = () => {
     try {
       const data = await apiRequest(`/api/admin/addUser`, "POST", value);
 
-      addToast({
-        title: "สำเร็จ",
-        description: "เพิ่มผู้ใช้สำเร็จ",
-        color: "success",
-      });
       return data;
     } catch (err) {
-      // console.error(err);
-      addToast({
-        title: "ไม่สำเร็จ",
-        description: err.message || "เกิดข้อผิดพลาด",
-        color: "danger",
-      });
+      console.error(err);
     }
   };
 
@@ -267,21 +206,9 @@ export const useApiRequest = () => {
     try {
       const data = await apiRequest(`/api/admin/editUser/${id}`, "PUT", value);
 
-      addToast({
-        title: "สำเร็จ",
-        description: "เเก้ไขข้อมูลสำเร็จ",
-        variant: "flat",
-        color: "success",
-      });
       return data;
     } catch (err) {
-      // console.error(err);
-      addToast({
-        title: "ไม่สำเร็จ",
-        description: "เเก้ไขข้อมูลไม่สำเร็จ",
-        variant: "flat",
-        color: "danger",
-      });
+      console.error(err);
     }
   };
 
@@ -310,6 +237,5 @@ export const useApiRequest = () => {
     logoutAPI,
     submitUserById,
     submitEditUser,
-   
   };
 };
