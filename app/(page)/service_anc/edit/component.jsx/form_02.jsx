@@ -5,11 +5,8 @@ import useHook from "../useHook";
 import { Input } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
 
-export default function page({
-  validationSchema,
-  form,
-}) {
-  const { data, } = useHook();
+export default function page({ validationSchema, form }) {
+  const { data } = useHook();
   return (
     <div className="grid grid-cols-4 gap-[10px] overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1 className="col-span-4">ส่วนที่ 2</h1>
@@ -162,7 +159,7 @@ export default function page({
               label="GCT 1"
               type="text"
               name="gct_1_wife"
-              value={field.state.value}
+              value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
@@ -182,7 +179,7 @@ export default function page({
               size="sm"
               label="GCT 2"
               type="text"
-              value={field.state.value}
+              value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
@@ -202,7 +199,7 @@ export default function page({
               size="sm"
               label="OGTT 1"
               type="text"
-              value={field.state.value}
+              value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
@@ -222,7 +219,7 @@ export default function page({
               size="sm"
               label="OGTT 2"
               type="text"
-              value={field.state.value}
+              value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
@@ -244,9 +241,10 @@ export default function page({
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
-              onSelectionChange={(key) =>
-                field.handleChange(Array.from(key)[0])
-              }
+              onSelectionChange={(key) => {
+                const selected = Array.from(key)[0];
+                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+              }}
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
@@ -273,9 +271,10 @@ export default function page({
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
-              onSelectionChange={(key) =>
-                field.handleChange(Array.from(key)[0])
-              }
+              onSelectionChange={(key) => {
+                const selected = Array.from(key)[0];
+                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+              }}
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
@@ -304,9 +303,10 @@ export default function page({
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
-              onSelectionChange={(key) =>
-                field.handleChange(Array.from(key)[0])
-              }
+              onSelectionChange={(key) => {
+                const selected = Array.from(key)[0];
+                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+              }}
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
@@ -333,7 +333,7 @@ export default function page({
               size="sm"
               label="Hb Typing"
               type="text"
-              value={field.state.value}
+              value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
@@ -357,9 +357,10 @@ export default function page({
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
-              onSelectionChange={(key) =>
-                field.handleChange(Array.from(key)[0])
-              }
+              onSelectionChange={(key) => {
+                const selected = Array.from(key)[0];
+                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+              }}
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
@@ -386,9 +387,10 @@ export default function page({
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
-              onSelectionChange={(key) =>
-                field.handleChange(Array.from(key)[0])
-              }
+              onSelectionChange={(key) => {
+                const selected = Array.from(key)[0];
+                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+              }}
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
@@ -413,7 +415,7 @@ export default function page({
               size="sm"
               label="Hct"
               type="text"
-              value={field.state.value}
+              value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
@@ -435,7 +437,7 @@ export default function page({
               size="sm"
               label="OF"
               type="text"
-              value={field.state.value}
+              value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
@@ -457,9 +459,10 @@ export default function page({
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
-              onSelectionChange={(key) =>
-                field.handleChange(Array.from(key)[0])
-              }
+              onSelectionChange={(key) => {
+                const selected = Array.from(key)[0];
+                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+              }}
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
               errorMessage={field.state.meta.errors[0]?.message}
@@ -484,7 +487,7 @@ export default function page({
               size="sm"
               label="MCV"
               type="text"
-              value={field.state.value}
+              value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}
@@ -504,7 +507,7 @@ export default function page({
               size="sm"
               label="MCH"
               type="text"
-              value={field.state.value}
+              value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
               onBlur={field.handleBlur}
               isInvalid={field.state.meta.errors.length > 0}

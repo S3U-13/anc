@@ -21,7 +21,7 @@ export default function page({
 
   return (
     <div>
-      <div className="grid grid-cols-2 gap-[10px] mt-[10px] overflow-y-scroll max-h-[calc(90vh-350px)] px-[20px] py-[10px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-[10px] overflow-y-scroll max-h-[calc(90vh-350px)] px-[20px] py-[10px]">
         <form.Field
           name="anc_no"
           validators={{
@@ -170,83 +170,104 @@ export default function page({
           type="text"
           readOnly
         />
-        <form.Field
-          name="para"
-          validators={{
-            onChange: validationSchema.shape.para,
-          }}
-        >
-          {(field) => (
-            <Input
-              size="sm"
-              label="PARA"
-              type="text"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
-              onBlur={field.handleBlur}
-              isInvalid={field.state.meta.errors.length > 0}
-              errorMessage={field.state.meta.errors[0]?.message}
-            />
-          )}
-        </form.Field>
-        <form.Field
-          name="gravida"
-          validators={{
-            onChange: validationSchema.shape.gravida,
-          }}
-        >
-          {(field) => (
-            <Input
-              size="sm"
-              label="G"
-              type="text"
-              name="g"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
-              onBlur={field.handleBlur}
-              isInvalid={field.state.meta.errors.length > 0}
-              errorMessage={field.state.meta.errors[0]?.message}
-            />
-          )}
-        </form.Field>
-        <form.Field
-          name="p"
-          validators={{
-            onChange: validationSchema.shape.p,
-          }}
-        >
-          {(field) => (
-            <Input
-              size="sm"
-              label="P"
-              type="text"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
-              onBlur={field.handleBlur}
-              isInvalid={field.state.meta.errors.length > 0}
-              errorMessage={field.state.meta.errors[0]?.message}
-            />
-          )}
-        </form.Field>
-        <form.Field
-          name="a"
-          validators={{
-            onChange: validationSchema.shape.a,
-          }}
-        >
-          {(field) => (
-            <Input
-              size="sm"
-              label="a"
-              type="text"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
-              onBlur={field.handleBlur}
-              isInvalid={field.state.meta.errors.length > 0}
-              errorMessage={field.state.meta.errors[0]?.message}
-            />
-          )}
-        </form.Field>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 col-span-2 gap-2">
+          <form.Field
+            name="para"
+            validators={{
+              onChange: validationSchema.shape.para,
+            }}
+          >
+            {(field) => {
+              // ฟังก์ชันจัดรูปแบบค่าให้เป็น 0-0-0-0
+              const formatPara = (value) => {
+                // เอาเฉพาะตัวเลข
+                const digits = value.replace(/\D/g, "");
+
+                // ใส่ - ทุกตัวหลังจากเลข 1, 2, 3 ตัว
+                const parts = digits.match(/.{1,1}/g) || [];
+                return parts.join("-").slice(0, 7); // จำกัดแค่รูปแบบ 0-0-0-0
+              };
+
+              const handleChange = (e) => {
+                const formatted = formatPara(e.target.value);
+                field.handleChange(formatted);
+              };
+
+              return (
+                <Input
+                  size="sm"
+                  label="PARA"
+                  type="text"
+                  value={field.state.value}
+                  onChange={handleChange}
+                  onBlur={field.handleBlur}
+                  isInvalid={field.state.meta.errors.length > 0}
+                  errorMessage={field.state.meta.errors[0]?.message}
+                  maxLength={7} // เช่น "0-0-0-0"
+                  placeholder="0-0-0-0"
+                />
+              );
+            }}
+          </form.Field>
+          <form.Field
+            name="gravida"
+            validators={{
+              onChange: validationSchema.shape.gravida,
+            }}
+          >
+            {(field) => (
+              <Input
+                size="sm"
+                label="G"
+                type="text"
+                name="g"
+                value={field.state.value}
+                onChange={(e) => field.handleChange(e.target.value)}
+                onBlur={field.handleBlur}
+                isInvalid={field.state.meta.errors.length > 0}
+                errorMessage={field.state.meta.errors[0]?.message}
+              />
+            )}
+          </form.Field>
+          <form.Field
+            name="p"
+            validators={{
+              onChange: validationSchema.shape.p,
+            }}
+          >
+            {(field) => (
+              <Input
+                size="sm"
+                label="P"
+                type="text"
+                value={field.state.value}
+                onChange={(e) => field.handleChange(e.target.value)}
+                onBlur={field.handleBlur}
+                isInvalid={field.state.meta.errors.length > 0}
+                errorMessage={field.state.meta.errors[0]?.message}
+              />
+            )}
+          </form.Field>
+          <form.Field
+            name="a"
+            validators={{
+              onChange: validationSchema.shape.a,
+            }}
+          >
+            {(field) => (
+              <Input
+                size="sm"
+                label="a"
+                type="text"
+                value={field.state.value}
+                onChange={(e) => field.handleChange(e.target.value)}
+                onBlur={field.handleBlur}
+                isInvalid={field.state.meta.errors.length > 0}
+                errorMessage={field.state.meta.errors[0]?.message}
+              />
+            )}
+          </form.Field>
+        </div>
         <form.Field
           name="last"
           validators={{

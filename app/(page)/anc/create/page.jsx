@@ -139,6 +139,7 @@ export default function page({ openModal, closeModal }) {
                         value={formatName(pat) ?? ""}
                         type="text"
                         readOnly
+                        disabled
                       />
                       <Input
                         size="sm"
@@ -146,6 +147,7 @@ export default function page({ openModal, closeModal }) {
                         type="text"
                         value={calculateAge(pat?.birthdatetime) ?? ""}
                         readOnly
+                        disabled
                       />
                       <Input
                         size="sm"
@@ -153,64 +155,38 @@ export default function page({ openModal, closeModal }) {
                         value={pat?.citizencardno ?? ""}
                         type="text"
                         readOnly
+                        disabled
                       />
                       <Textarea
                         className="col-span-2"
                         label="ที่อยู่"
                         value={formatAddress(pat?.pat_address)}
                         readOnly
+                        disabled
                       />
                       <Input
                         size="sm"
                         label="เบอร์โทรศัพท์"
                         value={pat?.pat_address?.phone ?? ""}
                         type="text"
+                        readOnly
+                        disabled
                       />
                       <Input
                         size="sm"
                         label="อาชีพ"
                         value={pat?.occupation_detail?.lookupname ?? ""}
                         type="text"
+                        readOnly
+                        disabled
                       />
                       <Input
                         size="sm"
                         label="email"
                         value={pat?.pat_address?.email ?? ""}
                         type="email"
-                      />
-                      <Input
-                        size="sm"
-                        label="น้ำหนัก"
-                        name="weight"
-                        value={editVitalsign?.weight}
-                        type="text"
-                        onChange={handleEditChange}
-                      />
-                      <Input
-                        size="sm"
-                        label="ส่วนสูง"
-                        name="height"
-                        value={editVitalsign?.height}
-                        type="text"
-                        onChange={handleEditChange}
-                      />
-                      <Input
-                        size="sm"
-                        label="BMI"
-                        value={bmi}
-                        type="text"
                         readOnly
-                      />
-                      <Input
-                        size="sm"
-                        label="ความดันโลหิต"
-                        value={
-                          vitals?.bp_systolic && vitals?.bp_diastolic
-                            ? `${vitals.bp_systolic}/${vitals.bp_diastolic} mmHg`
-                            : ""
-                        }
-                        type="text"
-                        readOnly
+                        disabled
                       />
                     </div>
                   </div>
@@ -267,30 +243,40 @@ export default function page({ openModal, closeModal }) {
                       size="sm"
                       value={formatNameHusband(patHusband)}
                       type="text"
+                      readOnly
+                      disabled
                     />
                     <Input
                       label="อายุ"
                       size="sm"
                       value={calculateAge(patHusband?.birthdatetime) ?? ""}
                       type="text"
+                      readOnly
+                      disabled
                     />
                     <Input
                       label="บัตรประชาชน"
                       size="sm"
                       value={patHusband?.citizencardno ?? ""}
                       type="text"
+                      readOnly
+                      disabled
                     />
                     <Input
                       label="อาชีพ"
                       size="sm"
                       value={patHusband?.occupation_detail?.lookupname ?? ""}
                       type="text"
+                      readOnly
+                      disabled
                     />
                     <Input
                       label="email"
                       size="sm"
                       value={patHusband?.pat_address?.email ?? ""}
                       type="email"
+                      readOnly
+                      disabled
                     />
                   </div>
                 </Tab>

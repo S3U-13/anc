@@ -45,39 +45,39 @@ export default function useHook({
     lmp: "",
     edc: "",
     ga: "",
-    ma_id: "",
+    ma_id: null,
     ma_detail: "",
-    hr_id: "",
+    hr_id: null,
     hr_detail: "",
-    am_id: "",
+    am_id: null,
     gct_1_wife: "",
     gct_2_wife: "",
     ogtt_1_wife: "",
     ogtt_2_wife: "",
-    hbsag_wife: "",
-    vdrl_wife: "",
-    anti_hiv_wife: "",
-    bl_gr_wife: "",
-    rh_wife: "",
+    hbsag_wife: null,
+    vdrl_wife: null,
+    anti_hiv_wife: null,
+    bl_gr_wife: null,
+    rh_wife: null,
     hct_wife: "",
     of_wife: "",
-    dcip_wife: "",
+    dcip_wife: null,
     mcv_wife: "",
     mch_wife: "",
     hb_typing_wife: "",
     pcr_wife_id: "",
     pcr_wife_text: "",
-    cordo_id: "",
+    cordo_id: null,
     cordo_text: "",
     cordo_other_text: "",
-    abortion_id: "",
+    abortion_id: null,
     td_num: null,
     td_last_date: null,
-    tdap_id: "",
+    tdap_id: null,
     tdap_round_1: null,
     tdap_round_2: null,
     tdap_round_3: null,
-    iip_id: "",
+    iip_id: null,
     iip_date: null,
     lab_2: null,
     vdrl_2: null,
@@ -96,7 +96,7 @@ export default function useHook({
     cbe_value_4_id: null,
     birads_id: null,
     cbe_result: "",
-    per_os_id: "",
+    per_os_id: null,
     hbsag_husband: null,
     vdrl_husband: null,
     anti_hiv_husband: null,
@@ -429,170 +429,86 @@ export default function useHook({
   const defaultValues = initialField();
 
   const validationSchema = z.object({
-    anc_no: z.coerce
-      .number()
-      .int()
-      .min(1, { message: "กรุณากรอก หมายเลข ANC" }),
-    patvisit_id: z.coerce
-      .string()
-      .min(1, { message: "กรุณาระบุ PAT VISIT ID" }),
-    patreg_id: z.coerce.string().min(1, { message: "กรุณาระบุ PAT REG ID" }),
-    para: z.coerce
-      .string()
-      .min(1, { message: "กรุณากรอก" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    gravida: z.coerce
-      .string()
-      .min(1, { message: "กรุณากรอก" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    p: z.coerce
-      .string()
-      .min(1, { message: "กรุณากรอก" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    a: z.coerce
-      .string()
-      .min(1, { message: "กรุณากรอก" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    last: z.coerce
+    anc_no: z.coerce.string().min(1, { message: "กรุณากรอก หมายเลข ANC" }),
+
+    patvisit_id: z.coerce.number({
+      required_error: "กรุณาระบุ PAT VISIT ID",
+      invalid_type_error: "กรุณาระบุเป็นตัวเลข",
+    }),
+
+    patreg_id: z.coerce.number({
+      required_error: "กรุณาระบุ PAT REG ID",
+      invalid_type_error: "กรุณาระบุเป็นตัวเลข",
+    }),
+
+    gravida: z.string().min(1, { message: "กรุณากรอก" }),
+    p: z.string().min(1, { message: "กรุณากรอก" }),
+    a: z.string().min(1, { message: "กรุณากรอก" }),
+    para: z.string().min(1, { message: "กรุณากรอก" }),
+
+    last: z
       .string()
       .min(1, { message: "กรุณากรอก วัน/เดือน/ปี ที่คลอดบุตรคนล่าสุด" }),
-    lmp: z.coerce
+    lmp: z
       .string()
       .min(1, { message: "กรุณากรอก วัน/เดือน/ปี ประจำเดือนมาครั้งล่าสุด" }),
-    edc: z.coerce
+    edc: z
       .string()
       .min(1, { message: "กรุณากรอก วัน/เดือน/ปี ที่คาดว่าจะคลอดบุตร" }),
-    ga: z.coerce.string().min(1, { message: "กรุณากรอก อายุครรภ์" }),
-    ma_id: z.coerce
-      .string()
-      .min(1, { message: "กรุณาเลือก ระบุประวัติการแพ้ยา" }),
+    ga: z.string().min(1, { message: "กรุณากรอก อายุครรภ์" }),
+
+    ma_id: z.string().nullable(),
     ma_detail: z.string().optional(),
-    hr_id: z.coerce.string().min(1, { message: "กรุณาเลือก ระบุโรคประจำตัว" }),
-    hr_detail: z.string().optional(),
-    am_id: z.coerce
-      .string()
-      .min(1, { message: "กรุณาเลือก ระบุการเจาะน้ำคร่ำตรวจโครโมโซม" }),
-    gct_1_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ GCT ครั้งที่ 1" })
-      .max(30),
-    gct_2_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ GCT ครั้งที่ 2" })
-      .max(30),
-    ogtt_1_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ OGTT ครั้งที่ 1" })
-      .max(30),
-    ogtt_2_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ OGTT ครั้งที่ 2" })
-      .max(30),
-    hbsag_wife: z.preprocess(
-      (val) => {
-        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
-        if (val instanceof Set) {
-          const first = Array.from(val)[0];
-          return first || "";
-        }
-        return val ?? "";
-      },
-      z.string().min(1, { message: "กรุณาเลือกผลตรวจ HBsAg" })
-    ),
-    vdrl_wife: z.preprocess(
-      (val) => {
-        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
-        if (val instanceof Set) {
-          const first = Array.from(val)[0];
-          return first || "";
-        }
-        return val ?? "";
-      },
-      z.string().min(1, { message: "กรุณาเลือกผลตรวจ VDRL" })
-    ),
-    anti_hiv_wife: z.preprocess(
-      (val) => {
-        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
-        if (val instanceof Set) {
-          const first = Array.from(val)[0];
-          return first || "";
-        }
-        return val ?? "";
-      },
-      z.string().min(1, { message: "กรุณาเลือกผลตรวจ Anti-HIV" })
-    ),
-    bl_gr_wife: z.preprocess(
-      (val) => {
-        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
-        if (val instanceof Set) {
-          const first = Array.from(val)[0];
-          return first || "";
-        }
-        return val ?? "";
-      },
-      z.string().min(1, { message: "กรุณาเลือกหมู่เลือด" })
-    ),
-    rh_wife: z.preprocess(
-      (val) => {
-        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
-        if (val instanceof Set) {
-          const first = Array.from(val)[0];
-          return first || "";
-        }
-        return val ?? "";
-      },
-      z.string().min(1, { message: "กรุณาเลือกผลตรวจ" })
-    ),
-    hct_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ HCT" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    of_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ OF" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    dcip_wife: z.preprocess(
-      (val) => {
-        // ถ้าเป็น Set (จาก Select ของ HeroUI/NextUI) ให้ดึงค่าตัวแรกออกมา
-        if (val instanceof Set) {
-          const first = Array.from(val)[0];
-          return first || "";
-        }
-        return val ?? "";
-      },
-      z.string().min(1, { message: "กรุณาเลือกผลตรวจ DCIP" })
-    ),
-    mcv_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ MCV" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    mch_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ MCH" })
-      .max(30, { message: "กรุณากรอกไม่เกิน 30 ตัวอักษร" }),
-    hb_typing_wife: z
-      .string()
-      .min(1, { message: "กรุณากรอก ผลตรวจ Hb Typing" })
-      .max(30),
-    pcr_wife_id: z.coerce.string().min(1, { message: "กรุณาระบุ PCR" }),
+    hr_id: z.string().nullable(),
+    hr_detail: z.string().nullable(),
+    am_id: z.string().nullable(),
+
+    // wife lab info
+    gct_1_wife: z.string().optional(),
+    gct_2_wife: z.string().optional(),
+    ogtt_1_wife: z.string().optional(),
+    ogtt_2_wife: z.string().optional(),
+    hbsag_wife: z.coerce.number().nullable(),
+    vdrl_wife: z.coerce.number().nullable(),
+    anti_hiv_wife: z.coerce.number().nullable(),
+    bl_gr_wife: z.coerce.number().nullable(),
+    rh_wife: z.coerce.number().nullable(),
+    hct_wife: z.string().optional(),
+    of_wife: z.string().optional(),
+    dcip_wife: z.coerce.number().nullable(),
+    mcv_wife: z.string().optional(),
+    mch_wife: z.string().optional(),
+    hb_typing_wife: z.string().nullable(),
+
+    // husband lab info
+    hbsag_husband: z.coerce.number().nullable(),
+    vdrl_husband: z.coerce.number().nullable(),
+    anti_hiv_husband: z.coerce.number().nullable(),
+    bl_gr_husband: z.coerce.number().nullable(),
+    rh_husband: z.coerce.number().nullable(),
+    hct_husband: z.string().nullable(),
+    of_husband: z.string().nullable(),
+    dcip_husband: z.coerce.number().nullable(),
+    mcv_husband: z.string().nullable(),
+    mch_husband: z.string().nullable(),
+    hb_typing_husband: z.string().nullable(),
+
+    // misc
+    pcr_hus_id: z.string().nullable(),
+    pcr_hus_text: z.string().optional(),
+    pcr_wife_id: z.string().nullable(),
     pcr_wife_text: z.string().optional(),
-    cordo_id: z.coerce
-      .string()
-      .min(1, { message: "กรุณาระบุ การตรวจคัดกรองความเสี่ยงโรคทางพันธุกรรม" }),
+    cordo_id: z.string().nullable(),
     cordo_text: z.string().optional(),
     cordo_other_text: z.string().optional(),
-    abortion_id: z.coerce
-      .string()
-      .min(1, { message: "กรุณาระบุ ประวัติการแท้ง" }),
+    abortion_id: z.string().nullable(),
     td_num: z.string().nullable(),
     td_last_date: z.string().nullable(),
-    tdap_id: z.coerce.string().min(1, { message: "กรุณาระบุ การให้วัคซีน" }),
+    tdap_id: z.string().nullable(),
     tdap_round_1: z.string().nullable(),
     tdap_round_2: z.string().nullable(),
     tdap_round_3: z.string().nullable(),
-    iip_id: z.coerce
-      .string()
-      .min(1, { message: "กรุณาระบุ การฉีดวัคซีนไข้หวัดใหญ่" }),
+    iip_id: z.string().nullable(),
     iip_date: z.string().nullable(),
     lab_2: z.string().nullable(),
     vdrl_2: z.string().nullable(),
@@ -610,22 +526,7 @@ export default function useHook({
     cbe_value_3_id: z.string().nullable(),
     cbe_value_4_id: z.string().nullable(),
     cbe_result: z.string().optional(),
-    per_os_id: z.coerce
-      .string()
-      .min(1, { message: "กรุณาระบุ การใช้ยาผ่านปาก" }),
-    hbsag_husband: z.coerce.number().nullable(),
-    vdrl_husband: z.coerce.number().nullable(),
-    anti_hiv_husband: z.coerce.number().nullable(),
-    bl_gr_husband: z.coerce.number().nullable(),
-    rh_husband: z.coerce.number().nullable(),
-    hct_husband: z.string().nullable(),
-    of_husband: z.string().nullable(),
-    dcip_husband: z.coerce.number().nullable(),
-    mcv_husband: z.string().nullable(),
-    mch_husband: z.string().nullable(),
-    hb_typing_husband: z.string().nullable(),
-    pcr_hus_id: z.coerce.string().nullable(),
-    pcr_hus_text: z.string().optional(),
+    per_os_id: z.string().nullable(),
     ref_value_1_id: z.string().nullable(),
     ref_value_2_id: z.string().nullable(),
     receive_in_id: z.string().nullable(),
