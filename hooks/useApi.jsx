@@ -158,6 +158,10 @@ export const useApiRequest = () => {
   const fetchChoice = () => apiRequest("/api/user/mapAll", "GET");
   const fetchCoverage = () => apiRequest("/api/user/coveragesite", "GET");
   const fetchSelectDataAnc = () => apiRequest("/api/user/pull-anc", "GET");
+  const selectedGravidaByAncNo = (anc_no) =>
+    apiRequest(`/api/user/ancservice/gravida/${anc_no}`, "GET");
+  const selectedDataByAncNoAndGravida = (AncNo, Gravida) =>
+    apiRequest(`/user/ancservice/${AncNo}/${Gravida}`, "GET");
   //anc service create
   const submitCreateAncService = async (value) => {
     try {
@@ -229,6 +233,8 @@ export const useApiRequest = () => {
     fetchCoverage,
     submitCreateAncService,
     fetchSelectDataAnc,
+    selectedGravidaByAncNo,
+    selectedDataByAncNoAndGravida,
     submitEditAncService,
     fetchDataUser,
     fetchPosition,

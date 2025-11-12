@@ -8,11 +8,27 @@ import { useApiRequest } from "@/hooks/useApi";
 export default function useHook({ closeFormService } = {}) {
   const modalRef = useRef(null);
   const auth = useAuth();
-  const { fetchChoice, fetchCoverage, submitCreateAncService } =
-    useApiRequest();
+  const {
+    fetchChoice,
+    fetchCoverage,
+    selectedRoundById,
+    selectedGravidaByAncNo,
+    selectedDataByAncNoAndGravida,
+    submitCreateAncService,
+  } = useApiRequest();
   const didFetch = useRef(false);
+  const [selectedAncNo, setSelectedAncNo] = useState(null);
+  const [gravidaOptions, setGravidaOptions] = useState([]);
+  const [selectedGravida, setSelectedGravida] = useState([]);
+  const [roundOptions, setRoundOptions] = useState([]);
+  const [currentData, setCurrentData] = useState(null);
+  const [isEditLoading, setIsEditLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [dataAnc, setDataAnc] = useState([]);
   const [coverageSite, setCoverageSite] = useState([]);
+
+  // const anc_no = selectedAncNo;
+  // const gravida = selectedGravida;
 
   useEffect(() => {
     if (!auth.token || didFetch.current) return; // check flag ก่อน
@@ -24,6 +40,14 @@ export default function useHook({ closeFormService } = {}) {
       .then((data) => setCoverageSite(data))
       .catch(console.error);
   }, []);
+
+  useEffect(() => {
+    if (!auth.token || didFetch.current) return; // check flag ก่อน
+    didFetch.current = true;
+    selectedDataByAncNoAndGravida()
+      .then((data) => setDataAnc(data || []))
+      .catch(console.error);
+  });
 
   const initialField = () => ({
     anc_no: "",
@@ -548,6 +572,250 @@ export default function useHook({ closeFormService } = {}) {
     },
   });
 
+  const handleAncNoSelect = async (anc) => {
+    setSelectedAnc(anc);
+
+    // ดึง Gravida
+    const gravidas = await selectedGravidaByAncNo(anc.anc_no);
+    setGravidaOptions(gravidas);
+
+    // เคลียร์รอบเก่า
+    setRoundOptions([]);
+    setSelectedGravida(null);
+  };
+
+  const handleGravidaSelect = async (gravida) => {
+    setSelectedGravida(gravida);
+
+    if (!selectedAnc?.anc_no) return;
+
+    try {
+      const rounds = await selectedDataByAncNoAndGravida(
+        selectedAnc.anc_no,
+        gravida
+      );
+
+      // ให้แน่ใจว่า roundOptions เป็น array ของ object {id, round}
+      const formattedRounds = rounds.map((r) => ({
+        id: r.id,
+        round: r.round,
+      }));
+
+      setRoundOptions(formattedRounds);
+    } catch (err) {
+      console.error("Error fetching rounds:", err);
+    }
+  };
+
+  const handleSelect = async (roundId) => {
+    // setSelectedAncNo(AncNo);
+    // setSelectedGravida(Gravida);
+    // setOpenEditAncService(true);
+    setIsEditLoading(true);
+    setCurrentData(null);
+
+    try {
+      const data = await selectedRoundById(roundId); // ✅ ไม่ต้องส่ง token
+      setCurrentData(data);
+    } catch (err) {
+      console.error("Error fetching round data:", err);
+    } finally {
+      setIsEditLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (currentData) {
+      // 1️⃣ รวมข้อมูลทั้งหมด
+      const info = {
+        ...currentData.service_info,
+        ...currentData.wife?.text_values,
+        ...currentData.wife?.choices,
+        ...currentData.wife?.text_values?.lab_wife,
+        ...currentData.wife?.choices?.bti,
+        ...currentData.wife?.choices?.cbe,
+        ...currentData.wife?.profile,
+        ...currentData.husband?.profile,
+        ...currentData.husband?.choices,
+        ...currentData.husband?.choices?.lab_husband,
+      };
+
+      // 2️⃣ ฟิลด์วันที่ทั้งหมดในระบบ
+      const dateFields = [
+        "lmp",
+        "edc",
+        "td_last_date",
+        "tdap_round_1",
+        "tdap_round_2",
+        "tdap_round_3",
+        "iip_date",
+        "lab_2",
+        "bti_1_date",
+        "bti_2_date",
+      ];
+
+      // 4️⃣ วนทุก field เพื่อเซ็ตค่า form
+      Object.entries(info).forEach(([key, value]) => {
+        if (value == null) return;
+
+        if (dateFields.includes(key)) {
+          form.setFieldValue(
+            key,
+            value.includes("T") ? value.split("T")[0] : value
+          );
+        } else if (typeof value === "object" && value.choice_name) {
+          form.setFieldValue(key, value.choice_name);
+        } else if (typeof value === "object" && value.detailtext) {
+          form.setFieldValue(key, value.detailtext);
+        } else if (
+          [
+            // Radio / select fields
+            "ma_id",
+            "hr_id",
+            "am_id",
+            "pcr_wife_id",
+            "cordo_id",
+            "abortion_id",
+            "tdap_id",
+            "iip_id",
+            "bti_id",
+            "bti_value_1_id",
+            "bti_value_2_id",
+            "bti_value_3_id",
+            "bti_value_4_id",
+            "bti_value_5_id",
+            "cbe_id",
+            "cbe_value_1_id",
+            "cbe_value_2_id",
+            "cbe_value_3_id",
+            "cbe_value_4_id",
+            "birads_id",
+            "per_os_id",
+            "pcr_hus_id",
+            "ref_value_1_id",
+            "ref_value_2_id",
+            "ref_in_choice_id",
+            "receive_in_id",
+            "hos_in_id",
+            "ref_out_choice_id",
+            "receive_out_id",
+            "hos_out_id",
+            "hbsag_wife",
+            "vdrl_wife",
+            "anti_hiv_wife",
+            "bl_gr_wife",
+            "rh_wife",
+            "dcip_wife",
+            "hbsag_husband",
+            "vdrl_husband",
+            "anti_hiv_husband",
+            "bl_gr_husband",
+            "rh_husband",
+            "dcip_husband",
+          ].includes(key)
+        ) {
+          form.setFieldValue(key, String(value));
+        } else {
+          form.setFieldValue(key, value ?? "");
+        }
+      });
+
+      // 5️⃣ เซ็ต selected state ของ BTI
+      if (currentData.wife?.choices?.bti) {
+        const bti = currentData.wife.choices.bti;
+        setSelectedBti(
+          [
+            bti.bti_value_1_id,
+            bti.bti_value_2_id,
+            bti.bti_value_3_id,
+            bti.bti_value_4_id,
+            bti.bti_value_5_id,
+          ]
+            .filter(Boolean)
+            .map(String)
+        );
+      }
+
+      // 6️⃣ เซ็ต selected state ของ CBE
+      if (currentData.wife?.choices?.cbe) {
+        const cbe = currentData.wife.choices.cbe;
+        setSelectedCbe(
+          [
+            cbe.cbe_value_1_id,
+            cbe.cbe_value_2_id,
+            cbe.cbe_value_3_id,
+            cbe.cbe_value_4_id,
+          ]
+            .filter(Boolean)
+            .map(String)
+        );
+      }
+
+      // 7️⃣ เซ็ต selected state ของ Referral
+      if (currentData?.wife?.choices?.referral_value) {
+        const ref = currentData.wife.choices.referral_value;
+        const initialSelected = [ref.ref_value_1_id, ref.ref_value_2_id]
+          .filter(Boolean)
+          .map(String);
+
+        setSelectedRef(initialSelected);
+
+        const refField = mapCheckboxValues(
+          "ref",
+          initialSelected,
+          2,
+          refChoice
+        );
+        Object.entries(refField).forEach(([key, value]) => {
+          form.setFieldValue(key, value ?? null);
+        });
+      }
+
+      // 8️⃣ เซ็ต Dates สำหรับ DatePicker (HeroUI parseDate)
+      setDates({
+        td_last_date: info.td_last_date
+          ? info.td_last_date.split("T")[0]
+          : null,
+        tdap_round_1: info.tdap_round_1
+          ? info.tdap_round_1.split("T")[0]
+          : null,
+        tdap_round_2: info.tdap_round_2
+          ? info.tdap_round_2.split("T")[0]
+          : null,
+        tdap_round_3: info.tdap_round_3
+          ? info.tdap_round_3.split("T")[0]
+          : null,
+        iip_date: info.iip_date ? info.iip_date.split("T")[0] : null,
+        lab_2: info.lab_2 ? info.lab_2.split("T")[0] : null,
+        bti_1_date: info.bti_1_date ? info.bti_1_date.split("T")[0] : null,
+        bti_2_date: info.bti_2_date ? info.bti_2_date.split("T")[0] : null,
+        lmp: info.lmp ? info.lmp.split("T")[0] : null,
+        edc: info.edc ? info.edc.split("T")[0] : null,
+      });
+
+      // 9️⃣ เซ็ตค่า ref_in_choice / ref_out_choice
+      if (currentData.wife?.choices?.ref_in_choice) {
+        const refIn = currentData.wife.choices.ref_in_choice;
+        form.setFieldValue("receive_in_id", String(refIn.receive_in_id ?? ""));
+        form.setFieldValue("hos_in_id", String(refIn.hos_in_id ?? ""));
+        form.setFieldValue("receive_in_detail", refIn.receive_in_detail ?? "");
+      }
+
+      if (currentData.wife?.choices?.ref_out_choice) {
+        const refOut = currentData.wife.choices.ref_out_choice;
+        form.setFieldValue(
+          "receive_out_id",
+          String(refOut.receive_out_id ?? "")
+        );
+        form.setFieldValue("hos_out_id", String(refOut.hos_out_id ?? ""));
+        form.setFieldValue(
+          "receive_out_detail",
+          refOut.receive_out_detail ?? ""
+        );
+      }
+    }
+  }, [currentData, form]);
+
   const handleLmpChange = (calendarDate) => {
     if (!calendarDate) {
       form.setFieldValue("lmp", null);
@@ -607,6 +875,7 @@ export default function useHook({ closeFormService } = {}) {
     }).format(jsDate);
   };
 
+  console.log(selectedGravida);
   return {
     data,
     field,
@@ -642,5 +911,11 @@ export default function useHook({ closeFormService } = {}) {
     Dates,
     selectedRef,
     modalRef,
+    gravidaOptions,
+    handleAncNoSelect,
+    handleSelect,
+    roundOptions,
+    selectedGravida,
+    handleGravidaSelect,
   };
 }

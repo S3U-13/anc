@@ -18,7 +18,6 @@ import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
-
   DropdownItem,
 } from "@heroui/dropdown";
 import { Tooltip } from "@heroui/tooltip";
@@ -38,6 +37,7 @@ export default function App({
   setSelectedAnc,
   setField,
   form,
+  handleAncNoSelect,
 }) {
   const {
     dataAnc,
@@ -213,7 +213,9 @@ export default function App({
                     <TableBody emptyContent={"ไม่มีข้อมูล"}>
                       {sortedItems?.map((item, index) => (
                         <TableRow key={item.anc_no}>
-                          <TableCell className="px-4">{index + 1 + (page - 1) * rowsPerPage}</TableCell>
+                          <TableCell className="px-4">
+                            {index + 1 + (page - 1) * rowsPerPage}
+                          </TableCell>
                           {headerColumns.map((col) => (
                             <TableCell key={col.uid}>
                               {col.uid === "wife_name"
@@ -316,7 +318,7 @@ export default function App({
 
                   // ✅ เก็บ reference ของ ANC
                   setSelectedAnc(anc);
-
+                  handleAncNoSelect?.(anc);
                   // ✅ sync ค่าเข้า field
                   setField((prev) => ({
                     ...prev,

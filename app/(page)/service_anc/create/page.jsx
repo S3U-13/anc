@@ -18,6 +18,7 @@ import Form03 from "./component.jsx/form_03";
 import Form04 from "./component.jsx/form_04";
 import Form05 from "./component.jsx/form_05";
 import useHook from "./useHook";
+import { Select, SelectItem } from "@heroui/select";
 
 export default function page({ openFormService, closeFormService }) {
   const [pullAnc, setPullAnc] = useState(false);
@@ -42,6 +43,7 @@ export default function page({ openFormService, closeFormService }) {
     field,
     setField,
     handleChange,
+    handleSelect,
     handleLmpChange,
     handleChangeCbe,
     handleChangeBti,
@@ -59,6 +61,11 @@ export default function page({ openFormService, closeFormService }) {
     Dates,
     selectedRef,
     modalRef,
+    gravidaOptions,
+    handleAncNoSelect,
+    roundOptions,
+    handleGravidaSelect,
+    selectedGravida,
   } = useHook({ closeFormService });
 
   return (
@@ -95,21 +102,61 @@ export default function page({ openFormService, closeFormService }) {
                   keepMounted
                 >
                   <Tab disabled key="from_1" title={<div className="" />}>
-                    <div className="flex justify-between items-center px-[10px]">
+                    <div className="flex justify-between gap-2 items-center px-[10px]">
                       <h1>ส่วนที่ 1 ทะเบียน ANC</h1>
-                      <Button
-                        onPress={() => setPullAnc(true)}
-                        className=""
-                        color="secondary"
-                      >
-                        ดึงข้อมูลทะเบียน ANC
-                      </Button>
+                      <div className="flex justify-end items-center gap-2 w-3/5">
+                        {selectedAnc && (
+                          <Select
+                            label="เลือก GA"
+                            className="w-27"
+                            size="sm"
+                            radius="lg"
+                            selectedKeys={
+                              selectedGravida
+                                ? new Set([String(selectedGravida)])
+                                : new Set()
+                            }
+                            onChange={handleGravidaSelect}
+                          >
+                            {gravidaOptions.map((g) => (
+                              <SelectItem key={g} value={g}>
+                                ท้องที่ {g}
+                              </SelectItem>
+                            ))}
+                          </Select>
+                        )}
+                        <Select
+                          label="เลือก รอบ"
+                          className="w-30"
+                          size="sm"
+                          radius="lg"
+                          onValueChange={handleGravidaSelect}
+                          selectedKeys={roundOptions}
+                        >
+                          {roundOptions?.map((r) => (
+                            <SelectItem key={r.id} value={String(r.id)}>
+                              รอบที่ {r.round}
+                            </SelectItem>
+                          ))}
+                        </Select>
+
+                        <Button
+                          size="md"
+                          onPress={() => setPullAnc(true)}
+                          className="w-40"
+                          color="secondary"
+                        >
+                          ดึงข้อมูลทะเบียน ANC
+                        </Button>
+                      </div>
+
                       <AncData
                         openModalAnc={pullAnc}
                         closeModalAnc={() => setPullAnc(false)}
                         setSelectedAnc={setSelectedAnc}
                         setField={setField} // เพิ่มตรงนี้
                         form={form}
+                        handleAncNoSelect={handleAncNoSelect} // ✅ ส่งเพิ่ม
                       />
                     </div>
                     <Form01
