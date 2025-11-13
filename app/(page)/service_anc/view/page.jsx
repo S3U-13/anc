@@ -29,6 +29,8 @@ export default function page({
   height,
   checkLabRisk,
   getLabWarning,
+  temperature,
+  pulse,
 }) {
   return (
     <div>
@@ -115,8 +117,8 @@ export default function page({
                         <span className="dark:text-gray-400">
                           {" "}
                           {formatThaiDateTime(
-                            roundData?.wife.profile.pat_reg[0].PatVisit
-                              .visitdatetime
+                            roundData?.wife?.profile?.pat_reg[0]?.PatVisit
+                              ?.visitdatetime
                           )}
                         </span>
                       </span>
@@ -156,7 +158,7 @@ export default function page({
                           เลขบัตรประชาชน :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {roundData?.wife.profile.citizencardno}
+                          {roundData?.wife?.profile?.citizencardno || ""}
                         </span>
                       </span>
                       <span className="flex gap-1 items-center">
@@ -165,7 +167,7 @@ export default function page({
                         </strong>{" "}
                         {(() => {
                           const age = calculateAge(
-                            roundData?.wife.profile.birthdatetime
+                            roundData?.wife?.profile?.birthdatetime
                           );
                           if (!age) return null;
 
@@ -196,7 +198,7 @@ export default function page({
                           อาชีพ :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {roundData?.wife.profile.occupation_detail.lookupname}
+                          {roundData?.wife?.profile?.occupation_detail?.lookupname || "ไม่ระบุ"}
                         </span>
                       </span>
                       <span>
@@ -204,7 +206,7 @@ export default function page({
                           เบอร์โทร :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {roundData?.wife.profile.pat_address.phone}
+                          {roundData?.wife?.profile?.pat_address?.phone || "ไม่ระบุ"}
                         </span>
                       </span>
                       <span>
@@ -212,7 +214,7 @@ export default function page({
                           Email :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {roundData?.wife.profile.pat_address.email ||
+                          {roundData?.wife?.profile?.pat_address?.email ||
                             "ไม่ระบุ"}
                         </span>
                       </span>
@@ -366,6 +368,97 @@ export default function page({
                           })()}
                       </span>
 
+                      <span className="flex items-center gap-1">
+                        <strong className="text-gray-900 dark:text-white">
+                          ชีพจร :
+                        </strong>{" "}
+                        {pulse &&
+                          (() => {
+                            const pulseValue = Number(pulse);
+
+                            let riskBadge = null;
+                            if (pulseValue >= 120 || pulseValue <= 50) {
+                              riskBadge = (
+                                <div className="text-pink-600 bg-pink-100 border border-pink-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
+                                  <AlertOctagon
+                                    className="animate-pulse"
+                                    size={18}
+                                  />
+                                  <span className="text-[12px]">
+                                    มีความเสี่ยงสูง
+                                  </span>
+                                </div>
+                              );
+                            } else if (pulseValue >= 100 || pulseValue <= 60) {
+                              riskBadge = (
+                                <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
+                                  <AlertOctagon
+                                    className="animate-pulse"
+                                    size={18}
+                                  />
+                                  <span className="text-[12px]">
+                                    มีความเสี่ยง
+                                  </span>
+                                </div>
+                              );
+                            }
+
+                            return (
+                              <div className="flex items-center gap-2">
+                                <span className="dark:text-gray-400">
+                                  {pulseValue} ครั้ง/นาที
+                                </span>
+                                {riskBadge}
+                              </div>
+                            );
+                          })()}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <strong className="text-gray-900 dark:text-white">
+                          อุณหภูมิ :
+                        </strong>{" "}
+                        {temperature &&
+                          (() => {
+                            const tempValue = Number(temperature);
+
+                            let riskBadge = null;
+                            if (tempValue >= 38.0 || tempValue < 35.5) {
+                              riskBadge = (
+                                <div className="text-pink-600 bg-pink-100 border border-pink-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
+                                  <AlertOctagon
+                                    className="animate-pulse"
+                                    size={18}
+                                  />
+                                  <span className="text-[12px]">
+                                    มีความเสี่ยงสูง
+                                  </span>
+                                </div>
+                              );
+                            } else if (tempValue >= 37.5) {
+                              riskBadge = (
+                                <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
+                                  <AlertOctagon
+                                    className="animate-pulse"
+                                    size={18}
+                                  />
+                                  <span className="text-[12px]">
+                                    มีความเสี่ยง
+                                  </span>
+                                </div>
+                              );
+                            }
+
+                            return (
+                              <div className="flex items-center gap-2">
+                                <span className="dark:text-gray-400">
+                                  {tempValue.toFixed(1)} °C
+                                </span>
+                                {riskBadge}
+                              </div>
+                            );
+                          })()}
+                      </span>
+
                       <hr className="col-span-2 my-2 border-gray-200 dark:border-divider" />
 
                       <span>
@@ -456,94 +549,96 @@ export default function page({
                             ประวัติแพ้ยา :
                           </strong>{" "}
                           <span className="dark:text-gray-400">
-                            {roundData?.wife.choices.ma.choice_name}
+                            {roundData?.wife.choices?.ma?.choice_name ?? "-"}
                           </span>
-                          {roundData?.wife.choices.ma.choice_name === "เคย" && (
+                          {roundData?.wife?.choices?.ma?.choice_name ===
+                            "เคย" && (
                             <div className="text-gray-500">
                               <strong className="text-gray-900 dark:text-white">
                                 รายละเอียด :
                               </strong>{" "}
                               <span className="dark:text-gray-400">
-                                {roundData?.wife.text_values.ma_detail}
+                                {roundData?.wife?.text_values?.ma_detail ?? ""}
                               </span>
                             </div>
                           )}
                         </span>
-
                         <span>
                           <strong className="text-gray-900 dark:text-white">
                             HIGH RISK :
                           </strong>{" "}
                           <span className="dark:text-gray-400">
-                            {roundData?.wife.choices.hr.choice_name}
+                            {roundData?.wife?.choices?.hr?.choice_name ?? "-"}
                           </span>
-                          {roundData?.wife.choices.hr.choice_name === "ใช่" && (
+                          {roundData?.wife?.choices?.hr?.choice_name ===
+                            "ใช่" && (
                             <div className="text-gray-500">
                               <strong className="text-gray-900 dark:text-white">
                                 รายละเอียด :
                               </strong>{" "}
                               <span className="dark:text-gray-400">
-                                {roundData?.wife.text_values.hr_detail}
+                                {roundData?.wife?.text_values?.hr_detail ?? "-"}
                               </span>
                             </div>
                           )}
                         </span>
-
                         <span>
                           <strong className="text-gray-900 dark:text-white">
                             แนะนำเจาะน้ำคร่ำ :
                           </strong>{" "}
                           <span className="dark:text-gray-400">
-                            {roundData?.wife.choices.am.choice_name}
+                            {roundData?.wife?.choices?.am?.choice_name ?? "-"}
                           </span>
                         </span>
-
                         <span className="flex gap-2">
                           <strong className="text-gray-900 dark:text-white">
                             PCR :
                           </strong>{" "}
                           <span className="dark:text-gray-400">
-                            {roundData?.wife.choices.pcr_wife.choice_name}
+                            {roundData?.wife?.choices?.pcr_wife?.choice_name ??
+                              "-"}
                           </span>
-                          {roundData?.wife.choices.pcr_wife.choice_name ===
+                          {roundData?.wife?.choices?.pcr_wife?.choice_name ===
                             "ใช่" && (
                             <div className="text-gray-500 ml-2">
                               <strong className="text-gray-900 dark:text-white">
                                 รายละเอียด :
                               </strong>{" "}
                               <span className="dark:text-gray-400">
-                                {roundData?.wife.text_values.pcr_wife_text}
+                                {roundData?.wife?.text_values?.pcr_wife_text ??
+                                  "-"}
                               </span>
                             </div>
                           )}
                         </span>
-
                         <span>
                           <strong className="text-gray-900 dark:text-white">
                             Cordo :
                           </strong>{" "}
                           <span className="dark:text-gray-400">
-                            {roundData?.wife.choices.cordo.choice_name}
+                            {roundData?.wife?.choices?.cordo?.choice_name ??
+                              "-"}
                           </span>
-                          {roundData?.wife.choices.cordo.choice_name ===
+                          {roundData?.wife?.choices?.cordo?.choice_name ===
                             "ใช่" && (
                             <div className="text-gray-500 mt-1">
                               <strong className="text-gray-900 dark:text-white">
                                 รายละเอียด :
                               </strong>{" "}
                               <span className="dark:text-gray-400">
-                                {roundData?.wife.text_values.cordo_text}
+                                {roundData?.wife?.text_values?.cordo_text ??
+                                  "-"}
                               </span>
                             </div>
                           )}
                         </span>
-
                         <span>
                           <strong className="text-gray-900 dark:text-white">
                             อื่นๆ :
                           </strong>{" "}
                           <span className="dark:text-gray-400">
-                            {roundData?.wife.text_values.cordo_other_text}
+                            {roundData?.wife?.text_values?.cordo_other_text ||
+                              "-"}
                           </span>
                         </span>
 
@@ -552,18 +647,18 @@ export default function page({
                             การแท้ง :
                           </strong>{" "}
                           <span className="dark:text-gray-400">
-                            {roundData?.wife.choices.abortion.choice_name}
+                            {roundData?.wife?.choices?.abortion?.choice_name ??
+                              "-"}
                           </span>
                         </span>
-
                         <span>
                           <strong className="text-gray-900 dark:text-white">
                             ในระหว่างตั้งครรภ์ :
                           </strong>{" "}
                           <span className="dark:text-gray-400">
-                            {roundData?.wife.choices.tdap.choice_name}
+                            {roundData?.wife?.choices?.tdap?.choice_name ?? "-"}
                           </span>
-                          {roundData?.wife.choices.tdap.choice_name ===
+                          {roundData?.wife?.choices?.tdap?.choice_name ===
                             "ฉีดวัคซีน" && (
                             <div className="text-gray-500 space-y-1 mt-2">
                               <div>
@@ -572,7 +667,7 @@ export default function page({
                                 </strong>{" "}
                                 <span className="dark:text-gray-400">
                                   {formatThaiDateNoTime(
-                                    roundData?.wife.text_values.tdap_round_1
+                                    roundData?.wife?.text_values?.tdap_round_1
                                   )}
                                 </span>
                               </div>
@@ -583,7 +678,7 @@ export default function page({
                                 <span className="dark:text-gray-400">
                                   {" "}
                                   {formatThaiDateNoTime(
-                                    roundData?.wife.text_values.tdap_round_2
+                                    roundData?.wife?.text_values?.tdap_round_2
                                   )}
                                 </span>
                               </div>
@@ -593,22 +688,21 @@ export default function page({
                                 </strong>{" "}
                                 <span className="dark:text-gray-400">
                                   {formatThaiDateNoTime(
-                                    roundData?.wife.text_values.tdap_round_3
+                                    roundData?.wife?.text_values?.tdap_round_3
                                   )}
                                 </span>
                               </div>
                             </div>
                           )}
                         </span>
-
                         <span>
                           <strong className="text-gray-900 dark:text-white">
                             ฉีดวัคซีนกระตุ้นครรภ์นี้ :
                           </strong>{" "}
                           <span className="dark:text-gray-400">
-                            {roundData?.wife.choices.iip.choice_name}
+                            {roundData?.wife?.choices?.iip?.choice_name ?? "-"}
                           </span>
-                          {roundData?.wife.choices.iip.choice_name ===
+                          {roundData?.wife?.choices?.iip?.choice_name ===
                             "กระตุ้นครรภ์นี้" && (
                             <div className="text-gray-500 mt-1">
                               <strong className="text-gray-900 dark:text-white">
@@ -616,41 +710,39 @@ export default function page({
                               </strong>{" "}
                               <span className="dark:text-gray-400">
                                 {formatThaiDateNoTime(
-                                  roundData?.wife.text_values.iip_date
+                                  roundData?.wife?.text_values?.iip_date
                                 )}
                               </span>
                             </div>
                           )}
                         </span>
-
                         <span>
                           <strong className="text-gray-900 dark:text-white">
                             ได้รับยา :
                           </strong>{" "}
                           <span className="dark:text-gray-400">
-                            {roundData?.wife.choices.per_os.choice_name}
+                            {roundData?.wife?.choices?.per_os?.choice_name ??
+                              "-"}
                           </span>
                         </span>
-
                         <span className="col-span-2 flex gap-2 items-center">
                           <strong className="text-gray-900 dark:text-white">
                             เคยฉีดวัคซีนกันบาดทะยักก่อนตั้งครรภ์กี่ครั้ง :
                           </strong>{" "}
                           <span className="dark:text-gray-400">{`${roundData?.wife.text_values.td_num ?? 0} ครั้ง`}</span>
-                          {roundData?.wife.text_values.td_num > 0 && (
+                          {roundData?.wife?.text_values?.td_num > 0 && (
                             <div className="text-gray-500 ml-14">
                               <strong className="text-gray-900 dark:text-white">
                                 ครั้งสุดท้ายวันที่ :
                               </strong>{" "}
                               <span className="dark:text-gray-400">
                                 {formatThaiDateNoTime(
-                                  roundData?.wife.text_values.td_last_date
+                                  roundData?.wife?.text_values?.td_last_date
                                 )}
                               </span>
                             </div>
                           )}
                         </span>
-
                         <span>
                           <strong className="text-gray-900 dark:text-white">
                             LAB 2 :
@@ -661,7 +753,6 @@ export default function page({
                             )}
                           </span>
                         </span>
-
                         <span className="flex items-center gap-1">
                           <strong className="text-gray-900 dark:text-white">
                             VDRL :
@@ -684,13 +775,12 @@ export default function page({
                             </div>
                           )}
                         </span>
-
                         <span className="flex items-center gap-1">
                           <strong className="text-gray-900 dark:text-white">
                             HCT :
                           </strong>{" "}
                           <span className="dark:text-gray-400">
-                            {roundData?.wife.text_values.hct}
+                            {roundData?.wife?.text_values?.hct ?? "-"}
                           </span>
                           {roundData?.wife?.text_values?.hct != null ? (
                             roundData.wife.text_values.hct <= 33 && (
@@ -708,13 +798,12 @@ export default function page({
                             <span></span>
                           )}
                         </span>
-
                         <span>
                           <strong className="text-gray-900 dark:text-white">
                             H :
                           </strong>{" "}
                           <span className="dark:text-gray-400">
-                            {roundData?.wife.text_values.h}
+                            {roundData?.wife?.text_values?.h ?? "-"}
                           </span>
                         </span>
                       </div>
@@ -790,7 +879,6 @@ export default function page({
                         LabWife.map((item, index) => {
                           const isRisk = checkLabRisk(item.label, item.value);
                           const warning = getLabWarning(item.label);
-
                           return (
                             <div
                               key={index}
@@ -1038,6 +1126,12 @@ export default function page({
                                     จังหวัด :
                                   </span>{" "}
                                   {item.prov || "-"}
+                                </p>
+                                <p>
+                                  <span className="font-medium text-gray-900">
+                                    note :
+                                  </span>{" "}
+                                  {item.in_province || "-"}
                                 </p>
                               </div>
                             )}

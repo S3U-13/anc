@@ -401,7 +401,6 @@ export default function useHook({
   };
 
   const handleSubmit = async (value) => {
-    // console.log("submit field:", value);
     if (isSubmitting) return;
     try {
       setIsSubmitting(true); // เริ่มส่งข้อมูล
@@ -555,10 +554,8 @@ export default function useHook({
   const form = useForm({
     defaultValues,
     onSubmit: async ({ value }) => {
-      console.log("onSubmit triggered", value);
       try {
         const validatedData = validationSchema.parse(value);
-        console.log("validatedData:", validatedData);
         await handleSubmit(validatedData);
       } catch (error) {
         console.error("Validation error:", error);

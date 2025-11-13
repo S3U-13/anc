@@ -271,6 +271,7 @@ export default function page({ validationSchema, form }) {
                   const selected = Array.from(key)[0];
                   field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
                 }}
+                color={field.state.value === "47" ? "warning" : "default"}
               >
                 {data
                   .filter((item) => item.choice_type_id === 18)

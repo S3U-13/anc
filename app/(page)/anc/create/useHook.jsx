@@ -145,7 +145,6 @@ export default function useHook({ closeModal }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value); // ดูว่ากดแล้วได้ค่าไหม
     setField((prev) => ({
       ...prev,
       [name]: e.target.value,
@@ -204,7 +203,6 @@ export default function useHook({ closeModal }) {
       try {
         const validatedData = validationSchema.parse(value);
         await handleSubmit(validatedData);
-        console.log("Submit:", validatedData);
       } catch (error) {
         console.error("Validation error:", error);
       }

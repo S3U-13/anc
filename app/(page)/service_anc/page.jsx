@@ -73,6 +73,8 @@ export default function App() {
     isEditLoading,
     selectedEditId,
     setDataAnc,
+    temperature,
+    pulse,
   } = useHook();
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
@@ -328,6 +330,8 @@ export default function App() {
         calculateAge={calculateAge}
         bmi={bmi}
         bp={bp}
+        temperature={temperature}
+        pulse={pulse}
         height={height}
         checkLabRisk={checkLabRisk}
         getLabWarning={getLabWarning}

@@ -21,26 +21,23 @@ export default function page({
         isOpen={openModalView}
         onOpenChange={closeModalView}
         size="lg"
-        classNames={{
-          body: "bg-gray-50 dark:bg-[#1e1e1e]",
-        }}
         placement="center"
       >
         <ModalContent ref={modalRef}>
           {(closeModalView) => (
             <>
-              <ModalHeader className="flex flex-col text-center gap-1 border-b border-gray-200 dark:border-gray-700 pb-2">
-                <h1 className="text-xl font-semibold text-blue-600">
+              <ModalHeader className="flex flex-col text-center gap-1 border-b border-divider pb-2">
+                <h1 className="text-xl font-semibold text-gray-500">
                   ดูข้อมูลผู้ใช้
                 </h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-500 ">
                   รายละเอียดข้อมูลผู้ใช้งานในระบบ
                 </p>
               </ModalHeader>
 
               <ModalBody className="py-5 px-6">
-                <section className="bg-white dark:bg-[#27272a] rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-4 space-y-3">
-                  <h2 className="text-blue-500 font-semibold text-base border-b border-blue-100 dark:border-gray-600 pb-1">
+                <section className=" rounded-2xl border border-divider shadow-sm p-4 space-y-3">
+                  <h2 className="text-gray-500 font-semibold text-base border-b border-divider pb-1">
                     ข้อมูลทั่วไป
                   </h2>
 
@@ -85,10 +82,10 @@ export default function page({
                 </section>
               </ModalBody>
 
-              <ModalFooter className="border-t border-gray-200 dark:border-gray-700 pt-3">
+              <ModalFooter className="border-t border-divider pt-3">
                 <Button
-                  color="danger"
-                  variant="light"
+                  color="default"
+                  variant="flat"
                   onPress={closeModalView}
                   className="rounded-lg"
                 >

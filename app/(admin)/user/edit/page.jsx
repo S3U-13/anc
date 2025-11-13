@@ -47,7 +47,7 @@ export default function page({
             >
               {/* Header */}
               <ModalHeader className="flex flex-col text-center py-6 gap-1">
-                <h1 className="text-xl font-semibold text-blue-600">
+                <h1 className="text-xl font-semibold text-gray-500">
                   แก้ไขข้อมูลผู้ใช้งาน
                 </h1>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -58,7 +58,7 @@ export default function page({
               {/* Body */}
               <ModalBody className="py-6 px-8">
                 <section className=" rounded-2xl border border-divider  shadow-sm p-5 space-y-4">
-                  <h2 className="text-blue-500 font-semibold text-base border-b border-divider  pb-1">
+                  <h2 className="text-gray-500 font-semibold text-base border-b border-divider  pb-1">
                     ข้อมูลทั่วไป
                   </h2>
 
@@ -132,7 +132,7 @@ export default function page({
                 </section>
 
                 <section className=" rounded-2xl border border-divider  shadow-sm p-5 space-y-4">
-                  <h2 className="text-blue-500 font-semibold text-base border-b border-divider  pb-1">
+                  <h2 className="text-gray-500 font-semibold text-base border-b border-divider  pb-1">
                     สิทธิ์และตำแหน่ง
                   </h2>
 
@@ -185,13 +185,14 @@ export default function page({
               {/* Footer */}
               <ModalFooter className="flex justify-end py-4 px-6 gap-3">
                 <Button
-                  color="danger"
-                  variant="light"
+                  color="default"
+                  variant="flat"
                   onPress={closeModalEdit}
                   className="rounded-lg"
                 >
                   ยกเลิก
                 </Button>
+
                 <Button
                   type="submit"
                   color="primary"

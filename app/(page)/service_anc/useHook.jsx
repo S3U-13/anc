@@ -269,7 +269,9 @@ export default function useHook() {
         roundData?.wife?.choices?.ref_in_choice?.receive_in?.choice_name || "",
       hos: roundData?.wife?.referral?.ref_in?.[0].sitedesc || "",
       prov: roundData?.wife?.referral?.ref_in?.[0].provdesc || "",
-      out_province: roundData?.wife?.choices.ref_in_choice.receive_in_detail,
+      out_province:
+        roundData?.wife?.choices?.ref_in_choice?.receive_in_detail || "",
+      in_province: roundData?.wife?.choices?.ref_in_choice?.ref_in_detail || "",
     },
     {
       value:
@@ -279,7 +281,10 @@ export default function useHook() {
         "",
       hos: roundData?.wife?.referral?.ref_out?.[0].sitedesc || "",
       prov: roundData?.wife?.referral?.ref_out?.[0].provdesc || "",
-      out_province: roundData?.wife?.choices.ref_out_choice.receive_out_detail,
+      out_province:
+        roundData?.wife?.choices?.ref_out_choice?.receive_out_detail || "",
+      in_province:
+        roundData?.wife?.choices?.ref_out_choice?.ref_out_detail || "",
     },
   ].filter((item) => item.value); // กรองตัวว่างออก
 
@@ -348,66 +353,96 @@ export default function useHook() {
   const LabWife = [
     {
       label: "GCT 1",
-      value: `${roundData?.wife.text_values.lab_wife.gct_1_wife} mg/dL`,
+      value: roundData?.wife.text_values.lab_wife.gct_1_wife ?? "-",
     },
     {
       label: "GCT 2",
-      value: `${roundData?.wife.text_values.lab_wife.gct_2_wife} mg/dL`,
+      value: roundData?.wife.text_values.lab_wife.gct_2_wife ?? "-",
     },
     {
       label: "OGTT 1",
-      value: `${roundData?.wife.text_values.lab_wife.ogtt_1_wife} mg/dL`,
+      value: roundData?.wife.text_values.lab_wife.ogtt_1_wife ?? "-",
     },
     {
       label: "OGTT 2",
-      value: `${roundData?.wife.text_values.lab_wife.ogtt_2_wife} mg/dL`,
+      value: roundData?.wife.text_values.lab_wife.ogtt_2_wife ?? "-",
     },
     {
       label: "HbsAg",
-      value: roundData?.wife.text_values.lab_wife.hbsag_wife_detail.choice_name,
+      value:
+        roundData?.wife.text_values.lab_wife.hbsag_wife_detail?.choice_name ??
+        "-",
     },
     {
       label: "VDRL",
-      value: roundData?.wife.text_values.lab_wife.vdrl_wife_detail.choice_name,
+      value:
+        roundData?.wife.text_values.lab_wife.vdrl_wife_detail?.choice_name ??
+        "-",
     },
+    ...(roundData?.wife.text_values.lab_wife.vdrl_wife_detail?.choice_name ==
+    "Reactive"
+      ? [
+          {
+            label: "PPR",
+            value: roundData?.wife.text_values.lab_wife.ppr_wife ?? "-",
+          },
+          {
+            label: "TPHA",
+            value: roundData?.wife.text_values.lab_wife.tpha_wife ?? "-",
+          },
+        ]
+      : []),
     {
       label: "Anti HIV",
       value:
-        roundData?.wife.text_values.lab_wife.anti_hiv_wife_detail.choice_name,
+        roundData?.wife.text_values.lab_wife.anti_hiv_wife_detail
+          ?.choice_name ?? "-",
     },
     {
       label: "Bl.gr",
-      value: roundData?.wife.text_values.lab_wife.bl_gr_wife_detail.choice_name,
+      value:
+        roundData?.wife.text_values.lab_wife.bl_gr_wife_detail?.choice_name ??
+        "-",
     },
     {
       label: "Rh",
-      value: roundData?.wife.text_values.lab_wife.rh_wife_detail.choice_name,
+      value:
+        roundData?.wife.text_values.lab_wife.rh_wife_detail?.choice_name ?? "-",
     },
     {
       label: "Hct",
-      value: roundData?.wife.text_values.lab_wife.hct_wife,
+      value: roundData?.wife.text_values.lab_wife.hct_wife ?? "-",
     },
     {
       label: "OF",
-      value: roundData?.wife.text_values.lab_wife.of_wife,
+      value: roundData?.wife.text_values.lab_wife.of_wife ?? "-",
     },
     {
       label: "DCIP",
-      value: roundData?.wife.text_values.lab_wife.dcip_wife_detail.choice_name,
+      value:
+        roundData?.wife.text_values.lab_wife.dcip_wife_detail?.choice_name ??
+        "-",
     },
     {
       label: "MCV",
-      value: `${roundData?.wife.text_values.lab_wife.mcv_wife} fl`,
+      value: roundData?.wife.text_values.lab_wife.mcv_wife
+        ? `${roundData.wife.text_values.lab_wife.mcv_wife} fl`
+        : "-",
     },
     {
       label: "MCH",
-      value: `${roundData?.wife.text_values.lab_wife.mch_wife} pg`,
+      value: roundData?.wife.text_values.lab_wife.mch_wife
+        ? `${roundData.wife.text_values.lab_wife.mch_wife} pg`
+        : "-",
     },
+
     {
       label: "HB Typing",
-      value: `${roundData?.wife.text_values.lab_wife.hb_typing_wife}`,
+      value: roundData?.wife.text_values.lab_wife.hb_typing_wife ?? "-",
     },
-  ].filter((item) => item.value);
+
+    // 👇 เงื่อนไขเพิ่มค่าเฉพาะเมื่อ VDRL เป็น Reactive
+  ];
 
   const LabHusband = [
     {
@@ -422,6 +457,20 @@ export default function useHook() {
         roundData?.husband?.choices?.lab_husband?.vdrl_husband_detail
           ?.choice_name ?? "-",
     },
+    ...(roundData?.husband?.choices?.lab_husband?.vdrl_husband_detail
+      ?.choice_name == "Reactive"
+      ? [
+          {
+            label: "PPR",
+            value: roundData?.husband?.choices?.lab_husband?.ppr_husband ?? "-",
+          },
+          {
+            label: "TPHA",
+            value:
+              roundData?.husband?.choices?.lab_husband?.tpha_husband ?? "-",
+          },
+        ]
+      : []),
     {
       label: "Anti HIV",
       value:
@@ -526,6 +575,8 @@ export default function useHook() {
   });
 
   const bp = `${roundData?.wife.profile.pat_vitalsign[0].bp_systolic}/${roundData?.wife.profile.pat_vitalsign[0].bp_diastolic}`;
+  const temperature = `${roundData?.wife.profile.pat_vitalsign[0].temperature}`;
+  const pulse = `${roundData?.wife.profile.pat_vitalsign[0].pulse}`;
 
   const height = Math.round(roundData?.wife.profile.pat_vitalsign[0].height);
 
@@ -574,5 +625,7 @@ export default function useHook() {
     isEditLoading,
     selectedEditId,
     setDataAnc,
+    temperature,
+    pulse,
   };
 }

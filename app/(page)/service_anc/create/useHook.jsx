@@ -419,7 +419,6 @@ export default function useHook({ closeFormService } = {}) {
   };
 
   const handleSubmit = async (value) => {
-    console.log("submit field:", value);
     if (isSubmitting) return;
     try {
       await submitCreateAncService(value);
@@ -602,6 +601,7 @@ export default function useHook({ closeFormService } = {}) {
 
     // เคลียร์รอบเก่า
     setRoundOptions([]);
+
     setSelectedGravida(null);
   };
 
@@ -624,7 +624,6 @@ export default function useHook({ closeFormService } = {}) {
         }))
       );
 
-      console.log("📦 formattedRounds:", formattedRounds);
       setRoundOptions(formattedRounds);
     } catch (err) {
       console.error("❌ Error fetching rounds:", err);
@@ -908,7 +907,6 @@ export default function useHook({ closeFormService } = {}) {
     }).format(jsDate);
   };
 
-  console.log(selectedGravida);
   return {
     data,
     field,
