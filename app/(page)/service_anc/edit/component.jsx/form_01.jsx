@@ -195,18 +195,37 @@ export default function page({
             onChange: validationSchema.shape.para,
           }}
         >
-          {(field) => (
-            <Input
-              size="sm"
-              label="PARA"
-              type="text"
-              value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
-              onBlur={field.handleBlur}
-              isInvalid={field.state.meta.errors.length > 0}
-              errorMessage={field.state.meta.errors[0]?.message}
-            />
-          )}
+          {(field) => {
+            // ฟังก์ชันจัดรูปแบบค่าให้เป็น 0-0-0-0
+            const formatPara = (value) => {
+              // เอาเฉพาะตัวเลข
+              const digits = value.replace(/\D/g, "");
+
+              // ใส่ - ทุกตัวหลังจากเลข 1, 2, 3 ตัว
+              const parts = digits.match(/.{1,1}/g) || [];
+              return parts.join("-").slice(0, 7); // จำกัดแค่รูปแบบ 0-0-0-0
+            };
+
+            const handleChange = (e) => {
+              const formatted = formatPara(e.target.value);
+              field.handleChange(formatted);
+            };
+
+            return (
+              <Input
+                size="sm"
+                label="PARA"
+                type="text"
+                value={field.state.value}
+                onChange={handleChange}
+                onBlur={field.handleBlur}
+                isInvalid={field.state.meta.errors.length > 0}
+                errorMessage={field.state.meta.errors[0]?.message}
+                maxLength={7} // เช่น "0-0-0-0"
+                placeholder="0-0-0-0"
+              />
+            );
+          }}
         </form.Field>
         <form.Field
           name="gravida"

@@ -56,6 +56,8 @@ export default function useHook({
     ogtt_2_wife: "",
     hbsag_wife: null,
     vdrl_wife: null,
+    ppr_wife: "",
+    tpha_wife: "",
     anti_hiv_wife: null,
     bl_gr_wife: null,
     rh_wife: null,
@@ -99,6 +101,8 @@ export default function useHook({
     per_os_id: null,
     hbsag_husband: null,
     vdrl_husband: null,
+    ppr_husband: "",
+    tpha_husband: "",
     anti_hiv_husband: null,
     bl_gr_husband: null,
     rh_husband: null,
@@ -114,10 +118,12 @@ export default function useHook({
     ref_value_2_id: "",
     receive_in_id: null,
     receive_in_detail: "",
+    ref_in_detail: "",
     hos_in_id: null,
     receive_out_id: null,
     hos_out_id: null,
     receive_out_detail: "",
+    ref_out_detail: "",
   });
 
   const [field, setField] = useState(initialField());
@@ -253,6 +259,7 @@ export default function useHook({
       form.setFieldValue("receive_in_id", null);
       form.setFieldValue("hos_in_id", null);
       form.setFieldValue("receive_in_detail", "");
+      form.setFieldValue("ref_in_detail", "");
     }
 
     // ถ้ามีการ uncheck "ส่งนอก" (id 41) ให้ล้างฟิลด์ที่เกี่ยวข้อง
@@ -260,6 +267,7 @@ export default function useHook({
       form.setFieldValue("receive_out_id", null);
       form.setFieldValue("hos_out_id", null);
       form.setFieldValue("receive_out_detail", "");
+      form.setFieldValue("ref_out_detail", "");
     }
   };
 
@@ -470,6 +478,8 @@ export default function useHook({
     ogtt_2_wife: z.string().optional(),
     hbsag_wife: z.coerce.number().nullable(),
     vdrl_wife: z.coerce.number().nullable(),
+    ppr_wife: z.string().optional(),
+    tpha_wife: z.string().optional(),
     anti_hiv_wife: z.coerce.number().nullable(),
     bl_gr_wife: z.coerce.number().nullable(),
     rh_wife: z.coerce.number().nullable(),
@@ -483,6 +493,8 @@ export default function useHook({
     // husband lab info
     hbsag_husband: z.coerce.number().nullable(),
     vdrl_husband: z.coerce.number().nullable(),
+    ppr_husband: z.string().optional(),
+    tpha_husband: z.string().optional(),
     anti_hiv_husband: z.coerce.number().nullable(),
     bl_gr_husband: z.coerce.number().nullable(),
     rh_husband: z.coerce.number().nullable(),
@@ -531,9 +543,11 @@ export default function useHook({
     ref_value_2_id: z.string().nullable(),
     receive_in_id: z.string().nullable(),
     receive_in_detail: z.string().nullable(),
+    ref_in_detail: z.string().nullable(),
     hos_in_id: z.string().nullable(),
     receive_out_id: z.string().nullable(),
     receive_out_detail: z.string().nullable(),
+    ref_out_detail: z.string().nullable(),
     hos_out_id: z.string().nullable(),
     birads_id: z.string().nullable(),
   });
@@ -730,6 +744,7 @@ export default function useHook({
         form.setFieldValue("receive_in_id", String(refIn.receive_in_id ?? ""));
         form.setFieldValue("hos_in_id", String(refIn.hos_in_id ?? ""));
         form.setFieldValue("receive_in_detail", refIn.receive_in_detail ?? "");
+        form.setFieldValue("ref_in_detail", refIn.ref_in_detail ?? "");
       }
 
       if (currentData.wife?.choices?.ref_out_choice) {
@@ -743,6 +758,7 @@ export default function useHook({
           "receive_out_detail",
           refOut.receive_out_detail ?? ""
         );
+        form.setFieldValue("ref_out_detail", refOut.ref_out_detail ?? "");
       }
     }
   }, [openEditService, currentData, form]);

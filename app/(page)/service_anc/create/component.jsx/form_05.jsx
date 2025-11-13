@@ -43,48 +43,63 @@ export default function page({
                         {data
                           .filter((rec) => rec.choice_type_id === 16)
                           .map((rec) => (
-                            <div
-                              key={rec.id}
-                              className="flex gap-[20px] items-center"
-                            >
+                            <div key={rec.id}>
                               <Radio value={String(rec.id)}>
                                 {rec.choice_name}
                               </Radio>
 
                               {String(rec.id) === "42" &&
                                 field.state.value === "42" && (
-                                  <form.Field name="hos_in_id">
-                                    {(field) => (
-                                      <Autocomplete
-                                        size="sm"
-                                        className="w-[470px]"
-                                        defaultItems={coverageSite}
-                                        label="รพช/รพสต"
-                                        placeholder="ค้นหา.."
-                                        scrollShadowProps={{ isEnabled: false }}
-                                        selectedKey={field.state.value}
-                                        onSelectionChange={(key) =>
-                                          field.handleChange(key)
-                                        }
-                                      >
-                                        {coverageSite?.map((hos) => (
-                                          <AutocompleteItem key={hos.siteid}>
-                                            {hos.sitedesc}
-                                          </AutocompleteItem>
-                                        ))}
-                                      </Autocomplete>
-                                    )}
-                                  </form.Field>
+                                  <div className="grid grid-cols-1 gap-2 mt-2">
+                                    <form.Field name="hos_in_id">
+                                      {(field) => (
+                                        <Autocomplete
+                                          size="sm"
+                                          className="w-[470px]"
+                                          defaultItems={coverageSite}
+                                          label="รพช/รพสต"
+                                          placeholder="ค้นหา.."
+                                          scrollShadowProps={{
+                                            isEnabled: false,
+                                          }}
+                                          selectedKey={field.state.value}
+                                          onSelectionChange={(key) =>
+                                            field.handleChange(key)
+                                          }
+                                        >
+                                          {coverageSite?.map((hos) => (
+                                            <AutocompleteItem key={hos.siteid}>
+                                              {hos.sitedesc}
+                                            </AutocompleteItem>
+                                          ))}
+                                        </Autocomplete>
+                                      )}
+                                    </form.Field>
+                                    <form.Field name="ref_in_detail">
+                                      {(field) => (
+                                        <Input
+                                          className="w-[470px]"
+                                          label="Note Refer In*"
+                                          size="sm"
+                                          value={field.state.value || ""}
+                                          onChange={(e) =>
+                                            field.handleChange(e.target.value)
+                                          }
+                                        />
+                                      )}
+                                    </form.Field>
+                                  </div>
                                 )}
+
                               {String(rec.id) === "43" &&
                                 field.state.value === "43" && (
                                   <form.Field name="receive_in_detail">
                                     {(field) => (
                                       <Input
-                                        className="w-[600px]"
+                                        className="w-[550px] mt-2"
                                         label="ต่างจังหวัด"
                                         size="sm"
-                                        value={field.state.value}
+                                        value={field.state.value || ""}
                                         onChange={(e) =>
                                           field.handleChange(e.target.value)
                                         }
@@ -109,44 +124,58 @@ export default function page({
                         {data
                           .filter((rec) => rec.choice_type_id === 16)
                           .map((rec) => (
-                            <div
-                              key={rec.id}
-                              className="flex gap-[20px] items-center"
-                            >
+                            <div key={rec.id}>
                               <Radio value={String(rec.id)}>
                                 {rec.choice_name}
                               </Radio>
                               {String(rec.id) === "42" &&
                                 field.state.value === "42" && (
-                                  <form.Field name="hos_out_id">
-                                    {(field) => (
-                                      <Autocomplete
-                                        size="sm"
-                                        className="w-[470px]"
-                                        defaultItems={coverageSite}
-                                        label="รพช/รพสต"
-                                        placeholder="ค้นหา.."
-                                        scrollShadowProps={{ isEnabled: false }}
-                                        selectedKey={field.state.value}
-                                        onSelectionChange={(key) =>
-                                          field.handleChange(key)
-                                        }
-                                      >
-                                        {coverageSite?.map((hos) => (
-                                          <AutocompleteItem key={hos.siteid}>
-                                            {hos.sitedesc}
-                                          </AutocompleteItem>
-                                        ))}
-                                      </Autocomplete>
-                                    )}
-                                  </form.Field>
+                                  <div className="grid grid-cols-1 gap-2 mt-2">
+                                    <form.Field name="hos_out_id">
+                                      {(field) => (
+                                        <Autocomplete
+                                          size="sm"
+                                          className="w-[470px]"
+                                          defaultItems={coverageSite}
+                                          label="รพช/รพสต"
+                                          placeholder="ค้นหา.."
+                                          scrollShadowProps={{
+                                            isEnabled: false,
+                                          }}
+                                          selectedKey={field.state.value}
+                                          onSelectionChange={(key) =>
+                                            field.handleChange(key)
+                                          }
+                                        >
+                                          {coverageSite?.map((hos) => (
+                                            <AutocompleteItem key={hos.siteid}>
+                                              {hos.sitedesc}
+                                            </AutocompleteItem>
+                                          ))}
+                                        </Autocomplete>
+                                      )}
+                                    </form.Field>
+                                    <form.Field name="ref_out_detail">
+                                      {(field) => (
+                                        <Input
+                                          className="w-[470px]"
+                                          label="Note Refer Out*"
+                                          size="sm"
+                                          value={field.state.value || ""}
+                                          onChange={(e) =>
+                                            field.handleChange(e.target.value)
+                                          }
+                                        />
+                                      )}
+                                    </form.Field>
+                                  </div>
                                 )}
                               {String(rec.id) === "43" &&
                                 field.state.value === "43" && (
                                   <form.Field name="receive_out_detail">
                                     {(field) => (
                                       <Input
-                                        className="w-[600px]"
+                                        className="w-[550px]"
                                         label="ต่างจังหวัด"
                                         size="sm"
                                         value={field.state.value}

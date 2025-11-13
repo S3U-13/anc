@@ -257,36 +257,57 @@ export default function page({ validationSchema, form }) {
             </Select>
           )}
         </form.Field>
-        <form.Field
-          name="vdrl_wife"
-          validators={{
-            onChange: validationSchema.shape.vdrl_wife,
-          }}
-        >
+        <form.Field name="vdrl_wife">
           {(field) => (
-            <Select
-              size="sm"
-              className="col-span-2"
-              label="VDRL"
-              selectedKeys={
-                field.state.value ? new Set([field.state.value]) : new Set()
-              }
-              onSelectionChange={(key) => {
-                const selected = Array.from(key)[0];
-                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
-              }}
-              onBlur={field.handleBlur}
-              isInvalid={field.state.meta.errors.length > 0}
-              errorMessage={field.state.meta.errors[0]?.message}
-            >
-              {data
-                .filter((vdrl_wife) => vdrl_wife.choice_type_id === 18)
-                .map((vdrl_wife) => (
-                  <SelectItem key={vdrl_wife.id}>
-                    {vdrl_wife.choice_name}
-                  </SelectItem>
-                ))}
-            </Select>
+            <>
+              <Select
+                size="sm"
+                className="col-span-2"
+                label="VDRL"
+                selectedKeys={
+                  field.state.value ? new Set([field.state.value]) : new Set()
+                }
+                onSelectionChange={(key) => {
+                  const selected = Array.from(key)[0];
+                  field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                }}
+              >
+                {data
+                  .filter((item) => item.choice_type_id === 18)
+                  .map((item) => (
+                    <SelectItem key={item.id}>{item.choice_name}</SelectItem>
+                  ))}
+              </Select>
+
+              {String(field.state.value) === "47" && (
+                <div className="col-span-4 grid grid-cols-2 gap-2">
+                  <form.Field name="ppr_wife">
+                    {(field) => (
+                      <Input
+                        label="PPR*"
+                        size="sm"
+                        color="warning"
+                        variant="flat"
+                        value={field.state.value || ""}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                    )}
+                  </form.Field>
+                  <form.Field name="tpha_wife">
+                    {(field) => (
+                      <Input
+                        label="TPHA*"
+                        size="sm"
+                        color="warning"
+                        variant="flat"
+                        value={field.state.value || ""}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                    )}
+                  </form.Field>
+                </div>
+              )}
+            </>
           )}
         </form.Field>
         <form.Field

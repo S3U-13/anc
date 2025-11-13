@@ -161,7 +161,7 @@ export const useApiRequest = () => {
   const selectedGravidaByAncNo = (anc_no) =>
     apiRequest(`/api/user/ancservice/gravida/${anc_no}`, "GET");
   const selectedDataByAncNoAndGravida = (AncNo, Gravida) =>
-    apiRequest(`/user/ancservice/${AncNo}/${Gravida}`, "GET");
+    apiRequest(`/api/user/ancservice/${AncNo}/${Gravida}`, "GET");
   //anc service create
   const submitCreateAncService = async (value) => {
     try {

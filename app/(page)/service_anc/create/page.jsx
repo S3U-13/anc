@@ -43,7 +43,6 @@ export default function page({ openFormService, closeFormService }) {
     field,
     setField,
     handleChange,
-    handleSelect,
     handleLmpChange,
     handleChangeCbe,
     handleChangeBti,
@@ -66,6 +65,9 @@ export default function page({ openFormService, closeFormService }) {
     roundOptions,
     handleGravidaSelect,
     selectedGravida,
+    selectedRound,
+    setSelectedRound,
+    handleRoundSelect,
   } = useHook({ closeFormService });
 
   return (
@@ -107,39 +109,55 @@ export default function page({ openFormService, closeFormService }) {
                       <div className="flex justify-end items-center gap-2 w-3/5">
                         {selectedAnc && (
                           <Select
-                            label="เลือก GA"
-                            className="w-27"
+                            label="เลือก GA (ท้องที่)"
+                            className="w-37"
                             size="sm"
                             radius="lg"
+                            color="default"
+                            variant="flat"
                             selectedKeys={
                               selectedGravida
-                                ? new Set([String(selectedGravida)])
+                                ? new Set([selectedGravida])
                                 : new Set()
                             }
-                            onChange={handleGravidaSelect}
+                            onSelectionChange={(keys) => {
+                              const selectedValue = Array.from(keys)[0];
+                              handleGravidaSelect(selectedValue); // ส่ง value ไปดึง rounds
+                            }}
                           >
                             {gravidaOptions.map((g) => (
-                              <SelectItem key={g} value={g}>
-                                ท้องที่ {g}
+                              <SelectItem key={g.value} value={g.value}>
+                                {g.label}
                               </SelectItem>
                             ))}
                           </Select>
                         )}
-                        <Select
-                          label="เลือก รอบ"
-                          className="w-30"
-                          size="sm"
-                          radius="lg"
-                          onValueChange={handleGravidaSelect}
-                          selectedKeys={roundOptions}
-                        >
-                          {roundOptions?.map((r) => (
-                            <SelectItem key={r.id} value={String(r.id)}>
-                              รอบที่ {r.round}
-                            </SelectItem>
-                          ))}
-                        </Select>
-
+                        {selectedGravida && (
+                          <Select
+                            label="เลือกรอบบริการ"
+                            className="w-35"
+                            size="sm"
+                            radius="lg"
+                            color="default"
+                            variant="flat"
+                            selectedKeys={
+                              selectedRound
+                                ? new Set([selectedRound])
+                                : new Set()
+                            }
+                            onSelectionChange={(keys) => {
+                              const roundId = Array.from(keys)[0];
+                              setSelectedRound(roundId);
+                              handleRoundSelect(roundId);
+                            }}
+                          >
+                            {roundOptions.map((r) => (
+                              <SelectItem key={r.id} value={String(r.id)}>
+                                {r.round}
+                              </SelectItem>
+                            ))}
+                          </Select>
+                        )}
                         <Button
                           size="md"
                           onPress={() => setPullAnc(true)}

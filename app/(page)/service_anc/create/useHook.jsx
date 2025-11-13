@@ -4,6 +4,7 @@ import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
 import { useAuth } from "@/context/AuthContext";
 import { useApiRequest } from "@/hooks/useApi";
+import { addToast } from "@heroui/toast";
 
 export default function useHook({ closeFormService } = {}) {
   const modalRef = useRef(null);
@@ -19,7 +20,8 @@ export default function useHook({ closeFormService } = {}) {
   const didFetch = useRef(false);
   const [selectedAncNo, setSelectedAncNo] = useState(null);
   const [gravidaOptions, setGravidaOptions] = useState([]);
-  const [selectedGravida, setSelectedGravida] = useState([]);
+  const [selectedGravida, setSelectedGravida] = useState("");
+  const [selectedRound, setSelectedRound] = useState("");
   const [roundOptions, setRoundOptions] = useState([]);
   const [currentData, setCurrentData] = useState(null);
   const [isEditLoading, setIsEditLoading] = useState(false);
@@ -72,6 +74,8 @@ export default function useHook({ closeFormService } = {}) {
     ogtt_2_wife: "",
     hbsag_wife: null,
     vdrl_wife: null,
+    ppr_wife: "",
+    tpha_wife: "",
     anti_hiv_wife: null,
     bl_gr_wife: null,
     rh_wife: null,
@@ -115,6 +119,8 @@ export default function useHook({ closeFormService } = {}) {
     per_os_id: null,
     hbsag_husband: null,
     vdrl_husband: null,
+    ppr_husband: "",
+    tpha_husband: "",
     anti_hiv_husband: null,
     bl_gr_husband: null,
     rh_husband: null,
@@ -130,10 +136,12 @@ export default function useHook({ closeFormService } = {}) {
     ref_value_2_id: "",
     receive_in_id: null,
     receive_in_detail: "",
+    ref_in_detail: "",
     hos_in_id: null,
     receive_out_id: null,
     hos_out_id: null,
     receive_out_detail: "",
+    ref_out_detail: "",
   });
 
   const [field, setField] = useState(initialField());
@@ -269,6 +277,7 @@ export default function useHook({ closeFormService } = {}) {
       form.setFieldValue("receive_in_id", null);
       form.setFieldValue("hos_in_id", null);
       form.setFieldValue("receive_in_detail", "");
+      form.setFieldValue("ref_in_detail", "");
     }
 
     // ถ้ามีการ uncheck "ส่งนอก" (id 41) ให้ล้างฟิลด์ที่เกี่ยวข้อง
@@ -276,6 +285,7 @@ export default function useHook({ closeFormService } = {}) {
       form.setFieldValue("receive_out_id", null);
       form.setFieldValue("hos_out_id", null);
       form.setFieldValue("receive_out_detail", "");
+      form.setFieldValue("ref_out_detail", "");
     }
   };
 
@@ -414,6 +424,11 @@ export default function useHook({ closeFormService } = {}) {
     try {
       await submitCreateAncService(value);
       form.reset();
+      setGravidaOptions([]);
+      setSelectedGravida("");
+      setRoundOptions([]);
+      setSelectedRound("");
+      setCurrentData(null);
       setField(initialField);
       setSelectedAnc(null);
       setActiveStep("from_1");
@@ -484,6 +499,8 @@ export default function useHook({ closeFormService } = {}) {
     ogtt_2_wife: z.string().optional(),
     hbsag_wife: z.coerce.number().nullable(),
     vdrl_wife: z.coerce.number().nullable(),
+    ppr_wife: z.string().optional(),
+    tpha_wife: z.string().optional(),
     anti_hiv_wife: z.coerce.number().nullable(),
     bl_gr_wife: z.coerce.number().nullable(),
     rh_wife: z.coerce.number().nullable(),
@@ -497,6 +514,8 @@ export default function useHook({ closeFormService } = {}) {
     // husband lab info
     hbsag_husband: z.coerce.number().nullable(),
     vdrl_husband: z.coerce.number().nullable(),
+    ppr_husband: z.string().optional(),
+    tpha_husband: z.string().optional(),
     anti_hiv_husband: z.coerce.number().nullable(),
     bl_gr_husband: z.coerce.number().nullable(),
     rh_husband: z.coerce.number().nullable(),
@@ -545,9 +564,11 @@ export default function useHook({ closeFormService } = {}) {
     ref_value_2_id: z.string().nullable(),
     receive_in_id: z.string().nullable(),
     receive_in_detail: z.string().nullable(),
+    ref_in_detail: z.string().nullable(),
     hos_in_id: z.string().nullable(),
     receive_out_id: z.string().nullable(),
     receive_out_detail: z.string().nullable(),
+    ref_out_detail: z.string().nullable(),
     hos_out_id: z.string().nullable(),
     birads_id: z.string().nullable(),
   });
@@ -595,28 +616,38 @@ export default function useHook({ closeFormService } = {}) {
         gravida
       );
 
-      // ให้แน่ใจว่า roundOptions เป็น array ของ object {id, round}
-      const formattedRounds = rounds.map((r) => ({
-        id: r.id,
-        round: r.round,
-      }));
+      // ✅ แปลงข้อมูลให้เหลือ array ของ { id, round }
+      const formattedRounds = rounds.flatMap((r) =>
+        r.rounds.map((rd) => ({
+          id: rd.id,
+          round: rd.label, // ใช้ label เป็นชื่อรอบ เช่น "รอบที่ 1"
+        }))
+      );
 
+      console.log("📦 formattedRounds:", formattedRounds);
       setRoundOptions(formattedRounds);
     } catch (err) {
-      console.error("Error fetching rounds:", err);
+      console.error("❌ Error fetching rounds:", err);
     }
   };
 
-  const handleSelect = async (roundId) => {
-    // setSelectedAncNo(AncNo);
-    // setSelectedGravida(Gravida);
-    // setOpenEditAncService(true);
+  const handleRoundSelect = async (roundId) => {
     setIsEditLoading(true);
     setCurrentData(null);
 
+    form.reset();
+
     try {
-      const data = await selectedRoundById(roundId); // ✅ ไม่ต้องส่ง token
-      setCurrentData(data);
+      if (roundId) {
+        const data = await selectedRoundById(roundId); // ✅ ไม่ต้องส่ง token
+        setCurrentData(data);
+        addToast({
+          title: "สำเร็จ",
+          description: "ตัวช่วยกรอกดึงข้อมูลสำเร็จ",
+          color: "success",
+          variant: "flat",
+        });
+      }
     } catch (err) {
       console.error("Error fetching round data:", err);
     } finally {
@@ -799,6 +830,7 @@ export default function useHook({ closeFormService } = {}) {
         form.setFieldValue("receive_in_id", String(refIn.receive_in_id ?? ""));
         form.setFieldValue("hos_in_id", String(refIn.hos_in_id ?? ""));
         form.setFieldValue("receive_in_detail", refIn.receive_in_detail ?? "");
+        form.setFieldValue("ref_in_detail", refIn.ref_in_detail ?? "");
       }
 
       if (currentData.wife?.choices?.ref_out_choice) {
@@ -812,6 +844,7 @@ export default function useHook({ closeFormService } = {}) {
           "receive_out_detail",
           refOut.receive_out_detail ?? ""
         );
+        form.setFieldValue("ref_out_detail", refOut.ref_out_detail ?? "");
       }
     }
   }, [currentData, form]);
@@ -913,9 +946,11 @@ export default function useHook({ closeFormService } = {}) {
     modalRef,
     gravidaOptions,
     handleAncNoSelect,
-    handleSelect,
     roundOptions,
     selectedGravida,
+    selectedRound,
     handleGravidaSelect,
+    setSelectedRound,
+    handleRoundSelect,
   };
 }
