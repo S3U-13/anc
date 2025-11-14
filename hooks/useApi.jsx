@@ -120,7 +120,7 @@ export const useApiRequest = () => {
       setPatHusband(data);
 
       // อัปเดต form field
-      form.setFieldValue("hn_husband", data.hn || "");
+      form.setFieldValue("hn_husband", data?.hn || "");
 
       return data;
     } catch (err) {
@@ -154,6 +154,9 @@ export const useApiRequest = () => {
   const fetchDataAncService = () => apiRequest("/api/user/ancservice", "GET");
   const selectedRoundById = async (roundId) => {
     return apiRequest(`/api/user/show-service-by-id/${roundId}`, "GET");
+  };
+  const selectedRoundByIdEditView = async (roundId) => {
+    return apiRequest(`/api/user/show-edit-view/${roundId}`, "GET");
   };
   const fetchChoice = () => apiRequest("/api/user/mapAll", "GET");
   const fetchCoverage = () => apiRequest("/api/user/coveragesite", "GET");
@@ -243,5 +246,6 @@ export const useApiRequest = () => {
     logoutAPI,
     submitUserById,
     submitEditUser,
+    selectedRoundByIdEditView,
   };
 };

@@ -314,13 +314,13 @@ export default function useHook({
 
   const [editVitalsign, setEditVitalsign] = useState(defaultVitals);
 
-  const vitals = currentData?.wife?.profile.pat_vitalsign?.[0];
+  const vitals = currentData?.wife?.pat_vitalsign;
   // sync editVitalsign กับ pat หลังจาก fetch เสร็จ
   useEffect(() => {
-    if (currentData?.wife?.profile.pat_vitalsign?.[0]) {
+    if (currentData?.wife?.pat_vitalsign) {
       setEditVitalsign({
-        weight: currentData?.wife?.profile.pat_vitalsign?.[0].weight || "",
-        height: currentData?.wife?.profile.pat_vitalsign?.[0].height || "",
+        weight: currentData?.wife?.pat_vitalsign?.weight || "",
+        height: currentData?.wife?.pat_vitalsign?.height || "",
       });
     }
   }, [currentData]);

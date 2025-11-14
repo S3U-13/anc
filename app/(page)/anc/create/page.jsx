@@ -241,7 +241,7 @@ export default function page({ openModal, closeModal }) {
                     <Input
                       label="ชื่อ สามี"
                       size="sm"
-                      value={formatNameHusband(patHusband)}
+                      value={formatNameHusband(patHusband) ?? ""}
                       type="text"
                       readOnly
                       disabled

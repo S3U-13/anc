@@ -50,6 +50,35 @@ export default function useHook({ closeModal }) {
     await patHusbandData(hnInputHusband, form, setPatHusband); // รอ fetch เสร็จก่อน
   };
 
+  useEffect(() => {
+    // ตรวจว่า pat มีค่า และ pat.hn ไม่ใช่ null/undefined
+    if (pat?.hn != null) {
+      // เปรียบเทียบเป็น string ทั้งคู่ (trim เผื่อมีช่องว่าง)
+      if (String(pat.hn).trim() === String(hnInputWife).trim()) {
+        addToast({
+          title: "สำเร็จ",
+          description: "ดึงข้อมูลสำเร็จ",
+          variant: "flat",
+          color: "success",
+        });
+      }
+    }
+  }, [pat, hnInputWife]);
+  useEffect(() => {
+    // ตรวจว่า pat มีค่า และ pat.hn ไม่ใช่ null/undefined
+    if (patHusband?.hn != null) {
+      // เปรียบเทียบเป็น string ทั้งคู่ (trim เผื่อมีช่องว่าง)
+      if (String(patHusband.hn).trim() === String(hnInputHusband).trim()) {
+        addToast({
+          title: "สำเร็จ",
+          description: "ดึงข้อมูลสำเร็จ",
+          variant: "flat",
+          color: "success",
+        });
+      }
+    }
+  }, [patHusband, hnInputHusband]);
+
   const formatName = (pat) => {
     if (!pat) return "";
 

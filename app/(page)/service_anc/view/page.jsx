@@ -117,7 +117,7 @@ export default function page({
                         <span className="dark:text-gray-400">
                           {" "}
                           {formatThaiDateTime(
-                            roundData?.wife?.profile?.pat_reg[0]?.PatVisit
+                            roundData?.wife?.pat_reg?.PatVisit
                               ?.visitdatetime
                           )}
                         </span>
@@ -138,7 +138,7 @@ export default function page({
                         </strong>{" "}
                         <span className="dark:text-gray-400">
                           {
-                            roundData?.wife.profile.pat_reg[0].Location
+                            roundData?.wife.pat_reg.Location
                               .detailtext
                           }
                         </span>
@@ -233,7 +233,7 @@ export default function page({
                         <strong className="text-gray-900 dark:text-white">
                           น้ำหนัก :
                         </strong>{" "}
-                        <span className="dark:text-gray-400">{`${Math.round(roundData?.wife.profile.pat_vitalsign[0].weight)} กก.`}</span>
+                        <span className="dark:text-gray-400">{`${Math.round(roundData?.wife.pat_vitalsign.weight)} กก.`}</span>
                       </span>
                       <span className="flex items-center gap-1">
                         <strong className="text-gray-900 dark:text-white">

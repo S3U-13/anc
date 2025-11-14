@@ -325,6 +325,7 @@ export default function App({
                     anc_no: anc.anc_no,
                     patreg_id: anc.wife.pat_reg[0]?.id,
                     patvisit_id: anc.wife.pat_reg[0]?.patvisitid,
+                    pat_vitalsign_id: anc.wife.pat_vitalsign[0]?.id,
                     // เพิ่ม field อื่น ๆ ที่ต้องการดึง
                   }));
 
@@ -336,6 +337,10 @@ export default function App({
                   form?.setFieldValue?.(
                     "patvisit_id",
                     anc.wife.pat_reg[0]?.patvisitid ?? null
+                  );
+                  form?.setFieldValue?.(
+                    "pat_vitalsign_id",
+                    anc.wife.pat_vitalsign[0]?.id ?? null
                   );
                   // ปิด modal
                   closeModalAnc();

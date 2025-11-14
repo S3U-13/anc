@@ -63,6 +63,19 @@ export default function page({
             />
           )}
         </form.Field>
+        <form.Field name="pat_vitalsign_id">
+          {(field) => (
+            <Input
+              size="sm"
+              label="PAT VITALSIGN ID"
+              type="hidden"
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+              readOnly
+              disabled
+            />
+          )}
+        </form.Field>
 
         <Input
           size="sm"

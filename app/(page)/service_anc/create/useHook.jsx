@@ -55,6 +55,7 @@ export default function useHook({ closeFormService } = {}) {
     anc_no: "",
     patvisit_id: "",
     patreg_id: "",
+    pat_vitalsign_id: "",
     para: "",
     gravida: "",
     p: "",
@@ -466,6 +467,11 @@ export default function useHook({ closeFormService } = {}) {
 
     patreg_id: z.coerce.number({
       required_error: "กรุณาระบุ PAT REG ID",
+      invalid_type_error: "กรุณาระบุเป็นตัวเลข",
+    }),
+
+    pat_vitalsign_id: z.coerce.number({
+      required_error: "กรุณาระบุ PAT VITALSIGN ID",
       invalid_type_error: "กรุณาระบุเป็นตัวเลข",
     }),
 

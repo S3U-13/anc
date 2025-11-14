@@ -9,7 +9,7 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export default function useHook() {
   const auth = useAuth();
-  const { fetchDataAncService, selectedRoundById } = useApiRequest();
+  const { fetchDataAncService, selectedRoundByIdEditView } = useApiRequest();
   const didFetch = useRef(false); // 🔑 flag ป้องกันเบิ้ล
   const [dataAnc, setDataAnc] = useState([]);
   const [filterValue, setFilterValue] = useState("");
@@ -175,7 +175,7 @@ export default function useHook() {
     setRoundData(null);
 
     try {
-      const data = await selectedRoundById(roundId); // ✅ ไม่ต้องส่ง token
+      const data = await selectedRoundByIdEditView(roundId); // ✅ ไม่ต้องส่ง token
       setRoundData(data);
     } catch (err) {
       console.error("Error fetching round data:", err);
@@ -194,7 +194,7 @@ export default function useHook() {
     setCurrentData(null);
 
     try {
-      const data = await selectedRoundById(roundId); // ✅ ไม่ต้องส่ง token
+      const data = await selectedRoundByIdEditView(roundId); // ✅ ไม่ต้องส่ง token
       setCurrentData(data);
     } catch (err) {
       console.error("Error fetching round data:", err);
@@ -564,9 +564,9 @@ export default function useHook() {
   const [bmi, setBmi] = useState("");
 
   useEffect(() => {
-    const weight = parseFloat(roundData?.wife.profile.pat_vitalsign[0].weight);
+    const weight = parseFloat(roundData?.wife.pat_vitalsign.weight);
     const heightM =
-      parseFloat(roundData?.wife.profile.pat_vitalsign[0].height) / 100;
+      parseFloat(roundData?.wife.pat_vitalsign.height) / 100;
     if (weight && heightM) {
       setBmi((weight / (heightM * heightM)).toFixed(2));
     } else {
@@ -574,11 +574,11 @@ export default function useHook() {
     }
   });
 
-  const bp = `${roundData?.wife.profile.pat_vitalsign[0].bp_systolic}/${roundData?.wife.profile.pat_vitalsign[0].bp_diastolic}`;
-  const temperature = `${roundData?.wife.profile.pat_vitalsign[0].temperature}`;
-  const pulse = `${roundData?.wife.profile.pat_vitalsign[0].pulse}`;
+  const bp = `${roundData?.wife.pat_vitalsign.bp_systolic}/${roundData?.wife.pat_vitalsign.bp_diastolic}`;
+  const temperature = `${roundData?.wife.pat_vitalsign.temperature}`;
+  const pulse = `${roundData?.wife.pat_vitalsign.pulse}`;
 
-  const height = Math.round(roundData?.wife.profile.pat_vitalsign[0].height);
+  const height = Math.round(roundData?.wife.pat_vitalsign.height);
 
   return {
     setOpenFormService,
