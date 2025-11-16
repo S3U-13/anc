@@ -36,14 +36,13 @@ export default function Page({ openModal, closeModal, modalRef }) {
               e.preventDefault();
               form.handleSubmit();
             }}
-            className="text-[15px] text-gray-700"
           >
             {/* Header */}
             <ModalHeader className="flex flex-col items-center gap-1 py-5">
-              <h1 className="text-lg font-semibold text-gray-500 tracking-wide">
+              <h1 className="text-lg font-semibold  tracking-wide">
                 เพิ่มผู้ใช้งาน
               </h1>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm ">
                 กรอกข้อมูลให้ครบถ้วนก่อนบันทึก
               </p>
             </ModalHeader>
@@ -51,7 +50,7 @@ export default function Page({ openModal, closeModal, modalRef }) {
             {/* Body */}
             <ModalBody>
               <section className=" rounded-2xl border border-divider shadow-sm p-5 space-y-4">
-                <h2 className="text-gray-500 font-semibold text-base border-b border-divider  pb-1">
+                <h2 className=" font-semibold text-base border-b border-divider  pb-1">
                   ข้อมูลทั่วไป
                 </h2>
 
@@ -125,7 +124,7 @@ export default function Page({ openModal, closeModal, modalRef }) {
               </section>
 
               <section className="rounded-2xl border border-divider  shadow-sm p-5 space-y-4">
-                <h2 className="text-gray-500 font-semibold text-base border-b border-divider  pb-1">
+                <h2 className=" font-semibold text-base border-b border-divider  pb-1">
                   สิทธิ์และตำแหน่ง
                 </h2>
 

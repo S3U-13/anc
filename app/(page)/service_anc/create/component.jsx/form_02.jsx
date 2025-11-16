@@ -506,14 +506,12 @@ export default function page({ validationSchema, form }) {
             value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}
             onBlur={field.handleBlur}
+            orientation="horizontal"
           >
             {data
               .filter((abortion) => abortion.choice_type_id === 6)
               .map((abortion) => (
-                <div
-                  key={abortion.id}
-                  className="flex gap-[10px] items-center px-[10px]"
-                >
+                <div key={abortion.id} className="px-[10px]">
                   <Radio
                     classNames={{ label: "pl-1" }}
                     value={String(abortion.id)}
