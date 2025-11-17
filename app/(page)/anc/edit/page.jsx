@@ -199,46 +199,7 @@ export default function page({
                         readOnly
                         disabled
                       />
-                      <Input
-                        size="sm"
-                        label="น้ำหนัก"
-                        name="weight"
-                        value={editVitalsign.weight}
-                        type="text"
-                        onChange={handleEditChange}
-                        readOnly
-                        disabled
-                      />
-                      <Input
-                        size="sm"
-                        label="ส่วนสูง"
-                        name="height"
-                        value={editVitalsign.height}
-                        type="text"
-                        onChange={handleEditChange}
-                        readOnly
-                        disabled
-                      />
-                      <Input
-                        size="sm"
-                        label="BMI"
-                        value={bmi}
-                        type="text"
-                        readOnly
-                        disabled
-                      />
-                      <Input
-                        size="sm"
-                        label="ความดันโลหิต"
-                        value={
-                          vitals?.bp_systolic && vitals?.bp_diastolic
-                            ? `${vitals.bp_systolic}/${vitals.bp_diastolic} mmHg`
-                            : ""
-                        }
-                        type="text"
-                        readOnly
-                        disabled
-                      />
+                     
                     </div>
                   </div>
                 </Tab>

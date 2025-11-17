@@ -105,6 +105,8 @@ export const useApiRequest = () => {
       setPat(data);
       // อัปเดต form field
       form.setFieldValue("hn_wife", data?.hn || "");
+      form.setFieldValue("wife_address", data?.pat_address || "");
+      form.setFieldValue("wife_tel", data?.pat_address?.phone || "");
       form.setFieldValue("sex", data?.sex_name?.lookupname || "");
 
       return data;
@@ -120,7 +122,31 @@ export const useApiRequest = () => {
       setPatHusband(data);
 
       // อัปเดต form field
+      const calculateAge = (birthdate) => {
+        if (!birthdate) return "";
+
+        const birth = new Date(birthdate);
+        const today = new Date();
+
+        let age = today.getFullYear() - birth.getFullYear();
+        const m = today.getMonth() - birth.getMonth();
+
+        // ถ้ายังไม่ถึงวันเกิดของปีนี้ ให้ลบ 1
+        if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+          age--;
+        }
+
+        return `${age}`;
+      };
       form.setFieldValue("hn_husband", data?.hn || "");
+      form.setFieldValue(
+        "husband_name",
+        `${data?.prename}${data?.firstname} ${data?.lastname}`
+      );
+      form.setFieldValue("husband_age", calculateAge(data?.birthdatetime || "")); // ใช้ birthdatetime
+      form.setFieldValue("husband_citizencardno", data?.citizencardno || "");
+      form.setFieldValue("husband_race", data?.race_text?.lookupname || "");
+      form.setFieldValue("husband_tel", data?.pat_address?.phone || "");
 
       return data;
     } catch (err) {

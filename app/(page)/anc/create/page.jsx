@@ -39,6 +39,7 @@ export default function page({ openModal, closeModal }) {
     form,
     validationSchema,
     isSubmitting,
+    handleChange,
   } = useHook({ closeModal });
   return (
     <Modal
@@ -157,17 +158,10 @@ export default function page({ openModal, closeModal }) {
                         readOnly
                         disabled
                       />
-                      <Textarea
-                        className="col-span-2"
-                        label="ที่อยู่"
-                        value={formatAddress(pat?.pat_address)}
-                        readOnly
-                        disabled
-                      />
                       <Input
                         size="sm"
-                        label="เบอร์โทรศัพท์"
-                        value={pat?.pat_address?.phone ?? ""}
+                        label="สัญชาติ"
+                        value={pat?.race_text?.lookupname ?? ""}
                         type="text"
                         readOnly
                         disabled
@@ -180,6 +174,28 @@ export default function page({ openModal, closeModal }) {
                         readOnly
                         disabled
                       />
+                      <form.Field name="wife_address">
+                        {(field) => (
+                          <Textarea
+                            className="col-span-2"
+                            label="ที่อยู่"
+                            value={formatAddress(field.state.value)}
+                            onChange={(e) => field.handleChange(e.target.value)}
+                          />
+                        )}
+                      </form.Field>
+                      <form.Field name="wife_tel">
+                        {(field) => (
+                          <Input
+                            size="sm"
+                            label="เบอร์โทรศัพท์"
+                            value={field.state.value}
+                            type="text"
+                            onChange={(e) => field.handleChange(e.target.value)}
+                          />
+                        )}
+                      </form.Field>
+
                       <Input
                         size="sm"
                         label="email"
@@ -238,30 +254,64 @@ export default function page({ openModal, closeModal }) {
                         />
                       )}
                     </form.Field>
-                    <Input
-                      label="ชื่อ สามี"
-                      size="sm"
-                      value={formatNameHusband(patHusband) ?? ""}
-                      type="text"
-                      readOnly
-                      disabled
-                    />
-                    <Input
-                      label="อายุ"
-                      size="sm"
-                      value={calculateAge(patHusband?.birthdatetime) ?? ""}
-                      type="text"
-                      readOnly
-                      disabled
-                    />
-                    <Input
-                      label="บัตรประชาชน"
-                      size="sm"
-                      value={patHusband?.citizencardno ?? ""}
-                      type="text"
-                      readOnly
-                      disabled
-                    />
+                    <form.Field name="husband_name">
+                      {(field) => (
+                        <Input
+                          label="ชื่อ สามี"
+                          size="sm"
+                          value={field.state.value || ""}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          type="text"
+                        />
+                      )}
+                    </form.Field>
+                    <form.Field name="husband_age">
+                      {(field) => {
+                        const realValue = field.state.value || ""; // number เช่น 23
+                        const displayValue =
+                          realValue !== "" ? `${realValue} ปี` : "";
+
+                        return (
+                          <Input
+                            label="อายุ"
+                            size="sm"
+                            value={displayValue} // แสดง "23 ปี"
+                            onChange={(e) => {
+                              const value = e.target.value.replace(
+                                /[^\d]/g,
+                                ""
+                              ); // ตัดตัวหนังสือ
+                              field.handleChange(
+                                value !== "" ? Number(value) : ""
+                              ); // เก็บเป็น number
+                            }}
+                            type="text"
+                          />
+                        );
+                      }}
+                    </form.Field>
+                    <form.Field name="husband_citizencardno">
+                      {(field) => (
+                        <Input
+                          label="บัตรประชาชน"
+                          size="sm"
+                          value={field.state.value}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          type="text"
+                        />
+                      )}
+                    </form.Field>
+                    <form.Field name="husband_race">
+                      {(field) => (
+                        <Input
+                          size="sm"
+                          label="สัญชาติ"
+                          value={field.state.value}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          type="text"
+                        />
+                      )}
+                    </form.Field>
                     <Input
                       label="อาชีพ"
                       size="sm"
@@ -270,6 +320,18 @@ export default function page({ openModal, closeModal }) {
                       readOnly
                       disabled
                     />
+                    <form.Field name="husband_tel">
+                      {(field) => (
+                        <Input
+                          size="sm"
+                          label="เบอร์โทรศัพท์"
+                          value={field.state.value}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          type="text"
+                        />
+                      )}
+                    </form.Field>
+
                     <Input
                       label="email"
                       size="sm"

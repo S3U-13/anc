@@ -20,8 +20,15 @@ export default function useHook({ closeModal }) {
 
   const [field, setField] = useState({
     hn_wife: "",
+    wife_address: "",
+    wife_tel: "",
     sex: "",
     hn_husband: null,
+    husband_name: "",
+    husband_age: "",
+    husband_citizencardno: "",
+    husband_race: "",
+    husband_tel: "",
   });
 
   const handleSearchHnWife = async () => {
@@ -117,26 +124,31 @@ export default function useHook({ closeModal }) {
       age--;
     }
 
-    return `${age} ปี`;
+    return `${age}`;
   };
 
   const formatAddress = (pat_address) => {
     if (!pat_address) return "";
 
+    // ถ้าเป็น string แล้ว → คืนค่าเลย
+    if (typeof pat_address === "string") return pat_address;
+
     let address = "";
 
-    if (pat_address.house) address += pat_address.house;
-    if (pat_address.moo) address += `หมู่.${pat_address.moo}`;
+    if (pat_address.house) address += `${pat_address.house}`;
+    if (pat_address.moo) address += ` หมู่ ${pat_address.moo}`;
     if (pat_address.soy) address += ` ซอย ${pat_address.soy}`;
     if (pat_address.road) address += ` ถนน ${pat_address.road}`;
-    if (pat_address.tambon_detail?.detailtext)
-      address += ` ตำบล${pat_address.tambon_detail.detailtext}`;
-    if (pat_address.amphur_detail?.detailtext)
-      address += ` อำเภอ${pat_address.amphur_detail.detailtext}`;
-    if (pat_address.province_detail?.detailtext)
-      address += ` จังหวัด${pat_address.province_detail.detailtext}`;
 
-    return address; // รวมเป็น string เดียว
+    // ใช้รหัสแทน detail (เพราะ detail = null)
+    if (pat_address.tambon_detail?.detailtext)
+      address += ` ต.${pat_address.tambon_detail.detailtext}`;
+    if (pat_address.amphur_detail?.detailtext)
+      address += ` อ.${pat_address.amphur_detail.detailtext}`;
+    if (pat_address.province_detail?.detailtext)
+      address += ` จ.${pat_address.province_detail.detailtext}`;
+
+    return address.trim();
   };
 
   const vitals = pat?.pat_vitalsign?.[0];
@@ -215,14 +227,35 @@ export default function useHook({ closeModal }) {
 
   const defaultValues = {
     hn_wife: "",
-    hn_husband: null,
+    wife_address: "",
+    wife_tel: "",
     sex: "",
+    hn_husband: null,
+    husband_name: "",
+    husband_age: null,
+    husband_citizencardno: "",
+    husband_race: "",
+    husband_tel: "",
   };
 
   const validationSchema = z.object({
     hn_wife: z.coerce.number().int().min(1, { message: "กรุณากรอก HN ภรรยา" }),
+    wife_address: z
+      .union([z.string(), z.object({}).passthrough()])
+      .optional()
+      .transform((v) => {
+        if (typeof v === "string") return v;
+        if (typeof v === "object" && v !== null) return formatAddress(v);
+        return "";
+      }),
+    wife_tel: z.string().optional(),
     sex: z.string(),
     hn_husband: z.coerce.number().int().nullable(),
+    husband_name: z.string().optional(),
+    husband_age: z.coerce.number().nullable(),
+    husband_citizencardno: z.string().optional(),
+    husband_race: z.string().optional(),
+    husband_tel: z.string().optional(),
   });
 
   const form = useForm({
@@ -275,5 +308,6 @@ export default function useHook({ closeModal }) {
     form,
     validationSchema,
     isSubmitting,
+    handleChange,
   };
 }
