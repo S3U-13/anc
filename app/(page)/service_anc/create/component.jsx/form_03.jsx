@@ -28,7 +28,7 @@ export default function page({
   return (
     <div className="grid grid-cols-4 gap-[10px] overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1 className="col-span-4">ส่วนที่ 3</h1>
-      <div className="grid grid-cols-4 gap-[10px] col-span-4 px-[30px]">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-[10px] col-span-4 px-[30px]">
         <form.Field
           name="td_num"
           validationSchema={{ onChange: validationSchema.shape.td_num }}
@@ -36,7 +36,7 @@ export default function page({
           {(field) => (
             <Input
               size="sm"
-              className="col-span-2"
+              className="col-span-1 md:col-span-2"
               label="วัคซีนบาดทะยัก ก่อนตั้งครรภ์เคยฉีดกี่ครั้ง"
               type="number"
               min={0}
@@ -51,7 +51,7 @@ export default function page({
 
         <DatePicker
           size="sm"
-          className="col-span-2"
+          className="col-span-1 md:col-span-2"
           label="ครั้งสุดท้ายวันที่"
           locale="th-TH-u-ca-buddhist"
           value={Dates.td_last_date ? parseDate(Dates.td_last_date) : null}
@@ -237,7 +237,7 @@ export default function page({
                 {bti.id === 18 && isSelected && (
                   <DatePicker
                     size="sm"
-                    className="w-1/4"
+                    className="w-full md:w-1/4"
                     label="วันที่"
                     value={
                       Dates.bti_1_date ? parseDate(Dates.bti_1_date) : null
@@ -250,7 +250,7 @@ export default function page({
                 {bti.id === 19 && isSelected && (
                   <DatePicker
                     size="sm"
-                    className="w-1/4"
+                    className="w-full md:w-1/4"
                     label="วันที่"
                     value={
                       Dates.bti_2_date ? parseDate(Dates.bti_2_date) : null
@@ -300,7 +300,7 @@ export default function page({
                   <form.Field name="cbe_result">
                     {(field) => (
                       <Input
-                        className="mt-[10px] w-1/2 px-[25px]"
+                        className="mt-[10px] w-full md:w-1/2 px-[25px]"
                         size="sm"
                         label="ผลตรวจ"
                         type="text"

@@ -31,7 +31,7 @@ export default function useHook() {
           title: "สำเร็จ",
           description: "login สำเร็จ",
           color: "success",
-          variant: "solid",
+          variant: "flat",
         });
       }
     } catch (err) {

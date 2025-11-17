@@ -21,7 +21,7 @@ export default function page({
 
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-[10px] overflow-y-scroll max-h-[calc(90vh-350px)] px-[20px] py-[10px]">
+      <div className="grid grid-cols-2 gap-2 mt-[10px] overflow-y-scroll max-h-[calc(90vh-350px)] px-[20px] py-[10px]">
         <form.Field
           name="anc_no"
           validators={{
@@ -32,6 +32,7 @@ export default function page({
             <Input
               size="sm"
               label="ANC NO"
+              className="col-span-2 md:col-span-1"
               type="text"
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
@@ -46,6 +47,7 @@ export default function page({
             <Input
               size="sm"
               label="PAT REG ID"
+              className="col-span-2 md:col-span-1"
               type="text"
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
@@ -57,6 +59,7 @@ export default function page({
             <Input
               size="sm"
               label="PAT VISIT ID"
+              className="col-span-2 md:col-span-1"
               type="text"
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
@@ -68,6 +71,7 @@ export default function page({
             <Input
               size="sm"
               label="PAT VITALSIGN ID"
+              className="col-span-2 md:col-span-1"
               type="hidden"
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
@@ -76,11 +80,11 @@ export default function page({
             />
           )}
         </form.Field>
-
         <Input
           size="sm"
           label="HN"
           type="text"
+          className="col-span-2 md:col-span-1"
           value={selectedAnc?.hn_wife || ""}
           readOnly
           disabled
@@ -89,6 +93,7 @@ export default function page({
         <Input
           size="sm"
           label="ชื่อ"
+          className="col-span-2 md:col-span-1"
           value={formatName(selectedAnc?.wife) || "" || undefined}
           type="text"
           readOnly
@@ -97,6 +102,7 @@ export default function page({
         <Input
           size="sm"
           label="อายุ"
+          className="col-span-2 md:col-span-1"
           value={
             calculateAge(selectedAnc?.wife?.birthdatetime) || "" || undefined
           }
@@ -107,6 +113,7 @@ export default function page({
         <Input
           size="sm"
           label="บัตรประชาชน"
+          className="col-span-2 md:col-span-1"
           value={selectedAnc?.wife?.citizencardno || "" || undefined}
           type="text"
           readOnly
@@ -115,6 +122,7 @@ export default function page({
         <Input
           size="sm"
           label="เบอร์โทรศัพท์"
+          className="col-span-2 md:col-span-1"
           value={selectedAnc?.wife?.pat_address?.phone || "" || undefined}
           type="text"
           readOnly
@@ -133,6 +141,7 @@ export default function page({
         <Input
           size="sm"
           label="อาชีพ"
+          className="col-span-2 md:col-span-1"
           value={
             selectedAnc?.wife?.occupation_detail?.lookupname || "" || undefined
           }
@@ -143,6 +152,7 @@ export default function page({
         <Input
           size="sm"
           label="email"
+          className="col-span-2 md:col-span-1"
           value={selectedAnc?.wife?.pat_address?.email || "" || undefined}
           type="email"
           readOnly

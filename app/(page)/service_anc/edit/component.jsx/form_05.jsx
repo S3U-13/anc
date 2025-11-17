@@ -5,7 +5,7 @@ import { Radio, RadioGroup } from "@heroui/radio";
 import { Checkbox, CheckboxGroup } from "@heroui/checkbox";
 
 import { Autocomplete, AutocompleteItem } from "@heroui/autocomplete";
-import { DatePicker } from "@heroui/date-picker";
+
 import { Input } from "@heroui/input";
 
 export default function page({
@@ -47,6 +47,7 @@ export default function page({
                               <Radio value={String(rec.id)}>
                                 {rec.choice_name}
                               </Radio>
+
                               {String(rec.id) === "42" &&
                                 field.state.value === "42" && (
                                   <div className="grid grid-cols-1 gap-2 mt-2">
@@ -54,7 +55,7 @@ export default function page({
                                       {(field) => (
                                         <Autocomplete
                                           size="sm"
-                                          className="w-[470px]"
+                                          className="w-full md:w-[470px]"
                                           defaultItems={coverageSite}
                                           label="รพช/รพสต"
                                           placeholder="ค้นหา.."
@@ -77,7 +78,7 @@ export default function page({
                                     <form.Field name="ref_in_detail">
                                       {(field) => (
                                         <Input
-                                          className="w-[470px]"
+                                          className="w-full md:w-[470px]"
                                           label="Note Refer In*"
                                           size="sm"
                                           value={field.state.value || ""}
@@ -95,7 +96,7 @@ export default function page({
                                   <form.Field name="receive_in_detail">
                                     {(field) => (
                                       <Input
-                                        className="w-[550px] mt-2"
+                                        className="w-full md:w-[550px] mt-2"
                                         label="ต่างจังหวัด"
                                         size="sm"
                                         value={field.state.value || ""}
@@ -134,7 +135,7 @@ export default function page({
                                       {(field) => (
                                         <Autocomplete
                                           size="sm"
-                                          className="w-[470px]"
+                                          className="w-full md:w-[470px]"
                                           defaultItems={coverageSite}
                                           label="รพช/รพสต"
                                           placeholder="ค้นหา.."
@@ -157,7 +158,7 @@ export default function page({
                                     <form.Field name="ref_out_detail">
                                       {(field) => (
                                         <Input
-                                          className="w-[470px]"
+                                          className="w-full md:w-[470px]"
                                           label="Note Refer Out*"
                                           size="sm"
                                           value={field.state.value || ""}
@@ -174,7 +175,7 @@ export default function page({
                                   <form.Field name="receive_out_detail">
                                     {(field) => (
                                       <Input
-                                        className="w-[550px]"
+                                        className="w-full md:w-[550px]"
                                         label="ต่างจังหวัด"
                                         size="sm"
                                         value={field.state.value}

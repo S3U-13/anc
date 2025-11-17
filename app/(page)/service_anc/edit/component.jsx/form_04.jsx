@@ -6,13 +6,13 @@ import useHook from "../useHook";
 import { Select, SelectItem } from "@heroui/select";
 import { AlertOctagon } from "@deemlol/next-icons";
 
-export default function page({ form, currentData }) {
+export default function page({ selectedAnc, form }) {
   const { data, calculateAge, formatName } = useHook();
   return (
     <div className="overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1>ส่วนที่ 4</h1>
       <div className="grid grid-cols-4 gap-[10px] px-[30px] mt-[10px]">
-        {!currentData?.husband?.profile?.hn && (
+        {!selectedAnc?.hn_husband && (
           <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold  flex gap-1 items-center col-span-4">
             <AlertOctagon className="animate-pulse" size={20} />{" "}
             <span className="text-lg">ไม่พบข้อมูลสามี</span>
@@ -20,59 +20,55 @@ export default function page({ form, currentData }) {
         )}
         <Input
           size="sm"
-          className="col-span-2"
+          className="col-span-4 md:col-span-2"
           label="HN สามี"
-          value={currentData?.husband?.profile?.hn ?? ""}
+          value={selectedAnc?.hn_husband ?? ""}
           type="text"
           readOnly
           disabled
         />
         <Input
           size="sm"
-          className="col-span-2"
+          className="col-span-4 md:col-span-2"
           label="ชื่อสามี"
-          value={formatName(currentData?.husband?.profile ?? "")}
+          value={formatName(selectedAnc?.husband) ?? ""}
           type="text"
           readOnly
           disabled
         />
         <Input
           size="sm"
-          className="col-span-2"
+          className="col-span-4 md:col-span-2"
           label="อายุ"
-          value={
-            calculateAge(currentData?.husband?.profile?.birthdatetime) ?? ""
-          }
+          value={calculateAge(selectedAnc?.husband?.birthdatetime) ?? ""}
           type="text"
           readOnly
           disabled
         />
         <Input
           size="sm"
-          className="col-span-2"
+          className="col-span-4 md:col-span-2"
           label="บัตรประชาชน"
           type="text"
-          value={currentData?.husband?.profile?.citizencardno ?? ""}
+          value={selectedAnc?.husband?.citizencardno ?? ""}
           readOnly
           disabled
         />
         <Input
           size="sm"
-          className="col-span-2"
+          className="col-span-4 md:col-span-2"
           label="อาชีพ"
           type="text"
-          value={
-            currentData?.husband?.profile?.occupation_detail?.lookupname ?? ""
-          }
+          value={selectedAnc?.husband?.occupation_detail?.lookupname ?? ""}
           readOnly
           disabled
         />
         <Input
           size="sm"
-          className="col-span-2"
+          className="col-span-4 md:col-span-2"
           label="email"
           type="email"
-          value={currentData?.husband?.profile?.pat_address?.email ?? "-"}
+          value={selectedAnc?.husband?.pat_address?.email ?? ""}
           readOnly
           disabled
         />
@@ -331,7 +327,7 @@ export default function page({ form, currentData }) {
                           className="w-[300px]"
                           size="sm"
                           label="ระบุ"
-                          value={field.state.value ?? ""} // ✅ null → ""
+                          value={subField.state.value || ""} // ค่าปัจจุบันของ form
                           onValueChange={(val) => subField.handleChange(val)}
                         />
                       )}

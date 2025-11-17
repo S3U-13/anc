@@ -411,7 +411,7 @@ export default function useHook() {
     },
     {
       label: "Hct",
-      value: roundData?.wife.text_values.lab_wife.hct_wife ?? "-",
+      value: `${roundData?.wife.text_values.lab_wife.hct_wife} %` ?? "-",
     },
     {
       label: "OF",
@@ -492,7 +492,7 @@ export default function useHook() {
     {
       label: "Hct",
       value: roundData?.husband?.choices?.lab_husband?.hct_husband
-        ? `${roundData.husband.choices.lab_husband.hct_husband}`
+        ? `${roundData.husband.choices.lab_husband.hct_husband} %`
         : "-",
     },
     {

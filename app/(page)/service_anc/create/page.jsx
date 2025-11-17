@@ -104,13 +104,13 @@ export default function page({ openFormService, closeFormService }) {
                   keepMounted
                 >
                   <Tab disabled key="from_1" title={<div className="" />}>
-                    <div className="flex justify-between gap-2 items-center px-[10px]">
+                    <div className="grid grid-cols-1 md:flex md:justify-between gap-2 md:items-center px-[10px]">
                       <h1>ส่วนที่ 1 ทะเบียน ANC</h1>
-                      <div className="flex justify-end items-center gap-2 w-3/5">
+                      <div className="grid grid-cols-2 md:flex md:justify-end md:items-center gap-2 w-full  md:w-3/5">
                         {selectedAnc && (
                           <Select
                             label="เลือก GA (ท้องที่)"
-                            className="w-37"
+                            className="w-full md:w-37 "
                             size="sm"
                             radius="lg"
                             color="default"
@@ -135,7 +135,7 @@ export default function page({ openFormService, closeFormService }) {
                         {selectedGravida && (
                           <Select
                             label="เลือกรอบบริการ"
-                            className="w-35"
+                            className="w-full md:w-35"
                             size="sm"
                             radius="lg"
                             color="default"

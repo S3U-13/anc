@@ -20,7 +20,7 @@ export default function page({ selectedAnc, form }) {
         )}
         <Input
           size="sm"
-          className="col-span-2"
+          className="col-span-4 md:col-span-2"
           label="HN สามี"
           value={selectedAnc?.hn_husband ?? ""}
           type="text"
@@ -29,7 +29,7 @@ export default function page({ selectedAnc, form }) {
         />
         <Input
           size="sm"
-          className="col-span-2"
+          className="col-span-4 md:col-span-2"
           label="ชื่อสามี"
           value={formatName(selectedAnc?.husband) ?? ""}
           type="text"
@@ -38,7 +38,7 @@ export default function page({ selectedAnc, form }) {
         />
         <Input
           size="sm"
-          className="col-span-2"
+          className="col-span-4 md:col-span-2"
           label="อายุ"
           value={calculateAge(selectedAnc?.husband?.birthdatetime) ?? ""}
           type="text"
@@ -47,7 +47,7 @@ export default function page({ selectedAnc, form }) {
         />
         <Input
           size="sm"
-          className="col-span-2"
+          className="col-span-4 md:col-span-2"
           label="บัตรประชาชน"
           type="text"
           value={selectedAnc?.husband?.citizencardno ?? ""}
@@ -56,7 +56,7 @@ export default function page({ selectedAnc, form }) {
         />
         <Input
           size="sm"
-          className="col-span-2"
+          className="col-span-4 md:col-span-2"
           label="อาชีพ"
           type="text"
           value={selectedAnc?.husband?.occupation_detail?.lookupname ?? ""}
@@ -65,7 +65,7 @@ export default function page({ selectedAnc, form }) {
         />
         <Input
           size="sm"
-          className="col-span-2"
+          className="col-span-4 md:col-span-2"
           label="email"
           type="email"
           value={selectedAnc?.husband?.pat_address?.email ?? ""}
