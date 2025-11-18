@@ -142,18 +142,30 @@ export const useApiRequest = () => {
 
         return `${age}`;
       };
+
       form.setFieldValue("hn_husband", data?.hn || "");
-      form.setFieldValue(
-        "husband_name",
-        `${data?.prename}${data?.firstname} ${data?.lastname}`
-      );
-      form.setFieldValue(
-        "husband_age",
-        calculateAge(data?.birthdatetime || "")
-      ); // ใช้ birthdatetime
-      form.setFieldValue("husband_citizencardno", data?.citizencardno || "");
-      form.setFieldValue("husband_race", data?.race_text?.lookupname || "");
-      form.setFieldValue("husband_tel", data?.pat_address?.phone || "");
+
+      if (!form.getFieldValue("husband_name")) {
+        form.setFieldValue(
+          "husband_name",
+          `${data?.prename}${data?.firstname} ${data?.lastname}`
+        );
+      }
+      if (!form.getFieldValue("husband_age")) {
+        form.setFieldValue(
+          "husband_age",
+          calculateAge(data?.birthdatetime || "")
+        ); // ใช้ birthdatetime
+      }
+      if (!form.getFieldValue("husband_citizencardno")) {
+        form.setFieldValue("husband_citizencardno", data?.citizencardno || "");
+      }
+      if (!form.getFieldValue("husband_race")) {
+        form.setFieldValue("husband_race", data?.race_text?.lookupname || "");
+      }
+      if (!form.getFieldValue("husband_tel")) {
+        form.setFieldValue("husband_tel", data?.pat_address?.phone || "");
+      }
 
       return data;
     } catch (err) {

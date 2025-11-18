@@ -36,6 +36,7 @@ export default function page({
               label="ANC NO"
               className="col-span-2 md:col-span-1"
               type="text"
+              variant="bordered"
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
               onBlur={field.handleBlur}
@@ -51,6 +52,7 @@ export default function page({
               label="PAT REG ID"
               className="col-span-2 md:col-span-1"
               type="text"
+              variant="bordered"
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
             />
@@ -63,6 +65,7 @@ export default function page({
               label="PAT VISIT ID"
               className="col-span-2 md:col-span-1"
               type="text"
+              variant="bordered"
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
             />
@@ -133,9 +136,7 @@ export default function page({
         <Textarea
           size="sm"
           className="col-span-2"
-          value={
-           selectedAnc?.wife_address|| "" || undefined
-          }
+          value={selectedAnc?.wife_address || "" || undefined}
           label="ที่อยู่"
           readOnly
           disabled
@@ -182,8 +183,9 @@ export default function page({
                 label="น้ำหนักก่อนตั้งครรภ์"
                 name="weight"
                 value={field.state.value || ""}
+                variant="bordered"
                 onChange={(e) => field.handleChange(e.target.value)}
-                maxLength={3}
+                maxLength={5}
                 type="text"
               />
             )}
@@ -192,6 +194,7 @@ export default function page({
             size="sm"
             label="น้ำหนัก"
             name="weight"
+            variant="bordered"
             value={editVitalsign.weight}
             onValueChange={(value) => handleEditChange("weight", value)}
             type="text"
@@ -200,6 +203,7 @@ export default function page({
             size="sm"
             label="ส่วนสูง"
             name="height"
+            variant="bordered"
             value={editVitalsign.height}
             onValueChange={(value) => handleEditChange("height", value)}
             type="text"
@@ -274,6 +278,7 @@ export default function page({
                   size="sm"
                   label="PARA"
                   type="text"
+                  variant="bordered"
                   value={field.state.value}
                   onChange={handleChange}
                   onBlur={field.handleBlur}
@@ -296,7 +301,7 @@ export default function page({
                 size="sm"
                 label="G"
                 type="text"
-                name="g"
+                variant="bordered"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
@@ -316,6 +321,7 @@ export default function page({
                 size="sm"
                 label="P"
                 type="text"
+                variant="bordered"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
@@ -335,6 +341,7 @@ export default function page({
                 size="sm"
                 label="a"
                 type="text"
+                variant="bordered"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
@@ -354,6 +361,7 @@ export default function page({
                 size="sm"
                 label="LAST"
                 type="text"
+                variant="bordered"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
@@ -373,6 +381,7 @@ export default function page({
                 size="sm"
                 label="LMP"
                 locale="th-TH-u-ca-buddhist"
+                variant="bordered"
                 value={field.state.value ? parseDate(field.state.value) : null}
                 onChange={handleLmpChange}
                 onBlur={field.handleBlur}
@@ -390,6 +399,7 @@ export default function page({
                 size="sm"
                 label="EDC"
                 locale="th-TH-u-ca-buddhist"
+                variant="bordered"
                 value={field.state.value ? parseDate(field.state.value) : null}
                 onChange={(date) => {
                   if (!date) {
@@ -416,6 +426,7 @@ export default function page({
                 label="อายุครรภ์"
                 size="sm"
                 value={field.state.value ?? ""}
+                variant="bordered"
                 onChange={(e) => {
                   setGaManual(true); // ← ผู้ใช้แก้เอง
                   field.handleChange(e.target.value);

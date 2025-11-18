@@ -81,8 +81,11 @@ export default function useHook() {
     { uid: "anc_no", name: "ANC NO" },
     { uid: "hn_wife", name: "HN (ภรรยา)" },
     { uid: "wife_name", name: "ชื่อ (ภรรยา)" },
+    { uid: "wife_address", name: "ที่อยู่" },
+    { uid: "wife_tel", name: "เบอร์โทร (ภรรยา)" },
     { uid: "hn_husband", name: "HN (สามี)" },
     { uid: "husband_name", name: "ชื่อ (สามี)" },
+     { uid: "husband_tel", name: "เบอร์โทร (สามี)" },
   ];
 
   // ✅ sort

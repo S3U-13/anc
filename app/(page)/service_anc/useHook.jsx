@@ -415,7 +415,7 @@ export default function useHook() {
     },
     {
       label: "OF",
-      value: roundData?.wife.text_values.lab_wife.of_wife_detail?.choice_name ?? "-",
+      value: roundData?.wife?.text_values?.lab_wife?.of_wife_detail?.choice_name ?? "-",
     },
     {
       label: "DCIP",
@@ -497,7 +497,7 @@ export default function useHook() {
     },
     {
       label: "OF",
-      value: roundData?.husband?.choices?.lab_husband?.of_husband_detail.choice_name ?? "-",
+      value: roundData?.husband?.choices?.lab_husband?.of_husband_detail?.choice_name ?? "-",
     },
     {
       label: "DCIP",

@@ -38,6 +38,7 @@ export default function page({
               size="sm"
               className="col-span-1 md:col-span-2"
               label="วัคซีนบาดทะยัก ก่อนตั้งครรภ์เคยฉีดกี่ครั้ง"
+              variant="bordered"
               type="number"
               min={0}
               value={field.state.value ?? ""}
@@ -53,6 +54,7 @@ export default function page({
           size="sm"
           className="col-span-1 md:col-span-2"
           label="ครั้งสุดท้ายวันที่"
+          variant="bordered"
           locale="th-TH-u-ca-buddhist"
           value={Dates.td_last_date ? parseDate(Dates.td_last_date) : null}
           onChange={handleDateChange("td_last_date")}
@@ -63,6 +65,7 @@ export default function page({
           <RadioGroup
             className="col-span-4 px-[20px]"
             label="วัคซีน"
+            variant="bordered"
             value={field.state.value ?? ""}
             onChange={(e) => field.handleChange(e.target.value)}
           >
@@ -107,6 +110,7 @@ export default function page({
                       <DatePicker
                         size="sm"
                         label="ครั้งที่ 1"
+                        variant="bordered"
                         value={
                           Dates.tdap_round_1
                             ? parseDate(Dates.tdap_round_1)
@@ -117,6 +121,7 @@ export default function page({
                       <DatePicker
                         size="sm"
                         label="ครั้งที่ 2"
+                        variant="bordered"
                         value={
                           Dates.tdap_round_2
                             ? parseDate(Dates.tdap_round_2)
@@ -127,6 +132,7 @@ export default function page({
                       <DatePicker
                         size="sm"
                         label="ครั้งที่ 3"
+                        variant="bordered"
                         value={
                           Dates.tdap_round_3
                             ? parseDate(Dates.tdap_round_3)
@@ -170,6 +176,7 @@ export default function page({
                       size="sm"
                       className="w-1/4"
                       label="วันที่"
+                      variant="bordered"
                       value={Dates.iip_date ? parseDate(Dates.iip_date) : null}
                       onChange={handleDateChange("iip_date")}
                     />
@@ -186,6 +193,7 @@ export default function page({
           size="sm"
           className="col-span-2 pl-[10px]"
           label="Lab 2 วันที่"
+          variant="bordered"
           value={Dates.lab_2 ? parseDate(Dates.lab_2) : null}
           onChange={handleDateChange("lab_2")}
         />
@@ -195,6 +203,7 @@ export default function page({
               size="sm"
               className="col-span-2 pr-[10px]"
               label="HCT"
+              variant="bordered"
               type="text"
               value={field.state.value ?? ""}
               onChange={(e) => field.handleChange(e.target.value)}
@@ -207,6 +216,7 @@ export default function page({
               size="sm"
               className="col-span-2 pl-[10px]"
               label="VDRL"
+              variant="bordered"
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
@@ -231,6 +241,7 @@ export default function page({
               size="sm"
               className="col-span-2 pr-[10px]"
               label="H"
+              variant="bordered"
               type="text"
               value={field.state.value ?? ""}
               onChange={(e) => field.handleChange(e.target.value)}
@@ -262,6 +273,7 @@ export default function page({
                     size="sm"
                     className="w-full md:w-1/4"
                     label="วันที่"
+                    variant="bordered"
                     value={
                       Dates.bti_1_date ? parseDate(Dates.bti_1_date) : null
                     }
@@ -275,6 +287,7 @@ export default function page({
                     size="sm"
                     className="w-full md:w-1/4"
                     label="วันที่"
+                    variant="bordered"
                     value={
                       Dates.bti_2_date ? parseDate(Dates.bti_2_date) : null
                     }
@@ -326,6 +339,7 @@ export default function page({
                         className="mt-[10px] w-full md:w-1/2 px-[25px]"
                         size="sm"
                         label="ผลตรวจ"
+                        variant="bordered"
                         type="text"
                         value={field.state.value}
                         onChange={(e) => field.handleChange(e.target.value)}

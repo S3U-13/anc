@@ -42,6 +42,7 @@ export default function page({ validationSchema, form }) {
                           label="ชื่อยาที่เคยแพ้"
                           className="w-[300px]"
                           size="sm"
+                          variant="bordered"
                           value={subField.state.value || ""}
                           onChange={(e) =>
                             subField.handleChange(e.target.value)
@@ -83,6 +84,7 @@ export default function page({ validationSchema, form }) {
                           className="w-[300px]"
                           size="sm"
                           label="ระบุ"
+                          variant="bordered"
                           value={subField.state.value || ""} // ค่าปัจจุบันของ form
                           onValueChange={(val) => subField.handleChange(val)}
                         />
@@ -126,7 +128,7 @@ export default function page({ validationSchema, form }) {
               size="sm"
               label="GCT 1"
               type="text"
-              name="gct_1_wife"
+              variant="bordered"
               value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
             />
@@ -139,6 +141,7 @@ export default function page({ validationSchema, form }) {
               size="sm"
               label="GCT 2"
               type="text"
+              variant="bordered"
               value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
             />
@@ -151,6 +154,7 @@ export default function page({ validationSchema, form }) {
               size="sm"
               label="OGTT 1"
               type="text"
+              variant="bordered"
               value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
             />
@@ -163,6 +167,7 @@ export default function page({ validationSchema, form }) {
               size="sm"
               label="OGTT 2"
               type="text"
+              variant="bordered"
               value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
             />
@@ -174,6 +179,7 @@ export default function page({ validationSchema, form }) {
               size="sm"
               className="col-span-2"
               label="Hbs Ag"
+              variant="bordered"
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
@@ -197,6 +203,7 @@ export default function page({ validationSchema, form }) {
                 size="sm"
                 className="col-span-2"
                 label="VDRL"
+                variant="bordered"
                 selectedKeys={
                   field.state.value ? new Set([field.state.value]) : new Set()
                 }
@@ -251,6 +258,7 @@ export default function page({ validationSchema, form }) {
               size="sm"
               className="col-span-2"
               label="Anti-hiv"
+              variant="bordered"
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
@@ -275,6 +283,7 @@ export default function page({ validationSchema, form }) {
               className="col-span-2"
               size="sm"
               label="Hb Typing"
+              variant="bordered"
               type="text"
               value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
@@ -288,6 +297,7 @@ export default function page({ validationSchema, form }) {
             <Select
               size="sm"
               className="col-span-1"
+              variant="bordered"
               label="Bl.gr"
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
@@ -311,6 +321,7 @@ export default function page({ validationSchema, form }) {
               size="sm"
               className="col-span-1"
               label="rh"
+              variant="bordered"
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
@@ -334,6 +345,7 @@ export default function page({ validationSchema, form }) {
               size="sm"
               label="Hct"
               type="text"
+              variant="bordered"
               value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
             />
@@ -343,10 +355,11 @@ export default function page({ validationSchema, form }) {
       <div className="col-span-4 grid px-[30px] grid-cols-4 gap-[10px] ">
         <form.Field name="of_wife">
           {(field) => (
-          <Select
+            <Select
               size="sm"
               className="col-span-1"
               label="OF"
+              variant="bordered"
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
@@ -369,6 +382,7 @@ export default function page({ validationSchema, form }) {
               size="sm"
               className="col-span-1"
               label="DCIP"
+              variant="bordered"
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
@@ -392,6 +406,7 @@ export default function page({ validationSchema, form }) {
               size="sm"
               label="MCV"
               type="text"
+              variant="bordered"
               value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
             />
@@ -404,6 +419,7 @@ export default function page({ validationSchema, form }) {
               size="sm"
               label="MCH"
               type="text"
+              variant="bordered"
               value={field.state.value || ""}
               onChange={(e) => field.handleChange(e.target.value)}
             />
@@ -440,6 +456,7 @@ export default function page({ validationSchema, form }) {
                           className="w-[300px]"
                           size="sm"
                           label="ระบุ"
+                          variant="bordered"
                           value={subField.state.value || ""} // ค่าปัจจุบันของ form
                           onValueChange={(val) => subField.handleChange(val)}
                         />
@@ -484,6 +501,7 @@ export default function page({ validationSchema, form }) {
                           className="w-[300px]"
                           size="sm"
                           label="ผลตรวจ"
+                          variant="bordered"
                           value={subField.state.value || ""} // ค่าปัจจุบันของ form
                           onValueChange={(val) => subField.handleChange(val)}
                         />
@@ -503,6 +521,7 @@ export default function page({ validationSchema, form }) {
             size="sm"
             label="อื่น"
             type="text"
+            variant="bordered"
             value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}
           />

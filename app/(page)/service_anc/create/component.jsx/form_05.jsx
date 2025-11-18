@@ -58,6 +58,7 @@ export default function page({
                                           className="w-full md:w-[470px]"
                                           defaultItems={coverageSite}
                                           label="รพช/รพสต"
+                                          variant="bordered"
                                           placeholder="ค้นหา.."
                                           scrollShadowProps={{
                                             isEnabled: false,
@@ -80,6 +81,7 @@ export default function page({
                                         <Input
                                           className="w-full md:w-[470px]"
                                           label="Note Refer In*"
+                                          variant="bordered"
                                           size="sm"
                                           value={field.state.value || ""}
                                           onChange={(e) =>
@@ -98,6 +100,7 @@ export default function page({
                                       <Input
                                         className="w-full md:w-[550px] mt-2"
                                         label="ต่างจังหวัด"
+                                        variant="bordered"
                                         size="sm"
                                         value={field.state.value || ""}
                                         onChange={(e) =>
@@ -138,6 +141,7 @@ export default function page({
                                           className="w-full md:w-[470px]"
                                           defaultItems={coverageSite}
                                           label="รพช/รพสต"
+                                          variant="bordered"
                                           placeholder="ค้นหา.."
                                           scrollShadowProps={{
                                             isEnabled: false,
@@ -160,6 +164,7 @@ export default function page({
                                         <Input
                                           className="w-full md:w-[470px]"
                                           label="Note Refer Out*"
+                                          variant="bordered"
                                           size="sm"
                                           value={field.state.value || ""}
                                           onChange={(e) =>
@@ -177,6 +182,7 @@ export default function page({
                                       <Input
                                         className="w-full md:w-[550px]"
                                         label="ต่างจังหวัด"
+                                        variant="bordered"
                                         size="sm"
                                         value={field.state.value}
                                         onChange={(e) =>

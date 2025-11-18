@@ -83,6 +83,7 @@ export default function App({
                     onValueChange={setFilterValue}
                     type="search"
                     className="w-1/4"
+                    variant="bordered"
                     placeholder="Search by wife HN..."
                     startContent={
                       <svg
@@ -218,11 +219,15 @@ export default function App({
                           </TableCell>
                           {headerColumns.map((col) => (
                             <TableCell key={col.uid}>
-                              {col.uid === "wife_name"
-                                ? `${item.wife?.prename || ""}${item.wife?.firstname || ""} ${item.wife?.lastname || ""}`
-                                : col.uid === "husband_name"
-                                  ? `${item.husband?.prename || ""}${item.husband?.firstname || ""} ${item.husband?.lastname || "ไม่พบสามี"}`
-                                  : getKeyValue(item, col.uid)}
+                              {col.uid === "wife_name" &&
+                                `${item.wife?.prename}${item.wife?.firstname} ${item.wife?.lastname}`}
+                              {col.uid === "husband_name" &&
+                                (item.husband_name
+                                  ? `${item.husband_name}`
+                                  : "ไม่พบสามี")}
+                              {col.uid !== "wife_name" &&
+                                col.uid !== "husband_name" &&
+                                item[col.uid]}
                             </TableCell>
                           ))}
                           <TableCell>

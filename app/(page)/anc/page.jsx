@@ -63,6 +63,7 @@ export default function page() {
           value={filterValue}
           onValueChange={setFilterValue}
           type="search"
+          variant="bordered"
           className="w-1/4"
           placeholder="Search..."
           startContent={

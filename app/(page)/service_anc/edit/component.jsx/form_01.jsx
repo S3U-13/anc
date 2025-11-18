@@ -116,7 +116,9 @@ export default function page({
           size="sm"
           label="สัญชาติ"
           className="col-span-2 md:col-span-1"
-          value={currentData?.wife?.race_text?.lookupname || "" || undefined}
+          value={
+            currentData?.wife?.profile?.race_text?.lookupname || "" || undefined
+          }
           type="text"
           readOnly
           disabled
@@ -169,10 +171,11 @@ export default function page({
               <Input
                 size="sm"
                 label="น้ำหนักก่อนตั้งครรภ์"
+                variant="bordered"
                 name="weight"
                 value={field.state.value || ""}
                 onChange={(e) => field.handleChange(e.target.value)}
-                maxLength={3}
+                maxLength={5}
                 type="text"
               />
             )}
@@ -180,6 +183,7 @@ export default function page({
           <Input
             size="sm"
             label="น้ำหนัก"
+            variant="bordered"
             name="weight"
             value={editVitalsign.weight}
             onValueChange={(value) => handleEditChange("weight", value)}
@@ -188,6 +192,7 @@ export default function page({
           <Input
             size="sm"
             label="ส่วนสูง"
+            variant="bordered"
             name="height"
             value={editVitalsign.height}
             onValueChange={(value) => handleEditChange("height", value)}
@@ -262,6 +267,7 @@ export default function page({
                   size="sm"
                   label="PARA"
                   type="text"
+                  variant="bordered"
                   value={field.state.value}
                   onChange={handleChange}
                   onBlur={field.handleBlur}
@@ -283,6 +289,7 @@ export default function page({
               <Input
                 size="sm"
                 label="G"
+                variant="bordered"
                 type="text"
                 name="g"
                 value={field.state.value}
@@ -303,6 +310,7 @@ export default function page({
               <Input
                 size="sm"
                 label="P"
+                variant="bordered"
                 type="text"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
@@ -322,6 +330,7 @@ export default function page({
               <Input
                 size="sm"
                 label="a"
+                variant="bordered"
                 type="text"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
@@ -341,6 +350,7 @@ export default function page({
               <Input
                 size="sm"
                 label="LAST"
+                variant="bordered"
                 type="text"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
@@ -360,6 +370,7 @@ export default function page({
               <DatePicker
                 size="sm"
                 label="LMP"
+                variant="bordered"
                 locale="th-TH-u-ca-buddhist"
                 value={field.state.value ? parseDate(field.state.value) : null}
                 onChange={handleLmpChange}
@@ -382,6 +393,7 @@ export default function page({
               <DatePicker
                 size="sm"
                 label="EDC"
+                variant="bordered"
                 isReadOnly
                 locale="th-TH-u-ca-buddhist"
                 value={field.state.value ? parseDate(field.state.value) : null}
@@ -404,6 +416,7 @@ export default function page({
                 type="text"
                 size="sm"
                 label="อายุครรภ์"
+                variant="bordered"
                 value={field.state.value ?? ""}
                 readOnly
                 onBlur={field.handleBlur}

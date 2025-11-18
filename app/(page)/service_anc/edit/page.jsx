@@ -62,6 +62,7 @@ export default function page({
     Dates,
     selectedRef,
     modalRef,
+    isSubmitting,
   } = useHook({
     openEditService,
     closeEditService,
@@ -168,15 +169,20 @@ export default function page({
                       setActiveStep(steps[idx + 1]);
                     } else {
                       // Step สุดท้าย → submit form
-                      try {  
+                      try {
                         await form.handleSubmit(); // จะ trigger onSubmit ใน useForm
                       } catch (err) {
                         console.error("Validation failed:", err);
                       }
                     }
                   }}
+                  disabled={isSubmitting} // ป้องกันกดซ้ำ
                 >
-                  {activeStep === steps[steps.length - 1] ? "ยืนยัน" : "ถัดไป"}
+                  {isSubmitting
+                    ? "กำลังบันทึก..." // ขณะส่งข้อมูล
+                    : activeStep === steps[steps.length - 1]
+                      ? "ยืนยัน"
+                      : "ถัดไป"}
                 </Button>
               </ModalFooter>
             </form>

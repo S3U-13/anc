@@ -65,6 +65,7 @@ export default function page({
               <Tabs
                 selectedKey={activeStep}
                 onSelectionChange={setActiveStep}
+                variant="underlined"
                 classNames={{
                   tabContent: " p-1 px-6 rounded-lg",
                   tabList: "mx-auto",
@@ -75,7 +76,7 @@ export default function page({
                   <div className="overflow-y-scroll sm:max-h-[calc(90vh-350px)]">
                     <div className="grid grid-cols-8 justify-between">
                       <h1 className="col-span-5">ส่วนของภรรยา</h1>
-                      <div className="flex gap-[5px] items-center col-span-3">
+                      <div className="flex gap-[5px] items-center col-span-3 px-2">
                         <Input
                           value={hnInputWife}
                           onChange={(e) => setHnInputWife(e.target.value)}
@@ -181,6 +182,7 @@ export default function page({
                           <Textarea
                             className="col-span-2"
                             label="ที่อยู่"
+                            variant="bordered"
                             value={field.state.value || ""}
                             onChange={(e) => field.handleChange(e.target.value)}
                           />
@@ -191,13 +193,13 @@ export default function page({
                           <Input
                             size="sm"
                             label="เบอร์โทรศัพท์"
+                            variant="bordered"
                             value={field.state.value}
                             type="text"
                             onChange={(e) => field.handleChange(e.target.value)}
                           />
                         )}
                       </form.Field>
-
                       <Input
                         size="sm"
                         label="email"
@@ -260,6 +262,7 @@ export default function page({
                       {(field) => (
                         <Input
                           label="ชื่อ สามี"
+                          variant="bordered"
                           size="sm"
                           value={field.state.value || ""}
                           onChange={(e) => field.handleChange(e.target.value)}
@@ -276,6 +279,7 @@ export default function page({
                         return (
                           <Input
                             label="อายุ"
+                            variant="bordered"
                             size="sm"
                             value={displayValue} // แสดง "23 ปี"
                             onChange={(e) => {
@@ -296,6 +300,7 @@ export default function page({
                       {(field) => (
                         <Input
                           label="บัตรประชาชน"
+                          variant="bordered"
                           size="sm"
                           value={field.state.value}
                           onChange={(e) => field.handleChange(e.target.value)}
@@ -308,6 +313,19 @@ export default function page({
                         <Input
                           size="sm"
                           label="สัญชาติ"
+                          variant="bordered"
+                          value={field.state.value}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          type="text"
+                        />
+                      )}
+                    </form.Field>
+                    <form.Field name="husband_tel">
+                      {(field) => (
+                        <Input
+                          size="sm"
+                          label="เบอร์โทรศัพท์"
+                          variant="bordered"
                           value={field.state.value}
                           onChange={(e) => field.handleChange(e.target.value)}
                           type="text"
@@ -322,18 +340,6 @@ export default function page({
                       readOnly
                       disabled
                     />
-                    <form.Field name="husband_tel">
-                      {(field) => (
-                        <Input
-                          size="sm"
-                          label="เบอร์โทรศัพท์"
-                          value={field.state.value}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          type="text"
-                        />
-                      )}
-                    </form.Field>
-
                     <Input
                       label="email"
                       size="sm"

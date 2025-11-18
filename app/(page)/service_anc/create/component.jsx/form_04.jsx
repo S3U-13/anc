@@ -96,6 +96,7 @@ export default function page({ selectedAnc, form }) {
               size="sm"
               className="col-span-2"
               label="Hbs Ag"
+              variant="bordered"
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
@@ -119,6 +120,7 @@ export default function page({ selectedAnc, form }) {
                 size="sm"
                 className="col-span-2"
                 label="VDRL"
+                variant="bordered"
                 selectedKeys={
                   field.state.value ? new Set([field.state.value]) : new Set()
                 }
@@ -173,6 +175,7 @@ export default function page({ selectedAnc, form }) {
               size="sm"
               className="col-span-2"
               label="Anti-hiv"
+              variant="bordered"
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
               }
@@ -197,6 +200,7 @@ export default function page({ selectedAnc, form }) {
               size="sm"
               className="col-span-2"
               label="Hb Typing"
+              variant="bordered"
               type="text"
               value={field.state.value ?? ""} // ✅ null → ""
               onChange={(e) => field.handleChange(e.target.value)}
@@ -211,6 +215,7 @@ export default function page({ selectedAnc, form }) {
                 size="sm"
                 className="col-span-1"
                 label="Bl.gr"
+                variant="bordered"
                 selectedKeys={
                   field.state.value ? new Set([field.state.value]) : new Set()
                 }
@@ -233,6 +238,7 @@ export default function page({ selectedAnc, form }) {
                 size="sm"
                 className="col-span-1"
                 label="rh"
+                variant="bordered"
                 selectedKeys={
                   field.state.value ? new Set([field.state.value]) : new Set()
                 }
@@ -255,6 +261,7 @@ export default function page({ selectedAnc, form }) {
                 size="sm"
                 className="col-span-1"
                 label="Hct"
+                variant="bordered"
                 type="text"
                 value={field.state.value ?? ""} // ✅ null → ""
                 onChange={(e) => field.handleChange(e.target.value)}
@@ -269,6 +276,7 @@ export default function page({ selectedAnc, form }) {
                 size="sm"
                 className="col-span-1"
                 label="OF"
+                variant="bordered"
                 selectedKeys={
                   field.state.value ? new Set([field.state.value]) : new Set()
                 }
@@ -291,6 +299,7 @@ export default function page({ selectedAnc, form }) {
                 size="sm"
                 className="col-span-1"
                 label="DCIP"
+                variant="bordered"
                 selectedKeys={
                   field.state.value ? new Set([field.state.value]) : new Set()
                 }
@@ -313,6 +322,7 @@ export default function page({ selectedAnc, form }) {
                 size="sm"
                 className="col-span-1"
                 label="MCV"
+                variant="bordered"
                 type="text"
                 value={field.state.value ?? ""} // ✅ null → ""
                 onChange={(e) => field.handleChange(e.target.value)}
@@ -325,6 +335,7 @@ export default function page({ selectedAnc, form }) {
                 size="sm"
                 className="col-span-1"
                 label="MCH"
+                variant="bordered"
                 type="text"
                 value={field.state.value ?? ""} // ✅ null → ""
                 onChange={(e) => field.handleChange(e.target.value)}
@@ -357,6 +368,7 @@ export default function page({ selectedAnc, form }) {
                           className="w-[300px]"
                           size="sm"
                           label="ระบุ"
+                          variant="bordered"
                           value={subField.state.value || ""} // ค่าปัจจุบันของ form
                           onValueChange={(val) => subField.handleChange(val)}
                         />

@@ -89,6 +89,7 @@ export default function App() {
           onValueChange={setFilterValue}
           type="search"
           className="w-1/4"
+          variant="bordered"
           placeholder="Search..."
           startContent={
             <svg
@@ -252,7 +253,7 @@ export default function App() {
 
                   {col.uid === "hn_husband" && item.husband?.hn}
                   {col.uid === "husband_name" &&
-                    `${item.husband?.prename ?? ""}${item.husband?.firstname ?? ""} ${item.husband?.lastname ?? ""}`}
+                    (item.husband_name ? `${item.husband_name}` : "ไม่พบสามี")}
                   {col.uid === "status" && (
                     <Chip
                       variant="flat"

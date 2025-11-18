@@ -70,6 +70,7 @@ export default function page({ openFormService, closeFormService }) {
     handleRoundSelect,
     setGaManual,
     setEdcManual,
+    isSubmitting,
   } = useHook({ closeFormService });
 
   return (
@@ -116,7 +117,7 @@ export default function page({ openFormService, closeFormService }) {
                             size="sm"
                             radius="lg"
                             color="default"
-                            variant="flat"
+                            variant="bordered"
                             selectedKeys={
                               selectedGravida
                                 ? new Set([selectedGravida])
@@ -141,7 +142,7 @@ export default function page({ openFormService, closeFormService }) {
                             size="sm"
                             radius="lg"
                             color="default"
-                            variant="flat"
+                            variant="bordered"
                             selectedKeys={
                               selectedRound
                                 ? new Set([selectedRound])
@@ -255,8 +256,13 @@ export default function page({ openFormService, closeFormService }) {
                       }
                     }
                   }}
+                  disabled={isSubmitting} // ป้องกันกดซ้ำ
                 >
-                  {activeStep === steps[steps.length - 1] ? "ยืนยัน" : "ถัดไป"}
+                  {isSubmitting
+                    ? "กำลังบันทึก..." // ขณะส่งข้อมูล
+                    : activeStep === steps[steps.length - 1]
+                      ? "ยืนยัน"
+                      : "ถัดไป"}
                 </Button>
               </ModalFooter>
             </form>
