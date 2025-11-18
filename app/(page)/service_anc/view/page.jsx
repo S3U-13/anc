@@ -117,8 +117,7 @@ export default function page({
                         <span className="dark:text-gray-400">
                           {" "}
                           {formatThaiDateTime(
-                            roundData?.wife?.pat_reg?.PatVisit
-                              ?.visitdatetime
+                            roundData?.wife?.pat_reg?.PatVisit?.visitdatetime
                           )}
                         </span>
                       </span>
@@ -137,10 +136,7 @@ export default function page({
                           PAT REG LOCATION :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {
-                            roundData?.wife.pat_reg.Location
-                              .detailtext
-                          }
+                          {roundData?.wife.pat_reg.Location.detailtext}
                         </span>
                       </span>
 
@@ -195,10 +191,20 @@ export default function page({
                       </span>
                       <span>
                         <strong className="text-gray-900 dark:text-white">
+                          สัญชาติ :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.wife?.profile?.race_text?.lookupname ||
+                            "ไม่ระบุ"}
+                        </span>
+                      </span>
+                      <span>
+                        <strong className="text-gray-900 dark:text-white">
                           อาชีพ :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {roundData?.wife?.profile?.occupation_detail?.lookupname || "ไม่ระบุ"}
+                          {roundData?.wife?.profile?.occupation_detail
+                            ?.lookupname || "ไม่ระบุ"}
                         </span>
                       </span>
                       <span>
@@ -206,7 +212,7 @@ export default function page({
                           เบอร์โทร :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {roundData?.wife?.profile?.pat_address?.phone || "ไม่ระบุ"}
+                          {roundData?.service_info?.wife_tel || "ไม่ระบุ"}
                         </span>
                       </span>
                       <span>
@@ -218,12 +224,12 @@ export default function page({
                             "ไม่ระบุ"}
                         </span>
                       </span>
-                      <span className="col-span-2">
+                      <span className="">
                         <strong className="text-gray-900 dark:text-white">
                           ที่อยู่ :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {formatAddress(roundData?.wife.profile.pat_address)}
+                          {roundData?.service_info?.wife_address || "-"}
                         </span>
                       </span>
 
@@ -931,19 +937,20 @@ export default function page({
                     <hr className="col-span-2 my-2 border-gray-200 pb-2 dark:border-divider" />
 
                     {/* Husband Info */}
-                    {!roundData?.husband?.profile?.hn && (
-                      <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold  flex gap-1 items-center w-full">
-                        <AlertOctagon className="animate-pulse" size={20} />{" "}
-                        <span className="text-lg">ไม่พบข้อมูลสามี</span>
-                      </div>
-                    )}
+                    {!roundData?.service_info?.hn_husband &&
+                      !roundData?.service_info?.husband_name && (
+                        <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold  flex gap-1 items-center w-full">
+                          <AlertOctagon className="animate-pulse" size={20} />{" "}
+                          <span className="text-lg">ไม่พบข้อมูลสามี</span>
+                        </div>
+                      )}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 px-6 py-4">
                       <span>
                         <strong className="text-gray-900 dark:text-white">
                           HN :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {roundData?.husband?.profile?.hn ?? "-"}
+                          {roundData?.service_info?.hn_husband ?? "-"}
                         </span>
                       </span>
 
@@ -952,9 +959,7 @@ export default function page({
                           ชื่อ :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {roundData?.husband?.profile
-                            ? `${roundData.husband.profile.prename ?? ""}${roundData.husband.profile.firstname ?? ""} ${roundData.husband.profile.lastname ?? ""}`
-                            : "-"}
+                          {roundData?.service_info?.husband_name || "-"}
                         </span>
                       </span>
 
@@ -963,7 +968,17 @@ export default function page({
                           เลขบัตรประชาชน :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {roundData?.husband?.profile?.citizencardno ?? "-"}
+                          {roundData?.service_info?.husband_citizencardno ||
+                            "-"}
+                        </span>
+                      </span>
+
+                      <span>
+                        <strong className="text-gray-900 dark:text-white">
+                          สัญชาติ :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.service_info?.husband_race || "-"}
                         </span>
                       </span>
 
@@ -972,11 +987,7 @@ export default function page({
                           อายุ :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {roundData?.husband?.profile?.birthdatetime
-                            ? calculateAge(
-                                roundData.husband.profile.birthdatetime
-                              )
-                            : "-"}
+                          {roundData?.service_info?.husband_age || "-"}
                         </span>
                       </span>
 
@@ -1005,8 +1016,7 @@ export default function page({
                           เบอร์โทร :
                         </strong>{" "}
                         <span className="dark:text-gray-400">
-                          {roundData?.husband?.profile?.pat_address?.phone ??
-                            "-"}
+                          {roundData?.service_info?.husband_tel || "-"}
                         </span>
                       </span>
                     </div>

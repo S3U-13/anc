@@ -168,7 +168,7 @@ export default function page({
                       setActiveStep(steps[idx + 1]);
                     } else {
                       // Step สุดท้าย → submit form
-                      try {
+                      try {  
                         await form.handleSubmit(); // จะ trigger onSubmit ใน useForm
                       } catch (err) {
                         console.error("Validation failed:", err);

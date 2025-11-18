@@ -454,17 +454,28 @@ export default function page({ validationSchema, form }) {
           }}
         >
           {(field) => (
-            <Input
-              className="col-span-2"
-              size="sm"
-              label="OF"
-              type="text"
-              value={field.state.value || ""}
-              onChange={(e) => field.handleChange(e.target.value)}
-              onBlur={field.handleBlur}
-              isInvalid={field.state.meta.errors.length > 0}
-              errorMessage={field.state.meta.errors[0]?.message}
-            />
+            <form.Field name="of_wife">
+              {(field) => (
+                <Select
+                  size="sm"
+                  className="col-span-1"
+                  label="OF"
+                  selectedKeys={
+                    field.state.value ? new Set([field.state.value]) : new Set()
+                  }
+                  onSelectionChange={(key) => {
+                    const selected = Array.from(key)[0];
+                    field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                  }}
+                >
+                  {data
+                    .filter((of) => of.choice_type_id === 22)
+                    .map((of) => (
+                      <SelectItem key={of.id}>{of.choice_name}</SelectItem>
+                    ))}
+                </Select>
+              )}
+            </form.Field>
           )}
         </form.Field>
         <form.Field
@@ -476,7 +487,7 @@ export default function page({ validationSchema, form }) {
           {(field) => (
             <Select
               size="sm"
-              className="col-span-2"
+              className="col-span-1"
               label="DCIP"
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
@@ -505,7 +516,7 @@ export default function page({ validationSchema, form }) {
         >
           {(field) => (
             <Input
-              className="col-span-2"
+              className="col-span-1"
               size="sm"
               label="MCV"
               type="text"
@@ -525,7 +536,7 @@ export default function page({ validationSchema, form }) {
         >
           {(field) => (
             <Input
-              className="col-span-2"
+              className="col-span-1"
               size="sm"
               label="MCH"
               type="text"

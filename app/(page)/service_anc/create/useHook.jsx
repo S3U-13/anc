@@ -57,6 +57,7 @@ export default function useHook({ closeFormService } = {}) {
     patreg_id: "",
     pat_vitalsign_id: "",
     para: "",
+    prep_weight: "",
     gravida: "",
     p: "",
     a: "",
@@ -69,6 +70,7 @@ export default function useHook({ closeFormService } = {}) {
     hr_id: null,
     hr_detail: "",
     am_id: null,
+    vaccine: null,
     gct_1_wife: "",
     gct_2_wife: "",
     ogtt_1_wife: "",
@@ -81,12 +83,12 @@ export default function useHook({ closeFormService } = {}) {
     bl_gr_wife: null,
     rh_wife: null,
     hct_wife: "",
-    of_wife: "",
+    of_wife: null,
     dcip_wife: null,
     mcv_wife: "",
     mch_wife: "",
     hb_typing_wife: "",
-    pcr_wife_id: "",
+    pcr_wife_id: null,
     pcr_wife_text: "",
     cordo_id: null,
     cordo_text: "",
@@ -479,23 +481,19 @@ export default function useHook({ closeFormService } = {}) {
     p: z.string().min(1, { message: "กรุณากรอก" }),
     a: z.string().min(1, { message: "กรุณากรอก" }),
     para: z.string().min(1, { message: "กรุณากรอก" }),
+    prep_weight: z.string().optional(),
 
-    last: z
-      .string()
-      .min(1, { message: "กรุณากรอก วัน/เดือน/ปี ที่คลอดบุตรคนล่าสุด" }),
-    lmp: z
-      .string()
-      .min(1, { message: "กรุณากรอก วัน/เดือน/ปี ประจำเดือนมาครั้งล่าสุด" }),
-    edc: z
-      .string()
-      .min(1, { message: "กรุณากรอก วัน/เดือน/ปี ที่คาดว่าจะคลอดบุตร" }),
-    ga: z.string().min(1, { message: "กรุณากรอก อายุครรภ์" }),
+    last: z.string().nullable(),
+    lmp: z.string().nullable(),
+    edc: z.string().nullable(),
+    ga: z.string().nullable(),
 
     ma_id: z.string().nullable(),
     ma_detail: z.string().optional(),
     hr_id: z.string().nullable(),
     hr_detail: z.string().nullable(),
     am_id: z.string().nullable(),
+    vaccine: z.coerce.number().nullable(),
 
     // wife lab info
     gct_1_wife: z.string().optional(),
@@ -510,7 +508,7 @@ export default function useHook({ closeFormService } = {}) {
     bl_gr_wife: z.coerce.number().nullable(),
     rh_wife: z.coerce.number().nullable(),
     hct_wife: z.string().optional(),
-    of_wife: z.string().optional(),
+    of_wife: z.coerce.number().nullable(),
     dcip_wife: z.coerce.number().nullable(),
     mcv_wife: z.string().optional(),
     mch_wife: z.string().optional(),
@@ -525,7 +523,7 @@ export default function useHook({ closeFormService } = {}) {
     bl_gr_husband: z.coerce.number().nullable(),
     rh_husband: z.coerce.number().nullable(),
     hct_husband: z.string().nullable(),
-    of_husband: z.string().nullable(),
+    of_husband: z.coerce.number().nullable(),
     dcip_husband: z.coerce.number().nullable(),
     mcv_husband: z.string().nullable(),
     mch_husband: z.string().nullable(),
@@ -712,6 +710,7 @@ export default function useHook({ closeFormService } = {}) {
             "pcr_wife_id",
             "cordo_id",
             "abortion_id",
+            "vaccine",
             "tdap_id",
             "iip_id",
             "bti_id",
@@ -742,12 +741,14 @@ export default function useHook({ closeFormService } = {}) {
             "bl_gr_wife",
             "rh_wife",
             "dcip_wife",
+            "of_wife",
             "hbsag_husband",
             "vdrl_husband",
             "anti_hiv_husband",
             "bl_gr_husband",
             "rh_husband",
             "dcip_husband",
+            "of_husband",
           ].includes(key)
         ) {
           form.setFieldValue(key, String(value));
@@ -854,31 +855,36 @@ export default function useHook({ closeFormService } = {}) {
     }
   }, [currentData, form]);
 
+  const [gaManual, setGaManual] = useState(false);
+  const [edcManual, setEdcManual] = useState(false);
+
   const handleLmpChange = (calendarDate) => {
     if (!calendarDate) {
       form.setFieldValue("lmp", null);
-      form.setFieldValue("edc", null);
-      form.setFieldValue("ga", "");
+      if (!gaManual) form.setFieldValue("ga", "");
+      if (!edcManual) form.setFieldValue("edc", null);
       return;
     }
 
     const iso = `${calendarDate.year}-${String(calendarDate.month).padStart(2, "0")}-${String(calendarDate.day).padStart(2, "0")}`;
     form.setFieldValue("lmp", iso);
 
-    // ✅ คำนวณตรงนี้เลย
-    const lmpDate = new Date(iso + "T00:00:00");
-    const today = new Date();
-    const diffMs = today.getTime() - lmpDate.getTime();
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    const weeks = Math.floor(diffDays / 7);
-    const days = diffDays % 7;
+    // GA
+    if (!gaManual) {
+      const lmpDate = new Date(iso);
+      const today = new Date();
+      const diffDays = Math.floor((today - lmpDate) / (1000 * 60 * 60 * 24));
+      const weeks = Math.floor(diffDays / 7);
+      const days = diffDays % 7;
+      form.setFieldValue("ga", `${weeks} สัปดาห์ ${days} วัน`);
+    }
 
-    const edcDate = new Date(lmpDate);
-    edcDate.setDate(edcDate.getDate() + 280);
-    const edcIso = edcDate.toISOString().split("T")[0];
-
-    form.setFieldValue("edc", edcIso);
-    form.setFieldValue("ga", `${weeks} สัปดาห์ ${days} วัน`);
+    // EDC
+    if (!edcManual) {
+      const edcDate = new Date(iso);
+      edcDate.setDate(edcDate.getDate() + 280);
+      form.setFieldValue("edc", edcDate.toISOString().split("T")[0]);
+    }
   };
 
   const handleReset = () => {
@@ -956,5 +962,7 @@ export default function useHook({ closeFormService } = {}) {
     handleGravidaSelect,
     setSelectedRound,
     handleRoundSelect,
+    setGaManual,
+    setEdcManual,
   };
 }

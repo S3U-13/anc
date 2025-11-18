@@ -58,6 +58,29 @@ export default function page({
           onChange={handleDateChange("td_last_date")}
         />
       </div>
+      <form.Field name="vaccine">
+        {(field) => (
+          <RadioGroup
+            className="col-span-4 px-[20px]"
+            label="วัคซีน"
+            value={field.state.value ?? ""}
+            onChange={(e) => field.handleChange(e.target.value)}
+          >
+            {data
+              .filter((vaccine) => vaccine.choice_type_id === 23)
+              .map((vaccine) => (
+                <div
+                  key={vaccine.id}
+                  className="flex gap-[10px] items-center px-[10px]"
+                >
+                  <Radio value={String(vaccine.id)}>
+                    {vaccine.choice_name}
+                  </Radio>
+                </div>
+              ))}
+          </RadioGroup>
+        )}
+      </form.Field>
       <form.Field
         name="tdap_id"
         validators={{

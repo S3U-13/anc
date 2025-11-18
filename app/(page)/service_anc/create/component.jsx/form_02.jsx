@@ -343,21 +343,31 @@ export default function page({ validationSchema, form }) {
       <div className="col-span-4 grid px-[30px] grid-cols-4 gap-[10px] ">
         <form.Field name="of_wife">
           {(field) => (
-            <Input
-              className="col-span-2"
+          <Select
               size="sm"
+              className="col-span-1"
               label="OF"
-              type="text"
-              value={field.state.value || ""}
-              onChange={(e) => field.handleChange(e.target.value)}
-            />
+              selectedKeys={
+                field.state.value ? new Set([field.state.value]) : new Set()
+              }
+              onSelectionChange={(key) => {
+                const selected = Array.from(key)[0];
+                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+              }}
+            >
+              {data
+                .filter((of) => of.choice_type_id === 22)
+                .map((of) => (
+                  <SelectItem key={of.id}>{of.choice_name}</SelectItem>
+                ))}
+            </Select>
           )}
         </form.Field>
         <form.Field name="dcip_wife">
           {(field) => (
             <Select
               size="sm"
-              className="col-span-2"
+              className="col-span-1"
               label="DCIP"
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
@@ -378,7 +388,7 @@ export default function page({ validationSchema, form }) {
         <form.Field name="mcv_wife">
           {(field) => (
             <Input
-              className="col-span-2"
+              className="col-span-1"
               size="sm"
               label="MCV"
               type="text"
@@ -390,7 +400,7 @@ export default function page({ validationSchema, form }) {
         <form.Field name="mch_wife">
           {(field) => (
             <Input
-              className="col-span-2"
+              className="col-span-1"
               size="sm"
               label="MCH"
               type="text"

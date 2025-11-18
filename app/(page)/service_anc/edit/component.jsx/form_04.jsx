@@ -6,23 +6,24 @@ import useHook from "../useHook";
 import { Select, SelectItem } from "@heroui/select";
 import { AlertOctagon } from "@deemlol/next-icons";
 
-export default function page({ selectedAnc, form }) {
+export default function page({ currentData, form }) {
   const { data, calculateAge, formatName } = useHook();
   return (
     <div className="overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1>ส่วนที่ 4</h1>
       <div className="grid grid-cols-4 gap-[10px] px-[30px] mt-[10px]">
-        {!selectedAnc?.hn_husband && (
-          <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold  flex gap-1 items-center col-span-4">
-            <AlertOctagon className="animate-pulse" size={20} />{" "}
-            <span className="text-lg">ไม่พบข้อมูลสามี</span>
-          </div>
-        )}
+        {!currentData?.service_info?.hn_husband &&
+          !currentData?.service_info?.husband_name && (
+            <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center col-span-4">
+              <AlertOctagon className="animate-pulse" size={20} />
+              <span className="text-lg">ไม่พบข้อมูลสามี</span>
+            </div>
+          )}
         <Input
           size="sm"
           className="col-span-4 md:col-span-2"
           label="HN สามี"
-          value={selectedAnc?.hn_husband ?? ""}
+          value={currentData?.service_info?.hn_husband ?? ""}
           type="text"
           readOnly
           disabled
@@ -31,7 +32,7 @@ export default function page({ selectedAnc, form }) {
           size="sm"
           className="col-span-4 md:col-span-2"
           label="ชื่อสามี"
-          value={formatName(selectedAnc?.husband) ?? ""}
+          value={currentData?.service_info?.husband_name || ""}
           type="text"
           readOnly
           disabled
@@ -40,7 +41,7 @@ export default function page({ selectedAnc, form }) {
           size="sm"
           className="col-span-4 md:col-span-2"
           label="อายุ"
-          value={calculateAge(selectedAnc?.husband?.birthdatetime) ?? ""}
+          value={currentData?.service_info?.husband_age ?? ""}
           type="text"
           readOnly
           disabled
@@ -50,7 +51,16 @@ export default function page({ selectedAnc, form }) {
           className="col-span-4 md:col-span-2"
           label="บัตรประชาชน"
           type="text"
-          value={selectedAnc?.husband?.citizencardno ?? ""}
+          value={currentData?.service_info?.husband_citizencardno ?? ""}
+          readOnly
+          disabled
+        />
+        <Input
+          size="sm"
+          className="col-span-4 md:col-span-2"
+          label="สัญชาติ"
+          type="text"
+          value={currentData?.service_info?.husband_race ?? ""}
           readOnly
           disabled
         />
@@ -59,7 +69,19 @@ export default function page({ selectedAnc, form }) {
           className="col-span-4 md:col-span-2"
           label="อาชีพ"
           type="text"
-          value={selectedAnc?.husband?.occupation_detail?.lookupname ?? ""}
+          value={
+            currentData?.service_info?.husband?.occupation_detail?.lookupname ??
+            ""
+          }
+          readOnly
+          disabled
+        />
+        <Input
+          size="sm"
+          className="col-span-4 md:col-span-2"
+          label="เบอร์โทรศัพท์"
+          type="email"
+          value={currentData?.service_info?.husband_tel ?? ""}
           readOnly
           disabled
         />
@@ -68,7 +90,7 @@ export default function page({ selectedAnc, form }) {
           className="col-span-4 md:col-span-2"
           label="email"
           type="email"
-          value={selectedAnc?.husband?.pat_address?.email ?? ""}
+          value={currentData?.service_info?.husband?.pat_address?.email ?? ""}
           readOnly
           disabled
         />
@@ -246,21 +268,31 @@ export default function page({ selectedAnc, form }) {
         </div>
         <form.Field name="of_husband">
           {(field) => (
-            <Input
+            <Select
               size="sm"
-              className="col-span-2"
+              className="col-span-1"
               label="OF"
-              type="text"
-              value={field.state.value ?? ""} // ✅ null → ""
-              onChange={(e) => field.handleChange(e.target.value)}
-            />
+              selectedKeys={
+                field.state.value ? new Set([field.state.value]) : new Set()
+              }
+              onSelectionChange={(key) => {
+                const selected = Array.from(key)[0];
+                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+              }}
+            >
+              {data
+                .filter((of) => of.choice_type_id === 22)
+                .map((of) => (
+                  <SelectItem key={of.id}>{of.choice_name}</SelectItem>
+                ))}
+            </Select>
           )}
         </form.Field>
         <form.Field name="dcip_husband">
           {(field) => (
             <Select
               size="sm"
-              className="col-span-2"
+              className="col-span-1"
               label="DCIP"
               selectedKeys={
                 field.state.value ? new Set([field.state.value]) : new Set()
@@ -282,7 +314,7 @@ export default function page({ selectedAnc, form }) {
           {(field) => (
             <Input
               size="sm"
-              className="col-span-2"
+              className="col-span-1"
               label="MCV"
               type="text"
               value={field.state.value ?? ""} // ✅ null → ""
@@ -294,7 +326,7 @@ export default function page({ selectedAnc, form }) {
           {(field) => (
             <Input
               size="sm"
-              className="col-span-2"
+              className="col-span-1"
               label="MCH"
               type="text"
               value={field.state.value ?? ""} // ✅ null → ""

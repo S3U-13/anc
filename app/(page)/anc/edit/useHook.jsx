@@ -25,8 +25,15 @@ export default function useHook({
 
   const [field, setField] = useState({
     hn_wife: "",
+    wife_address: "",
+    wife_tel: "",
     sex: "",
     hn_husband: null,
+    husband_name: "",
+    husband_age: null,
+    husband_citizencardno: "",
+    husband_race: "",
+    husband_tel: "",
   });
 
   const handleSearchHnWife = async () => {
@@ -76,9 +83,33 @@ export default function useHook({
           setHnInputWife(dataAncById.hn_wife);
           patWifeData(dataAncById.hn_wife, form, setPat);
         }
-        if (dataAncById.hn_husband) {
+        if (dataAncById.wife_address) {
+          form.setFieldValue("wife_address", dataAncById?.wife_address || "");
+        }
+        if (dataAncById.wife_tel) {
+          form.setFieldValue("wife_tel", dataAncById?.wife_tel || "");
+        }
+        if (Number(dataAncById.hn_husband) > 0) {
           setHnInputHusband(dataAncById.hn_husband);
           patHusbandData(dataAncById.hn_husband, form, setPatHusband);
+        }
+        if (dataAncById.husband_name) {
+          form.setFieldValue("husband_name", dataAncById.husband_name);
+        }
+        if (dataAncById.husband_age) {
+          form.setFieldValue("husband_age", Number(dataAncById.husband_age));
+        }
+        if (dataAncById.husband_citizencardno) {
+          form.setFieldValue(
+            "husband_citizencardno",
+            dataAncById.husband_citizencardno
+          );
+        }
+        if (dataAncById.husband_race) {
+          form.setFieldValue("husband_race", dataAncById.husband_race);
+        }
+        if (dataAncById.husband_tel) {
+          form.setFieldValue("husband_tel", dataAncById.husband_tel);
         }
 
         setAutoSearched(true);
@@ -229,14 +260,35 @@ export default function useHook({
 
   const defaultValues = {
     hn_wife: "",
+    wife_address: "",
+    wife_tel: "",
     sex: "",
     hn_husband: null,
+    husband_name: "",
+    husband_age: null,
+    husband_citizencardno: "",
+    husband_race: "",
+    husband_tel: "",
   };
 
   const validationSchema = z.object({
     hn_wife: z.coerce.number().int().min(1, { message: "กรุณากรอก HN ภรรยา" }),
+    wife_address: z
+      .union([z.string(), z.object({}).passthrough()])
+      .optional()
+      .transform((v) => {
+        if (typeof v === "string") return v;
+        if (typeof v === "object" && v !== null) return formatAddress(v);
+        return "";
+      }),
+    wife_tel: z.string().optional(),
     sex: z.string(),
     hn_husband: z.coerce.number().int().nullable(),
+    husband_name: z.string().optional(),
+    husband_age: z.coerce.number().nullable(),
+    husband_citizencardno: z.string().optional(),
+    husband_race: z.string().optional(),
+    husband_tel: z.string().optional(),
   });
 
   const form = useForm({

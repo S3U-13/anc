@@ -37,7 +37,9 @@ export default function useHook({
     anc_no: "",
     patvisit_id: "",
     patreg_id: "",
+    pat_vitalsign_id: "",
     para: "",
+    prep_weight: "",
     gravida: "",
     p: "",
     a: "",
@@ -50,6 +52,7 @@ export default function useHook({
     hr_id: null,
     hr_detail: "",
     am_id: null,
+    vaccine: null,
     gct_1_wife: "",
     gct_2_wife: "",
     ogtt_1_wife: "",
@@ -62,12 +65,12 @@ export default function useHook({
     bl_gr_wife: null,
     rh_wife: null,
     hct_wife: "",
-    of_wife: "",
+    of_wife: null,
     dcip_wife: null,
     mcv_wife: "",
     mch_wife: "",
     hb_typing_wife: "",
-    pcr_wife_id: "",
+    pcr_wife_id: null,
     pcr_wife_text: "",
     cordo_id: null,
     cordo_text: "",
@@ -448,27 +451,28 @@ export default function useHook({
       invalid_type_error: "กรุณาระบุเป็นตัวเลข",
     }),
 
+    pat_vitalsign_id: z.coerce.number({
+      required_error: "กรุณาระบุ PAT VITALSIGN ID",
+      invalid_type_error: "กรุณาระบุเป็นตัวเลข",
+    }),
+
     gravida: z.string().min(1, { message: "กรุณากรอก" }),
     p: z.string().min(1, { message: "กรุณากรอก" }),
     a: z.string().min(1, { message: "กรุณากรอก" }),
     para: z.string().min(1, { message: "กรุณากรอก" }),
+    prep_weight: z.string().optional(),
 
-    last: z
-      .string()
-      .min(1, { message: "กรุณากรอก วัน/เดือน/ปี ที่คลอดบุตรคนล่าสุด" }),
-    lmp: z
-      .string()
-      .min(1, { message: "กรุณากรอก วัน/เดือน/ปี ประจำเดือนมาครั้งล่าสุด" }),
-    edc: z
-      .string()
-      .min(1, { message: "กรุณากรอก วัน/เดือน/ปี ที่คาดว่าจะคลอดบุตร" }),
-    ga: z.string().min(1, { message: "กรุณากรอก อายุครรภ์" }),
+    last: z.string().nullable(),
+    lmp: z.string().nullable(),
+    edc: z.string().nullable(),
+    ga: z.string().nullable(),
 
     ma_id: z.string().nullable(),
     ma_detail: z.string().optional(),
     hr_id: z.string().nullable(),
     hr_detail: z.string().nullable(),
     am_id: z.string().nullable(),
+    vaccine: z.coerce.number().nullable(),
 
     // wife lab info
     gct_1_wife: z.string().optional(),
@@ -483,7 +487,7 @@ export default function useHook({
     bl_gr_wife: z.coerce.number().nullable(),
     rh_wife: z.coerce.number().nullable(),
     hct_wife: z.string().optional(),
-    of_wife: z.string().optional(),
+    of_wife: z.coerce.number().nullable(),
     dcip_wife: z.coerce.number().nullable(),
     mcv_wife: z.string().optional(),
     mch_wife: z.string().optional(),
@@ -498,7 +502,7 @@ export default function useHook({
     bl_gr_husband: z.coerce.number().nullable(),
     rh_husband: z.coerce.number().nullable(),
     hct_husband: z.string().nullable(),
-    of_husband: z.string().nullable(),
+    of_husband: z.coerce.number().nullable(),
     dcip_husband: z.coerce.number().nullable(),
     mcv_husband: z.string().nullable(),
     mch_husband: z.string().nullable(),
@@ -618,6 +622,7 @@ export default function useHook({
             "pcr_wife_id",
             "cordo_id",
             "abortion_id",
+            "vaccine",
             "tdap_id",
             "iip_id",
             "bti_id",
@@ -648,12 +653,14 @@ export default function useHook({
             "bl_gr_wife",
             "rh_wife",
             "dcip_wife",
+            "of_wife",
             "hbsag_husband",
             "vdrl_husband",
             "anti_hiv_husband",
             "bl_gr_husband",
             "rh_husband",
             "dcip_husband",
+            "of_husband",
           ].includes(key)
         ) {
           form.setFieldValue(key, String(value));
@@ -757,6 +764,7 @@ export default function useHook({
         );
         form.setFieldValue("ref_out_detail", refOut.ref_out_detail ?? "");
       }
+      setActiveStep("from_1");
     }
   }, [openEditService, currentData, form]);
 

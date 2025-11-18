@@ -12,9 +12,9 @@ export default function page({ selectedAnc, form }) {
     <div className="overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1>ส่วนที่ 4</h1>
       <div className="grid grid-cols-4 gap-[10px] px-[30px] mt-[10px]">
-        {!selectedAnc?.hn_husband && (
-          <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold  flex gap-1 items-center col-span-4">
-            <AlertOctagon className="animate-pulse" size={20} />{" "}
+        {!selectedAnc?.hn_husband && !selectedAnc?.husband_name && (
+          <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center col-span-4">
+            <AlertOctagon className="animate-pulse" size={20} />
             <span className="text-lg">ไม่พบข้อมูลสามี</span>
           </div>
         )}
@@ -31,7 +31,7 @@ export default function page({ selectedAnc, form }) {
           size="sm"
           className="col-span-4 md:col-span-2"
           label="ชื่อสามี"
-          value={formatName(selectedAnc?.husband) ?? ""}
+          value={selectedAnc?.husband_name || ""}
           type="text"
           readOnly
           disabled
@@ -40,7 +40,7 @@ export default function page({ selectedAnc, form }) {
           size="sm"
           className="col-span-4 md:col-span-2"
           label="อายุ"
-          value={calculateAge(selectedAnc?.husband?.birthdatetime) ?? ""}
+          value={selectedAnc?.husband_age ?? ""}
           type="text"
           readOnly
           disabled
@@ -50,7 +50,16 @@ export default function page({ selectedAnc, form }) {
           className="col-span-4 md:col-span-2"
           label="บัตรประชาชน"
           type="text"
-          value={selectedAnc?.husband?.citizencardno ?? ""}
+          value={selectedAnc?.husband_citizencardno ?? ""}
+          readOnly
+          disabled
+        />
+        <Input
+          size="sm"
+          className="col-span-4 md:col-span-2"
+          label="สัญชาติ"
+          type="text"
+          value={selectedAnc?.husband_race ?? ""}
           readOnly
           disabled
         />
@@ -60,6 +69,15 @@ export default function page({ selectedAnc, form }) {
           label="อาชีพ"
           type="text"
           value={selectedAnc?.husband?.occupation_detail?.lookupname ?? ""}
+          readOnly
+          disabled
+        />
+        <Input
+          size="sm"
+          className="col-span-4 md:col-span-2"
+          label="เบอร์โทรศัพท์"
+          type="email"
+          value={selectedAnc?.husband_tel ?? ""}
           readOnly
           disabled
         />
@@ -244,64 +262,76 @@ export default function page({ selectedAnc, form }) {
             )}
           </form.Field>
         </div>
-        <form.Field name="of_husband">
-          {(field) => (
-            <Input
-              size="sm"
-              className="col-span-2"
-              label="OF"
-              type="text"
-              value={field.state.value ?? ""} // ✅ null → ""
-              onChange={(e) => field.handleChange(e.target.value)}
-            />
-          )}
-        </form.Field>
-        <form.Field name="dcip_husband">
-          {(field) => (
-            <Select
-              size="sm"
-              className="col-span-2"
-              label="DCIP"
-              selectedKeys={
-                field.state.value ? new Set([field.state.value]) : new Set()
-              }
-              onSelectionChange={(key) => {
-                const selected = Array.from(key)[0];
-                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
-              }}
-            >
-              {data
-                .filter((dcip) => dcip.choice_type_id === 22)
-                .map((dcip) => (
-                  <SelectItem key={dcip.id}>{dcip.choice_name}</SelectItem>
-                ))}
-            </Select>
-          )}
-        </form.Field>
-        <form.Field name="mcv_husband">
-          {(field) => (
-            <Input
-              size="sm"
-              className="col-span-2"
-              label="MCV"
-              type="text"
-              value={field.state.value ?? ""} // ✅ null → ""
-              onChange={(e) => field.handleChange(e.target.value)}
-            />
-          )}
-        </form.Field>
-        <form.Field name="mch_husband">
-          {(field) => (
-            <Input
-              size="sm"
-              className="col-span-2"
-              label="MCH"
-              type="text"
-              value={field.state.value ?? ""} // ✅ null → ""
-              onChange={(e) => field.handleChange(e.target.value)}
-            />
-          )}
-        </form.Field>
+        <div className="grid grid-cols-4 gap-2 col-span-4">
+          <form.Field name="of_husband">
+            {(field) => (
+              <Select
+                size="sm"
+                className="col-span-1"
+                label="OF"
+                selectedKeys={
+                  field.state.value ? new Set([field.state.value]) : new Set()
+                }
+                onSelectionChange={(key) => {
+                  const selected = Array.from(key)[0];
+                  field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                }}
+              >
+                {data
+                  .filter((of) => of.choice_type_id === 22)
+                  .map((of) => (
+                    <SelectItem key={of.id}>{of.choice_name}</SelectItem>
+                  ))}
+              </Select>
+            )}
+          </form.Field>
+          <form.Field name="dcip_husband">
+            {(field) => (
+              <Select
+                size="sm"
+                className="col-span-1"
+                label="DCIP"
+                selectedKeys={
+                  field.state.value ? new Set([field.state.value]) : new Set()
+                }
+                onSelectionChange={(key) => {
+                  const selected = Array.from(key)[0];
+                  field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                }}
+              >
+                {data
+                  .filter((dcip) => dcip.choice_type_id === 22)
+                  .map((dcip) => (
+                    <SelectItem key={dcip.id}>{dcip.choice_name}</SelectItem>
+                  ))}
+              </Select>
+            )}
+          </form.Field>
+          <form.Field name="mcv_husband">
+            {(field) => (
+              <Input
+                size="sm"
+                className="col-span-1"
+                label="MCV"
+                type="text"
+                value={field.state.value ?? ""} // ✅ null → ""
+                onChange={(e) => field.handleChange(e.target.value)}
+              />
+            )}
+          </form.Field>
+          <form.Field name="mch_husband">
+            {(field) => (
+              <Input
+                size="sm"
+                className="col-span-1"
+                label="MCH"
+                type="text"
+                value={field.state.value ?? ""} // ✅ null → ""
+                onChange={(e) => field.handleChange(e.target.value)}
+              />
+            )}
+          </form.Field>
+        </div>
       </div>
 
       <form.Field name="pcr_hus_id">

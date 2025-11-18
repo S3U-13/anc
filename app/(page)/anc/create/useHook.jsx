@@ -25,7 +25,7 @@ export default function useHook({ closeModal }) {
     sex: "",
     hn_husband: null,
     husband_name: "",
-    husband_age: "",
+    husband_age: null,
     husband_citizencardno: "",
     husband_race: "",
     husband_tel: "",

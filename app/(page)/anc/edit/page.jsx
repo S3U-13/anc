@@ -72,7 +72,7 @@ export default function page({
                 aria-label="Dynamic tabs"
               >
                 <Tab disabled key="wife" title="ส่วนของภรรยา">
-                  <div className="overflow-y-scroll max-h-[calc(90vh-300px)]">
+                  <div className="overflow-y-scroll sm:max-h-[calc(90vh-350px)]">
                     <div className="grid grid-cols-8 justify-between">
                       <h1 className="col-span-5">ส่วนของภรรยา</h1>
                       <div className="flex gap-[5px] items-center col-span-3">
@@ -106,13 +106,6 @@ export default function page({
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-[10px] mt-[15px] p-2">
-                      <Input
-                        size="sm"
-                        label="ANC NO"
-                        value={dataAncById?.anc_no}
-                        readOnly
-                        type="text"
-                      />
                       <form.Field
                         name="hn_wife"
                         validators={{
@@ -123,7 +116,7 @@ export default function page({
                           <Input
                             size="sm"
                             label="HN"
-                            value={field.state.value}
+                            value={field.state.value ?? ""}
                             onChange={(e) => field.handleChange(e.target.value)}
                             onBlur={field.handleBlur}
                             isInvalid={field.state.meta.errors.length > 0}
@@ -138,7 +131,7 @@ export default function page({
                             size="sm"
                             type="hidden"
                             label="sex"
-                            value={field.state.value}
+                            value={field.state.value ?? ""}
                             onChange={(e) => field.handleChange(e.target.value)}
                           />
                         )}
@@ -146,7 +139,7 @@ export default function page({
                       <Input
                         size="sm"
                         label="ชื่อ"
-                        value={formatName(pat) || ""}
+                        value={formatName(pat) ?? ""}
                         type="text"
                         readOnly
                         disabled
@@ -155,51 +148,64 @@ export default function page({
                         size="sm"
                         label="อายุ"
                         type="text"
-                        value={calculateAge(pat?.birthdatetime) || ""}
+                        value={calculateAge(pat?.birthdatetime) ?? ""}
                         readOnly
                         disabled
                       />
                       <Input
                         size="sm"
                         label="บัตรประชาชน"
-                        value={pat?.citizencardno || ""}
+                        value={pat?.citizencardno ?? ""}
                         type="text"
                         readOnly
                         disabled
                       />
                       <Input
                         size="sm"
-                        label="เบอร์โทรศัพท์"
-                        value={pat?.pat_address.phone || ""}
+                        label="สัญชาติ"
+                        value={pat?.race_text?.lookupname ?? ""}
                         type="text"
                         readOnly
                         disabled
                       />
-                      <Textarea
-                        className="col-span-2"
-                        label="ที่อยู่"
-                        value={formatAddress(pat?.pat_address)}
-                        readOnly
-                        disabled
-                      />
-
                       <Input
                         size="sm"
                         label="อาชีพ"
-                        value={pat?.occupation_detail?.lookupname || ""}
+                        value={pat?.occupation_detail?.lookupname ?? ""}
                         type="text"
                         readOnly
                         disabled
                       />
+                      <form.Field name="wife_address">
+                        {(field) => (
+                          <Textarea
+                            className="col-span-2"
+                            label="ที่อยู่"
+                            value={field.state.value || ""}
+                            onChange={(e) => field.handleChange(e.target.value)}
+                          />
+                        )}
+                      </form.Field>
+                      <form.Field name="wife_tel">
+                        {(field) => (
+                          <Input
+                            size="sm"
+                            label="เบอร์โทรศัพท์"
+                            value={field.state.value}
+                            type="text"
+                            onChange={(e) => field.handleChange(e.target.value)}
+                          />
+                        )}
+                      </form.Field>
+
                       <Input
                         size="sm"
                         label="email"
-                        value={pat?.pat_address.email || ""}
+                        value={pat?.pat_address?.email ?? ""}
                         type="email"
                         readOnly
                         disabled
                       />
-                     
                     </div>
                   </div>
                 </Tab>
@@ -241,54 +247,97 @@ export default function page({
                         <Input
                           label="HN สามี"
                           size="sm"
-                          // value={field.hn_husband}
-                          // onChange={handleChange}
                           value={field.state.value ?? ""}
                           onChange={(e) => {
                             const value = e.target.value;
-                            // ถ้าผู้ใช้ลบจนเหลือค่าว่าง → ส่ง null
                             field.handleChange(value === "" ? null : value);
                           }}
                           type="text"
                         />
                       )}
                     </form.Field>
-                    <Input
-                      label="ชื่อ สามี"
-                      size="sm"
-                      value={formatNameHusband(patHusband)}
-                      type="text"
-                      readOnly
-                      disabled
-                    />
-                    <Input
-                      label="อายุ"
-                      size="sm"
-                      value={calculateAge(patHusband?.birthdatetime) || ""}
-                      type="text"
-                      readOnly
-                      disabled
-                    />
-                    <Input
-                      label="บัตรประชาชน"
-                      size="sm"
-                      value={patHusband?.citizencardno || ""}
-                      type="text"
-                      readOnly
-                      disabled
-                    />
+                    <form.Field name="husband_name">
+                      {(field) => (
+                        <Input
+                          label="ชื่อ สามี"
+                          size="sm"
+                          value={field.state.value || ""}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          type="text"
+                        />
+                      )}
+                    </form.Field>
+                    <form.Field name="husband_age">
+                      {(field) => {
+                        const realValue = field.state.value || ""; // number เช่น 23
+                        const displayValue =
+                          realValue !== "" ? `${realValue} ปี` : "";
+
+                        return (
+                          <Input
+                            label="อายุ"
+                            size="sm"
+                            value={displayValue} // แสดง "23 ปี"
+                            onChange={(e) => {
+                              const value = e.target.value.replace(
+                                /[^\d]/g,
+                                ""
+                              ); // ตัดตัวหนังสือ
+                              field.handleChange(
+                                value !== "" ? Number(value) : ""
+                              ); // เก็บเป็น number
+                            }}
+                            type="text"
+                          />
+                        );
+                      }}
+                    </form.Field>
+                    <form.Field name="husband_citizencardno">
+                      {(field) => (
+                        <Input
+                          label="บัตรประชาชน"
+                          size="sm"
+                          value={field.state.value}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          type="text"
+                        />
+                      )}
+                    </form.Field>
+                    <form.Field name="husband_race">
+                      {(field) => (
+                        <Input
+                          size="sm"
+                          label="สัญชาติ"
+                          value={field.state.value}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          type="text"
+                        />
+                      )}
+                    </form.Field>
                     <Input
                       label="อาชีพ"
                       size="sm"
-                      value={patHusband?.occupation_detail.lookupname || ""}
+                      value={patHusband?.occupation_detail?.lookupname ?? ""}
                       type="text"
                       readOnly
                       disabled
                     />
+                    <form.Field name="husband_tel">
+                      {(field) => (
+                        <Input
+                          size="sm"
+                          label="เบอร์โทรศัพท์"
+                          value={field.state.value}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          type="text"
+                        />
+                      )}
+                    </form.Field>
+
                     <Input
                       label="email"
                       size="sm"
-                      value={patHusband?.pat_address?.email || ""}
+                      value={patHusband?.pat_address?.email ?? ""}
                       type="email"
                       readOnly
                       disabled

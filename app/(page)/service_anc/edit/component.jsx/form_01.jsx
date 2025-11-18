@@ -75,7 +75,6 @@ export default function page({
           )}
         </form.Field>
 
-
         <Input
           size="sm"
           label="HN"
@@ -115,49 +114,69 @@ export default function page({
         />
         <Input
           size="sm"
-          label="เบอร์โทรศัพท์"
-          value={
-            currentData?.wife?.profile.pat_address?.phone || "" || undefined
-          }
+          label="สัญชาติ"
+          className="col-span-2 md:col-span-1"
+          value={currentData?.wife?.race_text?.lookupname || "" || undefined}
           type="text"
           readOnly
           disabled
         />
+
         <Textarea
           size="sm"
           className="col-span-2"
-          value={
-            formatAddress(currentData?.wife?.profile.pat_address) ||
-            "" ||
-            undefined
-          }
+          value={currentData?.service_info?.wife_address || "" || undefined}
           label="ที่อยู่"
           readOnly
           disabled
         />
-        <Input
-          size="sm"
-          label="อาชีพ"
-          value={
-            currentData?.wife?.profile.occupation_detail?.lookupname ||
-            "" ||
-            undefined
-          }
-          type="text"
-          readOnly
-          disabled
-        />
-        <Input
-          size="sm"
-          label="email"
-          value={
-            currentData?.wife?.profile.pat_address?.email || "-" || undefined
-          }
-          type="email"
-          readOnly
-          disabled
-        />
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 col-span-2 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 col-span-2 gap-2">
+          <Input
+            size="sm"
+            label="เบอร์โทรศัพท์"
+            value={currentData?.service_info?.wife_tel || "" || undefined}
+            type="text"
+            readOnly
+            disabled
+          />
+          <Input
+            size="sm"
+            label="อาชีพ"
+            value={
+              currentData?.wife?.profile.occupation_detail?.lookupname ||
+              "" ||
+              undefined
+            }
+            type="text"
+            readOnly
+            disabled
+          />
+          <Input
+            size="sm"
+            label="email"
+            value={
+              currentData?.wife?.profile.pat_address?.email || "-" || undefined
+            }
+            type="email"
+            readOnly
+            disabled
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 col-span-2 gap-2">
+          <form.Field name="prep_weight">
+            {(field) => (
+              <Input
+                size="sm"
+                label="น้ำหนักก่อนตั้งครรภ์"
+                name="weight"
+                value={field.state.value || ""}
+                onChange={(e) => field.handleChange(e.target.value)}
+                maxLength={3}
+                type="text"
+              />
+            )}
+          </form.Field>
           <Input
             size="sm"
             label="น้ำหนัก"
@@ -182,6 +201,8 @@ export default function page({
             readOnly
             disabled
           />
+        </div>
+        <div className="grid grid-cols-3 col-span-2 gap-2">
           <Input
             size="sm"
             label="ความดันโลหิต"
@@ -212,6 +233,7 @@ export default function page({
             disabled
           />
         </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 col-span-2 gap-2">
           <form.Field
             name="para"

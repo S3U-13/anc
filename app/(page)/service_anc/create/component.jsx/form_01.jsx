@@ -16,6 +16,8 @@ export default function page({
   bmi,
   validationSchema,
   form,
+  setGaManual,
+  setEdcManual,
 }) {
   const { calculateAge, formatAddress, formatName } = useHook();
 
@@ -121,9 +123,9 @@ export default function page({
         />
         <Input
           size="sm"
-          label="เบอร์โทรศัพท์"
+          label="สัญชาติ"
           className="col-span-2 md:col-span-1"
-          value={selectedAnc?.wife?.pat_address?.phone || "" || undefined}
+          value={selectedAnc?.wife?.race_text?.lookupname || "" || undefined}
           type="text"
           readOnly
           disabled
@@ -132,33 +134,60 @@ export default function page({
           size="sm"
           className="col-span-2"
           value={
-            formatAddress(selectedAnc?.wife?.pat_address) || "" || undefined
+           selectedAnc?.wife_address|| "" || undefined
           }
           label="ที่อยู่"
           readOnly
           disabled
         />
-        <Input
-          size="sm"
-          label="อาชีพ"
-          className="col-span-2 md:col-span-1"
-          value={
-            selectedAnc?.wife?.occupation_detail?.lookupname || "" || undefined
-          }
-          type="text"
-          readOnly
-          disabled
-        />
-        <Input
-          size="sm"
-          label="email"
-          className="col-span-2 md:col-span-1"
-          value={selectedAnc?.wife?.pat_address?.email || "" || undefined}
-          type="email"
-          readOnly
-          disabled
-        />
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 col-span-2 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 col-span-2 gap-2">
+          <Input
+            size="sm"
+            label="เบอร์โทรศัพท์"
+            className="col-span-2 md:col-span-1"
+            value={selectedAnc?.wife_tel || "" || undefined}
+            type="text"
+            readOnly
+            disabled
+          />
+          <Input
+            size="sm"
+            label="อาชีพ"
+            className="col-span-2 md:col-span-1"
+            value={
+              selectedAnc?.wife?.occupation_detail?.lookupname ||
+              "" ||
+              undefined
+            }
+            type="text"
+            readOnly
+            disabled
+          />
+          <Input
+            size="sm"
+            label="email"
+            className="col-span-2 md:col-span-1"
+            value={selectedAnc?.wife?.pat_address?.email || "" || undefined}
+            type="email"
+            readOnly
+            disabled
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 col-span-2 gap-2">
+          <form.Field name="prep_weight">
+            {(field) => (
+              <Input
+                size="sm"
+                label="น้ำหนักก่อนตั้งครรภ์"
+                name="weight"
+                value={field.state.value || ""}
+                onChange={(e) => field.handleChange(e.target.value)}
+                maxLength={3}
+                type="text"
+              />
+            )}
+          </form.Field>
           <Input
             size="sm"
             label="น้ำหนัก"
@@ -183,6 +212,9 @@ export default function page({
             readOnly
             disabled
           />
+        </div>
+
+        <div className="grid grid-cols-3 col-span-2 gap-2">
           <Input
             size="sm"
             label="ความดันโลหิต"
@@ -352,43 +384,42 @@ export default function page({
             )}
           </form.Field>
 
-          <form.Field
-            name="edc"
-            validators={{
-              onChange: validationSchema.shape.edc,
-            }}
-          >
+          <form.Field name="edc">
             {(field) => (
               <DatePicker
                 size="sm"
                 label="EDC"
-                isReadOnly
                 locale="th-TH-u-ca-buddhist"
                 value={field.state.value ? parseDate(field.state.value) : null}
-                onChange={() => {}} // ปิดการแก้ไข
+                onChange={(date) => {
+                  if (!date) {
+                    field.handleChange(null);
+                    return;
+                  }
+
+                  const iso = `${date.year}-${String(date.month).padStart(2, "0")}-${String(date.day).padStart(2, "0")}`;
+                  field.handleChange(iso);
+                  setEdcManual(true); // ผู้ใช้แก้เอง
+                }}
                 onBlur={field.handleBlur}
                 isInvalid={field.state.meta.errors.length > 0}
                 errorMessage={field.state.meta.errors[0]?.message}
+                placeholder="เลือกหรือกรอกวัน"
+                withinPortal={false}
               />
             )}
           </form.Field>
 
-          <form.Field
-            name="ga"
-            validators={{
-              onChange: validationSchema.shape.ga,
-            }}
-          >
+          <form.Field name="ga">
             {(field) => (
               <Input
-                type="text"
-                size="sm"
                 label="อายุครรภ์"
+                size="sm"
                 value={field.state.value ?? ""}
-                readOnly
-                onBlur={field.handleBlur}
-                isInvalid={field.state.meta.errors.length > 0}
-                errorMessage={field.state.meta.errors[0]?.message}
+                onChange={(e) => {
+                  setGaManual(true); // ← ผู้ใช้แก้เอง
+                  field.handleChange(e.target.value);
+                }}
               />
             )}
           </form.Field>

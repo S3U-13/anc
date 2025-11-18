@@ -68,6 +68,8 @@ export default function page({ openFormService, closeFormService }) {
     selectedRound,
     setSelectedRound,
     handleRoundSelect,
+    setGaManual,
+    setEdcManual,
   } = useHook({ closeFormService });
 
   return (
@@ -186,6 +188,8 @@ export default function page({ openFormService, closeFormService }) {
                       bmi={bmi}
                       validationSchema={validationSchema}
                       form={form}
+                      setGaManual={setGaManual}
+                      setEdcManual={setEdcManual}
                     />
                   </Tab>
                   <Tab disabled key="from_2" title={<div className="" />}>
