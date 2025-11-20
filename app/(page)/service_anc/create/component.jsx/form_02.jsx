@@ -4,6 +4,7 @@ import { RadioGroup, Radio } from "@heroui/radio";
 import useHook from "../useHook";
 import { Input } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
+import { DatePicker } from "@heroui/date-picker";
 
 export default function page({ validationSchema, form }) {
   const { data, formatThaiDateTime } = useHook();
@@ -96,29 +97,7 @@ export default function page({ validationSchema, form }) {
           </RadioGroup>
         )}
       </form.Field>
-      <form.Field name="am_id">
-        {(field) => (
-          <RadioGroup
-            className="col-span-4 px-[20px]"
-            label="เเนะนำการเจาะน้ำคร่ำตรวจโครโมโซม"
-            value={field.state.value || ""} // ค่าปัจจุบันของ form
-            onValueChange={(val) => field.handleChange(val)}
-          >
-            {data
-              .filter((am) => am.choice_type_id === 3)
-              .map((am) => (
-                <div
-                  key={am.id}
-                  className="flex gap-[10px] items-center px-[10px]"
-                >
-                  <Radio classNames={{ label: "pl-1" }} value={String(am.id)}>
-                    {am.choice_name}
-                  </Radio>
-                </div>
-              ))}
-          </RadioGroup>
-        )}
-      </form.Field>
+
       <h1 className="col-span-4 text-[#71717A] px-[20px]">ค่า Lab</h1>
       <div className="col-span-4 px-[30px] grid grid-cols-4 gap-[10px]">
         <form.Field name="gct_1_wife">
@@ -246,6 +225,35 @@ export default function page({ validationSchema, form }) {
                       />
                     )}
                   </form.Field>
+                  <Input
+                    className="col-span-2"
+                    label="การรักษา*"
+                    size="sm"
+                    color="warning"
+                    variant="flat"
+                    // value={field.state.value || ""}
+                    // onChange={(e) => field.handleChange(e.target.value)}
+                  />
+                  <div className="col-span-2 grid grid-cols-1 md:grid-cols-3 gap-2">
+                    <DatePicker
+                      label="ครั้งที่ 1"
+                      size="sm"
+                      color="warning"
+                      variant="flat"
+                    />
+                    <DatePicker
+                      label="ครั้งที่ 1"
+                      size="sm"
+                      color="warning"
+                      variant="flat"
+                    />
+                    <DatePicker
+                      label="ครั้งที่ 1"
+                      size="sm"
+                      color="warning"
+                      variant="flat"
+                    />
+                  </div>
                 </div>
               )}
             </>
@@ -517,7 +525,7 @@ export default function page({ validationSchema, form }) {
       <form.Field name="cordo_other_text">
         {(field) => (
           <Input
-            className="col-span-4 px-[20px]"
+            className="col-span-4 px-[20px] w-full md:w-1/2"
             size="sm"
             label="อื่น"
             type="text"
@@ -525,6 +533,54 @@ export default function page({ validationSchema, form }) {
             value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}
           />
+        )}
+      </form.Field>
+
+      <form.Field name="am_id">
+        {(field) => (
+          <RadioGroup
+            className="col-span-4 px-[20px]"
+            label="เเนะนำการเจาะน้ำคร่ำตรวจโครโมโซม"
+            value={field.state.value || ""} // ค่าปัจจุบันของ form
+            onValueChange={(val) => field.handleChange(val)}
+          >
+            {data
+              .filter((am) => am.choice_type_id === 3)
+              .map((am) => (
+                <div
+                  key={am.id}
+                  className="md:flex gap-[10px] grid grid-cols-1 items-center px-[10px]"
+                >
+                  <Radio classNames={{ label: "pl-1" }} value={String(am.id)}>
+                    {am.choice_name}
+                  </Radio>
+                  {String(am.id) === "5" && field.state.value === "5" && (
+                    <Input
+                      className="w-full md:w-1/2"
+                      label="ระบุ"
+                      size="sm"
+                      variant="bordered"
+                    />
+                  )}
+                  {String(am.id) === "6" && field.state.value === "6" && (
+                    <Input
+                      className="w-full md:w-1/2"
+                      label="ระบุ"
+                      size="sm"
+                      variant="bordered"
+                    />
+                  )}
+                  {String(am.id) === "7" && field.state.value === "7" && (
+                    <Input
+                      className="w-full md:w-1/2"
+                      label="ระบุ"
+                      size="sm"
+                      variant="bordered"
+                    />
+                  )}
+                </div>
+              ))}
+          </RadioGroup>
         )}
       </form.Field>
 
@@ -536,6 +592,7 @@ export default function page({ validationSchema, form }) {
             onChange={(e) => field.handleChange(e.target.value)}
             onBlur={field.handleBlur}
             orientation="horizontal"
+            label="การเเท้ง"
           >
             {data
               .filter((abortion) => abortion.choice_type_id === 6)

@@ -138,9 +138,9 @@ export default function useHook({ closeFormService } = {}) {
     ref_value_1_id: "",
     ref_value_2_id: "",
     receive_in_id: null,
+    hos_in_id: null,
     receive_in_detail: "",
     ref_in_detail: "",
-    hos_in_id: null,
     receive_out_id: null,
     hos_out_id: null,
     receive_out_detail: "",
@@ -565,14 +565,23 @@ export default function useHook({ closeFormService } = {}) {
     per_os_id: z.string().nullable(),
     ref_value_1_id: z.string().nullable(),
     ref_value_2_id: z.string().nullable(),
-    receive_in_id: z.string().nullable(),
+    receive_in_id: z
+      .union([z.number(), z.string().transform((val) => Number(val))])
+      .nullable(),
+    hos_in_id: z
+      .union([z.number(), z.string().transform((val) => Number(val))])
+      .nullable(),
     receive_in_detail: z.string().nullable(),
     ref_in_detail: z.string().nullable(),
-    hos_in_id: z.string().nullable(),
-    receive_out_id: z.string().nullable(),
+    receive_out_id: z
+      .union([z.number(), z.string().transform((val) => Number(val))])
+      .nullable(),
+    hos_out_id: z
+      .union([z.number(), z.string().transform((val) => Number(val))])
+      .nullable(),
     receive_out_detail: z.string().nullable(),
     ref_out_detail: z.string().nullable(),
-    hos_out_id: z.string().nullable(),
+
     birads_id: z.string().nullable(),
   });
 
@@ -627,7 +636,6 @@ export default function useHook({ closeFormService } = {}) {
           round: rd.label, // ใช้ label เป็นชื่อรอบ เช่น "รอบที่ 1"
         }))
       );
-
       setRoundOptions(formattedRounds);
     } catch (err) {
       console.error("❌ Error fetching rounds:", err);
@@ -833,8 +841,11 @@ export default function useHook({ closeFormService } = {}) {
       // 9️⃣ เซ็ตค่า ref_in_choice / ref_out_choice
       if (currentData.wife?.choices?.ref_in_choice) {
         const refIn = currentData.wife.choices.ref_in_choice;
-        form.setFieldValue("receive_in_id", String(refIn.receive_in_id ?? ""));
-        form.setFieldValue("hos_in_id", String(refIn.hos_in_id ?? ""));
+        form.setFieldValue(
+          "receive_in_id",
+          String(refIn.receive_in_id ?? null)
+        );
+        form.setFieldValue("hos_in_id", String(refIn.hos_in_id ?? null));
         form.setFieldValue("receive_in_detail", refIn.receive_in_detail ?? "");
         form.setFieldValue("ref_in_detail", refIn.ref_in_detail ?? "");
       }
@@ -843,9 +854,9 @@ export default function useHook({ closeFormService } = {}) {
         const refOut = currentData.wife.choices.ref_out_choice;
         form.setFieldValue(
           "receive_out_id",
-          String(refOut.receive_out_id ?? "")
+          String(refOut.receive_out_id ?? null)
         );
-        form.setFieldValue("hos_out_id", String(refOut.hos_out_id ?? ""));
+        form.setFieldValue("hos_out_id", String(refOut.hos_out_id ?? null));
         form.setFieldValue(
           "receive_out_detail",
           refOut.receive_out_detail ?? ""

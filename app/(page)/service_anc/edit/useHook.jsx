@@ -120,9 +120,9 @@ export default function useHook({
     ref_value_1_id: "",
     ref_value_2_id: "",
     receive_in_id: null,
+    hos_in_id: null,
     receive_in_detail: "",
     ref_in_detail: "",
-    hos_in_id: null,
     receive_out_id: null,
     hos_out_id: null,
     receive_out_detail: "",
@@ -544,14 +544,23 @@ export default function useHook({
     per_os_id: z.string().nullable(),
     ref_value_1_id: z.string().nullable(),
     ref_value_2_id: z.string().nullable(),
-    receive_in_id: z.string().nullable(),
+    receive_in_id: z
+      .union([z.number(), z.string().transform((val) => Number(val))])
+      .nullable(),
+    hos_in_id: z
+      .union([z.number(), z.string().transform((val) => Number(val))])
+      .nullable(),
     receive_in_detail: z.string().nullable(),
     ref_in_detail: z.string().nullable(),
-    hos_in_id: z.string().nullable(),
-    receive_out_id: z.string().nullable(),
+    receive_out_id: z
+      .union([z.number(), z.string().transform((val) => Number(val))])
+      .nullable(),
+    hos_out_id: z
+      .union([z.number(), z.string().transform((val) => Number(val))])
+      .nullable(),
     receive_out_detail: z.string().nullable(),
     ref_out_detail: z.string().nullable(),
-    hos_out_id: z.string().nullable(),
+
     birads_id: z.string().nullable(),
   });
 

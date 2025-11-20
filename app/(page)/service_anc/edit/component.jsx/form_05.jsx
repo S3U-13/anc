@@ -21,7 +21,7 @@ export default function page({
       <CheckboxGroup
         className="col-span-4 px-[20px] mt-[10px] min-h-[calc(80vh-400px)]"
         label="การ Refer"
-        value={selectedRef}
+        value={selectedRef || null}
         onValueChange={handleChangeRefIn} // 👈 ใช้ฟังก์ชันเฉพาะ
       >
         {data
@@ -38,7 +38,12 @@ export default function page({
                       <RadioGroup
                         className="px-[25px]"
                         value={field.state.value}
-                        onChange={(e) => field.handleChange(e.target.value)}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          field.handleChange(
+                            v === "" || v === "null" ? null : v
+                          );
+                        }}
                       >
                         {data
                           .filter((rec) => rec.choice_type_id === 16)
@@ -65,7 +70,7 @@ export default function page({
                                           }}
                                           selectedKey={field.state.value}
                                           onSelectionChange={(key) =>
-                                            field.handleChange(key)
+                                            field.handleChange(key ?? null)
                                           }
                                         >
                                           {coverageSite?.map((hos) => (
@@ -122,7 +127,12 @@ export default function page({
                       <RadioGroup
                         className="px-[25px]"
                         value={field.state.value}
-                        onChange={(e) => field.handleChange(e.target.value)}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          field.handleChange(
+                            v === "" || v === "null" ? null : v
+                          );
+                        }}
                       >
                         {data
                           .filter((rec) => rec.choice_type_id === 16)
@@ -148,7 +158,7 @@ export default function page({
                                           }}
                                           selectedKey={field.state.value}
                                           onSelectionChange={(key) =>
-                                            field.handleChange(key)
+                                            field.handleChange(key ?? null)
                                           }
                                         >
                                           {coverageSite?.map((hos) => (
@@ -184,7 +194,7 @@ export default function page({
                                         label="ต่างจังหวัด"
                                         variant="bordered"
                                         size="sm"
-                                        value={field.state.value}
+                                        value={field.state.value || ""}
                                         onChange={(e) =>
                                           field.handleChange(e.target.value)
                                         }

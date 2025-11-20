@@ -5,6 +5,7 @@ import React from "react";
 import useHook from "../useHook";
 import { Select, SelectItem } from "@heroui/select";
 import { AlertOctagon } from "@deemlol/next-icons";
+import { DatePicker } from "@heroui/date-picker";
 
 export default function page({ selectedAnc, form }) {
   const { data, calculateAge, formatName } = useHook();
@@ -164,6 +165,35 @@ export default function page({ selectedAnc, form }) {
                       />
                     )}
                   </form.Field>
+                  <Input
+                    className="col-span-2"
+                    label="การรักษา*"
+                    size="sm"
+                    color="warning"
+                    variant="flat"
+                    // value={field.state.value || ""}
+                    // onChange={(e) => field.handleChange(e.target.value)}
+                  />
+                  <div className="col-span-2 grid grid-cols-1 md:grid-cols-3 gap-2">
+                    <DatePicker
+                      label="ครั้งที่ 1"
+                      size="sm"
+                      color="warning"
+                      variant="flat"
+                    />
+                    <DatePicker
+                      label="ครั้งที่ 1"
+                      size="sm"
+                      color="warning"
+                      variant="flat"
+                    />
+                    <DatePicker
+                      label="ครั้งที่ 1"
+                      size="sm"
+                      color="warning"
+                      variant="flat"
+                    />
+                  </div>
                 </div>
               )}
             </>

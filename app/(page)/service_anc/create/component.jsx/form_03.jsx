@@ -74,11 +74,59 @@ export default function page({
               .map((vaccine) => (
                 <div
                   key={vaccine.id}
-                  className="flex gap-[10px] items-center px-[10px]"
+                  className="grid grid-cols-1 md:flex gap-2 items-center px-[10px]"
                 >
-                  <Radio value={String(vaccine.id)}>
-                    {vaccine.choice_name}
+                  <Radio className="w-40" value={String(vaccine.id)}>
+                    <p className="pl-1">{vaccine.choice_name}</p>
                   </Radio>
+                  {String(vaccine.id) === "58" &&
+                    field.state.value === "58" && (
+                      <div className="grid grid-col-1 md:flex gap-2 item-center w-full">
+                        <Input
+                          label="ระบุเหตุผล"
+                          size="sm"
+                          variant="bordered"
+                        />
+                        <DatePicker
+                          className="w-full md:w-1/3"
+                          label="ระบุวัน"
+                          size="sm"
+                          variant="bordered"
+                        />
+                      </div>
+                    )}
+                  {String(vaccine.id) === "59" &&
+                    field.state.value === "59" && (
+                      <div className="grid grid-col-1 md:flex gap-2 item-center w-full">
+                        <Input
+                          label="ระบุเหตุผล"
+                          size="sm"
+                          variant="bordered"
+                        />
+                        <DatePicker
+                          className="w-full md:w-1/3"
+                          label="ระบุวัน"
+                          size="sm"
+                          variant="bordered"
+                        />
+                      </div>
+                    )}
+                  {String(vaccine.id) === "60" &&
+                    field.state.value === "60" && (
+                      <div className="grid grid-col-1 md:flex gap-2 item-center w-full">
+                        <Input
+                          label="ระบุเหตุผล"
+                          size="sm"
+                          variant="bordered"
+                        />
+                        <DatePicker
+                          className="w-full md:w-1/3"
+                          label="ระบุวัน"
+                          size="sm"
+                          variant="bordered"
+                        />
+                      </div>
+                    )}
                 </div>
               ))}
           </RadioGroup>
@@ -187,67 +235,131 @@ export default function page({
         )}
       </form.Field>
 
-      <div className="col-span-4 grid grid-cols-4 gap-[10px] px-[20px]">
-        <h1 className="text-[#71717A] col-span-4">ค่า Lab 2</h1>
-        <DatePicker
-          size="sm"
-          className="col-span-2 pl-[10px]"
-          label="Lab 2 วันที่"
-          variant="bordered"
-          value={Dates.lab_2 ? parseDate(Dates.lab_2) : null}
-          onChange={handleDateChange("lab_2")}
-        />
-        <form.Field name="hct">
-          {(field) => (
-            <Input
-              size="sm"
-              className="col-span-2 pr-[10px]"
-              label="HCT"
-              variant="bordered"
-              type="text"
-              value={field.state.value ?? ""}
-              onChange={(e) => field.handleChange(e.target.value)}
-            />
-          )}
-        </form.Field>
-        <form.Field name="vdrl_2">
-          {(field) => (
-            <Select
-              size="sm"
-              className="col-span-2 pl-[10px]"
-              label="VDRL"
-              variant="bordered"
-              selectedKeys={
-                field.state.value ? new Set([field.state.value]) : new Set()
-              }
-              onSelectionChange={(key) => {
-                const selected = Array.from(key)[0];
-                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
-              }}
-            >
-              {data
-                .filter((vdrl_wife) => vdrl_wife.choice_type_id === 18)
-                .map((vdrl_wife) => (
-                  <SelectItem key={vdrl_wife.id}>
-                    {vdrl_wife.choice_name}
-                  </SelectItem>
-                ))}
-            </Select>
-          )}
-        </form.Field>
-        <form.Field name="h">
-          {(field) => (
-            <Input
-              size="sm"
-              className="col-span-2 pr-[10px]"
-              label="H"
-              variant="bordered"
-              type="text"
-              value={field.state.value ?? ""}
-              onChange={(e) => field.handleChange(e.target.value)}
-            />
-          )}
-        </form.Field>
+      <div className="col-span-4 px-[20px]">
+        <h1 className="text-[#71717A]">ค่า Lab 2</h1>
+        <div className="grid grid-cols-4 gap-[10px] p-2">
+          <DatePicker
+            size="sm"
+            className="col-span-2"
+            label="Lab 2 วันที่"
+            variant="bordered"
+            value={Dates.lab_2 ? parseDate(Dates.lab_2) : null}
+            onChange={handleDateChange("lab_2")}
+          />
+          <form.Field name="hct">
+            {(field) => (
+              <Input
+                size="sm"
+                className="col-span-2 "
+                label="HCT"
+                variant="bordered"
+                type="text"
+                value={field.state.value ?? ""}
+                onChange={(e) => field.handleChange(e.target.value)}
+              />
+            )}
+          </form.Field>
+          <form.Field name="vdrl_2">
+            {(field) => (
+              <>
+                {" "}
+                <Select
+                  size="sm"
+                  className="col-span-2 "
+                  label="VDRL"
+                  variant="bordered"
+                  selectedKeys={
+                    field.state.value ? new Set([field.state.value]) : new Set()
+                  }
+                  onSelectionChange={(key) => {
+                    const selected = Array.from(key)[0];
+                    field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                  }}
+                >
+                  {data
+                    .filter((vdrl_wife) => vdrl_wife.choice_type_id === 18)
+                    .map((vdrl_wife) => (
+                      <SelectItem key={vdrl_wife.id}>
+                        {vdrl_wife.choice_name}
+                      </SelectItem>
+                    ))}
+                </Select>
+                {String(field.state.value) === "47" && (
+                  <>
+                    <form.Field name="ppr_husband">
+                      {(field) => (
+                        <Input
+                          label="PPR*"
+                          size="sm"
+                          color="warning"
+                          variant="flat"
+                          value={field.state.value || ""}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                        />
+                      )}
+                    </form.Field>
+                    <form.Field name="tpha_husband">
+                      {(field) => (
+                        <Input
+                          label="TPHA*"
+                          size="sm"
+                          color="warning"
+                          variant="flat"
+                          value={field.state.value || ""}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                        />
+                      )}
+                    </form.Field>
+                    <div className="grid grid-cols-1 col-span-4 gap-2">
+                      <Input
+                        className="col-span-2"
+                        label="การรักษา*"
+                        size="sm"
+                        color="warning"
+                        variant="flat"
+                        // value={field.state.value || ""}
+                        // onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                      <div className="col-span-2 grid grid-cols-1 md:grid-cols-3 gap-2">
+                        <DatePicker
+                          label="ครั้งที่ 1"
+                          size="sm"
+                          color="warning"
+                          variant="flat"
+                        />
+                        <DatePicker
+                          label="ครั้งที่ 1"
+                          size="sm"
+                          color="warning"
+                          variant="flat"
+                        />
+                        <DatePicker
+                          label="ครั้งที่ 1"
+                          size="sm"
+                          color="warning"
+                          variant="flat"
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
+              </>
+            )}
+          </form.Field>
+          <form.Field name="h">
+            {(field) => (
+              <Input
+                size="sm"
+                className="col-span-2 "
+                label="HIV"
+                variant="bordered"
+                type="text"
+                value={field.state.value ?? ""}
+                onChange={(e) => field.handleChange(e.target.value)}
+              />
+            )}
+          </form.Field>
+        </div>
       </div>
 
       <CheckboxGroup
@@ -324,9 +436,38 @@ export default function page({
                         {data
                           .filter((birads) => birads.choice_type_id === 11)
                           .map((birads) => (
-                            <Radio key={birads.id} value={String(birads.id)}>
-                              {birads.choice_name}
-                            </Radio>
+                            <div
+                              key={birads.id}
+                              className="grid grid-cols-1 md:flex items-center gap-2"
+                            >
+                              <Radio className="w-40" value={String(birads.id)}>
+                                <p className="pl-1">{birads.choice_name}</p>
+                              </Radio>
+                              {String(birads.id) === "27" &&
+                                field.state.value === "27" && (
+                                  <Input
+                                    label="ระบุ"
+                                    size="sm"
+                                    variant="bordered"
+                                  />
+                                )}
+                              {String(birads.id) === "28" &&
+                                field.state.value === "28" && (
+                                  <Input
+                                    label="ระบุ"
+                                    size="sm"
+                                    variant="bordered"
+                                  />
+                                )}
+                              {String(birads.id) === "29" &&
+                                field.state.value === "29" && (
+                                  <Input
+                                    label="ระบุ"
+                                    size="sm"
+                                    variant="bordered"
+                                  />
+                                )}
+                            </div>
                           ))}
                       </RadioGroup>
                     )}
@@ -374,7 +515,18 @@ export default function page({
                   key={per_os.id}
                   className="flex gap-[10px] items-center px-[10px]"
                 >
-                  <Radio value={String(per_os.id)}>{per_os.choice_name}</Radio>
+                  <Radio className="w-40" value={String(per_os.id)}>
+                    <p className="pl-1">{per_os.choice_name}</p>
+                  </Radio>
+                  {String(per_os.id) === "30" && field.state.value === "30" && (
+                    <Input label="ระบุ" size="sm" variant="bordered" />
+                  )}
+                  {String(per_os.id) === "31" && field.state.value === "31" && (
+                    <Input label="ระบุ" size="sm" variant="bordered" />
+                  )}
+                  {String(per_os.id) === "32" && field.state.value === "32" && (
+                    <Input label="ระบุ" size="sm" variant="bordered" />
+                  )}
                 </div>
               ))}
           </RadioGroup>
