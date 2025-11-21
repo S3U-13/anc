@@ -121,12 +121,14 @@ export default function useHook({ closeFormService } = {}) {
     iip_date: null,
     lab_2: null,
     vdrl_2: null,
+    ppr_wife_2: "",
+    tpha_wife_2: "",
     treatment_detail_wife_2: "",
     vac_lab_date_1_wife_2: null,
     vac_lab_date_2_wife_2: null,
     vac_lab_date_3_wife_2: null,
     hct: null,
-    h: null,
+    hiv: null,
     bti_value_1_id: null,
     bti_value_2_id: null,
     bti_value_3_id: null,
@@ -238,7 +240,9 @@ export default function useHook({ closeFormService } = {}) {
   ];
 
   const [selectedRef, setSelectedRef] = useState(
-    [field.ref_value_1_id, field.ref_value_2_id].filter(Boolean)
+    [field.ref_value_1_id, field.ref_value_2_id, field.ref_value_3_id].filter(
+      Boolean
+    )
   );
 
   const [Dates, setDates] = useState({
@@ -254,7 +258,7 @@ export default function useHook({ closeFormService } = {}) {
     vac_lab_date_2_wife: field.vac_lab_date_2_wife || null,
     vac_lab_date_3_wife: field.vac_lab_date_3_wife || null,
     vaccine_date_1: field.vaccine_date_1 || null,
-    vac_lab_date_2_wife: field.vaccine_date_2 || null,
+    vaccine_date_2: field.vaccine_date_2 || null,
     vaccine_date_3: field.vaccine_date_3 || null,
     vac_lab_date_1_wife_2: field.vac_lab_date_1_wife_2 || null,
     vac_lab_date_2_wife_2: field.vac_lab_date_2_wife_2 || null,
@@ -428,6 +432,7 @@ export default function useHook({ closeFormService } = {}) {
 
     // update form
     form.setFieldValue(fieldName, iso);
+    console.log(fieldName, iso);
   };
 
   // แปลง CalendarDate -> "YYYY-MM-DD"
@@ -488,14 +493,26 @@ export default function useHook({ closeFormService } = {}) {
       setEditVitalsign(defaultVitals);
       setBmi("");
       setDates({
-        bti_1_date: null,
-        bti_2_date: null,
-        td_last_date: null,
-        tdap_round_1: null,
-        tdap_round_2: null,
-        tdap_round_3: null,
-        iip_date: null,
-        lab_2: null,
+        vac_lab_date_1_wife: field.vac_lab_date_1_wife || null,
+        vac_lab_date_2_wife: field.vac_lab_date_2_wife || null,
+        vac_lab_date_3_wife: field.vac_lab_date_3_wife || null,
+        bti_1_date: field.bti_1_date || null,
+        bti_2_date: field.bti_2_date || null,
+        td_last_date: field.td_last_date || null,
+        vaccine_date_1: field.vaccine_date_1 || null,
+        vaccine_date_2: field.vaccine_date_2 || null,
+        vaccine_date_3: field.vaccine_date_3 || null,
+        tdap_round_1: field.tdap_round_1 || null,
+        tdap_round_2: field.tdap_round_2 || null,
+        tdap_round_3: field.tdap_round_3 || null,
+        iip_date: field.iip_date || null,
+        lab_2: field.lab_2 || null,
+        vac_lab_date_1_wife_2: field.vac_lab_date_1_wife_2 || null,
+        vac_lab_date_2_wife_2: field.vac_lab_date_2_wife_2 || null,
+        vac_lab_date_3_wife_2: field.vac_lab_date_3_wife_2 || null,
+        vac_lab_date_1_husband: field.vac_lab_date_1_husband || null,
+        vac_lab_date_2_husband: field.vac_lab_date_2_husband || null,
+        vac_lab_date_3_husband: field.vac_lab_date_3_husband || null,
       });
       setSelectedBti([]);
       setSelectedCbe([]);
@@ -605,7 +622,7 @@ export default function useHook({ closeFormService } = {}) {
     am_detail_2: z.string().optional(),
     am_detail_3: z.string().optional(),
     abortion_id: z.string().nullable(),
-    td_num: z.string().nullable(),
+    td_num: z.string().optional(),
     td_last_date: z.string().nullable(),
     td_forget_date: z.string().optional(),
     vaccine: z.coerce.number().nullable(),
@@ -623,12 +640,14 @@ export default function useHook({ closeFormService } = {}) {
     iip_date: z.string().nullable(),
     lab_2: z.string().nullable(),
     vdrl_2: z.string().nullable(),
+    ppr_wife_2: z.string().optional(),
+    tpha_wife_2: z.string().optional(),
     treatment_detail_wife_2: z.string().optional(),
     vac_lab_date_1_wife_2: z.string().nullable(),
     vac_lab_date_2_wife_2: z.string().nullable(),
     vac_lab_date_3_wife_2: z.string().nullable(),
     hct: z.string().nullable(),
-    h: z.string().nullable(),
+    hiv: z.string().nullable(),
     bti_value_1_id: z.string().nullable(),
     bti_value_2_id: z.string().nullable(),
     bti_value_3_id: z.string().nullable(),
@@ -650,9 +669,15 @@ export default function useHook({ closeFormService } = {}) {
     per_os_detail_4: z.string().optional(),
     per_os_detail_5: z.string().optional(),
     per_os_id: z.string().nullable(),
-    ref_value_1_id: z.string().nullable(),
-    ref_value_2_id: z.string().nullable(),
-    ref_value_3_id: z.string().nullable(),
+    ref_value_1_id: z
+      .union([z.number(), z.string().transform((val) => Number(val))])
+      .nullable(),
+    ref_value_2_id: z
+      .union([z.number(), z.string().transform((val) => Number(val))])
+      .nullable(),
+    ref_value_3_id: z
+      .union([z.number(), z.string().transform((val) => Number(val))])
+      .nullable(),
     receive_in_id: z
       .union([z.number(), z.string().transform((val) => Number(val))])
       .nullable(),
@@ -800,12 +825,14 @@ export default function useHook({ closeFormService } = {}) {
         } else if (
           [
             // Radio / select fields
+            "verified_by",
             "ma_id",
             "hr_id",
             "am_id",
             "pcr_wife_id",
             "cordo_id",
             "abortion_id",
+            "forget_or_remember",
             "vaccine",
             "tdap_id",
             "iip_id",
@@ -838,6 +865,8 @@ export default function useHook({ closeFormService } = {}) {
             "rh_wife",
             "dcip_wife",
             "of_wife",
+            "vdrl_2",
+            "hiv",
             "hbsag_husband",
             "vdrl_husband",
             "anti_hiv_husband",
@@ -887,7 +916,11 @@ export default function useHook({ closeFormService } = {}) {
       // 7️⃣ เซ็ต selected state ของ Referral
       if (currentData?.wife?.choices?.referral_value) {
         const ref = currentData.wife.choices.referral_value;
-        const initialSelected = [ref.ref_value_1_id, ref.ref_value_2_id]
+        const initialSelected = [
+          ref.ref_value_1_id,
+          ref.ref_value_2_id,
+          ref.ref_value_3_id,
+        ]
           .filter(Boolean)
           .map(String);
 
@@ -896,7 +929,7 @@ export default function useHook({ closeFormService } = {}) {
         const refField = mapCheckboxValues(
           "ref",
           initialSelected,
-          2,
+          3,
           refChoice
         );
         Object.entries(refField).forEach(([key, value]) => {
@@ -924,9 +957,60 @@ export default function useHook({ closeFormService } = {}) {
         bti_2_date: info.bti_2_date ? info.bti_2_date.split("T")[0] : null,
         lmp: info.lmp ? info.lmp.split("T")[0] : null,
         edc: info.edc ? info.edc.split("T")[0] : null,
+
+        // wife lab
+        vac_lab_date_1_wife: info.vac_lab_date_1_wife
+          ? info.vac_lab_date_1_wife.split("T")[0]
+          : null,
+        vac_lab_date_2_wife: info.vac_lab_date_2_wife
+          ? info.vac_lab_date_2_wife.split("T")[0]
+          : null,
+        vac_lab_date_3_wife: info.vac_lab_date_3_wife
+          ? info.vac_lab_date_3_wife.split("T")[0]
+          : null,
+
+        // wife lab 2
+        vac_lab_date_1_wife_2: info.vac_lab_date_1_wife_2
+          ? info.vac_lab_date_1_wife_2.split("T")[0]
+          : null,
+        vac_lab_date_2_wife_2: info.vac_lab_date_2_wife_2
+          ? info.vac_lab_date_2_wife_2.split("T")[0]
+          : null,
+        vac_lab_date_3_wife_2: info.vac_lab_date_3_wife_2
+          ? info.vac_lab_date_3_wife_2.split("T")[0]
+          : null,
+
+        // husband
+        vac_lab_date_1_husband: info.vac_lab_date_1_husband
+          ? info.vac_lab_date_1_husband.split("T")[0]
+          : null,
+        vac_lab_date_2_husband: info.vac_lab_date_2_husband
+          ? info.vac_lab_date_2_husband.split("T")[0]
+          : null,
+        vac_lab_date_3_husband: info.vac_lab_date_3_husband
+          ? info.vac_lab_date_3_husband.split("T")[0]
+          : null,
+
+        // vaccine
+        vaccine_date_1: info.vaccine_date_1
+          ? info.vaccine_date_1.split("T")[0]
+          : null,
+        vaccine_date_2: info.vaccine_date_2
+          ? info.vaccine_date_2.split("T")[0]
+          : null,
+        vaccine_date_3: info.vaccine_date_3
+          ? info.vaccine_date_3.split("T")[0]
+          : null,
       });
 
       // 9️⃣ เซ็ตค่า ref_in_choice / ref_out_choice
+      if (currentData.wife?.choices?.refOther) {
+        const ref_other = currentData.wife.choices.refOther;
+        form.setFieldValue(
+          "ref_other_detail",
+          String(ref_other.ref_other_detail ?? "")
+        );
+      }
       if (currentData.wife?.choices?.ref_in_choice) {
         const refIn = currentData.wife.choices.ref_in_choice;
         form.setFieldValue(
@@ -988,21 +1072,37 @@ export default function useHook({ closeFormService } = {}) {
 
   const handleReset = () => {
     form.reset();
+    setGravidaOptions([]);
+    setSelectedGravida("");
+    setRoundOptions([]);
+    setSelectedRound("");
+    setCurrentData(null);
     setField(initialField);
     setSelectedAnc(null);
     setActiveStep("from_1");
     setEditVitalsign(defaultVitals);
     setBmi("");
-    setEdcManual(null);
     setDates({
-      bti_1_date: null,
-      bti_2_date: null,
-      td_last_date: null,
-      tdap_round_1: null,
-      tdap_round_2: null,
-      tdap_round_3: null,
-      iip_date: null,
-      lab_2: null,
+      vac_lab_date_1_wife: field.vac_lab_date_1_wife || null,
+      vac_lab_date_2_wife: field.vac_lab_date_2_wife || null,
+      vac_lab_date_3_wife: field.vac_lab_date_3_wife || null,
+      bti_1_date: field.bti_1_date || null,
+      bti_2_date: field.bti_2_date || null,
+      td_last_date: field.td_last_date || null,
+      vaccine_date_1: field.vaccine_date_1 || null,
+      vaccine_date_2: field.vaccine_date_2 || null,
+      vaccine_date_3: field.vaccine_date_3 || null,
+      tdap_round_1: field.tdap_round_1 || null,
+      tdap_round_2: field.tdap_round_2 || null,
+      tdap_round_3: field.tdap_round_3 || null,
+      iip_date: field.iip_date || null,
+      lab_2: field.lab_2 || null,
+      vac_lab_date_1_wife_2: field.vac_lab_date_1_wife_2 || null,
+      vac_lab_date_2_wife_2: field.vac_lab_date_2_wife_2 || null,
+      vac_lab_date_3_wife_2: field.vac_lab_date_3_wife_2 || null,
+      vac_lab_date_1_husband: field.vac_lab_date_1_husband || null,
+      vac_lab_date_2_husband: field.vac_lab_date_2_husband || null,
+      vac_lab_date_3_husband: field.vac_lab_date_3_husband || null,
     });
     setSelectedBti([]);
     setSelectedCbe([]);

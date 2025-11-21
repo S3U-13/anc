@@ -196,7 +196,12 @@ export default function page({ openFormService, closeFormService }) {
                     />
                   </Tab>
                   <Tab disabled key="from_2" title={<div className="" />}>
-                    <Form02 validationSchema={validationSchema} form={form} />
+                    <Form02
+                      validationSchema={validationSchema}
+                      form={form}
+                      Dates={Dates}
+                      handleDateChange={handleDateChange}
+                    />
                   </Tab>
                   <Tab disabled key="from_3" title={<div className="" />}>
                     <Form03
@@ -211,7 +216,12 @@ export default function page({ openFormService, closeFormService }) {
                     />
                   </Tab>
                   <Tab disabled key="from_4" title={<div className="" />}>
-                    <Form04 selectedAnc={selectedAnc} form={form} />
+                    <Form04
+                      selectedAnc={selectedAnc}
+                      form={form}
+                      Dates={Dates}
+                      handleDateChange={handleDateChange}
+                    />
                   </Tab>
                   <Tab disabled key="from_5" title={<div className="" />}>
                     <Form05

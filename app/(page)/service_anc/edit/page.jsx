@@ -62,6 +62,8 @@ export default function page({
     Dates,
     selectedRef,
     modalRef,
+    setGaManual,
+    setEdcManual,
     isSubmitting,
   } = useHook({
     openEditService,
@@ -115,11 +117,18 @@ export default function page({
                       bmi={bmi}
                       validationSchema={validationSchema}
                       form={form}
+                      setGaManual={setGaManual}
+                      setEdcManual={setEdcManual}
                       currentData={currentData}
                     />
                   </Tab>
                   <Tab disabled key="from_2" title={<div className="" />}>
-                    <Form02 validationSchema={validationSchema} form={form} />
+                    <Form02
+                      validationSchema={validationSchema}
+                      form={form}
+                      Dates={Dates}
+                      handleDateChange={handleDateChange}
+                    />
                   </Tab>
                   <Tab disabled key="from_3" title={<div className="" />}>
                     <Form03
@@ -136,7 +145,12 @@ export default function page({
                     />
                   </Tab>
                   <Tab disabled key="from_4" title={<div className="" />}>
-                    <Form04 form={form} currentData={currentData} />
+                    <Form04
+                      form={form}
+                      currentData={currentData}
+                      Dates={Dates}
+                      handleDateChange={handleDateChange}
+                    />
                   </Tab>
                   <Tab disabled key="from_5" title={<div className="" />}>
                     <Form05

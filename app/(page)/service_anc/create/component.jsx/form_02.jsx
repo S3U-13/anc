@@ -7,8 +7,13 @@ import { Select, SelectItem } from "@heroui/select";
 import { DatePicker } from "@heroui/date-picker";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 
-export default function page({ validationSchema, form }) {
-  const { data, formatThaiDateTime, Dates, handleDateChange } = useHook();
+export default function page({
+  validationSchema,
+  Dates,
+  form,
+  handleDateChange,
+}) {
+  const { data, formatThaiDateTime } = useHook();
   return (
     <div className="grid grid-cols-4 gap-[10px] overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1 className="col-span-4">ส่วนที่ 2</h1>

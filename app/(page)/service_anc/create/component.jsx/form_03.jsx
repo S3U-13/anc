@@ -81,7 +81,7 @@ export default function page({
                 />
               )}
               {String(field.state.value) === "66" && (
-                <form.Field name="td_forget_data">
+                <form.Field name="td_forget_date">
                   {(field) => (
                     <Input
                       label="ระบุ"
@@ -139,11 +139,11 @@ export default function page({
                           size="sm"
                           variant="bordered"
                           value={
-                            Dates.vaccine_data_1
-                              ? parseDate(Dates.vaccine_data_1)
+                            Dates.vaccine_date_1
+                              ? parseDate(Dates.vaccine_date_1)
                               : null
                           }
-                          onChange={handleDateChange("vaccine_data_1")}
+                          onChange={handleDateChange("vaccine_date_1")}
                         />
                       </div>
                     )}
@@ -425,11 +425,11 @@ export default function page({
                           color="warning"
                           variant="flat"
                           value={
-                            Dates.vac_lab_data_2_wife_2
-                              ? parseDate(Dates.vac_lab_data_2_wife_2)
+                            Dates.vac_lab_date_2_wife_2
+                              ? parseDate(Dates.vac_lab_date_2_wife_2)
                               : null
                           }
-                          onChange={handleDateChange("vac_lab_data_2_wife_2")}
+                          onChange={handleDateChange("vac_lab_date_2_wife_2")}
                         />
                         <DatePicker
                           label="ครั้งที่ 3"
@@ -450,7 +450,7 @@ export default function page({
               </>
             )}
           </form.Field>
-          <form.Field name="h">
+          <form.Field name="hiv">
             {(field) => (
               <Select
                 size="sm"

@@ -40,19 +40,31 @@ export default function useHook({
     pat_vitalsign_id: "",
     para: "",
     prep_weight: "",
+    bmi: "",
+    forget_or_remember: null,
     gravida: "",
     p: "",
     a: "",
     last: "",
-    lmp: "",
-    edc: "",
+    lmp: null,
+    edc: null,
     ga: "",
+    verified_by: null,
     ma_id: null,
     ma_detail: "",
     hr_id: null,
     hr_detail: "",
     am_id: null,
+    am_detail_1: "",
+    am_detail_2: "",
+    am_detail_3: "",
     vaccine: null,
+    vaccine_detail_1: "",
+    vaccine_detail_2: "",
+    vaccine_detail_3: "",
+    vaccine_date_1: null,
+    vaccine_date_2: null,
+    vaccine_date_3: null,
     gct_1_wife: "",
     gct_2_wife: "",
     ogtt_1_wife: "",
@@ -61,6 +73,10 @@ export default function useHook({
     vdrl_wife: null,
     ppr_wife: "",
     tpha_wife: "",
+    treatment_detail_wife: "",
+    vac_lab_date_1_wife: null,
+    vac_lab_date_2_wife: null,
+    vac_lab_date_3_wife: null,
     anti_hiv_wife: null,
     bl_gr_wife: null,
     rh_wife: null,
@@ -76,8 +92,9 @@ export default function useHook({
     cordo_text: "",
     cordo_other_text: "",
     abortion_id: null,
-    td_num: null,
+    td_num: "",
     td_last_date: null,
+    td_forget_date: "",
     tdap_id: null,
     tdap_round_1: null,
     tdap_round_2: null,
@@ -86,8 +103,14 @@ export default function useHook({
     iip_date: null,
     lab_2: null,
     vdrl_2: null,
+    ppr_wife_2: "",
+    tpha_wife_2: "",
+    treatment_detail_wife_2: "",
+    vac_lab_date_1_wife_2: null,
+    vac_lab_date_2_wife_2: null,
+    vac_lab_date_3_wife_2: null,
     hct: null,
-    h: null,
+    hiv: null,
     bti_value_1_id: null,
     bti_value_2_id: null,
     bti_value_3_id: null,
@@ -100,12 +123,24 @@ export default function useHook({
     cbe_value_3_id: null,
     cbe_value_4_id: null,
     birads_id: null,
+    birads_detail_1: "",
+    birads_detail_2: "",
+    birads_detail_3: "",
     cbe_result: "",
     per_os_id: null,
+    per_os_detail_1: "",
+    per_os_detail_2: "",
+    per_os_detail_3: "",
+    per_os_detail_4: "",
+    per_os_detail_5: "",
     hbsag_husband: null,
     vdrl_husband: null,
     ppr_husband: "",
     tpha_husband: "",
+    treatment_detail_husband: "",
+    vac_lab_date_1_husband: null,
+    vac_lab_date_2_husband: null,
+    vac_lab_date_3_husband: null,
     anti_hiv_husband: null,
     bl_gr_husband: null,
     rh_husband: null,
@@ -119,6 +154,7 @@ export default function useHook({
     pcr_hus_id: null,
     ref_value_1_id: "",
     ref_value_2_id: "",
+    ref_value_3_id: "",
     receive_in_id: null,
     hos_in_id: null,
     receive_in_detail: "",
@@ -127,6 +163,7 @@ export default function useHook({
     hos_out_id: null,
     receive_out_detail: "",
     ref_out_detail: "",
+    ref_other_detail: "",
   });
 
   const [field, setField] = useState(initialField());
@@ -181,10 +218,13 @@ export default function useHook({
   const refChoice = [
     { id: "40", label: "ref 1" },
     { id: "41", label: "ref 2" },
+    { id: "67", label: "ref 3" },
   ];
 
   const [selectedRef, setSelectedRef] = useState(
-    [field.ref_value_1_id, field.ref_value_2_id].filter(Boolean)
+    [field.ref_value_1_id, field.ref_value_2_id, field.ref_value_3_id].filter(
+      Boolean
+    )
   );
 
   const [Dates, setDates] = useState({
@@ -196,6 +236,18 @@ export default function useHook({
     tdap_round_3: field.tdap_round_3 || null,
     iip_date: field.iip_date || null,
     lab_2: field.lab_2 || null,
+    vac_lab_date_1_wife: field.vac_lab_date_1_wife || null,
+    vac_lab_date_2_wife: field.vac_lab_date_2_wife || null,
+    vac_lab_date_3_wife: field.vac_lab_date_3_wife || null,
+    vaccine_date_1: field.vaccine_date_1 || null,
+    vaccine_date_2: field.vaccine_date_2 || null,
+    vaccine_date_3: field.vaccine_date_3 || null,
+    vac_lab_date_1_wife_2: field.vac_lab_date_1_wife_2 || null,
+    vac_lab_date_2_wife_2: field.vac_lab_date_2_wife_2 || null,
+    vac_lab_date_3_wife_2: field.vac_lab_date_3_wife_2 || null,
+    vac_lab_date_1_husband: field.vac_lab_date_1_husband || null,
+    vac_lab_date_2_husband: field.vac_lab_date_2_husband || null,
+    vac_lab_date_3_husband: field.vac_lab_date_3_husband || null,
   });
 
   const handleChangeBti = (vals) => {
@@ -250,7 +302,7 @@ export default function useHook({
     setSelectedRef(updatedSelected);
 
     // คำนวณค่า field ที่ต้องเซ็ตจาก selected ใหม่ (เหมือนเดิม)
-    const refField = mapCheckboxValues("ref", updatedSelected, 2, refChoice);
+    const refField = mapCheckboxValues("ref", updatedSelected, 3, refChoice);
 
     Object.entries(refField).forEach(([key, value]) => {
       // value ที่ได้ ถ้าเป็น undefined ให้เป็น null (หรือ "" แล้วแต่ convention ของคุณ)
@@ -271,6 +323,9 @@ export default function useHook({
       form.setFieldValue("hos_out_id", null);
       form.setFieldValue("receive_out_detail", "");
       form.setFieldValue("ref_out_detail", "");
+    }
+    if (removed.includes("67")) {
+      form.setFieldValue("ref_other_detail", "");
     }
   };
 
@@ -416,14 +471,26 @@ export default function useHook({
       setEditVitalsign(defaultVitals);
       setBmi("");
       setDates({
-        bti_1_date: null,
-        bti_2_date: null,
-        td_last_date: null,
-        tdap_round_1: null,
-        tdap_round_2: null,
-        tdap_round_3: null,
-        iip_date: null,
-        lab_2: null,
+        vac_lab_date_1_wife: field.vac_lab_date_1_wife || null,
+        vac_lab_date_2_wife: field.vac_lab_date_2_wife || null,
+        vac_lab_date_3_wife: field.vac_lab_date_3_wife || null,
+        bti_1_date: field.bti_1_date || null,
+        bti_2_date: field.bti_2_date || null,
+        td_last_date: field.td_last_date || null,
+        vaccine_date_1: field.vaccine_date_1 || null,
+        vaccine_date_2: field.vaccine_date_2 || null,
+        vaccine_date_3: field.vaccine_date_3 || null,
+        tdap_round_1: field.tdap_round_1 || null,
+        tdap_round_2: field.tdap_round_2 || null,
+        tdap_round_3: field.tdap_round_3 || null,
+        iip_date: field.iip_date || null,
+        lab_2: field.lab_2 || null,
+        vac_lab_date_1_wife_2: field.vac_lab_date_1_wife_2 || null,
+        vac_lab_date_2_wife_2: field.vac_lab_date_2_wife_2 || null,
+        vac_lab_date_3_wife_2: field.vac_lab_date_3_wife_2 || null,
+        vac_lab_date_1_husband: field.vac_lab_date_1_husband || null,
+        vac_lab_date_2_husband: field.vac_lab_date_2_husband || null,
+        vac_lab_date_3_husband: field.vac_lab_date_3_husband || null,
       });
       setSelectedBti([]);
       setSelectedCbe([]);
@@ -461,18 +528,19 @@ export default function useHook({
     a: z.string().min(1, { message: "กรุณากรอก" }),
     para: z.string().min(1, { message: "กรุณากรอก" }),
     prep_weight: z.string().optional(),
+    bmi: z.string().optional(),
 
     last: z.string().nullable(),
     lmp: z.string().nullable(),
     edc: z.string().nullable(),
     ga: z.string().nullable(),
 
+    verified_by: z.string().nullable(),
     ma_id: z.string().nullable(),
     ma_detail: z.string().optional(),
     hr_id: z.string().nullable(),
     hr_detail: z.string().nullable(),
     am_id: z.string().nullable(),
-    vaccine: z.coerce.number().nullable(),
 
     // wife lab info
     gct_1_wife: z.string().optional(),
@@ -483,6 +551,10 @@ export default function useHook({
     vdrl_wife: z.coerce.number().nullable(),
     ppr_wife: z.string().optional(),
     tpha_wife: z.string().optional(),
+    treatment_detail_wife: z.string().optional(),
+    vac_lab_date_1_wife: z.string().nullable(),
+    vac_lab_date_2_wife: z.string().nullable(),
+    vac_lab_date_3_wife: z.string().nullable(),
     anti_hiv_wife: z.coerce.number().nullable(),
     bl_gr_wife: z.coerce.number().nullable(),
     rh_wife: z.coerce.number().nullable(),
@@ -498,6 +570,10 @@ export default function useHook({
     vdrl_husband: z.coerce.number().nullable(),
     ppr_husband: z.string().optional(),
     tpha_husband: z.string().optional(),
+    treatment_detail_husband: z.string().optional(),
+    vac_lab_date_1_husband: z.string().nullable(),
+    vac_lab_date_2_husband: z.string().nullable(),
+    vac_lab_date_3_husband: z.string().nullable(),
     anti_hiv_husband: z.coerce.number().nullable(),
     bl_gr_husband: z.coerce.number().nullable(),
     rh_husband: z.coerce.number().nullable(),
@@ -508,6 +584,10 @@ export default function useHook({
     mch_husband: z.string().nullable(),
     hb_typing_husband: z.string().nullable(),
 
+    //
+    forget_or_remember: z.coerce.number().nullable(),
+    //
+
     // misc
     pcr_hus_id: z.string().nullable(),
     pcr_hus_text: z.string().optional(),
@@ -516,9 +596,20 @@ export default function useHook({
     cordo_id: z.string().nullable(),
     cordo_text: z.string().optional(),
     cordo_other_text: z.string().optional(),
+    am_detail_1: z.string().optional(),
+    am_detail_2: z.string().optional(),
+    am_detail_3: z.string().optional(),
     abortion_id: z.string().nullable(),
-    td_num: z.string().nullable(),
+    td_num: z.string().optional(),
     td_last_date: z.string().nullable(),
+    td_forget_date: z.string().optional(),
+    vaccine: z.coerce.number().nullable(),
+    vaccine_detail_1: z.string().optional(),
+    vaccine_detail_2: z.string().optional(),
+    vaccine_detail_3: z.string().optional(),
+    vaccine_date_1: z.string().nullable(),
+    vaccine_date_2: z.string().nullable(),
+    vaccine_date_3: z.string().nullable(),
     tdap_id: z.string().nullable(),
     tdap_round_1: z.string().nullable(),
     tdap_round_2: z.string().nullable(),
@@ -527,8 +618,14 @@ export default function useHook({
     iip_date: z.string().nullable(),
     lab_2: z.string().nullable(),
     vdrl_2: z.string().nullable(),
+    ppr_wife_2: z.string().optional(),
+    tpha_wife_2: z.string().optional(),
+    treatment_detail_wife_2: z.string().optional(),
+    vac_lab_date_1_wife_2: z.string().nullable(),
+    vac_lab_date_2_wife_2: z.string().nullable(),
+    vac_lab_date_3_wife_2: z.string().nullable(),
     hct: z.string().nullable(),
-    h: z.string().nullable(),
+    hiv: z.string().nullable(),
     bti_value_1_id: z.string().nullable(),
     bti_value_2_id: z.string().nullable(),
     bti_value_3_id: z.string().nullable(),
@@ -541,9 +638,24 @@ export default function useHook({
     cbe_value_3_id: z.string().nullable(),
     cbe_value_4_id: z.string().nullable(),
     cbe_result: z.string().optional(),
+    birads_detail_1: z.string().optional(),
+    birads_detail_2: z.string().optional(),
+    birads_detail_3: z.string().optional(),
+    per_os_detail_1: z.string().optional(),
+    per_os_detail_2: z.string().optional(),
+    per_os_detail_3: z.string().optional(),
+    per_os_detail_4: z.string().optional(),
+    per_os_detail_5: z.string().optional(),
     per_os_id: z.string().nullable(),
-    ref_value_1_id: z.string().nullable(),
-    ref_value_2_id: z.string().nullable(),
+    ref_value_1_id: z
+      .union([z.number(), z.string().transform((val) => Number(val))])
+      .nullable(),
+    ref_value_2_id: z
+      .union([z.number(), z.string().transform((val) => Number(val))])
+      .nullable(),
+    ref_value_3_id: z
+      .union([z.number(), z.string().transform((val) => Number(val))])
+      .nullable(),
     receive_in_id: z
       .union([z.number(), z.string().transform((val) => Number(val))])
       .nullable(),
@@ -560,7 +672,7 @@ export default function useHook({
       .nullable(),
     receive_out_detail: z.string().nullable(),
     ref_out_detail: z.string().nullable(),
-
+    ref_other_detail: z.string().optional(),
     birads_id: z.string().nullable(),
   });
 
@@ -625,12 +737,14 @@ export default function useHook({
         } else if (
           [
             // Radio / select fields
+            "verified_by",
             "ma_id",
             "hr_id",
             "am_id",
             "pcr_wife_id",
             "cordo_id",
             "abortion_id",
+            "forget_or_remember",
             "vaccine",
             "tdap_id",
             "iip_id",
@@ -663,6 +777,8 @@ export default function useHook({
             "rh_wife",
             "dcip_wife",
             "of_wife",
+            "vdrl_2",
+            "hiv",
             "hbsag_husband",
             "vdrl_husband",
             "anti_hiv_husband",
@@ -712,7 +828,11 @@ export default function useHook({
       // 7️⃣ เซ็ต selected state ของ Referral
       if (currentData?.wife?.choices?.referral_value) {
         const ref = currentData.wife.choices.referral_value;
-        const initialSelected = [ref.ref_value_1_id, ref.ref_value_2_id]
+        const initialSelected = [
+          ref.ref_value_1_id,
+          ref.ref_value_2_id,
+          ref.ref_value_3_id,
+        ]
           .filter(Boolean)
           .map(String);
 
@@ -749,6 +869,50 @@ export default function useHook({
         bti_2_date: info.bti_2_date ? info.bti_2_date.split("T")[0] : null,
         lmp: info.lmp ? info.lmp.split("T")[0] : null,
         edc: info.edc ? info.edc.split("T")[0] : null,
+
+        // wife lab
+        vac_lab_date_1_wife: info.vac_lab_date_1_wife
+          ? info.vac_lab_date_1_wife.split("T")[0]
+          : null,
+        vac_lab_date_2_wife: info.vac_lab_date_2_wife
+          ? info.vac_lab_date_2_wife.split("T")[0]
+          : null,
+        vac_lab_date_3_wife: info.vac_lab_date_3_wife
+          ? info.vac_lab_date_3_wife.split("T")[0]
+          : null,
+
+        // wife lab 2
+        vac_lab_date_1_wife_2: info.vac_lab_date_1_wife_2
+          ? info.vac_lab_date_1_wife_2.split("T")[0]
+          : null,
+        vac_lab_date_2_wife_2: info.vac_lab_date_2_wife_2
+          ? info.vac_lab_date_2_wife_2.split("T")[0]
+          : null,
+        vac_lab_date_3_wife_2: info.vac_lab_date_3_wife_2
+          ? info.vac_lab_date_3_wife_2.split("T")[0]
+          : null,
+
+        // husband
+        vac_lab_date_1_husband: info.vac_lab_date_1_husband
+          ? info.vac_lab_date_1_husband.split("T")[0]
+          : null,
+        vac_lab_date_2_husband: info.vac_lab_date_2_husband
+          ? info.vac_lab_date_2_husband.split("T")[0]
+          : null,
+        vac_lab_date_3_husband: info.vac_lab_date_3_husband
+          ? info.vac_lab_date_3_husband.split("T")[0]
+          : null,
+
+        // vaccine
+        vaccine_date_1: info.vaccine_date_1
+          ? info.vaccine_date_1.split("T")[0]
+          : null,
+        vaccine_date_2: info.vaccine_date_2
+          ? info.vaccine_date_2.split("T")[0]
+          : null,
+        vaccine_date_3: info.vaccine_date_3
+          ? info.vaccine_date_3.split("T")[0]
+          : null,
       });
 
       // 9️⃣ เซ็ตค่า ref_in_choice / ref_out_choice
@@ -777,50 +941,70 @@ export default function useHook({
     }
   }, [openEditService, currentData, form]);
 
+  const [gaManual, setGaManual] = useState(false);
+  const [edcManual, setEdcManual] = useState(false);
+
   const handleLmpChange = (calendarDate) => {
     if (!calendarDate) {
       form.setFieldValue("lmp", null);
-      form.setFieldValue("edc", null);
-      form.setFieldValue("ga", "");
+      if (!gaManual) form.setFieldValue("ga", "");
+      if (!edcManual) form.setFieldValue("edc", null);
       return;
     }
 
     const iso = `${calendarDate.year}-${String(calendarDate.month).padStart(2, "0")}-${String(calendarDate.day).padStart(2, "0")}`;
     form.setFieldValue("lmp", iso);
 
-    // ✅ คำนวณตรงนี้เลย
-    const lmpDate = new Date(iso + "T00:00:00");
-    const today = new Date();
-    const diffMs = today.getTime() - lmpDate.getTime();
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    const weeks = Math.floor(diffDays / 7);
-    const days = diffDays % 7;
+    // GA
+    if (!gaManual) {
+      const lmpDate = new Date(iso);
+      const today = new Date();
+      const diffDays = Math.floor((today - lmpDate) / (1000 * 60 * 60 * 24));
+      const weeks = Math.floor(diffDays / 7);
+      const days = diffDays % 7;
+      form.setFieldValue("ga", `${weeks} สัปดาห์ ${days} วัน`);
+    }
 
-    const edcDate = new Date(lmpDate);
-    edcDate.setDate(edcDate.getDate() + 280);
-    const edcIso = edcDate.toISOString().split("T")[0];
-
-    form.setFieldValue("edc", edcIso);
-    form.setFieldValue("ga", `${weeks} สัปดาห์ ${days} วัน`);
+    // EDC
+    if (!edcManual) {
+      const edcDate = new Date(iso);
+      edcDate.setDate(edcDate.getDate() + 280);
+      form.setFieldValue("edc", edcDate.toISOString().split("T")[0]);
+    }
   };
 
   const handleReset = () => {
     form.reset();
+    setGravidaOptions([]);
+    setSelectedGravida("");
+    setRoundOptions([]);
+
     setField(initialField);
     setSelectedAnc(null);
     setActiveStep("from_1");
-    setEdcManual(null);
     setEditVitalsign(defaultVitals);
     setBmi("");
     setDates({
-      bti_1_date: null,
-      bti_2_date: null,
-      td_last_date: null,
-      tdap_round_1: null,
-      tdap_round_2: null,
-      tdap_round_3: null,
-      iip_date: null,
-      lab_2: null,
+      vac_lab_date_1_wife: field.vac_lab_date_1_wife || null,
+      vac_lab_date_2_wife: field.vac_lab_date_2_wife || null,
+      vac_lab_date_3_wife: field.vac_lab_date_3_wife || null,
+      bti_1_date: field.bti_1_date || null,
+      bti_2_date: field.bti_2_date || null,
+      td_last_date: field.td_last_date || null,
+      vaccine_date_1: field.vaccine_date_1 || null,
+      vaccine_date_2: field.vaccine_date_2 || null,
+      vaccine_date_3: field.vaccine_date_3 || null,
+      tdap_round_1: field.tdap_round_1 || null,
+      tdap_round_2: field.tdap_round_2 || null,
+      tdap_round_3: field.tdap_round_3 || null,
+      iip_date: field.iip_date || null,
+      lab_2: field.lab_2 || null,
+      vac_lab_date_1_wife_2: field.vac_lab_date_1_wife_2 || null,
+      vac_lab_date_2_wife_2: field.vac_lab_date_2_wife_2 || null,
+      vac_lab_date_3_wife_2: field.vac_lab_date_3_wife_2 || null,
+      vac_lab_date_1_husband: field.vac_lab_date_1_husband || null,
+      vac_lab_date_2_husband: field.vac_lab_date_2_husband || null,
+      vac_lab_date_3_husband: field.vac_lab_date_3_husband || null,
     });
     setSelectedBti([]);
     setSelectedCbe([]);
@@ -872,5 +1056,7 @@ export default function useHook({
     Dates,
     selectedRef,
     modalRef,
+    setGaManual,
+    setEdcManual,
   };
 }

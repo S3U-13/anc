@@ -8,8 +8,8 @@ import { AlertOctagon } from "@deemlol/next-icons";
 import { DatePicker } from "@heroui/date-picker";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 
-export default function page({ selectedAnc, form }) {
-  const { data, calculateAge, formatName, Dates, handleDateChange } = useHook();
+export default function page({ selectedAnc, Dates, form, handleDateChange }) {
+  const { data, calculateAge, formatName } = useHook();
   return (
     <div className="overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1>ส่วนที่ 4</h1>
