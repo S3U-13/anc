@@ -71,6 +71,7 @@ export default function page({ openFormService, closeFormService }) {
     setGaManual,
     setEdcManual,
     isSubmitting,
+    data,
   } = useHook({ closeFormService });
 
   return (
@@ -191,6 +192,7 @@ export default function page({ openFormService, closeFormService }) {
                       form={form}
                       setGaManual={setGaManual}
                       setEdcManual={setEdcManual}
+                      data={data}
                     />
                   </Tab>
                   <Tab disabled key="from_2" title={<div className="" />}>

@@ -6,9 +6,10 @@ import useHook from "../useHook";
 import { Select, SelectItem } from "@heroui/select";
 import { AlertOctagon } from "@deemlol/next-icons";
 import { DatePicker } from "@heroui/date-picker";
+import { parseDate, getLocalTimeZone } from "@internationalized/date";
 
 export default function page({ selectedAnc, form }) {
-  const { data, calculateAge, formatName } = useHook();
+  const { data, calculateAge, formatName, Dates, handleDateChange } = useHook();
   return (
     <div className="overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1>ส่วนที่ 4</h1>
@@ -165,33 +166,56 @@ export default function page({ selectedAnc, form }) {
                       />
                     )}
                   </form.Field>
-                  <Input
-                    className="col-span-2"
-                    label="การรักษา*"
-                    size="sm"
-                    color="warning"
-                    variant="flat"
-                    // value={field.state.value || ""}
-                    // onChange={(e) => field.handleChange(e.target.value)}
-                  />
+                  <form.Field name="treatment_detail_husband">
+                    {(field) => (
+                      <Input
+                        className="col-span-2"
+                        label="การรักษา*"
+                        size="sm"
+                        color="warning"
+                        variant="flat"
+                        value={field.state.value || ""}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                    )}
+                  </form.Field>
+
                   <div className="col-span-2 grid grid-cols-1 md:grid-cols-3 gap-2">
                     <DatePicker
                       label="ครั้งที่ 1"
                       size="sm"
                       color="warning"
                       variant="flat"
+                      value={
+                        Dates.vac_lab_date_1_husband
+                          ? parseDate(Dates.vac_lab_date_1_husband)
+                          : null
+                      }
+                      onChange={handleDateChange("vac_lab_date_1_husband")}
                     />
                     <DatePicker
                       label="ครั้งที่ 1"
                       size="sm"
                       color="warning"
                       variant="flat"
+                      value={
+                        Dates.vac_lab_date_2_husband
+                          ? parseDate(Dates.vac_lab_date_2_husband)
+                          : null
+                      }
+                      onChange={handleDateChange("vac_lab_date_2_husband")}
                     />
                     <DatePicker
                       label="ครั้งที่ 1"
                       size="sm"
                       color="warning"
                       variant="flat"
+                      value={
+                        Dates.vac_lab_date_3_husband
+                          ? parseDate(Dates.vac_lab_date_3_husband)
+                          : null
+                      }
+                      onChange={handleDateChange("vac_lab_date_3_husband")}
                     />
                   </div>
                 </div>

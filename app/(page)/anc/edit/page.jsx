@@ -83,6 +83,7 @@ export default function page({
                           size="sm"
                           label="Search HN"
                           type="search"
+                          variant="bordered"
                         />
                         <Button
                           isIconOnly
@@ -221,6 +222,7 @@ export default function page({
                         type="search"
                         value={hnInputHusband}
                         onChange={(e) => setHnInputHusband(e.target.value)}
+                        variant="bordered"
                       />
                       <Button
                         isIconOnly

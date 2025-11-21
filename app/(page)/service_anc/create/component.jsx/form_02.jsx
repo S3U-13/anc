@@ -5,9 +5,10 @@ import useHook from "../useHook";
 import { Input } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
 import { DatePicker } from "@heroui/date-picker";
+import { parseDate, getLocalTimeZone } from "@internationalized/date";
 
 export default function page({ validationSchema, form }) {
-  const { data, formatThaiDateTime } = useHook();
+  const { data, formatThaiDateTime, Dates, handleDateChange } = useHook();
   return (
     <div className="grid grid-cols-4 gap-[10px] overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1 className="col-span-4">ส่วนที่ 2</h1>
@@ -225,33 +226,58 @@ export default function page({ validationSchema, form }) {
                       />
                     )}
                   </form.Field>
-                  <Input
-                    className="col-span-2"
-                    label="การรักษา*"
-                    size="sm"
-                    color="warning"
-                    variant="flat"
-                    // value={field.state.value || ""}
-                    // onChange={(e) => field.handleChange(e.target.value)}
-                  />
+                  <form.Field name="treatment_detail_wife">
+                    {(field) => (
+                      <Input
+                        className="col-span-2"
+                        label="การรักษา*"
+                        size="sm"
+                        color="warning"
+                        variant="flat"
+                        value={field.state.value || ""}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                    )}
+                  </form.Field>
+
                   <div className="col-span-2 grid grid-cols-1 md:grid-cols-3 gap-2">
                     <DatePicker
                       label="ครั้งที่ 1"
                       size="sm"
                       color="warning"
                       variant="flat"
+                      value={
+                        Dates.vac_lab_date_1_wife
+                          ? parseDate(Dates.vac_lab_date_1_wife)
+                          : null
+                      }
+                      onChange={handleDateChange("vac_lab_date_1_wife")}
                     />
+
                     <DatePicker
-                      label="ครั้งที่ 1"
+                      label="ครั้งที่ 2"
                       size="sm"
                       color="warning"
                       variant="flat"
+                      value={
+                        Dates.vac_lab_date_2_wife
+                          ? parseDate(Dates.vac_lab_date_2_wife)
+                          : null
+                      }
+                      onChange={handleDateChange("vac_lab_date_2_wife")}
                     />
+
                     <DatePicker
-                      label="ครั้งที่ 1"
+                      label="ครั้งที่ 3"
                       size="sm"
                       color="warning"
                       variant="flat"
+                      value={
+                        Dates.vac_lab_date_3_wife
+                          ? parseDate(Dates.vac_lab_date_3_wife)
+                          : null
+                      }
+                      onChange={handleDateChange("vac_lab_date_3_wife")}
                     />
                   </div>
                 </div>
@@ -555,28 +581,46 @@ export default function page({ validationSchema, form }) {
                     {am.choice_name}
                   </Radio>
                   {String(am.id) === "5" && field.state.value === "5" && (
-                    <Input
-                      className="w-full md:w-1/2"
-                      label="ระบุ"
-                      size="sm"
-                      variant="bordered"
-                    />
+                    <form.Field name="am_detail_1">
+                      {(field) => (
+                        <Input
+                          className="w-full md:w-1/2"
+                          label="ระบุ"
+                          size="sm"
+                          variant="bordered"
+                          value={field.state.value || ""}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                        />
+                      )}
+                    </form.Field>
                   )}
                   {String(am.id) === "6" && field.state.value === "6" && (
-                    <Input
-                      className="w-full md:w-1/2"
-                      label="ระบุ"
-                      size="sm"
-                      variant="bordered"
-                    />
+                    <form.Field name="am_detail_2">
+                      {(field) => (
+                        <Input
+                          className="w-full md:w-1/2"
+                          label="ระบุ"
+                          size="sm"
+                          variant="bordered"
+                          value={field.state.value || ""}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                        />
+                      )}
+                    </form.Field>
                   )}
                   {String(am.id) === "7" && field.state.value === "7" && (
-                    <Input
-                      className="w-full md:w-1/2"
-                      label="ระบุ"
-                      size="sm"
-                      variant="bordered"
-                    />
+                    <form.Field name="am_detail_3">
+                      {(field) => (
+                        <Input
+                          className="w-full md:w-1/2"
+                          label="ระบุ"
+                          size="sm"
+                          variant="bordered"
+                          value={field.state.value || ""}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                        />
+                      )}
+                    </form.Field>
                   )}
                 </div>
               ))}

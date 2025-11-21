@@ -208,6 +208,20 @@ export default function page({
                     )}
                   </form.Field>
                 )}
+                {String(ref.id) === "67" && isSelected && (
+                  <form.Field name="ref_other_detail">
+                    {(field) => (
+                      <Input
+                        className="px-6 mt-1"
+                        label="เรื่องที่รับ"
+                        size="sm"
+                        variant="bordered"
+                        value={field.state.value || ""}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                    )}
+                  </form.Field>
+                )}
               </div>
             );
           })}

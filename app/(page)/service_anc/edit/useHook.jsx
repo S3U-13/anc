@@ -809,6 +809,7 @@ export default function useHook({
     setField(initialField);
     setSelectedAnc(null);
     setActiveStep("from_1");
+    setEdcManual(null);
     setEditVitalsign(defaultVitals);
     setBmi("");
     setDates({

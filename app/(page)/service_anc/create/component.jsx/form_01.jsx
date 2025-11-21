@@ -19,6 +19,7 @@ export default function page({
   form,
   setGaManual,
   setEdcManual,
+  data,
 }) {
   const { calculateAge, formatAddress, formatName } = useHook();
 
@@ -440,27 +441,30 @@ export default function page({
                 />
               )}
             </form.Field>
-            <Select
-              size="sm"
-              className="col-span-1"
-              label="เชื่อถือโดย"
-              variant="bordered"
-              // selectedKeys={
-              //   field.state.value ? new Set([field.state.value]) : new Set()
-              // }
-              // onSelectionChange={(key) => {
-              //   const selected = Array.from(key)[0];
-              //   field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
-              // }}
-              // color={field.state.value === "47" ? "warning" : "default"}
-            >
-              {/* {data
-              .filter((item) => item.choice_type_id === 18)
-              .map((item) => ( */}
-              <SelectItem key="LMP">LMP</SelectItem>
-              <SelectItem key="U/S">U/S</SelectItem>
-              {/* ))} */}
-            </Select>
+            <form.Field name="verified_by">
+              {(field) => (
+                <Select
+                  size="sm"
+                  className="col-span-1"
+                  label="เชื่อถือโดย"
+                  variant="bordered"
+                  selectedKeys={
+                    field.state.value ? new Set([field.state.value]) : new Set()
+                  }
+                  onSelectionChange={(key) => {
+                    const selected = Array.from(key)[0];
+                    field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                  }}
+                  // color={field.state.value === "47" ? "warning" : "default"}
+                >
+                  {data
+                    .filter((item) => item.choice_type_id === 24)
+                    .map((item) => (
+                      <SelectItem key={item.id}>{item.choice_name}</SelectItem>
+                    ))}
+                </Select>
+              )}
+            </form.Field>
           </div>
         </div>
       </div>

@@ -111,6 +111,12 @@ export const useApiRequest = () => {
       if (!form.getFieldValue("wife_tel")) {
         form.setFieldValue("wife_tel", data?.pat_address?.phone || "");
       }
+      if (!form.getFieldValue("wife_job")) {
+        form.setFieldValue(
+          "wife_job",
+          data?.occupation_detail?.lookupname || ""
+        );
+      }
       form.setFieldValue("sex", data?.sex_name?.lookupname || "");
 
       return data;
@@ -165,6 +171,12 @@ export const useApiRequest = () => {
       }
       if (!form.getFieldValue("husband_tel")) {
         form.setFieldValue("husband_tel", data?.pat_address?.phone || "");
+      }
+      if (!form.getFieldValue("husband_job")) {
+        form.setFieldValue(
+          "husband_job",
+          data?.occupation_detail?.lookupname || ""
+        );
       }
 
       return data;

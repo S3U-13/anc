@@ -22,6 +22,7 @@ export default function useHook({ closeModal }) {
     hn_wife: "",
     wife_address: "",
     wife_tel: "",
+    wife_job: "",
     sex: "",
     hn_husband: null,
     husband_name: "",
@@ -29,6 +30,7 @@ export default function useHook({ closeModal }) {
     husband_citizencardno: "",
     husband_race: "",
     husband_tel: "",
+    husband_job: "",
   });
 
   const handleSearchHnWife = async () => {
@@ -229,6 +231,7 @@ export default function useHook({ closeModal }) {
     hn_wife: "",
     wife_address: "",
     wife_tel: "",
+    wife_job: "",
     sex: "",
     hn_husband: null,
     husband_name: "",
@@ -236,6 +239,7 @@ export default function useHook({ closeModal }) {
     husband_citizencardno: "",
     husband_race: "",
     husband_tel: "",
+    husband_job: "",
   };
 
   const validationSchema = z.object({
@@ -249,6 +253,7 @@ export default function useHook({ closeModal }) {
         return "";
       }),
     wife_tel: z.string().optional(),
+    wife_job: z.string().optional(),
     sex: z.string(),
     hn_husband: z.coerce.number().int().nullable(),
     husband_name: z.string().optional(),
@@ -256,6 +261,7 @@ export default function useHook({ closeModal }) {
     husband_citizencardno: z.string().optional(),
     husband_race: z.string().optional(),
     husband_tel: z.string().optional(),
+    husband_job: z.string().optional(),
   });
 
   const form = useForm({

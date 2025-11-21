@@ -81,6 +81,7 @@ export default function page({ openModal, closeModal }) {
                           size="sm"
                           label="Search HN"
                           type="search"
+                          variant="bordered"
                         />
                         <Button
                           isIconOnly
@@ -167,14 +168,19 @@ export default function page({ openModal, closeModal }) {
                         readOnly
                         disabled
                       />
-                      <Input
-                        size="sm"
-                        label="อาชีพ"
-                        value={pat?.occupation_detail?.lookupname ?? ""}
-                        type="text"
-                        readOnly
-                        disabled
-                      />
+                      <form.Field name="wife_job">
+                        {(field) => (
+                          <Input
+                            size="sm"
+                            label="อาชีพ"
+                            value={field.state.value || ""}
+                            onChange={(e) => field.handleChange(e.target.value)}
+                            type="text"
+                            variant="bordered"
+                          />
+                        )}
+                      </form.Field>
+
                       <form.Field name="wife_address">
                         {(field) => (
                           <Textarea
@@ -220,6 +226,7 @@ export default function page({ openModal, closeModal }) {
                         type="search"
                         value={hnInputHusband}
                         onChange={(e) => setHnInputHusband(e.target.value)}
+                        variant="bordered"
                       />
                       <Button
                         isIconOnly
@@ -331,14 +338,18 @@ export default function page({ openModal, closeModal }) {
                         />
                       )}
                     </form.Field>
-                    <Input
-                      label="อาชีพ"
-                      size="sm"
-                      value={patHusband?.occupation_detail?.lookupname ?? ""}
-                      type="text"
-                      readOnly
-                      disabled
-                    />
+                    <form.Field name="husband_job">
+                      {(field) => (
+                        <Input
+                          label="อาชีพ"
+                          size="sm"
+                          value={field.state.value || ""}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          variant="bordered"
+                          type="text"
+                        />
+                      )}
+                    </form.Field>
 
                     <Input
                       label="email"

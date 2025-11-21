@@ -58,19 +58,31 @@ export default function useHook({ closeFormService } = {}) {
     pat_vitalsign_id: "",
     para: "",
     prep_weight: "",
+    bmi: "",
+    forget_or_remember: null,
     gravida: "",
     p: "",
     a: "",
     last: "",
-    lmp: "",
-    edc: "",
+    lmp: null,
+    edc: null,
     ga: "",
+    verified_by: null,
     ma_id: null,
     ma_detail: "",
     hr_id: null,
     hr_detail: "",
     am_id: null,
+    am_detail_1: "",
+    am_detail_2: "",
+    am_detail_3: "",
     vaccine: null,
+    vaccine_detail_1: "",
+    vaccine_detail_2: "",
+    vaccine_detail_3: "",
+    vaccine_date_1: null,
+    vaccine_date_2: null,
+    vaccine_date_3: null,
     gct_1_wife: "",
     gct_2_wife: "",
     ogtt_1_wife: "",
@@ -79,6 +91,10 @@ export default function useHook({ closeFormService } = {}) {
     vdrl_wife: null,
     ppr_wife: "",
     tpha_wife: "",
+    treatment_detail_wife: "",
+    vac_lab_date_1_wife: null,
+    vac_lab_date_2_wife: null,
+    vac_lab_date_3_wife: null,
     anti_hiv_wife: null,
     bl_gr_wife: null,
     rh_wife: null,
@@ -94,8 +110,9 @@ export default function useHook({ closeFormService } = {}) {
     cordo_text: "",
     cordo_other_text: "",
     abortion_id: null,
-    td_num: null,
+    td_num: "",
     td_last_date: null,
+    td_forget_date: "",
     tdap_id: null,
     tdap_round_1: null,
     tdap_round_2: null,
@@ -104,6 +121,10 @@ export default function useHook({ closeFormService } = {}) {
     iip_date: null,
     lab_2: null,
     vdrl_2: null,
+    treatment_detail_wife_2: "",
+    vac_lab_date_1_wife_2: null,
+    vac_lab_date_2_wife_2: null,
+    vac_lab_date_3_wife_2: null,
     hct: null,
     h: null,
     bti_value_1_id: null,
@@ -118,12 +139,24 @@ export default function useHook({ closeFormService } = {}) {
     cbe_value_3_id: null,
     cbe_value_4_id: null,
     birads_id: null,
+    birads_detail_1: "",
+    birads_detail_2: "",
+    birads_detail_3: "",
     cbe_result: "",
     per_os_id: null,
+    per_os_detail_1: "",
+    per_os_detail_2: "",
+    per_os_detail_3: "",
+    per_os_detail_4: "",
+    per_os_detail_5: "",
     hbsag_husband: null,
     vdrl_husband: null,
     ppr_husband: "",
     tpha_husband: "",
+    treatment_detail_husband: "",
+    vac_lab_date_1_husband: null,
+    vac_lab_date_2_husband: null,
+    vac_lab_date_3_husband: null,
     anti_hiv_husband: null,
     bl_gr_husband: null,
     rh_husband: null,
@@ -137,6 +170,7 @@ export default function useHook({ closeFormService } = {}) {
     pcr_hus_id: null,
     ref_value_1_id: "",
     ref_value_2_id: "",
+    ref_value_3_id: "",
     receive_in_id: null,
     hos_in_id: null,
     receive_in_detail: "",
@@ -145,6 +179,7 @@ export default function useHook({ closeFormService } = {}) {
     hos_out_id: null,
     receive_out_detail: "",
     ref_out_detail: "",
+    ref_other_detail: "",
   });
 
   const [field, setField] = useState(initialField());
@@ -199,6 +234,7 @@ export default function useHook({ closeFormService } = {}) {
   const refChoice = [
     { id: "40", label: "ref 1" },
     { id: "41", label: "ref 2" },
+    { id: "67", label: "ref 3" },
   ];
 
   const [selectedRef, setSelectedRef] = useState(
@@ -214,6 +250,18 @@ export default function useHook({ closeFormService } = {}) {
     tdap_round_3: field.tdap_round_3 || null,
     iip_date: field.iip_date || null,
     lab_2: field.lab_2 || null,
+    vac_lab_date_1_wife: field.vac_lab_date_1_wife || null,
+    vac_lab_date_2_wife: field.vac_lab_date_2_wife || null,
+    vac_lab_date_3_wife: field.vac_lab_date_3_wife || null,
+    vaccine_date_1: field.vaccine_date_1 || null,
+    vac_lab_date_2_wife: field.vaccine_date_2 || null,
+    vaccine_date_3: field.vaccine_date_3 || null,
+    vac_lab_date_1_wife_2: field.vac_lab_date_1_wife_2 || null,
+    vac_lab_date_2_wife_2: field.vac_lab_date_2_wife_2 || null,
+    vac_lab_date_3_wife_2: field.vac_lab_date_3_wife_2 || null,
+    vac_lab_date_1_husband: field.vac_lab_date_1_husband || null,
+    vac_lab_date_2_husband: field.vac_lab_date_2_husband || null,
+    vac_lab_date_3_husband: field.vac_lab_date_3_husband || null,
   });
 
   const handleChangeBti = (vals) => {
@@ -268,7 +316,7 @@ export default function useHook({ closeFormService } = {}) {
     setSelectedRef(updatedSelected);
 
     // คำนวณค่า field ที่ต้องเซ็ตจาก selected ใหม่ (เหมือนเดิม)
-    const refField = mapCheckboxValues("ref", updatedSelected, 2, refChoice);
+    const refField = mapCheckboxValues("ref", updatedSelected, 3, refChoice);
 
     Object.entries(refField).forEach(([key, value]) => {
       // value ที่ได้ ถ้าเป็น undefined ให้เป็น null (หรือ "" แล้วแต่ convention ของคุณ)
@@ -289,6 +337,9 @@ export default function useHook({ closeFormService } = {}) {
       form.setFieldValue("hos_out_id", null);
       form.setFieldValue("receive_out_detail", "");
       form.setFieldValue("ref_out_detail", "");
+    }
+    if (removed.includes("67")) {
+      form.setFieldValue("ref_other_detail", "");
     }
   };
 
@@ -482,18 +533,19 @@ export default function useHook({ closeFormService } = {}) {
     a: z.string().min(1, { message: "กรุณากรอก" }),
     para: z.string().min(1, { message: "กรุณากรอก" }),
     prep_weight: z.string().optional(),
+    bmi: z.string().optional(),
 
     last: z.string().nullable(),
     lmp: z.string().nullable(),
     edc: z.string().nullable(),
     ga: z.string().nullable(),
 
+    verified_by: z.string().nullable(),
     ma_id: z.string().nullable(),
     ma_detail: z.string().optional(),
     hr_id: z.string().nullable(),
     hr_detail: z.string().nullable(),
     am_id: z.string().nullable(),
-    vaccine: z.coerce.number().nullable(),
 
     // wife lab info
     gct_1_wife: z.string().optional(),
@@ -504,6 +556,10 @@ export default function useHook({ closeFormService } = {}) {
     vdrl_wife: z.coerce.number().nullable(),
     ppr_wife: z.string().optional(),
     tpha_wife: z.string().optional(),
+    treatment_detail_wife: z.string().optional(),
+    vac_lab_date_1_wife: z.string().nullable(),
+    vac_lab_date_2_wife: z.string().nullable(),
+    vac_lab_date_3_wife: z.string().nullable(),
     anti_hiv_wife: z.coerce.number().nullable(),
     bl_gr_wife: z.coerce.number().nullable(),
     rh_wife: z.coerce.number().nullable(),
@@ -519,6 +575,10 @@ export default function useHook({ closeFormService } = {}) {
     vdrl_husband: z.coerce.number().nullable(),
     ppr_husband: z.string().optional(),
     tpha_husband: z.string().optional(),
+    treatment_detail_husband: z.string().optional(),
+    vac_lab_date_1_husband: z.string().nullable(),
+    vac_lab_date_2_husband: z.string().nullable(),
+    vac_lab_date_3_husband: z.string().nullable(),
     anti_hiv_husband: z.coerce.number().nullable(),
     bl_gr_husband: z.coerce.number().nullable(),
     rh_husband: z.coerce.number().nullable(),
@@ -529,6 +589,10 @@ export default function useHook({ closeFormService } = {}) {
     mch_husband: z.string().nullable(),
     hb_typing_husband: z.string().nullable(),
 
+    //
+    forget_or_remember: z.coerce.number().nullable(),
+    //
+
     // misc
     pcr_hus_id: z.string().nullable(),
     pcr_hus_text: z.string().optional(),
@@ -537,9 +601,20 @@ export default function useHook({ closeFormService } = {}) {
     cordo_id: z.string().nullable(),
     cordo_text: z.string().optional(),
     cordo_other_text: z.string().optional(),
+    am_detail_1: z.string().optional(),
+    am_detail_2: z.string().optional(),
+    am_detail_3: z.string().optional(),
     abortion_id: z.string().nullable(),
     td_num: z.string().nullable(),
     td_last_date: z.string().nullable(),
+    td_forget_date: z.string().optional(),
+    vaccine: z.coerce.number().nullable(),
+    vaccine_detail_1: z.string().optional(),
+    vaccine_detail_2: z.string().optional(),
+    vaccine_detail_3: z.string().optional(),
+    vaccine_date_1: z.string().nullable(),
+    vaccine_date_2: z.string().nullable(),
+    vaccine_date_3: z.string().nullable(),
     tdap_id: z.string().nullable(),
     tdap_round_1: z.string().nullable(),
     tdap_round_2: z.string().nullable(),
@@ -548,6 +623,10 @@ export default function useHook({ closeFormService } = {}) {
     iip_date: z.string().nullable(),
     lab_2: z.string().nullable(),
     vdrl_2: z.string().nullable(),
+    treatment_detail_wife_2: z.string().optional(),
+    vac_lab_date_1_wife_2: z.string().nullable(),
+    vac_lab_date_2_wife_2: z.string().nullable(),
+    vac_lab_date_3_wife_2: z.string().nullable(),
     hct: z.string().nullable(),
     h: z.string().nullable(),
     bti_value_1_id: z.string().nullable(),
@@ -562,9 +641,18 @@ export default function useHook({ closeFormService } = {}) {
     cbe_value_3_id: z.string().nullable(),
     cbe_value_4_id: z.string().nullable(),
     cbe_result: z.string().optional(),
+    birads_detail_1: z.string().optional(),
+    birads_detail_2: z.string().optional(),
+    birads_detail_3: z.string().optional(),
+    per_os_detail_1: z.string().optional(),
+    per_os_detail_2: z.string().optional(),
+    per_os_detail_3: z.string().optional(),
+    per_os_detail_4: z.string().optional(),
+    per_os_detail_5: z.string().optional(),
     per_os_id: z.string().nullable(),
     ref_value_1_id: z.string().nullable(),
     ref_value_2_id: z.string().nullable(),
+    ref_value_3_id: z.string().nullable(),
     receive_in_id: z
       .union([z.number(), z.string().transform((val) => Number(val))])
       .nullable(),
@@ -581,7 +669,7 @@ export default function useHook({ closeFormService } = {}) {
       .nullable(),
     receive_out_detail: z.string().nullable(),
     ref_out_detail: z.string().nullable(),
-
+    ref_other_detail: z.string().optional(),
     birads_id: z.string().nullable(),
   });
 
@@ -905,6 +993,7 @@ export default function useHook({ closeFormService } = {}) {
     setActiveStep("from_1");
     setEditVitalsign(defaultVitals);
     setBmi("");
+    setEdcManual(null);
     setDates({
       bti_1_date: null,
       bti_2_date: null,
