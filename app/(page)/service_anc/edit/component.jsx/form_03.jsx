@@ -28,7 +28,7 @@ export default function page({
   return (
     <div className="grid grid-cols-4 gap-[10px] overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1 className="col-span-4">ส่วนที่ 3</h1>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-[10px] col-span-4 px-[30px]">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-[10px] col-span-4 px-[30px]">
         <form.Field
           name="td_num"
           validationSchema={{ onChange: validationSchema.shape.td_num }}
@@ -36,36 +36,73 @@ export default function page({
           {(field) => (
             <Input
               size="sm"
-              className="col-span-1 md:col-span-2"
+              className="col-span-1"
               label="วัคซีนบาดทะยัก ก่อนตั้งครรภ์เคยฉีดกี่ครั้ง"
+              type="text"
               variant="bordered"
-              type="number"
-              min={0}
               value={field.state.value ?? ""}
               onChange={(e) => field.handleChange(e.target.value)}
-              onBlur={field.handleBlur}
-              isInvalid={field.state.meta.errors.length > 0}
-              errorMessage={field.state.meta.errors[0]?.message}
             />
           )}
         </form.Field>
 
-        <DatePicker
-          size="sm"
-          className="col-span-1 md:col-span-2"
-          label="ครั้งสุดท้ายวันที่"
-          variant="bordered"
-          locale="th-TH-u-ca-buddhist"
-          value={Dates.td_last_date ? parseDate(Dates.td_last_date) : null}
-          onChange={handleDateChange("td_last_date")}
-        />
+        <form.Field name="forget_or_remember">
+          {(field) => (
+            <>
+              <Select
+                label="คนไข้จำวันฉีดได้/จำไม่ได้"
+                size="sm"
+                variant="bordered"
+                selectedKeys={
+                  field.state.value ? new Set([field.state.value]) : new Set()
+                }
+                onSelectionChange={(key) => {
+                  const selected = Array.from(key)[0];
+                  field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                }}
+              >
+                {data
+                  .filter((rm) => rm.choice_type_id === 25)
+                  .map((rm) => (
+                    <SelectItem key={rm.id}>{rm.choice_name}</SelectItem>
+                  ))}
+              </Select>
+              {String(field.state.value) === "65" && (
+                <DatePicker
+                  size="sm"
+                  className="col-span-1 "
+                  label="ครั้งสุดท้ายวันที่"
+                  locale="th-TH-u-ca-buddhist"
+                  variant="bordered"
+                  value={
+                    Dates.td_last_date ? parseDate(Dates.td_last_date) : null
+                  }
+                  onChange={handleDateChange("td_last_date")}
+                />
+              )}
+              {String(field.state.value) === "66" && (
+                <form.Field name="td_forget_date">
+                  {(field) => (
+                    <Input
+                      label="ระบุ"
+                      size="sm"
+                      variant="bordered"
+                      placeholder="ประมาณ เช่น มากกว่า 10 ปี หรือ > 10 ปี"
+                      value={field.state.value || ""}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                  )}
+                </form.Field>
+              )}
+            </>
+          )}
+        </form.Field>
       </div>
       <form.Field name="vaccine">
         {(field) => (
           <RadioGroup
             className="col-span-4 px-[20px]"
             label="วัคซีน"
-            variant="bordered"
             value={field.state.value ?? ""}
             onChange={(e) => field.handleChange(e.target.value)}
           >
@@ -74,11 +111,104 @@ export default function page({
               .map((vaccine) => (
                 <div
                   key={vaccine.id}
-                  className="flex gap-[10px] items-center px-[10px]"
+                  className="grid grid-cols-1 md:flex gap-2 items-center px-[10px]"
                 >
-                  <Radio value={String(vaccine.id)}>
-                    {vaccine.choice_name}
+                  <Radio className="w-40" value={String(vaccine.id)}>
+                    <p className="pl-1">{vaccine.choice_name}</p>
                   </Radio>
+                  {String(vaccine.id) === "58" &&
+                    field.state.value === "58" && (
+                      <div className="grid grid-col-1 md:flex gap-2 item-center w-full">
+                        <form.Field name="vaccine_detail_1">
+                          {(field) => (
+                            <Input
+                              label="ระบุเหตุผล"
+                              size="sm"
+                              variant="bordered"
+                              value={field.state.value || ""}
+                              onChange={(e) =>
+                                field.handleChange(e.target.value)
+                              }
+                            />
+                          )}
+                        </form.Field>
+
+                        <DatePicker
+                          className="w-full md:w-1/3"
+                          label="ระบุวัน"
+                          size="sm"
+                          variant="bordered"
+                          value={
+                            Dates.vaccine_date_1
+                              ? parseDate(Dates.vaccine_date_1)
+                              : null
+                          }
+                          onChange={handleDateChange("vaccine_date_1")}
+                        />
+                      </div>
+                    )}
+                  {String(vaccine.id) === "59" &&
+                    field.state.value === "59" && (
+                      <div className="grid grid-col-1 md:flex gap-2 item-center w-full">
+                        <form.Field name="vaccine_detail_2">
+                          {(field) => (
+                            <Input
+                              label="ระบุเหตุผล"
+                              size="sm"
+                              variant="bordered"
+                              value={field.state.value || ""}
+                              onChange={(e) =>
+                                field.handleChange(e.target.value)
+                              }
+                            />
+                          )}
+                        </form.Field>
+
+                        <DatePicker
+                          className="w-full md:w-1/3"
+                          label="ระบุวัน"
+                          size="sm"
+                          variant="bordered"
+                          value={
+                            Dates.vaccine_date_2
+                              ? parseDate(Dates.vaccine_date_2)
+                              : null
+                          }
+                          onChange={handleDateChange("vaccine_date_2")}
+                        />
+                      </div>
+                    )}
+                  {String(vaccine.id) === "60" &&
+                    field.state.value === "60" && (
+                      <div className="grid grid-col-1 md:flex gap-2 item-center w-full">
+                        <form.Field name="vaccine_detail_3">
+                          {(field) => (
+                            <Input
+                              label="ระบุเหตุผล"
+                              size="sm"
+                              variant="bordered"
+                              value={field.state.value || ""}
+                              onChange={(e) =>
+                                field.handleChange(e.target.value)
+                              }
+                            />
+                          )}
+                        </form.Field>
+
+                        <DatePicker
+                          className="w-full md:w-1/3"
+                          label="ระบุวัน"
+                          size="sm"
+                          variant="bordered"
+                          value={
+                            Dates.vaccine_date_3
+                              ? parseDate(Dates.vaccine_date_3)
+                              : null
+                          }
+                          onChange={handleDateChange("vaccine_date_3")}
+                        />
+                      </div>
+                    )}
                 </div>
               ))}
           </RadioGroup>
@@ -187,67 +317,165 @@ export default function page({
         )}
       </form.Field>
 
-      <div className="col-span-4 grid grid-cols-4 gap-[10px] px-[20px]">
-        <h1 className="text-[#71717A] col-span-4">ค่า Lab 2</h1>
-        <DatePicker
-          size="sm"
-          className="col-span-2 pl-[10px]"
-          label="Lab 2 วันที่"
-          variant="bordered"
-          value={Dates.lab_2 ? parseDate(Dates.lab_2) : null}
-          onChange={handleDateChange("lab_2")}
-        />
-        <form.Field name="hct">
-          {(field) => (
-            <Input
-              size="sm"
-              className="col-span-2 pr-[10px]"
-              label="HCT"
-              variant="bordered"
-              type="text"
-              value={field.state.value ?? ""}
-              onChange={(e) => field.handleChange(e.target.value)}
-            />
-          )}
-        </form.Field>
-        <form.Field name="vdrl_2">
-          {(field) => (
-            <Select
-              size="sm"
-              className="col-span-2 pl-[10px]"
-              label="VDRL"
-              variant="bordered"
-              selectedKeys={
-                field.state.value ? new Set([field.state.value]) : new Set()
-              }
-              onSelectionChange={(key) => {
-                const selected = Array.from(key)[0];
-                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
-              }}
-            >
-              {data
-                .filter((vdrl_wife) => vdrl_wife.choice_type_id === 18)
-                .map((vdrl_wife) => (
-                  <SelectItem key={vdrl_wife.id}>
-                    {vdrl_wife.choice_name}
-                  </SelectItem>
-                ))}
-            </Select>
-          )}
-        </form.Field>
-        <form.Field name="h">
-          {(field) => (
-            <Input
-              size="sm"
-              className="col-span-2 pr-[10px]"
-              label="H"
-              variant="bordered"
-              type="text"
-              value={field.state.value ?? ""}
-              onChange={(e) => field.handleChange(e.target.value)}
-            />
-          )}
-        </form.Field>
+      <div className="col-span-4 px-[20px]">
+        <h1 className="text-[#71717A]">ค่า Lab 2</h1>
+        <div className="grid grid-cols-4 gap-[10px] p-2">
+          <DatePicker
+            size="sm"
+            className="col-span-2"
+            label="Lab 2 วันที่"
+            variant="bordered"
+            value={Dates.lab_2 ? parseDate(Dates.lab_2) : null}
+            onChange={handleDateChange("lab_2")}
+          />
+          <form.Field name="hct">
+            {(field) => (
+              <Input
+                size="sm"
+                className="col-span-2 "
+                label="HCT"
+                variant="bordered"
+                type="text"
+                value={field.state.value ?? ""}
+                onChange={(e) => field.handleChange(e.target.value)}
+              />
+            )}
+          </form.Field>
+          <form.Field name="vdrl_2">
+            {(field) => (
+              <>
+                <Select
+                  size="sm"
+                  className="col-span-2 "
+                  label="VDRL"
+                  variant="bordered"
+                  selectedKeys={
+                    field.state.value ? new Set([field.state.value]) : new Set()
+                  }
+                  onSelectionChange={(key) => {
+                    const selected = Array.from(key)[0];
+                    field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                  }}
+                >
+                  {data
+                    .filter((vdrl_wife) => vdrl_wife.choice_type_id === 18)
+                    .map((vdrl_wife) => (
+                      <SelectItem key={vdrl_wife.id}>
+                        {vdrl_wife.choice_name}
+                      </SelectItem>
+                    ))}
+                </Select>
+                {String(field.state.value) === "47" && (
+                  <>
+                    <form.Field name="ppr_wife_2">
+                      {(field) => (
+                        <Input
+                          label="PPR*"
+                          size="sm"
+                          color="warning"
+                          variant="flat"
+                          value={field.state.value || ""}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                        />
+                      )}
+                    </form.Field>
+                    <form.Field name="tpha_wife_2">
+                      {(field) => (
+                        <Input
+                          label="TPHA*"
+                          size="sm"
+                          color="warning"
+                          variant="flat"
+                          value={field.state.value || ""}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                        />
+                      )}
+                    </form.Field>
+                    <div className="grid grid-cols-1 col-span-4 gap-2">
+                      <form.Field name="treatment_detail_wife_2">
+                        {(field) => (
+                          <Input
+                            className="col-span-2"
+                            label="การรักษา*"
+                            size="sm"
+                            color="warning"
+                            variant="flat"
+                            value={field.state.value || ""}
+                            onChange={(e) => field.handleChange(e.target.value)}
+                          />
+                        )}
+                      </form.Field>
+
+                      <div className="col-span-2 grid grid-cols-1 md:grid-cols-3 gap-2">
+                        <DatePicker
+                          label="ครั้งที่ 1"
+                          size="sm"
+                          color="warning"
+                          variant="flat"
+                          value={
+                            Dates.vac_lab_date_1_wife_2
+                              ? parseDate(Dates.vac_lab_date_1_wife_2)
+                              : null
+                          }
+                          onChange={handleDateChange("vac_lab_date_1_wife_2")}
+                        />
+                        <DatePicker
+                          label="ครั้งที่ 2"
+                          size="sm"
+                          color="warning"
+                          variant="flat"
+                          value={
+                            Dates.vac_lab_date_2_wife_2
+                              ? parseDate(Dates.vac_lab_date_2_wife_2)
+                              : null
+                          }
+                          onChange={handleDateChange("vac_lab_date_2_wife_2")}
+                        />
+                        <DatePicker
+                          label="ครั้งที่ 3"
+                          size="sm"
+                          color="warning"
+                          variant="flat"
+                          value={
+                            Dates.vac_lab_date_3_wife_2
+                              ? parseDate(Dates.vac_lab_date_3_wife_2)
+                              : null
+                          }
+                          onChange={handleDateChange("vac_lab_date_3_wife_2")}
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
+              </>
+            )}
+          </form.Field>
+          <form.Field name="hiv">
+            {(field) => (
+              <Select
+                size="sm"
+                className="col-span-2 "
+                label="HIV"
+                variant="bordered"
+                selectedKeys={
+                  field.state.value ? new Set([field.state.value]) : new Set()
+                }
+                onSelectionChange={(key) => {
+                  const selected = Array.from(key)[0];
+                  field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                }}
+              >
+                {data
+                  .filter((vdrl_wife) => vdrl_wife.choice_type_id === 19)
+                  .map((vdrl_wife) => (
+                    <SelectItem key={vdrl_wife.id}>
+                      {vdrl_wife.choice_name}
+                    </SelectItem>
+                  ))}
+              </Select>
+            )}
+          </form.Field>
+        </div>
       </div>
 
       <CheckboxGroup
@@ -324,9 +552,62 @@ export default function page({
                         {data
                           .filter((birads) => birads.choice_type_id === 11)
                           .map((birads) => (
-                            <Radio key={birads.id} value={String(birads.id)}>
-                              {birads.choice_name}
-                            </Radio>
+                            <div
+                              key={birads.id}
+                              className="grid grid-cols-1 md:flex items-center gap-2"
+                            >
+                              <Radio className="w-40" value={String(birads.id)}>
+                                <p className="pl-1">{birads.choice_name}</p>
+                              </Radio>
+                              {String(birads.id) === "27" &&
+                                field.state.value === "27" && (
+                                  <form.Field name="birads_detail_1">
+                                    {(field) => (
+                                      <Input
+                                        label="ระบุ"
+                                        size="sm"
+                                        variant="bordered"
+                                        value={field.state.value || ""}
+                                        onChange={(e) =>
+                                          field.handleChange(e.target.value)
+                                        }
+                                      />
+                                    )}
+                                  </form.Field>
+                                )}
+                              {String(birads.id) === "28" &&
+                                field.state.value === "28" && (
+                                  <form.Field name="birads_detail_2">
+                                    {(field) => (
+                                      <Input
+                                        label="ระบุ"
+                                        size="sm"
+                                        variant="bordered"
+                                        value={field.state.value || ""}
+                                        onChange={(e) =>
+                                          field.handleChange(e.target.value)
+                                        }
+                                      />
+                                    )}
+                                  </form.Field>
+                                )}
+                              {String(birads.id) === "29" &&
+                                field.state.value === "29" && (
+                                  <form.Field name="birads_detail_3">
+                                    {(field) => (
+                                      <Input
+                                        label="ระบุ"
+                                        size="sm"
+                                        variant="bordered"
+                                        value={field.state.value || ""}
+                                        onChange={(e) =>
+                                          field.handleChange(e.target.value)
+                                        }
+                                      />
+                                    )}
+                                  </form.Field>
+                                )}
+                            </div>
                           ))}
                       </RadioGroup>
                     )}
@@ -374,7 +655,74 @@ export default function page({
                   key={per_os.id}
                   className="flex gap-[10px] items-center px-[10px]"
                 >
-                  <Radio value={String(per_os.id)}>{per_os.choice_name}</Radio>
+                  <Radio className="w-40" value={String(per_os.id)}>
+                    <p className="pl-1">{per_os.choice_name}</p>
+                  </Radio>
+                  {String(per_os.id) === "30" && field.state.value === "30" && (
+                    <form.Field name="per_os_detail_1">
+                      {(field) => (
+                        <Input
+                          label="ระบุ"
+                          size="sm"
+                          variant="bordered"
+                          value={field.state.value || ""}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                        />
+                      )}
+                    </form.Field>
+                  )}
+                  {String(per_os.id) === "31" && field.state.value === "31" && (
+                    <form.Field name="per_os_detail_2">
+                      {(field) => (
+                        <Input
+                          label="ระบุ"
+                          size="sm"
+                          variant="bordered"
+                          value={field.state.value || ""}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                        />
+                      )}
+                    </form.Field>
+                  )}
+                  {String(per_os.id) === "32" && field.state.value === "32" && (
+                    <form.Field name="per_os_detail_3">
+                      {(field) => (
+                        <Input
+                          label="ระบุ"
+                          size="sm"
+                          variant="bordered"
+                          value={field.state.value || ""}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                        />
+                      )}
+                    </form.Field>
+                  )}
+                  {String(per_os.id) === "63" && field.state.value === "63" && (
+                    <form.Field name="per_os_detail_4">
+                      {(field) => (
+                        <Input
+                          label="ระบุ"
+                          size="sm"
+                          variant="bordered"
+                          value={field.state.value || ""}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                        />
+                      )}
+                    </form.Field>
+                  )}
+                  {String(per_os.id) === "64" && field.state.value === "64" && (
+                    <form.Field name="per_os_detail_5">
+                      {(field) => (
+                        <Input
+                          label="ระบุ"
+                          size="sm"
+                          variant="bordered"
+                          value={field.state.value || ""}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                        />
+                      )}
+                    </form.Field>
+                  )}
                 </div>
               ))}
           </RadioGroup>

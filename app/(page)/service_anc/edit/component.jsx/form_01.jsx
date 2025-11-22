@@ -6,6 +6,7 @@ import { DatePicker } from "@heroui/date-picker";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 
 import useHook from "../useHook";
+import { Select, SelectItem } from "@heroui/select";
 
 export default function page({
   handleLmpChange,
@@ -16,8 +17,10 @@ export default function page({
   validationSchema,
   form,
   currentData,
+  setGaManual,
+  setEdcManual,
 }) {
-  const { calculateAge, formatAddress, formatName } = useHook();
+  const { calculateAge, formatAddress, formatName, data } = useHook();
 
   return (
     <div>
@@ -340,91 +343,120 @@ export default function page({
               />
             )}
           </form.Field>
-          <form.Field
-            name="last"
-            validators={{
-              onChange: validationSchema.shape.last,
-            }}
-          >
-            {(field) => (
-              <Input
-                size="sm"
-                label="LAST"
-                variant="bordered"
-                type="text"
-                value={field.state.value}
-                onChange={(e) => field.handleChange(e.target.value)}
-                onBlur={field.handleBlur}
-                isInvalid={field.state.meta.errors.length > 0}
-                errorMessage={field.state.meta.errors[0]?.message}
-              />
-            )}
-          </form.Field>
-          <form.Field
-            name="lmp"
-            validators={{
-              onChange: validationSchema.shape.lmp,
-            }}
-          >
-            {(field) => (
-              <DatePicker
-                size="sm"
-                label="LMP"
-                variant="bordered"
-                locale="th-TH-u-ca-buddhist"
-                value={field.state.value ? parseDate(field.state.value) : null}
-                onChange={handleLmpChange}
-                onBlur={field.handleBlur}
-                isInvalid={field.state.meta.errors.length > 0}
-                errorMessage={field.state.meta.errors[0]?.message}
-                placeholder="เลือกวันที่"
-                withinPortal={false}
-              />
-            )}
-          </form.Field>
+          <div className="col-span-4 grid grid-cols-1 md:grid-cols-5 gap-2">
+            <form.Field
+              name="last"
+              validators={{
+                onChange: validationSchema.shape.last,
+              }}
+            >
+              {(field) => (
+                <Input
+                  size="sm"
+                  label="LAST"
+                  type="text"
+                  variant="bordered"
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  onBlur={field.handleBlur}
+                  isInvalid={field.state.meta.errors.length > 0}
+                  errorMessage={field.state.meta.errors[0]?.message}
+                />
+              )}
+            </form.Field>
+            <form.Field
+              name="lmp"
+              validators={{
+                onChange: validationSchema.shape.lmp,
+              }}
+            >
+              {(field) => (
+                <DatePicker
+                  size="sm"
+                  label="LMP"
+                  locale="th-TH-u-ca-buddhist"
+                  variant="bordered"
+                  value={
+                    field.state.value ? parseDate(field.state.value) : null
+                  }
+                  onChange={handleLmpChange}
+                  onBlur={field.handleBlur}
+                  isInvalid={field.state.meta.errors.length > 0}
+                  errorMessage={field.state.meta.errors[0]?.message}
+                  placeholder="เลือกวันที่"
+                  withinPortal={false}
+                />
+              )}
+            </form.Field>
 
-          <form.Field
-            name="edc"
-            validators={{
-              onChange: validationSchema.shape.edc,
-            }}
-          >
-            {(field) => (
-              <DatePicker
-                size="sm"
-                label="EDC"
-                variant="bordered"
-                isReadOnly
-                locale="th-TH-u-ca-buddhist"
-                value={field.state.value ? parseDate(field.state.value) : null}
-                onChange={() => {}} // ปิดการแก้ไข
-                onBlur={field.handleBlur}
-                isInvalid={field.state.meta.errors.length > 0}
-                errorMessage={field.state.meta.errors[0]?.message}
-              />
-            )}
-          </form.Field>
+            <form.Field name="edc">
+              {(field) => (
+                <DatePicker
+                  size="sm"
+                  label="EDC"
+                  locale="th-TH-u-ca-buddhist"
+                  variant="bordered"
+                  value={
+                    field.state.value ? parseDate(field.state.value) : null
+                  }
+                  onChange={(date) => {
+                    if (!date) {
+                      field.handleChange(null);
+                      return;
+                    }
 
-          <form.Field
-            name="ga"
-            validators={{
-              onChange: validationSchema.shape.ga,
-            }}
-          >
-            {(field) => (
-              <Input
-                type="text"
-                size="sm"
-                label="อายุครรภ์"
-                variant="bordered"
-                value={field.state.value ?? ""}
-                readOnly
-                onBlur={field.handleBlur}
-                isInvalid={field.state.meta.errors.length > 0}
-                errorMessage={field.state.meta.errors[0]?.message}
-              />
-            )}
-          </form.Field>
+                    const iso = `${date.year}-${String(date.month).padStart(2, "0")}-${String(date.day).padStart(2, "0")}`;
+                    field.handleChange(iso);
+                    setEdcManual(true); // ผู้ใช้แก้เอง
+                  }}
+                  onBlur={field.handleBlur}
+                  isInvalid={field.state.meta.errors.length > 0}
+                  errorMessage={field.state.meta.errors[0]?.message}
+                  placeholder="เลือกหรือกรอกวัน"
+                  withinPortal={false}
+                />
+              )}
+            </form.Field>
+
+            <form.Field name="ga">
+              {(field) => (
+                <Input
+                  label="อายุครรภ์"
+                  size="sm"
+                  value={field.state.value ?? ""}
+                  variant="bordered"
+                  onChange={(e) => {
+                    setGaManual(true); // ← ผู้ใช้แก้เอง
+                    field.handleChange(e.target.value);
+                  }}
+                />
+              )}
+            </form.Field>
+            <form.Field name="verified_by">
+              {(field) => (
+                <Select
+                  size="sm"
+                  className="col-span-1"
+                  label="เชื่อถือโดย"
+                  variant="bordered"
+                  selectedKeys={
+                    field.state.value ? new Set([field.state.value]) : new Set()
+                  }
+                  onSelectionChange={(key) => {
+                    const selected = Array.from(key)[0];
+                    field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                  }}
+                  // color={field.state.value === "47" ? "warning" : "default"}
+                >
+                  {data
+                    .filter((item) => item.choice_type_id === 24)
+                    .map((item) => (
+                      <SelectItem key={item.id}>{item.choice_name}</SelectItem>
+                    ))}
+                </Select>
+              )}
+            </form.Field>
+          </div>
         </div>
       </div>
     </div>

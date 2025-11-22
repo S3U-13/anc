@@ -5,25 +5,26 @@ import React from "react";
 import useHook from "../useHook";
 import { Select, SelectItem } from "@heroui/select";
 import { AlertOctagon } from "@deemlol/next-icons";
+import { DatePicker } from "@heroui/date-picker";
+import { parseDate, getLocalTimeZone } from "@internationalized/date";
 
-export default function page({ currentData, form }) {
+export default function page({ selectedAnc, Dates, form, handleDateChange }) {
   const { data, calculateAge, formatName } = useHook();
   return (
     <div className="overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1>ส่วนที่ 4</h1>
       <div className="grid grid-cols-4 gap-[10px] px-[30px] mt-[10px]">
-        {!currentData?.service_info?.hn_husband &&
-          !currentData?.service_info?.husband_name && (
-            <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center col-span-4">
-              <AlertOctagon className="animate-pulse" size={20} />
-              <span className="text-lg">ไม่พบข้อมูลสามี</span>
-            </div>
-          )}
+        {!selectedAnc?.hn_husband && !selectedAnc?.husband_name && (
+          <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center col-span-4">
+            <AlertOctagon className="animate-pulse" size={20} />
+            <span className="text-lg">ไม่พบข้อมูลสามี</span>
+          </div>
+        )}
         <Input
           size="sm"
           className="col-span-4 md:col-span-2"
           label="HN สามี"
-          value={currentData?.service_info?.hn_husband ?? ""}
+          value={selectedAnc?.hn_husband ?? ""}
           type="text"
           readOnly
           disabled
@@ -32,7 +33,7 @@ export default function page({ currentData, form }) {
           size="sm"
           className="col-span-4 md:col-span-2"
           label="ชื่อสามี"
-          value={currentData?.service_info?.husband_name || ""}
+          value={selectedAnc?.husband_name || ""}
           type="text"
           readOnly
           disabled
@@ -41,7 +42,7 @@ export default function page({ currentData, form }) {
           size="sm"
           className="col-span-4 md:col-span-2"
           label="อายุ"
-          value={currentData?.service_info?.husband_age ?? ""}
+          value={selectedAnc?.husband_age ?? ""}
           type="text"
           readOnly
           disabled
@@ -51,7 +52,7 @@ export default function page({ currentData, form }) {
           className="col-span-4 md:col-span-2"
           label="บัตรประชาชน"
           type="text"
-          value={currentData?.service_info?.husband_citizencardno ?? ""}
+          value={selectedAnc?.husband_citizencardno ?? ""}
           readOnly
           disabled
         />
@@ -60,7 +61,7 @@ export default function page({ currentData, form }) {
           className="col-span-4 md:col-span-2"
           label="สัญชาติ"
           type="text"
-          value={currentData?.service_info?.husband_race ?? ""}
+          value={selectedAnc?.husband_race ?? ""}
           readOnly
           disabled
         />
@@ -69,10 +70,7 @@ export default function page({ currentData, form }) {
           className="col-span-4 md:col-span-2"
           label="อาชีพ"
           type="text"
-          value={
-            currentData?.service_info?.husband?.occupation_detail?.lookupname ??
-            ""
-          }
+          value={selectedAnc?.husband?.occupation_detail?.lookupname ?? ""}
           readOnly
           disabled
         />
@@ -81,7 +79,7 @@ export default function page({ currentData, form }) {
           className="col-span-4 md:col-span-2"
           label="เบอร์โทรศัพท์"
           type="email"
-          value={currentData?.service_info?.husband_tel ?? ""}
+          value={selectedAnc?.husband_tel ?? ""}
           readOnly
           disabled
         />
@@ -90,7 +88,7 @@ export default function page({ currentData, form }) {
           className="col-span-4 md:col-span-2"
           label="email"
           type="email"
-          value={currentData?.service_info?.husband?.pat_address?.email ?? ""}
+          value={selectedAnc?.husband?.pat_address?.email ?? ""}
           readOnly
           disabled
         />
@@ -168,6 +166,58 @@ export default function page({ currentData, form }) {
                       />
                     )}
                   </form.Field>
+                  <form.Field name="treatment_detail_husband">
+                    {(field) => (
+                      <Input
+                        className="col-span-2"
+                        label="การรักษา*"
+                        size="sm"
+                        color="warning"
+                        variant="flat"
+                        value={field.state.value || ""}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                    )}
+                  </form.Field>
+
+                  <div className="col-span-2 grid grid-cols-1 md:grid-cols-3 gap-2">
+                    <DatePicker
+                      label="ครั้งที่ 1"
+                      size="sm"
+                      color="warning"
+                      variant="flat"
+                      value={
+                        Dates.vac_lab_date_1_husband
+                          ? parseDate(Dates.vac_lab_date_1_husband)
+                          : null
+                      }
+                      onChange={handleDateChange("vac_lab_date_1_husband")}
+                    />
+                    <DatePicker
+                      label="ครั้งที่ 1"
+                      size="sm"
+                      color="warning"
+                      variant="flat"
+                      value={
+                        Dates.vac_lab_date_2_husband
+                          ? parseDate(Dates.vac_lab_date_2_husband)
+                          : null
+                      }
+                      onChange={handleDateChange("vac_lab_date_2_husband")}
+                    />
+                    <DatePicker
+                      label="ครั้งที่ 1"
+                      size="sm"
+                      color="warning"
+                      variant="flat"
+                      value={
+                        Dates.vac_lab_date_3_husband
+                          ? parseDate(Dates.vac_lab_date_3_husband)
+                          : null
+                      }
+                      onChange={handleDateChange("vac_lab_date_3_husband")}
+                    />
+                  </div>
                 </div>
               )}
             </>
@@ -273,78 +323,80 @@ export default function page({ currentData, form }) {
             )}
           </form.Field>
         </div>
-        <form.Field name="of_husband">
-          {(field) => (
-            <Select
-              size="sm"
-              className="col-span-1"
-              label="OF"
-              variant="bordered"
-              selectedKeys={
-                field.state.value ? new Set([field.state.value]) : new Set()
-              }
-              onSelectionChange={(key) => {
-                const selected = Array.from(key)[0];
-                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
-              }}
-            >
-              {data
-                .filter((of) => of.choice_type_id === 22)
-                .map((of) => (
-                  <SelectItem key={of.id}>{of.choice_name}</SelectItem>
-                ))}
-            </Select>
-          )}
-        </form.Field>
-        <form.Field name="dcip_husband">
-          {(field) => (
-            <Select
-              size="sm"
-              className="col-span-1"
-              label="DCIP"
-              variant="bordered"
-              selectedKeys={
-                field.state.value ? new Set([field.state.value]) : new Set()
-              }
-              onSelectionChange={(key) => {
-                const selected = Array.from(key)[0];
-                field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
-              }}
-            >
-              {data
-                .filter((dcip) => dcip.choice_type_id === 22)
-                .map((dcip) => (
-                  <SelectItem key={dcip.id}>{dcip.choice_name}</SelectItem>
-                ))}
-            </Select>
-          )}
-        </form.Field>
-        <form.Field name="mcv_husband">
-          {(field) => (
-            <Input
-              size="sm"
-              className="col-span-1"
-              label="MCV"
-              variant="bordered"
-              type="text"
-              value={field.state.value ?? ""} // ✅ null → ""
-              onChange={(e) => field.handleChange(e.target.value)}
-            />
-          )}
-        </form.Field>
-        <form.Field name="mch_husband">
-          {(field) => (
-            <Input
-              size="sm"
-              className="col-span-1"
-              label="MCH"
-              variant="bordered"
-              type="text"
-              value={field.state.value ?? ""} // ✅ null → ""
-              onChange={(e) => field.handleChange(e.target.value)}
-            />
-          )}
-        </form.Field>
+        <div className="grid grid-cols-4 gap-2 col-span-4">
+          <form.Field name="of_husband">
+            {(field) => (
+              <Select
+                size="sm"
+                className="col-span-1"
+                label="OF"
+                variant="bordered"
+                selectedKeys={
+                  field.state.value ? new Set([field.state.value]) : new Set()
+                }
+                onSelectionChange={(key) => {
+                  const selected = Array.from(key)[0];
+                  field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                }}
+              >
+                {data
+                  .filter((of) => of.choice_type_id === 22)
+                  .map((of) => (
+                    <SelectItem key={of.id}>{of.choice_name}</SelectItem>
+                  ))}
+              </Select>
+            )}
+          </form.Field>
+          <form.Field name="dcip_husband">
+            {(field) => (
+              <Select
+                size="sm"
+                className="col-span-1"
+                label="DCIP"
+                variant="bordered"
+                selectedKeys={
+                  field.state.value ? new Set([field.state.value]) : new Set()
+                }
+                onSelectionChange={(key) => {
+                  const selected = Array.from(key)[0];
+                  field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                }}
+              >
+                {data
+                  .filter((dcip) => dcip.choice_type_id === 22)
+                  .map((dcip) => (
+                    <SelectItem key={dcip.id}>{dcip.choice_name}</SelectItem>
+                  ))}
+              </Select>
+            )}
+          </form.Field>
+          <form.Field name="mcv_husband">
+            {(field) => (
+              <Input
+                size="sm"
+                className="col-span-1"
+                label="MCV"
+                variant="bordered"
+                type="text"
+                value={field.state.value ?? ""} // ✅ null → ""
+                onChange={(e) => field.handleChange(e.target.value)}
+              />
+            )}
+          </form.Field>
+          <form.Field name="mch_husband">
+            {(field) => (
+              <Input
+                size="sm"
+                className="col-span-1"
+                label="MCH"
+                variant="bordered"
+                type="text"
+                value={field.state.value ?? ""} // ✅ null → ""
+                onChange={(e) => field.handleChange(e.target.value)}
+              />
+            )}
+          </form.Field>
+        </div>
       </div>
 
       <form.Field name="pcr_hus_id">

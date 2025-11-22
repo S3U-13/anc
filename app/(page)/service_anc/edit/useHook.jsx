@@ -841,7 +841,7 @@ export default function useHook({
         const refField = mapCheckboxValues(
           "ref",
           initialSelected,
-          2,
+          3,
           refChoice
         );
         Object.entries(refField).forEach(([key, value]) => {
@@ -916,6 +916,13 @@ export default function useHook({
       });
 
       // 9️⃣ เซ็ตค่า ref_in_choice / ref_out_choice
+      if (currentData.wife?.choices?.refOther) {
+        const ref_other = currentData.wife.choices.refOther;
+        form.setFieldValue(
+          "ref_other_detail",
+          String(ref_other.ref_other_detail ?? "")
+        );
+      }
       if (currentData.wife?.choices?.ref_in_choice) {
         const refIn = currentData.wife.choices.ref_in_choice;
         form.setFieldValue("receive_in_id", String(refIn.receive_in_id ?? ""));
