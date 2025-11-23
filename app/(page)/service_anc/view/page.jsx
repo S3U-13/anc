@@ -237,6 +237,10 @@ export default function page({
 
                       <span>
                         <strong className="text-gray-900 dark:text-white">
+                          น้ำหนักก่อนตั้งครรภ์ :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">{`${Math.round(roundData?.wife?.text_values?.prep_weight)} กก.`}</span>
+                        <strong className="text-gray-900 dark:text-white pl-2">
                           น้ำหนัก :
                         </strong>{" "}
                         <span className="dark:text-gray-400">{`${Math.round(roundData?.wife.pat_vitalsign.weight)} กก.`}</span>
@@ -539,6 +543,14 @@ export default function page({
                           {roundData?.wife.text_values.ga}
                         </span>
                       </span>
+                      <span>
+                        <strong className="text-gray-900 dark:text-white">
+                          เชื่อถือโดย :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.wife?.choices?.vb?.choice_name || "-"}
+                        </span>
+                      </span>
                     </div>
                   </section>
 
@@ -594,6 +606,24 @@ export default function page({
                           </strong>{" "}
                           <span className="dark:text-gray-400">
                             {roundData?.wife?.choices?.am?.choice_name ?? "-"}
+                          </span>
+                        </span>
+                        <span>
+                          <strong className="text-gray-900 dark:text-white">
+                            หมายเหตุ :
+                          </strong>{" "}
+                          <span className="dark:text-gray-400">
+                            {roundData?.wife?.choices?.am_id === 5 &&
+                              (roundData?.wife?.text_values?.am_detail_1 ||
+                                "-")}
+
+                            {roundData?.wife?.choices?.am_id === 6 &&
+                              (roundData?.wife?.text_values?.am_detail_2 ||
+                                "-")}
+
+                            {roundData?.wife?.choices?.am_id === 7 &&
+                              (roundData?.wife?.text_values?.am_detail_3 ||
+                                "-")}
                           </span>
                         </span>
                         <span className="flex gap-2">
@@ -724,6 +754,63 @@ export default function page({
                         </span>
                         <span>
                           <strong className="text-gray-900 dark:text-white">
+                            วัคซีน :
+                          </strong>{" "}
+                          <span className="dark:text-gray-400">
+                            {roundData?.wife?.choices?.Vaccine?.choice_name ??
+                              "-"}
+                          </span>
+                        </span>
+                        <div>
+                          <span>
+                            <strong className="text-gray-900 dark:text-white">
+                              หมายเหตุ :
+                            </strong>{" "}
+                            <span className="dark:text-gray-400">
+                              {roundData?.wife?.choices?.vaccine === 58 && (
+                                <>
+                                  {`${roundData?.wife?.text_values?.vaccine_detail_1} `}
+                                </>
+                              )}
+                              {roundData?.wife?.choices?.vaccine === 59 && (
+                                <>
+                                  {`${roundData?.wife?.text_values?.vaccine_detail_2} `}
+                                </>
+                              )}
+                              {roundData?.wife?.choices?.vaccine === 60 && (
+                                <>
+                                  {`${roundData?.wife?.text_values?.vaccine_detail_3} `}
+                                </>
+                              )}
+                            </span>
+                          </span>
+                          <br />
+                          <span>
+                            <strong className="text-gray-900 dark:text-white">
+                              วันนัด :
+                            </strong>{" "}
+                            <span className="dark:text-gray-400">
+                              {roundData?.wife?.choices?.vaccine === 58 && (
+                                <>
+                                  {`${formatThaiDateNoTime(roundData?.wife?.text_values?.vaccine_date_1)}`}
+                                </>
+                              )}
+                              {roundData?.wife?.choices?.vaccine === 59 && (
+                                <>
+                                  {`${formatThaiDateNoTime(roundData?.wife?.text_values?.vaccine_date_2)}`}
+                                </>
+                              )}
+                              {roundData?.wife?.choices?.vaccine === 60 && (
+                                <>
+                                  {` ${formatThaiDateNoTime(roundData?.wife?.text_values?.vaccine_date_3)}`}
+                                </>
+                              )}
+                            </span>
+                          </span>
+                        </div>
+
+                        <span>
+                          <strong className="text-gray-900 dark:text-white">
                             ได้รับยา :
                           </strong>{" "}
                           <span className="dark:text-gray-400">
@@ -731,11 +818,33 @@ export default function page({
                               "-"}
                           </span>
                         </span>
+                        <span>
+                          <strong className="text-gray-900 dark:text-white">
+                            หมายเหตุ :
+                          </strong>{" "}
+                          <span className="dark:text-gray-400">
+                            {roundData?.wife?.choices?.per_os_id === 30 &&
+                              (roundData?.wife?.text_values?.per_os_detail_1 ||
+                                "-")}
+                            {roundData?.wife?.choices?.per_os_id === 31 &&
+                              (roundData?.wife?.text_values?.per_os_detail_2 ||
+                                "-")}
+                            {roundData?.wife?.choices?.per_os_id === 32 &&
+                              (roundData?.wife?.text_values?.per_os_detail_3 ||
+                                "-")}
+                            {roundData?.wife?.choices?.per_os_id === 63 &&
+                              (roundData?.wife?.text_values?.per_os_detail_4 ||
+                                "-")}
+                            {roundData?.wife?.choices?.per_os_id === 64 &&
+                              (roundData?.wife?.text_values?.per_os_detail_5 ||
+                                "-")}
+                          </span>
+                        </span>
                         <span className="col-span-2 flex gap-2 items-center">
                           <strong className="text-gray-900 dark:text-white">
                             เคยฉีดวัคซีนกันบาดทะยักก่อนตั้งครรภ์กี่ครั้ง :
                           </strong>{" "}
-                          <span className="dark:text-gray-400">{`${roundData?.wife.text_values.td_num ?? 0} ครั้ง`}</span>
+                          <span className="dark:text-gray-400">{`${roundData?.wife.text_values.td_num || "-"}`}</span>
                           {roundData?.wife?.text_values?.td_num > 0 && (
                             <div className="text-gray-500 ml-14">
                               <strong className="text-gray-900 dark:text-white">
@@ -749,71 +858,7 @@ export default function page({
                             </div>
                           )}
                         </span>
-                        <span>
-                          <strong className="text-gray-900 dark:text-white">
-                            LAB 2 :
-                          </strong>{" "}
-                          <span className="dark:text-gray-400">
-                            {formatThaiDateNoTime(
-                              roundData?.wife?.text_values?.lab_2
-                            )}
-                          </span>
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <strong className="text-gray-900 dark:text-white">
-                            VDRL :
-                          </strong>{" "}
-                          <span className="dark:text-gray-400">
-                            {roundData?.wife?.text_values?.vdrl_2_name
-                              ?.choice_name || "—"}
-                          </span>
-                          {/* ถ้าผลเป็น Reactive ให้แสดงคำเตือน */}
-                          {roundData?.wife?.text_values?.vdrl_2_name
-                            ?.choice_name === "Reactive" && (
-                            <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
-                              <AlertOctagon
-                                className="animate-pulse"
-                                size={18}
-                              />
-                              <span className="text-[12px]">
-                                เสี่ยง เป็นโรคซิฟิลิส
-                              </span>
-                            </div>
-                          )}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <strong className="text-gray-900 dark:text-white">
-                            HCT :
-                          </strong>{" "}
-                          <span className="dark:text-gray-400">
-                            {roundData?.wife?.text_values?.hct ?? "-"}
-                          </span>
-                          {roundData?.wife?.text_values?.hct != null ? (
-                            roundData.wife.text_values.hct <= 33 && (
-                              <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
-                                <AlertOctagon
-                                  className="animate-pulse"
-                                  size={18}
-                                />
-                                <span className="text-[12px]">
-                                  ภาวะโลหิตจาง
-                                </span>
-                              </div>
-                            )
-                          ) : (
-                            <span></span>
-                          )}
-                        </span>
-                        <span>
-                          <strong className="text-gray-900 dark:text-white">
-                            H :
-                          </strong>{" "}
-                          <span className="dark:text-gray-400">
-                            {roundData?.wife?.text_values?.h ?? "-"}
-                          </span>
-                        </span>
                       </div>
-
                       <hr className="my-5 border-gray-200 dark:border-divider" />
 
                       <div>
@@ -880,7 +925,7 @@ export default function page({
                     </h2>
                     <hr className="col-span-2 my-2 border-gray-200 dark:border-divider pb-2" />
                     {/* Content */}
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 px-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 px-6 ">
                       {LabWife.length > 0 ? (
                         LabWife.map((item, index) => {
                           const isRisk = checkLabRisk(item.label, item.value);
@@ -923,6 +968,72 @@ export default function page({
                           ไม่มีข้อมูลการแปลผล
                         </p>
                       )}
+                    </div>
+                    
+                    <h2 className="text-xl font-semibold text-gray-800 dark:text-white border-l-4 border-gray-500 dark:border-[#ffffff] pl-3 mb-5 my-8">
+                      ค่า Lab 2 (ภรรยา)
+                    </h2>
+                    <hr className="col-span-2 my-4 border-gray-200 dark:border-divider pb-2" />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 px-6">
+                      <span>
+                        <strong className="text-gray-900 dark:text-white">
+                          LAB 2 :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {formatThaiDateNoTime(
+                            roundData?.wife?.text_values?.lab_2
+                          )}
+                        </span>
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <strong className="text-gray-900 dark:text-white">
+                          VDRL :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.wife?.text_values?.vdrl_2_name
+                            ?.choice_name || "—"}
+                        </span>
+                        {/* ถ้าผลเป็น Reactive ให้แสดงคำเตือน */}
+                        {roundData?.wife?.text_values?.vdrl_2_name
+                          ?.choice_name === "Reactive" && (
+                          <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
+                            <AlertOctagon className="animate-pulse" size={18} />
+                            <span className="text-[12px]">
+                              เสี่ยง เป็นโรคซิฟิลิส
+                            </span>
+                          </div>
+                        )}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <strong className="text-gray-900 dark:text-white">
+                          HCT :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.wife?.text_values?.hct ?? "-"}
+                        </span>
+                        {roundData?.wife?.text_values?.hct != null ? (
+                          roundData.wife.text_values.hct <= 33 && (
+                            <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
+                              <AlertOctagon
+                                className="animate-pulse"
+                                size={18}
+                              />
+                              <span className="text-[12px]">ภาวะโลหิตจาง</span>
+                            </div>
+                          )
+                        ) : (
+                          <span></span>
+                        )}
+                      </span>
+                      <span>
+                        <strong className="text-gray-900 dark:text-white">
+                          HIV :
+                        </strong>{" "}
+                        <span className="dark:text-gray-400">
+                          {roundData?.wife?.text_values?.HIV?.choice_name ??
+                            "-"}
+                        </span>
+                      </span>
                     </div>
                   </section>
 
