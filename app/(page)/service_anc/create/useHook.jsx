@@ -476,7 +476,160 @@ export default function useHook({ closeFormService } = {}) {
     // ✅ อัปเดตเข้า useForm ด้วย
     form.setFieldValue(name, value);
   };
+  // new handle
+  const handleMaChange = (e, field) => {
+    const newValue = e.target.value;
 
+    field.handleChange(newValue);
+
+    if (newValue !== "1") {
+      form.setFieldValue("ma_detail", "");
+    }
+  };
+  const handleHrChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "4") {
+      form.setFieldValue("hr_detail", "");
+    }
+  };
+  const handlePcrWifeChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "9") {
+      form.setFieldValue("pcr_wife_text", "");
+    }
+  };
+  const handleCordoChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "11") {
+      form.setFieldValue("cordo_text", "");
+    }
+  };
+  const handleAmChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "4") {
+      form.setFieldValue("am_detail_1", "");
+    }
+
+    if (newValue !== "5") {
+      form.setFieldValue("am_detail_2", "");
+    }
+
+    if (newValue !== "6") {
+      form.setFieldValue("am_detail_3", "");
+    }
+  };
+  const handleVaccineChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "58") {
+      form.setFieldValue("vaccine_detail_1", "");
+      form.setFieldValue("vaccine_date_1", null);
+      setDates((prev) => ({ ...prev, vaccine_date_1: null }));
+    }
+
+    if (newValue !== "59") {
+      form.setFieldValue("vaccine_detail_2", "");
+      form.setFieldValue("vaccine_date_2", null);
+      setDates((prev) => ({ ...prev, vaccine_date_2: null }));
+    }
+
+    if (newValue !== "60") {
+      form.setFieldValue("vaccine_detail_3", "");
+      form.setFieldValue("vaccine_date_3", null);
+      setDates((prev) => ({ ...prev, vaccine_date_3: null }));
+    }
+  };
+  const handleTdapChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "14") {
+      form.setFieldValue("tdap_round_1", null);
+      form.setFieldValue("tdap_round_2", null);
+      form.setFieldValue("tdap_round_3", null);
+      setDates((prev) => ({
+        ...prev,
+        tdap_round_1: null,
+        tdap_round_2: null,
+        tdap_round_3: null,
+      }));
+    }
+  };
+  const handleIipChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "16") {
+      form.setFieldValue("iip_date", null);
+
+      setDates((prev) => ({
+        ...prev,
+        iip_date: null,
+      }));
+    }
+  };
+  const handleBiradsChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "27") {
+      form.setFieldValue("birads_detail_1", "");
+    }
+    if (newValue !== "28") {
+      form.setFieldValue("birads_detail_2", "");
+    }
+    if (newValue !== "29") {
+      form.setFieldValue("birads_detail_3", "");
+    }
+  };
+  const handlePerOsChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "30") {
+      form.setFieldValue("per_os_detail_1", "");
+    }
+    if (newValue !== "31") {
+      form.setFieldValue("per_os_detail_2", "");
+    }
+    if (newValue !== "35") {
+      form.setFieldValue("per_os_detail_3", "");
+    }
+    if (newValue !== "63") {
+      form.setFieldValue("per_os_detail_4", "");
+    }
+    if (newValue !== "64") {
+      form.setFieldValue("per_os_detail_5", "");
+    }
+  };
+  const handlePcrHusbandChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "9") {
+      form.setFieldValue("pcr_hus_text", "");
+    }
+  };
+  // end new handle
   const handleSubmit = async (value) => {
     if (isSubmitting) return;
     try {
@@ -1164,5 +1317,17 @@ export default function useHook({ closeFormService } = {}) {
     handleRoundSelect,
     setGaManual,
     setEdcManual,
+    setDates,
+    handleVaccineChange,
+    handleMaChange,
+    handleHrChange,
+    handlePcrWifeChange,
+    handleCordoChange,
+    handleAmChange,
+    handleTdapChange,
+    handleIipChange,
+    handleBiradsChange,
+    handlePerOsChange,
+    handlePcrHusbandChange,
   };
 }

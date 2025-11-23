@@ -72,6 +72,18 @@ export default function page({ openFormService, closeFormService }) {
     setEdcManual,
     isSubmitting,
     data,
+    setDates,
+    handleVaccineChange,
+    handleMaChange,
+    handleHrChange,
+    handlePcrWifeChange,
+    handleCordoChange,
+    handleAmChange,
+    handleTdapChange,
+    handleIipChange,
+    handleBiradsChange,
+    handlePerOsChange,
+    handlePcrHusbandChange,
   } = useHook({ closeFormService });
 
   return (
@@ -201,6 +213,12 @@ export default function page({ openFormService, closeFormService }) {
                       form={form}
                       Dates={Dates}
                       handleDateChange={handleDateChange}
+                      setDates={setDates}
+                      handleMaChange={handleMaChange}
+                      handleHrChange={handleHrChange}
+                      handlePcrWifeChange={handlePcrWifeChange}
+                      handleCordoChange={handleCordoChange}
+                      handleAmChange={handleAmChange}
                     />
                   </Tab>
                   <Tab disabled key="from_3" title={<div className="" />}>
@@ -213,6 +231,12 @@ export default function page({ openFormService, closeFormService }) {
                       selectedBti={selectedBti}
                       selectedCbe={selectedCbe}
                       Dates={Dates}
+                      setDates={setDates}
+                      handleVaccineChange={handleVaccineChange}
+                      handleTdapChange={handleTdapChange}
+                      handleIipChange={handleIipChange}
+                      handleBiradsChange={handleBiradsChange}
+                      handlePerOsChange={handlePerOsChange}
                     />
                   </Tab>
                   <Tab disabled key="from_4" title={<div className="" />}>
@@ -221,6 +245,8 @@ export default function page({ openFormService, closeFormService }) {
                       form={form}
                       Dates={Dates}
                       handleDateChange={handleDateChange}
+                      setDates={setDates}
+                      handlePcrHusbandChange={handlePcrHusbandChange}
                     />
                   </Tab>
                   <Tab disabled key="from_5" title={<div className="" />}>

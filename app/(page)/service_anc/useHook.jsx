@@ -226,6 +226,19 @@ export default function useHook() {
     );
   };
 
+  const formatThaiDateNoTime = (isoString) => {
+    if (!isoString) return "";
+
+    const date = new Date(isoString);
+
+    return new Intl.DateTimeFormat("th-TH", {
+      timeZone: "Asia/Bangkok",
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    }).format(date);
+  };
+
   const btiData = [
     {
       value: roundData?.wife?.choices?.bti?.bti_value_1?.choice_name || "",
@@ -285,6 +298,13 @@ export default function useHook() {
         roundData?.wife?.choices?.ref_out_choice?.receive_out_detail || "",
       in_province:
         roundData?.wife?.choices?.ref_out_choice?.ref_out_detail || "",
+    },
+    {
+      value:
+        roundData?.wife?.choices?.referral_value?.ref_other?.choice_name || "",
+      data:
+        roundData?.wife?.choices?.referral_value?.ref_other?.choice_name || "",
+      detail: roundData?.wife?.choices?.refOther?.ref_other_detail || "-",
     },
   ].filter((item) => item.value); // กรองตัวว่างออก
 
@@ -390,12 +410,35 @@ export default function useHook() {
             label: "TPHA",
             value: roundData?.wife.text_values.lab_wife.tpha_wife ?? "-",
           },
+          {
+            label: "การรักษา",
+            value:
+              roundData?.wife.text_values.lab_wife.treatment_detail_wife ?? "-",
+          },
+          {
+            label: "ครั้งที่ 1",
+            value: formatThaiDateNoTime(
+              roundData?.wife.text_values.lab_wife.vac_lab_date_1_wife
+            ),
+          },
+          {
+            label: "ครั้งที่ 2",
+            value: formatThaiDateNoTime(
+              roundData?.wife.text_values.lab_wife.vac_lab_date_2_wife
+            ),
+          },
+          {
+            label: "ครั้งที่ 3",
+            value: formatThaiDateNoTime(
+              roundData?.wife.text_values.lab_wife.vac_lab_date_3_wife
+            ),
+          },
         ]
       : []),
     {
       label: "Anti HIV",
       value:
-        roundData?.wife.text_values.lab_wife.anti_hiv_wife_detail
+        roundData?.wife?.text_values?.lab_wife?.anti_hiv_wife_detail
           ?.choice_name ?? "-",
     },
     {
@@ -415,7 +458,9 @@ export default function useHook() {
     },
     {
       label: "OF",
-      value: roundData?.wife?.text_values?.lab_wife?.of_wife_detail?.choice_name ?? "-",
+      value:
+        roundData?.wife?.text_values?.lab_wife?.of_wife_detail?.choice_name ??
+        "-",
     },
     {
       label: "DCIP",
@@ -469,6 +514,30 @@ export default function useHook() {
             value:
               roundData?.husband?.choices?.lab_husband?.tpha_husband ?? "-",
           },
+          {
+            label: "การรักษา",
+            value:
+              roundData?.husband?.choices.lab_husband.treatment_detail_husband ??
+              "-",
+          },
+          {
+            label: "ครั้งที่ 1",
+            value: formatThaiDateNoTime(
+              roundData?.husband?.choices.lab_husband.vac_lab_date_1_husband
+            ),
+          },
+          {
+            label: "ครั้งที่ 2",
+            value: formatThaiDateNoTime(
+              roundData?.husband?.choices.lab_husband.vac_lab_date_2_husband
+            ),
+          },
+          {
+            label: "ครั้งที่ 3",
+            value: formatThaiDateNoTime(
+              roundData?.husband?.choices.lab_husband.vac_lab_date_3_husband
+            ),
+          },
         ]
       : []),
     {
@@ -497,7 +566,9 @@ export default function useHook() {
     },
     {
       label: "OF",
-      value: roundData?.husband?.choices?.lab_husband?.of_husband_detail?.choice_name ?? "-",
+      value:
+        roundData?.husband?.choices?.lab_husband?.of_husband_detail
+          ?.choice_name ?? "-",
     },
     {
       label: "DCIP",
@@ -531,19 +602,6 @@ export default function useHook() {
     value: item.value ?? "-",
   }));
 
-  const formatThaiDateNoTime = (isoString) => {
-    if (!isoString) return "";
-
-    const date = new Date(isoString);
-
-    return new Intl.DateTimeFormat("th-TH", {
-      timeZone: "Asia/Bangkok",
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    }).format(date);
-  };
-
   const calculateAge = (birthdate) => {
     if (!birthdate) return "";
 
@@ -565,8 +623,7 @@ export default function useHook() {
 
   useEffect(() => {
     const weight = parseFloat(roundData?.wife.pat_vitalsign.weight);
-    const heightM =
-      parseFloat(roundData?.wife.pat_vitalsign.height) / 100;
+    const heightM = parseFloat(roundData?.wife.pat_vitalsign.height) / 100;
     if (weight && heightM) {
       setBmi((weight / (heightM * heightM)).toFixed(2));
     } else {

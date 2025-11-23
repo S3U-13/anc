@@ -607,25 +607,29 @@ export default function page({
                           <span className="dark:text-gray-400">
                             {roundData?.wife?.choices?.am?.choice_name ?? "-"}
                           </span>
-                        </span>
-                        <span>
-                          <strong className="text-gray-900 dark:text-white">
-                            หมายเหตุ :
-                          </strong>{" "}
-                          <span className="dark:text-gray-400">
-                            {roundData?.wife?.choices?.am_id === 5 &&
-                              (roundData?.wife?.text_values?.am_detail_1 ||
-                                "-")}
+                          <div>
+                            {" "}
+                            <span>
+                              <strong className="text-gray-900 dark:text-white">
+                                หมายเหตุ :
+                              </strong>{" "}
+                              <span className="dark:text-gray-400">
+                                {roundData?.wife?.choices?.am_id === 5 &&
+                                  (roundData?.wife?.text_values?.am_detail_1 ||
+                                    "-")}
 
-                            {roundData?.wife?.choices?.am_id === 6 &&
-                              (roundData?.wife?.text_values?.am_detail_2 ||
-                                "-")}
+                                {roundData?.wife?.choices?.am_id === 6 &&
+                                  (roundData?.wife?.text_values?.am_detail_2 ||
+                                    "-")}
 
-                            {roundData?.wife?.choices?.am_id === 7 &&
-                              (roundData?.wife?.text_values?.am_detail_3 ||
-                                "-")}
-                          </span>
+                                {roundData?.wife?.choices?.am_id === 7 &&
+                                  (roundData?.wife?.text_values?.am_detail_3 ||
+                                    "-")}
+                              </span>
+                            </span>
+                          </div>
                         </span>
+
                         <span className="flex gap-2">
                           <strong className="text-gray-900 dark:text-white">
                             PCR :
@@ -760,54 +764,54 @@ export default function page({
                             {roundData?.wife?.choices?.Vaccine?.choice_name ??
                               "-"}
                           </span>
+                          <div>
+                            <span>
+                              <strong className="text-gray-900 dark:text-white">
+                                หมายเหตุ :
+                              </strong>{" "}
+                              <span className="dark:text-gray-400">
+                                {roundData?.wife?.choices?.vaccine === 58 && (
+                                  <>
+                                    {`${roundData?.wife?.text_values?.vaccine_detail_1} `}
+                                  </>
+                                )}
+                                {roundData?.wife?.choices?.vaccine === 59 && (
+                                  <>
+                                    {`${roundData?.wife?.text_values?.vaccine_detail_2} `}
+                                  </>
+                                )}
+                                {roundData?.wife?.choices?.vaccine === 60 && (
+                                  <>
+                                    {`${roundData?.wife?.text_values?.vaccine_detail_3} `}
+                                  </>
+                                )}
+                              </span>
+                            </span>
+                            <br />
+                            <span>
+                              <strong className="text-gray-900 dark:text-white">
+                                วันนัด :
+                              </strong>{" "}
+                              <span className="dark:text-gray-400">
+                                {roundData?.wife?.choices?.vaccine === 58 && (
+                                  <>
+                                    {`${formatThaiDateNoTime(roundData?.wife?.text_values?.vaccine_date_1)}`}
+                                  </>
+                                )}
+                                {roundData?.wife?.choices?.vaccine === 59 && (
+                                  <>
+                                    {`${formatThaiDateNoTime(roundData?.wife?.text_values?.vaccine_date_2)}`}
+                                  </>
+                                )}
+                                {roundData?.wife?.choices?.vaccine === 60 && (
+                                  <>
+                                    {` ${formatThaiDateNoTime(roundData?.wife?.text_values?.vaccine_date_3)}`}
+                                  </>
+                                )}
+                              </span>
+                            </span>
+                          </div>
                         </span>
-                        <div>
-                          <span>
-                            <strong className="text-gray-900 dark:text-white">
-                              หมายเหตุ :
-                            </strong>{" "}
-                            <span className="dark:text-gray-400">
-                              {roundData?.wife?.choices?.vaccine === 58 && (
-                                <>
-                                  {`${roundData?.wife?.text_values?.vaccine_detail_1} `}
-                                </>
-                              )}
-                              {roundData?.wife?.choices?.vaccine === 59 && (
-                                <>
-                                  {`${roundData?.wife?.text_values?.vaccine_detail_2} `}
-                                </>
-                              )}
-                              {roundData?.wife?.choices?.vaccine === 60 && (
-                                <>
-                                  {`${roundData?.wife?.text_values?.vaccine_detail_3} `}
-                                </>
-                              )}
-                            </span>
-                          </span>
-                          <br />
-                          <span>
-                            <strong className="text-gray-900 dark:text-white">
-                              วันนัด :
-                            </strong>{" "}
-                            <span className="dark:text-gray-400">
-                              {roundData?.wife?.choices?.vaccine === 58 && (
-                                <>
-                                  {`${formatThaiDateNoTime(roundData?.wife?.text_values?.vaccine_date_1)}`}
-                                </>
-                              )}
-                              {roundData?.wife?.choices?.vaccine === 59 && (
-                                <>
-                                  {`${formatThaiDateNoTime(roundData?.wife?.text_values?.vaccine_date_2)}`}
-                                </>
-                              )}
-                              {roundData?.wife?.choices?.vaccine === 60 && (
-                                <>
-                                  {` ${formatThaiDateNoTime(roundData?.wife?.text_values?.vaccine_date_3)}`}
-                                </>
-                              )}
-                            </span>
-                          </span>
-                        </div>
 
                         <span>
                           <strong className="text-gray-900 dark:text-white">
@@ -817,29 +821,37 @@ export default function page({
                             {roundData?.wife?.choices?.per_os?.choice_name ??
                               "-"}
                           </span>
+                          <div>
+                            <span>
+                              <strong className="text-gray-900 dark:text-white">
+                                หมายเหตุ :
+                              </strong>{" "}
+                              <span className="dark:text-gray-400">
+                                {roundData?.wife?.choices?.per_os_id === 30 &&
+                                  (roundData?.wife?.text_values
+                                    ?.per_os_detail_1 ||
+                                    "-")}
+                                {roundData?.wife?.choices?.per_os_id === 31 &&
+                                  (roundData?.wife?.text_values
+                                    ?.per_os_detail_2 ||
+                                    "-")}
+                                {roundData?.wife?.choices?.per_os_id === 32 &&
+                                  (roundData?.wife?.text_values
+                                    ?.per_os_detail_3 ||
+                                    "-")}
+                                {roundData?.wife?.choices?.per_os_id === 63 &&
+                                  (roundData?.wife?.text_values
+                                    ?.per_os_detail_4 ||
+                                    "-")}
+                                {roundData?.wife?.choices?.per_os_id === 64 &&
+                                  (roundData?.wife?.text_values
+                                    ?.per_os_detail_5 ||
+                                    "-")}
+                              </span>
+                            </span>
+                          </div>
                         </span>
-                        <span>
-                          <strong className="text-gray-900 dark:text-white">
-                            หมายเหตุ :
-                          </strong>{" "}
-                          <span className="dark:text-gray-400">
-                            {roundData?.wife?.choices?.per_os_id === 30 &&
-                              (roundData?.wife?.text_values?.per_os_detail_1 ||
-                                "-")}
-                            {roundData?.wife?.choices?.per_os_id === 31 &&
-                              (roundData?.wife?.text_values?.per_os_detail_2 ||
-                                "-")}
-                            {roundData?.wife?.choices?.per_os_id === 32 &&
-                              (roundData?.wife?.text_values?.per_os_detail_3 ||
-                                "-")}
-                            {roundData?.wife?.choices?.per_os_id === 63 &&
-                              (roundData?.wife?.text_values?.per_os_detail_4 ||
-                                "-")}
-                            {roundData?.wife?.choices?.per_os_id === 64 &&
-                              (roundData?.wife?.text_values?.per_os_detail_5 ||
-                                "-")}
-                          </span>
-                        </span>
+
                         <span className="col-span-2 flex gap-2 items-center">
                           <strong className="text-gray-900 dark:text-white">
                             เคยฉีดวัคซีนกันบาดทะยักก่อนตั้งครรภ์กี่ครั้ง :
@@ -898,9 +910,36 @@ export default function page({
                             >
                               {item.value}
                               {item.value === "ไม่ปกติ" && (
-                                <span className="ml-2 text-gray-500 dark:text-gray-400">
-                                  {item.data}
-                                </span>
+                                <>
+                                  {" "}
+                                  <span className="ml-2 text-gray-500 dark:text-gray-400">
+                                    {item.data}
+                                  </span>
+                                  {roundData?.wife?.choices?.birads_id ===
+                                    27 && (
+                                    <span className="ml-2 text-gray-500 dark:text-gray-400">
+                                      รายละเอียด{" "}
+                                      {roundData?.wife?.text_values
+                                        ?.birads_detail_1 || "-"}
+                                    </span>
+                                  )}
+                                  {roundData?.wife?.choices?.birads_id ===
+                                    28 && (
+                                    <span className="ml-2 text-gray-500 dark:text-gray-400">
+                                      รายละเอียด{" "}
+                                      {roundData?.wife?.text_values
+                                        ?.birads_detail_2 || "-"}
+                                    </span>
+                                  )}
+                                  {roundData?.wife?.choices?.birads_id ===
+                                    29 && (
+                                    <span className="ml-2 text-gray-500 dark:text-gray-400">
+                                      รายละเอียด{" "}
+                                      {roundData?.wife?.text_values
+                                        ?.birads_detail_3 || "-"}
+                                    </span>
+                                  )}
+                                </>
                               )}
                               {item.value === "ANC Pap smear" && (
                                 <span className="ml-2 text-gray-500 dark:text-gray-400">
@@ -969,7 +1008,7 @@ export default function page({
                         </p>
                       )}
                     </div>
-                    
+
                     <h2 className="text-xl font-semibold text-gray-800 dark:text-white border-l-4 border-gray-500 dark:border-[#ffffff] pl-3 mb-5 my-8">
                       ค่า Lab 2 (ภรรยา)
                     </h2>
@@ -985,23 +1024,83 @@ export default function page({
                           )}
                         </span>
                       </span>
-                      <span className="flex items-center gap-1">
-                        <strong className="text-gray-900 dark:text-white">
-                          VDRL :
-                        </strong>{" "}
-                        <span className="dark:text-gray-400">
+                      <span>
+                        <div className="flex items-center gap-1">
+                          <strong className="text-gray-900 dark:text-white">
+                            VDRL :
+                          </strong>{" "}
+                          <span className="dark:text-gray-400">
+                            {roundData?.wife?.text_values?.vdrl_2_name
+                              ?.choice_name || "—"}
+                          </span>
+                          {/* ถ้าผลเป็น Reactive ให้แสดงคำเตือน */}
                           {roundData?.wife?.text_values?.vdrl_2_name
-                            ?.choice_name || "—"}
-                        </span>
-                        {/* ถ้าผลเป็น Reactive ให้แสดงคำเตือน */}
-                        {roundData?.wife?.text_values?.vdrl_2_name
-                          ?.choice_name === "Reactive" && (
-                          <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
-                            <AlertOctagon className="animate-pulse" size={18} />
-                            <span className="text-[12px]">
-                              เสี่ยง เป็นโรคซิฟิลิส
+                            ?.choice_name === "Reactive" && (
+                            <div className="text-yellow-600 bg-amber-100 border border-yellow-400 rounded-md px-2 py-1 text-sm font-semibold flex gap-1 items-center">
+                              <AlertOctagon
+                                className="animate-pulse"
+                                size={18}
+                              />
+                              <span className="text-[12px]">
+                                เสี่ยง เป็นโรคซิฟิลิส
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                        {roundData?.wife?.text_values?.vdrl_2 === 47 && (
+                          <>
+                            <strong className="text-gray-900 dark:text-white">
+                              PPR :
+                            </strong>{" "}
+                            <span className="dark:text-gray-400">
+                              {roundData?.wife?.text_values?.ppr_wife_2 || "—"}
                             </span>
-                          </div>
+                            <br />
+                            <strong className="text-gray-900 dark:text-white">
+                              TPHA :
+                            </strong>{" "}
+                            <span className="dark:text-gray-400">
+                              {roundData?.wife?.text_values?.tpha_wife_2 || "—"}
+                            </span>
+                            <br />
+                            <strong className="text-gray-900 dark:text-white">
+                              การรักษา :
+                            </strong>{" "}
+                            <span className="dark:text-gray-400">
+                              {roundData?.wife?.text_values
+                                ?.treatment_detail_wife_2 || "—"}
+                            </span>
+                            <br />
+                            <strong className="text-gray-900 dark:text-white">
+                              ครั้งที่ 1 :
+                            </strong>{" "}
+                            <span className="dark:text-gray-400">
+                              {formatThaiDateNoTime(
+                                roundData?.wife?.text_values
+                                  ?.vac_lab_date_1_wife_2
+                              )}
+                            </span>
+                            <br />
+                            <strong className="text-gray-900 dark:text-white">
+                              ครั้งที่ 2 :
+                            </strong>{" "}
+                            <span className="dark:text-gray-400">
+                              {formatThaiDateNoTime(
+                                roundData?.wife?.text_values
+                                  ?.vac_lab_date_2_wife_2
+                              )}
+                            </span>
+                            <br />
+                            <strong className="text-gray-900 dark:text-white">
+                              ครั้งที่ 3 :
+                            </strong>{" "}
+                            <span className="dark:text-gray-400">
+                              {formatThaiDateNoTime(
+                                roundData?.wife?.text_values
+                                  ?.vac_lab_date_3_wife_2
+                              )}
+                            </span>
+                          </>
                         )}
                       </span>
                       <span className="flex items-center gap-1">
@@ -1269,6 +1368,16 @@ export default function page({
                                     รพช/รพสต :
                                   </span>{" "}
                                   {item.out_province || "-"}
+                                </p>
+                              </div>
+                            )}
+                            {item.data === "อื่นๆ" && (
+                              <div className="mt-2 text-sm text-gray-600 leading-relaxed pl-3 border-l-2 border-gray-500">
+                                <p>
+                                  <span className="font-medium text-gray-900">
+                                    รายละเอียด :
+                                  </span>{" "}
+                                  {item.detail}
                                 </p>
                               </div>
                             )}
