@@ -46,6 +46,7 @@ export default function page({
     setField,
     handleChange,
     handleLmpChange,
+    handleEdcChange,
     handleChangeCbe,
     handleChangeBti,
     handleEditChange,
@@ -65,6 +66,19 @@ export default function page({
     setGaManual,
     setEdcManual,
     isSubmitting,
+    data,
+    setDates,
+    handleVaccineChange,
+    handleMaChange,
+    handleHrChange,
+    handlePcrWifeChange,
+    handleCordoChange,
+    handleAmChange,
+    handleTdapChange,
+    handleIipChange,
+    handleBiradsChange,
+    handlePerOsChange,
+    handlePcrHusbandChange,
   } = useHook({
     openEditService,
     closeEditService,
@@ -111,6 +125,7 @@ export default function page({
                     </div>
                     <Form01
                       handleLmpChange={handleLmpChange}
+                      handleEdcChange={handleEdcChange}
                       handleEditChange={handleEditChange}
                       vitals={vitals}
                       editVitalsign={editVitalsign}
@@ -120,6 +135,7 @@ export default function page({
                       setGaManual={setGaManual}
                       setEdcManual={setEdcManual}
                       currentData={currentData}
+                      data={data}
                     />
                   </Tab>
                   <Tab disabled key="from_2" title={<div className="" />}>
@@ -128,6 +144,12 @@ export default function page({
                       form={form}
                       Dates={Dates}
                       handleDateChange={handleDateChange}
+                      setDates={setDates}
+                      handleMaChange={handleMaChange}
+                      handleHrChange={handleHrChange}
+                      handlePcrWifeChange={handlePcrWifeChange}
+                      handleCordoChange={handleCordoChange}
+                      handleAmChange={handleAmChange}
                     />
                   </Tab>
                   <Tab disabled key="from_3" title={<div className="" />}>
@@ -142,6 +164,12 @@ export default function page({
                       Dates={Dates}
                       currentData={currentData}
                       isEditLoading={isEditLoading}
+                      setDates={setDates}
+                      handleVaccineChange={handleVaccineChange}
+                      handleTdapChange={handleTdapChange}
+                      handleIipChange={handleIipChange}
+                      handleBiradsChange={handleBiradsChange}
+                      handlePerOsChange={handlePerOsChange}
                     />
                   </Tab>
                   <Tab disabled key="from_4" title={<div className="" />}>
@@ -150,6 +178,8 @@ export default function page({
                       currentData={currentData}
                       Dates={Dates}
                       handleDateChange={handleDateChange}
+                      setDates={setDates}
+                      handlePcrHusbandChange={handlePcrHusbandChange}
                     />
                   </Tab>
                   <Tab disabled key="from_5" title={<div className="" />}>

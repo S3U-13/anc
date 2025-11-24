@@ -18,6 +18,12 @@ export default function page({
   selectedBti,
   selectedCbe,
   Dates,
+  setDates,
+  handleVaccineChange,
+  handleTdapChange,
+  handleIipChange,
+  handleBiradsChange,
+  handlePerOsChange,
 }) {
   const { data } = useHook();
 
@@ -59,6 +65,15 @@ export default function page({
                 onSelectionChange={(key) => {
                   const selected = Array.from(key)[0];
                   field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                  if (String(selected) === "65") {
+                    setDates((prev) => ({
+                      ...prev,
+                      td_last_date: null,
+                    }));
+                  }
+                  if (String(selected) === "66") {
+                    form.setFieldValue("td_forget_date", "");
+                  }
                 }}
               >
                 {data
@@ -104,7 +119,7 @@ export default function page({
             className="col-span-4 px-[20px]"
             label="วัคซีน"
             value={field.state.value ?? ""}
-            onChange={(e) => field.handleChange(e.target.value)}
+            onChange={(e) => handleVaccineChange(e, field)}
           >
             {data
               .filter((vaccine) => vaccine.choice_type_id === 23)
@@ -225,7 +240,7 @@ export default function page({
             className="col-span-4 px-[20px]"
             label="ในระหว่างตั้งครรภ์"
             value={field.state.value}
-            onChange={(e) => field.handleChange(e.target.value)}
+            onChange={(e) => handleTdapChange(e, field)}
             onBlur={field.handleBlur}
             isInvalid={field.state.meta.errors.length > 0}
             errorMessage={field.state.meta.errors[0]?.message}
@@ -288,7 +303,7 @@ export default function page({
             className="col-span-4 px-[20px]"
             label="ฉีกวัคซีนกระตุ้นครรภ์นี้"
             value={field.state.value}
-            onChange={(e) => field.handleChange(e.target.value)}
+            onChange={(e) => handleIipChange(e, field)}
             onBlur={field.handleBlur}
             isInvalid={field.state.meta.errors.length > 0}
             errorMessage={field.state.meta.errors[0]?.message}
@@ -355,6 +370,20 @@ export default function page({
                   onSelectionChange={(key) => {
                     const selected = Array.from(key)[0];
                     field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                    if (String(selected) === "46") {
+                      form.setFieldValue("ppr_wife_2", "");
+                      form.setFieldValue("tpha_wife_2", "");
+                      form.setFieldValue("treatment_detail_wife_2", "");
+                      form.setFieldValue("vac_lab_date_1_wife_2", null);
+                      form.setFieldValue("vac_lab_date_2_wife_2", null);
+                      form.setFieldValue("vac_lab_date_3_wife_2", null);
+                      setDates((prev) => ({
+                        ...prev,
+                        vac_lab_date_1_wife_2: null,
+                        vac_lab_date_2_wife_2: null,
+                        vac_lab_date_3_wife_2: null,
+                      }));
+                    }
                   }}
                 >
                   {data
@@ -466,10 +495,10 @@ export default function page({
                 }}
               >
                 {data
-                  .filter((vdrl_wife) => vdrl_wife.choice_type_id === 19)
-                  .map((vdrl_wife) => (
-                    <SelectItem key={vdrl_wife.id}>
-                      {vdrl_wife.choice_name}
+                  .filter((hiv_wife_2) => hiv_wife_2.choice_type_id === 19)
+                  .map((hiv_wife_2) => (
+                    <SelectItem key={hiv_wife_2.id}>
+                      {hiv_wife_2.choice_name}
                     </SelectItem>
                   ))}
               </Select>
@@ -547,7 +576,7 @@ export default function page({
                         className="px-[25px]"
                         label=""
                         value={field.state.value}
-                        onChange={(e) => field.handleChange(e.target.value)}
+                        onChange={(e) => handleBiradsChange(e, field)}
                       >
                         {data
                           .filter((birads) => birads.choice_type_id === 11)
@@ -643,7 +672,7 @@ export default function page({
             className="col-span-4 px-[20px]"
             label="ได้รับยา"
             value={field.state.value}
-            onChange={(e) => field.handleChange(e.target.value)}
+            onChange={(e) => handlePerOsChange(e, field)}
             onBlur={field.handleBlur}
             isInvalid={field.state.meta.errors.length > 0}
             errorMessage={field.state.meta.errors[0]?.message}

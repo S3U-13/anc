@@ -12,6 +12,12 @@ export default function page({
   Dates,
   form,
   handleDateChange,
+  setDates,
+  handleMaChange,
+  handleHrChange,
+  handlePcrWifeChange,
+  handleCordoChange,
+  handleAmChange,
 }) {
   const { data, formatThaiDateTime } = useHook();
   return (
@@ -23,7 +29,7 @@ export default function page({
             className="col-span-4 px-[20px]"
             label="ประวัติการแพ้ยา"
             value={field.state.value || ""}
-            onValueChange={(val) => field.handleChange(val)}
+            onChange={(e) => handleMaChange(e, field)}
           >
             {data
               .filter((ma) => ma.choice_type_id === 1)
@@ -72,7 +78,7 @@ export default function page({
             className="col-span-4 px-[20px]"
             label="HIGH RISK"
             value={field.state.value || ""} // ค่าปัจจุบันของ form
-            onValueChange={(val) => field.handleChange(val)}
+            onChange={(e) => handleHrChange(e, field)}
           >
             {data
               .filter((hr) => hr.choice_type_id === 2)
@@ -195,6 +201,20 @@ export default function page({
                 onSelectionChange={(key) => {
                   const selected = Array.from(key)[0];
                   field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                  if (String(selected) === "46") {
+                    form.setFieldValue("ppr_wife", "");
+                    form.setFieldValue("tpha_wife", "");
+                    form.setFieldValue("treatment_detail_wife", "");
+                    form.setFieldValue("vac_lab_date_1_wife", null);
+                    form.setFieldValue("vac_lab_date_2_wife", null);
+                    form.setFieldValue("vac_lab_date_3_wife", null);
+                    setDates((prev) => ({
+                      ...prev,
+                      vac_lab_date_1_wife: null,
+                      vac_lab_date_2_wife: null,
+                      vac_lab_date_3_wife: null,
+                    }));
+                  }
                 }}
                 color={field.state.value === "47" ? "warning" : "default"}
               >
@@ -471,7 +491,7 @@ export default function page({
             className="col-span-4 px-[20px]"
             label="PCR"
             value={field.state.value}
-            onChange={(e) => field.handleChange(e.target.value)}
+            onChange={(e) => handlePcrWifeChange(e, field)}
           >
             {data
               .filter((pcr) => pcr.choice_type_id === 4)
@@ -513,7 +533,7 @@ export default function page({
             className="col-span-4 px-[20px]"
             label="Cordo"
             value={field.state.value}
-            onChange={(e) => field.handleChange(e.target.value)}
+            onChange={(e) => handleCordoChange(e, field)}
           >
             {data
               .filter((cordo) => cordo.choice_type_id === 5)
@@ -573,7 +593,7 @@ export default function page({
             className="col-span-4 px-[20px]"
             label="เเนะนำการเจาะน้ำคร่ำตรวจโครโมโซม"
             value={field.state.value || ""} // ค่าปัจจุบันของ form
-            onValueChange={(val) => field.handleChange(val)}
+            onChange={(e) => handleAmChange(e, field)}
           >
             {data
               .filter((am) => am.choice_type_id === 3)

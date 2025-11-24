@@ -458,6 +458,160 @@ export default function useHook({
     form.setFieldValue(name, value);
   };
 
+  // new handle
+  const handleMaChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "1") {
+      form.setFieldValue("ma_detail", "");
+    }
+  };
+  const handleHrChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "4") {
+      form.setFieldValue("hr_detail", "");
+    }
+  };
+  const handlePcrWifeChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "9") {
+      form.setFieldValue("pcr_wife_text", "");
+    }
+  };
+  const handleCordoChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "11") {
+      form.setFieldValue("cordo_text", "");
+    }
+  };
+  const handleAmChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "4") {
+      form.setFieldValue("am_detail_1", "");
+    }
+
+    if (newValue !== "5") {
+      form.setFieldValue("am_detail_2", "");
+    }
+
+    if (newValue !== "6") {
+      form.setFieldValue("am_detail_3", "");
+    }
+  };
+  const handleVaccineChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "58") {
+      form.setFieldValue("vaccine_detail_1", "");
+      form.setFieldValue("vaccine_date_1", null);
+      setDates((prev) => ({ ...prev, vaccine_date_1: null }));
+    }
+
+    if (newValue !== "59") {
+      form.setFieldValue("vaccine_detail_2", "");
+      form.setFieldValue("vaccine_date_2", null);
+      setDates((prev) => ({ ...prev, vaccine_date_2: null }));
+    }
+
+    if (newValue !== "60") {
+      form.setFieldValue("vaccine_detail_3", "");
+      form.setFieldValue("vaccine_date_3", null);
+      setDates((prev) => ({ ...prev, vaccine_date_3: null }));
+    }
+  };
+  const handleTdapChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "14") {
+      form.setFieldValue("tdap_round_1", null);
+      form.setFieldValue("tdap_round_2", null);
+      form.setFieldValue("tdap_round_3", null);
+      setDates((prev) => ({
+        ...prev,
+        tdap_round_1: null,
+        tdap_round_2: null,
+        tdap_round_3: null,
+      }));
+    }
+  };
+  const handleIipChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "16") {
+      form.setFieldValue("iip_date", null);
+
+      setDates((prev) => ({
+        ...prev,
+        iip_date: null,
+      }));
+    }
+  };
+  const handleBiradsChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "27") {
+      form.setFieldValue("birads_detail_1", "");
+    }
+    if (newValue !== "28") {
+      form.setFieldValue("birads_detail_2", "");
+    }
+    if (newValue !== "29") {
+      form.setFieldValue("birads_detail_3", "");
+    }
+  };
+  const handlePerOsChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "30") {
+      form.setFieldValue("per_os_detail_1", "");
+    }
+    if (newValue !== "31") {
+      form.setFieldValue("per_os_detail_2", "");
+    }
+    if (newValue !== "35") {
+      form.setFieldValue("per_os_detail_3", "");
+    }
+    if (newValue !== "63") {
+      form.setFieldValue("per_os_detail_4", "");
+    }
+    if (newValue !== "64") {
+      form.setFieldValue("per_os_detail_5", "");
+    }
+  };
+  const handlePcrHusbandChange = (e, field) => {
+    const newValue = e.target.value;
+
+    field.handleChange(newValue);
+
+    if (newValue !== "9") {
+      form.setFieldValue("pcr_hus_text", "");
+    }
+  };
+  // end new handle
   const handleSubmit = async (value) => {
     if (isSubmitting) return;
     try {
@@ -948,10 +1102,12 @@ export default function useHook({
     }
   }, [openEditService, currentData, form]);
 
-  const [gaManual, setGaManual] = useState(false);
+  const [lmpManual, setLmpManual] = useState(false);
   const [edcManual, setEdcManual] = useState(false);
+  const [gaManual, setGaManual] = useState(false);
 
   const handleLmpChange = (calendarDate) => {
+    // ถ้า user ลบค่า
     if (!calendarDate) {
       form.setFieldValue("lmp", null);
       if (!gaManual) form.setFieldValue("ga", "");
@@ -959,24 +1115,65 @@ export default function useHook({
       return;
     }
 
+    setLmpManual(true); // ผู้ใช้แก้ LMP เอง
+    setEdcManual(false); // อนุญาตระบบคำนวณ EDC
+    setGaManual(false); // อนุญาตระบบคำนวณ GA
+
     const iso = `${calendarDate.year}-${String(calendarDate.month).padStart(2, "0")}-${String(calendarDate.day).padStart(2, "0")}`;
     form.setFieldValue("lmp", iso);
 
     // GA
     if (!gaManual) {
-      const lmpDate = new Date(iso);
+      const start = new Date(iso);
       const today = new Date();
-      const diffDays = Math.floor((today - lmpDate) / (1000 * 60 * 60 * 24));
+      const diffDays = Math.floor((today - start) / (1000 * 60 * 60 * 24));
       const weeks = Math.floor(diffDays / 7);
       const days = diffDays % 7;
       form.setFieldValue("ga", `${weeks} สัปดาห์ ${days} วัน`);
     }
 
-    // EDC
+    // EDC = LMP + 280 days
     if (!edcManual) {
-      const edcDate = new Date(iso);
-      edcDate.setDate(edcDate.getDate() + 280);
-      form.setFieldValue("edc", edcDate.toISOString().split("T")[0]);
+      const edc = new Date(iso);
+      edc.setDate(edc.getDate() + 280);
+      form.setFieldValue("edc", edc.toISOString().split("T")[0]);
+    }
+  };
+  const handleEdcChange = (calendarDate) => {
+    if (!calendarDate) {
+      form.setFieldValue("edc", null);
+
+      if (!lmpManual) form.setFieldValue("lmp", null);
+      if (!gaManual) form.setFieldValue("ga", "");
+
+      return;
+    }
+
+    setEdcManual(true); // ผู้ใช้แก้ EDC เอง
+    setLmpManual(false); // ให้ระบบคำนวณ LMP
+    setGaManual(false); // ให้ระบบคำนวณ GA
+
+    const iso = `${calendarDate.year}-${String(calendarDate.month).padStart(2, "0")}-${String(calendarDate.day).padStart(2, "0")}`;
+
+    // set ค่า EDC
+    form.setFieldValue("edc", iso);
+
+    // LMP = EDC - 280
+    const edcDate = new Date(iso);
+    const lmpDate = new Date(iso);
+    lmpDate.setDate(edcDate.getDate() - 280);
+
+    if (!lmpManual) {
+      form.setFieldValue("lmp", lmpDate.toISOString().split("T")[0]);
+    }
+
+    // GA
+    if (!gaManual) {
+      const today = new Date();
+      const diffDays = Math.floor((today - lmpDate) / (1000 * 60 * 60 * 24));
+      const weeks = Math.floor(diffDays / 7);
+      const days = diffDays % 7;
+      form.setFieldValue("ga", `${weeks} สัปดาห์ ${days} วัน`);
     }
   };
 
@@ -1051,6 +1248,7 @@ export default function useHook({
     handleEditChange,
     vitals,
     handleLmpChange,
+    handleEdcChange,
     handleDateChange,
     coverageSite,
     handleSubmit,
@@ -1065,5 +1263,17 @@ export default function useHook({
     modalRef,
     setGaManual,
     setEdcManual,
+    setDates,
+    handleVaccineChange,
+    handleMaChange,
+    handleHrChange,
+    handlePcrWifeChange,
+    handleCordoChange,
+    handleAmChange,
+    handleTdapChange,
+    handleIipChange,
+    handleBiradsChange,
+    handlePerOsChange,
+    handlePcrHusbandChange,
   };
 }

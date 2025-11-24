@@ -137,8 +137,8 @@ export default function page({
                   const selected = Array.from(key)[0];
                   field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
                   if (String(selected) === "46") {
-                    form.setFieldValue("ppr_husband_2", "");
-                    form.setFieldValue("tpha_husband_2", "");
+                    form.setFieldValue("ppr_husband", "");
+                    form.setFieldValue("tpha_husband", "");
                     form.setFieldValue("treatment_detail_husband", "");
                     form.setFieldValue("vac_lab_date_1_husband", null);
                     form.setFieldValue("vac_lab_date_2_husband", null);

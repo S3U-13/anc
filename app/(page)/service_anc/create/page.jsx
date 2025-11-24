@@ -44,6 +44,7 @@ export default function page({ openFormService, closeFormService }) {
     setField,
     handleChange,
     handleLmpChange,
+    handleEdcChange,
     handleChangeCbe,
     handleChangeBti,
     handleEditChange,
@@ -196,6 +197,7 @@ export default function page({ openFormService, closeFormService }) {
                     <Form01
                       selectedAnc={selectedAnc}
                       handleLmpChange={handleLmpChange}
+                      handleEdcChange={handleEdcChange}
                       handleEditChange={handleEditChange}
                       vitals={vitals}
                       editVitalsign={editVitalsign}

@@ -8,7 +8,14 @@ import { AlertOctagon } from "@deemlol/next-icons";
 import { DatePicker } from "@heroui/date-picker";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 
-export default function page({ selectedAnc, Dates, form, handleDateChange }) {
+export default function page({
+  selectedAnc,
+  Dates,
+  form,
+  handleDateChange,
+  setDates,
+  handlePcrHusbandChange,
+}) {
   const { data, calculateAge, formatName } = useHook();
   return (
     <div className="overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
@@ -129,6 +136,20 @@ export default function page({ selectedAnc, Dates, form, handleDateChange }) {
                 onSelectionChange={(key) => {
                   const selected = Array.from(key)[0];
                   field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
+                  if (String(selected) === "46") {
+                    form.setFieldValue("ppr_husband", "");
+                    form.setFieldValue("tpha_husband", "");
+                    form.setFieldValue("treatment_detail_husband", "");
+                    form.setFieldValue("vac_lab_date_1_husband", null);
+                    form.setFieldValue("vac_lab_date_2_husband", null);
+                    form.setFieldValue("vac_lab_date_3_husband", null);
+                    setDates((prev) => ({
+                      ...prev,
+                      vac_lab_date_1_husband: null,
+                      vac_lab_date_2_husband: null,
+                      vac_lab_date_3_husband: null,
+                    }));
+                  }
                 }}
                 color={field.state.value === "47" ? "warning" : "default"}
               >
@@ -405,7 +426,7 @@ export default function page({ selectedAnc, Dates, form, handleDateChange }) {
             className="col-span-4 px-[20px] mt-[10px]"
             label="PCR"
             value={field.state.value ?? ""} // ✅ null → ""
-            onChange={(e) => field.handleChange(e.target.value)}
+            onChange={(e) => handlePcrHusbandChange(e, field)}
           >
             {data
               .filter((pcr) => pcr.choice_type_id === 4)

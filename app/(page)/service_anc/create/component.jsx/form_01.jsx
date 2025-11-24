@@ -10,6 +10,7 @@ import { Select, SelectItem } from "@heroui/select";
 
 export default function page({
   handleLmpChange,
+  handleEdcChange,
   selectedAnc,
   handleEditChange,
   vitals,
@@ -408,16 +409,7 @@ export default function page({
                   value={
                     field.state.value ? parseDate(field.state.value) : null
                   }
-                  onChange={(date) => {
-                    if (!date) {
-                      field.handleChange(null);
-                      return;
-                    }
-
-                    const iso = `${date.year}-${String(date.month).padStart(2, "0")}-${String(date.day).padStart(2, "0")}`;
-                    field.handleChange(iso);
-                    setEdcManual(true); // ผู้ใช้แก้เอง
-                  }}
+                  onChange={handleEdcChange}
                   onBlur={field.handleBlur}
                   isInvalid={field.state.meta.errors.length > 0}
                   errorMessage={field.state.meta.errors[0]?.message}

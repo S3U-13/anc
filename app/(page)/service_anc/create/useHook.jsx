@@ -1191,10 +1191,12 @@ export default function useHook({ closeFormService } = {}) {
     }
   }, [currentData, form]);
 
-  const [gaManual, setGaManual] = useState(false);
+  const [lmpManual, setLmpManual] = useState(false);
   const [edcManual, setEdcManual] = useState(false);
+  const [gaManual, setGaManual] = useState(false);
 
   const handleLmpChange = (calendarDate) => {
+    // ถ้า user ลบค่า
     if (!calendarDate) {
       form.setFieldValue("lmp", null);
       if (!gaManual) form.setFieldValue("ga", "");
@@ -1202,24 +1204,65 @@ export default function useHook({ closeFormService } = {}) {
       return;
     }
 
+    setLmpManual(true); // ผู้ใช้แก้ LMP เอง
+    setEdcManual(false); // อนุญาตระบบคำนวณ EDC
+    setGaManual(false); // อนุญาตระบบคำนวณ GA
+
     const iso = `${calendarDate.year}-${String(calendarDate.month).padStart(2, "0")}-${String(calendarDate.day).padStart(2, "0")}`;
     form.setFieldValue("lmp", iso);
 
     // GA
     if (!gaManual) {
-      const lmpDate = new Date(iso);
+      const start = new Date(iso);
       const today = new Date();
-      const diffDays = Math.floor((today - lmpDate) / (1000 * 60 * 60 * 24));
+      const diffDays = Math.floor((today - start) / (1000 * 60 * 60 * 24));
       const weeks = Math.floor(diffDays / 7);
       const days = diffDays % 7;
       form.setFieldValue("ga", `${weeks} สัปดาห์ ${days} วัน`);
     }
 
-    // EDC
+    // EDC = LMP + 280 days
     if (!edcManual) {
-      const edcDate = new Date(iso);
-      edcDate.setDate(edcDate.getDate() + 280);
-      form.setFieldValue("edc", edcDate.toISOString().split("T")[0]);
+      const edc = new Date(iso);
+      edc.setDate(edc.getDate() + 280);
+      form.setFieldValue("edc", edc.toISOString().split("T")[0]);
+    }
+  };
+  const handleEdcChange = (calendarDate) => {
+    if (!calendarDate) {
+      form.setFieldValue("edc", null);
+
+      if (!lmpManual) form.setFieldValue("lmp", null);
+      if (!gaManual) form.setFieldValue("ga", "");
+
+      return;
+    }
+
+    setEdcManual(true); // ผู้ใช้แก้ EDC เอง
+    setLmpManual(false); // ให้ระบบคำนวณ LMP
+    setGaManual(false); // ให้ระบบคำนวณ GA
+
+    const iso = `${calendarDate.year}-${String(calendarDate.month).padStart(2, "0")}-${String(calendarDate.day).padStart(2, "0")}`;
+
+    // set ค่า EDC
+    form.setFieldValue("edc", iso);
+
+    // LMP = EDC - 280
+    const edcDate = new Date(iso);
+    const lmpDate = new Date(iso);
+    lmpDate.setDate(edcDate.getDate() - 280);
+
+    if (!lmpManual) {
+      form.setFieldValue("lmp", lmpDate.toISOString().split("T")[0]);
+    }
+
+    // GA
+    if (!gaManual) {
+      const today = new Date();
+      const diffDays = Math.floor((today - lmpDate) / (1000 * 60 * 60 * 24));
+      const weeks = Math.floor(diffDays / 7);
+      const days = diffDays % 7;
+      form.setFieldValue("ga", `${weeks} สัปดาห์ ${days} วัน`);
     }
   };
 
@@ -1295,6 +1338,7 @@ export default function useHook({ closeFormService } = {}) {
     handleEditChange,
     vitals,
     handleLmpChange,
+    handleEdcChange,
     handleDateChange,
     coverageSite,
     handleSubmit,
