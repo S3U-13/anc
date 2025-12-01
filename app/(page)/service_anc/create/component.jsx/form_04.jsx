@@ -140,14 +140,14 @@ export default function page({
                     form.setFieldValue("ppr_husband", "");
                     form.setFieldValue("tpha_husband", "");
                     form.setFieldValue("treatment_detail_husband", "");
-                    form.setFieldValue("vac_lab_date_1_husband", null);
-                    form.setFieldValue("vac_lab_date_2_husband", null);
-                    form.setFieldValue("vac_lab_date_3_husband", null);
+                    form.setFieldValue("treatment_date_1_husband", null);
+                    form.setFieldValue("treatment_date_2_husband", null);
+                    form.setFieldValue("treatment_date_3_husband", null);
                     setDates((prev) => ({
                       ...prev,
-                      vac_lab_date_1_husband: null,
-                      vac_lab_date_2_husband: null,
-                      vac_lab_date_3_husband: null,
+                      treatment_date_1_husband: null,
+                      treatment_date_2_husband: null,
+                      treatment_date_3_husband: null,
                     }));
                   }
                 }}
@@ -208,35 +208,35 @@ export default function page({
                       color="warning"
                       variant="flat"
                       value={
-                        Dates.vac_lab_date_1_husband
-                          ? parseDate(Dates.vac_lab_date_1_husband)
+                        Dates.treatment_date_1_husband
+                          ? parseDate(Dates.treatment_date_1_husband)
                           : null
                       }
-                      onChange={handleDateChange("vac_lab_date_1_husband")}
+                      onChange={handleDateChange("treatment_date_1_husband")}
                     />
                     <DatePicker
-                      label="ครั้งที่ 1"
+                      label="ครั้งที่ 2"
                       size="sm"
                       color="warning"
                       variant="flat"
                       value={
-                        Dates.vac_lab_date_2_husband
-                          ? parseDate(Dates.vac_lab_date_2_husband)
+                        Dates.treatment_date_2_husband
+                          ? parseDate(Dates.treatment_date_2_husband)
                           : null
                       }
-                      onChange={handleDateChange("vac_lab_date_2_husband")}
+                      onChange={handleDateChange("treatment_date_2_husband")}
                     />
                     <DatePicker
-                      label="ครั้งที่ 1"
+                      label="ครั้งที่ 3"
                       size="sm"
                       color="warning"
                       variant="flat"
                       value={
-                        Dates.vac_lab_date_3_husband
-                          ? parseDate(Dates.vac_lab_date_3_husband)
+                        Dates.treatment_date_3_husband
+                          ? parseDate(Dates.treatment_date_3_husband)
                           : null
                       }
-                      onChange={handleDateChange("vac_lab_date_3_husband")}
+                      onChange={handleDateChange("treatment_date_3_husband")}
                     />
                   </div>
                 </div>

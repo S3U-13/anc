@@ -134,7 +134,7 @@ export default function page({
                   {String(vaccine.id) === "58" &&
                     field.state.value === "58" && (
                       <div className="grid grid-col-1 md:flex gap-2 item-center w-full">
-                        <form.Field name="vaccine_detail_1">
+                        <form.Field name="influenza_reason">
                           {(field) => (
                             <Input
                               label="ระบุเหตุผล"
@@ -154,18 +154,18 @@ export default function page({
                           size="sm"
                           variant="bordered"
                           value={
-                            Dates.vaccine_date_1
-                              ? parseDate(Dates.vaccine_date_1)
+                            Dates.influenza_date
+                              ? parseDate(Dates.influenza_date)
                               : null
                           }
-                          onChange={handleDateChange("vaccine_date_1")}
+                          onChange={handleDateChange("influenza_date")}
                         />
                       </div>
                     )}
                   {String(vaccine.id) === "59" &&
                     field.state.value === "59" && (
                       <div className="grid grid-col-1 md:flex gap-2 item-center w-full">
-                        <form.Field name="vaccine_detail_2">
+                        <form.Field name="ap_reason">
                           {(field) => (
                             <Input
                               label="ระบุเหตุผล"
@@ -185,18 +185,16 @@ export default function page({
                           size="sm"
                           variant="bordered"
                           value={
-                            Dates.vaccine_date_2
-                              ? parseDate(Dates.vaccine_date_2)
-                              : null
+                            Dates.ap_date ? parseDate(Dates.ap_date) : null
                           }
-                          onChange={handleDateChange("vaccine_date_2")}
+                          onChange={handleDateChange("ap_date")}
                         />
                       </div>
                     )}
                   {String(vaccine.id) === "60" &&
                     field.state.value === "60" && (
                       <div className="grid grid-col-1 md:flex gap-2 item-center w-full">
-                        <form.Field name="vaccine_detail_3">
+                        <form.Field name="tdap_reason">
                           {(field) => (
                             <Input
                               label="ระบุเหตุผล"
@@ -216,11 +214,9 @@ export default function page({
                           size="sm"
                           variant="bordered"
                           value={
-                            Dates.vaccine_date_3
-                              ? parseDate(Dates.vaccine_date_3)
-                              : null
+                            Dates.tdap_date ? parseDate(Dates.tdap_date) : null
                           }
-                          onChange={handleDateChange("vaccine_date_3")}
+                          onChange={handleDateChange("tdap_date")}
                         />
                       </div>
                     )}
@@ -356,7 +352,7 @@ export default function page({
               />
             )}
           </form.Field>
-          <form.Field name="vdrl_2">
+          <form.Field name="vdrl_lab_2">
             {(field) => (
               <>
                 <Select
@@ -371,17 +367,17 @@ export default function page({
                     const selected = Array.from(key)[0];
                     field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
                     if (String(selected) === "46") {
-                      form.setFieldValue("ppr_wife_2", "");
-                      form.setFieldValue("tpha_wife_2", "");
-                      form.setFieldValue("treatment_detail_wife_2", "");
-                      form.setFieldValue("vac_lab_date_1_wife_2", null);
-                      form.setFieldValue("vac_lab_date_2_wife_2", null);
-                      form.setFieldValue("vac_lab_date_3_wife_2", null);
+                      form.setFieldValue("ppr_lab_2", "");
+                      form.setFieldValue("tpha_lab_2", "");
+                      form.setFieldValue("treatment_detail_lab_2", "");
+                      form.setFieldValue("treatment_date_1_lab_2", null);
+                      form.setFieldValue("treatment_date_2_lab_2", null);
+                      form.setFieldValue("treatment_date_3_lab_2", null);
                       setDates((prev) => ({
                         ...prev,
-                        vac_lab_date_1_wife_2: null,
-                        vac_lab_date_2_wife_2: null,
-                        vac_lab_date_3_wife_2: null,
+                        treatment_date_1_lab_2: null,
+                        treatment_date_2_lab_2: null,
+                        treatment_date_3_lab_2: null,
                       }));
                     }
                   }}
@@ -396,7 +392,7 @@ export default function page({
                 </Select>
                 {String(field.state.value) === "47" && (
                   <>
-                    <form.Field name="ppr_wife_2">
+                    <form.Field name="ppr_lab_2">
                       {(field) => (
                         <Input
                           label="PPR*"
@@ -408,7 +404,7 @@ export default function page({
                         />
                       )}
                     </form.Field>
-                    <form.Field name="tpha_wife_2">
+                    <form.Field name="tpha_lab_2">
                       {(field) => (
                         <Input
                           label="TPHA*"
@@ -421,7 +417,7 @@ export default function page({
                       )}
                     </form.Field>
                     <div className="grid grid-cols-1 col-span-4 gap-2">
-                      <form.Field name="treatment_detail_wife_2">
+                      <form.Field name="treatment_detail_lab_2">
                         {(field) => (
                           <Input
                             className="col-span-2"
@@ -442,11 +438,11 @@ export default function page({
                           color="warning"
                           variant="flat"
                           value={
-                            Dates.vac_lab_date_1_wife_2
-                              ? parseDate(Dates.vac_lab_date_1_wife_2)
+                            Dates.treatment_date_1_lab_2
+                              ? parseDate(Dates.treatment_date_1_lab_2)
                               : null
                           }
-                          onChange={handleDateChange("vac_lab_date_1_wife_2")}
+                          onChange={handleDateChange("treatment_date_1_lab_2")}
                         />
                         <DatePicker
                           label="ครั้งที่ 2"
@@ -454,11 +450,11 @@ export default function page({
                           color="warning"
                           variant="flat"
                           value={
-                            Dates.vac_lab_date_2_wife_2
-                              ? parseDate(Dates.vac_lab_date_2_wife_2)
+                            Dates.treatment_date_2_lab_2
+                              ? parseDate(Dates.treatment_date_2_lab_2)
                               : null
                           }
-                          onChange={handleDateChange("vac_lab_date_2_wife_2")}
+                          onChange={handleDateChange("treatment_date_2_lab_2")}
                         />
                         <DatePicker
                           label="ครั้งที่ 3"
@@ -466,11 +462,11 @@ export default function page({
                           color="warning"
                           variant="flat"
                           value={
-                            Dates.vac_lab_date_3_wife_2
-                              ? parseDate(Dates.vac_lab_date_3_wife_2)
+                            Dates.treatment_date_3_lab_2
+                              ? parseDate(Dates.treatment_date_3_lab_2)
                               : null
                           }
-                          onChange={handleDateChange("vac_lab_date_3_wife_2")}
+                          onChange={handleDateChange("treatment_date_3_lab_2")}
                         />
                       </div>
                     </div>
@@ -590,7 +586,7 @@ export default function page({
                               </Radio>
                               {String(birads.id) === "27" &&
                                 field.state.value === "27" && (
-                                  <form.Field name="birads_detail_1">
+                                  <form.Field name="birads_reason_left">
                                     {(field) => (
                                       <Input
                                         label="ระบุ"
@@ -606,7 +602,7 @@ export default function page({
                                 )}
                               {String(birads.id) === "28" &&
                                 field.state.value === "28" && (
-                                  <form.Field name="birads_detail_2">
+                                  <form.Field name="birads_reason_right">
                                     {(field) => (
                                       <Input
                                         label="ระบุ"
@@ -622,7 +618,7 @@ export default function page({
                                 )}
                               {String(birads.id) === "29" &&
                                 field.state.value === "29" && (
-                                  <form.Field name="birads_detail_3">
+                                  <form.Field name="birads_reason_both_sides">
                                     {(field) => (
                                       <Input
                                         label="ระบุ"
@@ -688,7 +684,7 @@ export default function page({
                     <p className="pl-1">{per_os.choice_name}</p>
                   </Radio>
                   {String(per_os.id) === "30" && field.state.value === "30" && (
-                    <form.Field name="per_os_detail_1">
+                    <form.Field name="iodine_reason">
                       {(field) => (
                         <Input
                           label="ระบุ"
@@ -701,7 +697,7 @@ export default function page({
                     </form.Field>
                   )}
                   {String(per_os.id) === "31" && field.state.value === "31" && (
-                    <form.Field name="per_os_detail_2">
+                    <form.Field name="iron_reason">
                       {(field) => (
                         <Input
                           label="ระบุ"
@@ -714,7 +710,7 @@ export default function page({
                     </form.Field>
                   )}
                   {String(per_os.id) === "32" && field.state.value === "32" && (
-                    <form.Field name="per_os_detail_3">
+                    <form.Field name="folic_reason">
                       {(field) => (
                         <Input
                           label="ระบุ"
@@ -727,7 +723,7 @@ export default function page({
                     </form.Field>
                   )}
                   {String(per_os.id) === "63" && field.state.value === "63" && (
-                    <form.Field name="per_os_detail_4">
+                    <form.Field name="amoxicillin_reason">
                       {(field) => (
                         <Input
                           label="ระบุ"
@@ -740,7 +736,7 @@ export default function page({
                     </form.Field>
                   )}
                   {String(per_os.id) === "64" && field.state.value === "64" && (
-                    <form.Field name="per_os_detail_5">
+                    <form.Field name="utrogestan_reason">
                       {(field) => (
                         <Input
                           label="ระบุ"

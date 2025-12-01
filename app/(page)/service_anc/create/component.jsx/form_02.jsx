@@ -205,14 +205,14 @@ export default function page({
                     form.setFieldValue("ppr_wife", "");
                     form.setFieldValue("tpha_wife", "");
                     form.setFieldValue("treatment_detail_wife", "");
-                    form.setFieldValue("vac_lab_date_1_wife", null);
-                    form.setFieldValue("vac_lab_date_2_wife", null);
-                    form.setFieldValue("vac_lab_date_3_wife", null);
+                    form.setFieldValue("treatment_date_1_wife", null);
+                    form.setFieldValue("treatment_date_2_wife", null);
+                    form.setFieldValue("treatment_date_3_wife", null);
                     setDates((prev) => ({
                       ...prev,
-                      vac_lab_date_1_wife: null,
-                      vac_lab_date_2_wife: null,
-                      vac_lab_date_3_wife: null,
+                      treatment_date_1_wife: null,
+                      treatment_date_2_wife: null,
+                      treatment_date_3_wife: null,
                     }));
                   }
                 }}
@@ -272,11 +272,11 @@ export default function page({
                       color="warning"
                       variant="flat"
                       value={
-                        Dates.vac_lab_date_1_wife
-                          ? parseDate(Dates.vac_lab_date_1_wife)
+                        Dates.treatment_date_1_wife
+                          ? parseDate(Dates.treatment_date_1_wife)
                           : null
                       }
-                      onChange={handleDateChange("vac_lab_date_1_wife")}
+                      onChange={handleDateChange("treatment_date_1_wife")}
                     />
 
                     <DatePicker
@@ -285,11 +285,11 @@ export default function page({
                       color="warning"
                       variant="flat"
                       value={
-                        Dates.vac_lab_date_2_wife
-                          ? parseDate(Dates.vac_lab_date_2_wife)
+                        Dates.treatment_date_2_wife
+                          ? parseDate(Dates.treatment_date_2_wife)
                           : null
                       }
-                      onChange={handleDateChange("vac_lab_date_2_wife")}
+                      onChange={handleDateChange("treatment_date_2_wife")}
                     />
 
                     <DatePicker
@@ -298,11 +298,11 @@ export default function page({
                       color="warning"
                       variant="flat"
                       value={
-                        Dates.vac_lab_date_3_wife
-                          ? parseDate(Dates.vac_lab_date_3_wife)
+                        Dates.treatment_date_3_wife
+                          ? parseDate(Dates.treatment_date_3_wife)
                           : null
                       }
-                      onChange={handleDateChange("vac_lab_date_3_wife")}
+                      onChange={handleDateChange("treatment_date_3_wife")}
                     />
                   </div>
                 </div>
@@ -606,7 +606,7 @@ export default function page({
                     {am.choice_name}
                   </Radio>
                   {String(am.id) === "5" && field.state.value === "5" && (
-                    <form.Field name="am_detail_1">
+                    <form.Field name="am_reason_checked">
                       {(field) => (
                         <Input
                           className="w-full md:w-1/2"
@@ -620,7 +620,7 @@ export default function page({
                     </form.Field>
                   )}
                   {String(am.id) === "6" && field.state.value === "6" && (
-                    <form.Field name="am_detail_2">
+                    <form.Field name="am_reason_not_checked">
                       {(field) => (
                         <Input
                           className="w-full md:w-1/2"
@@ -634,7 +634,7 @@ export default function page({
                     </form.Field>
                   )}
                   {String(am.id) === "7" && field.state.value === "7" && (
-                    <form.Field name="am_detail_3">
+                    <form.Field name="am_reason_consult">
                       {(field) => (
                         <Input
                           className="w-full md:w-1/2"
