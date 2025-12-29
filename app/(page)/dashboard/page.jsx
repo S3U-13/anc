@@ -8,7 +8,7 @@ import useHook from "./useHook";
 export default function Home() {
   const { sumData, chartBarData, chartRadialData } = useHook();
   return (
-    <div className="bg-white p-3 mt-[10px] rounded-lg  border border-divider dark:bg-[#27272a] dark:border-[#3d3d3d] ">
+    <div className="bg-white p-3 mt-[10px] rounded-lg  border border-divider dark:bg-[#0e0e11] dark:border-[#3d3d3d] ">
       <div className=" py-4">
         <h1 className="text-center text-sm xl:text-2xl">Dashboard</h1>
       </div>

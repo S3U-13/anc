@@ -82,7 +82,7 @@ export default function App() {
   }, [visibleColumns, columns]);
 
   return (
-    <div className="mt-[10px] bg-white border border-divider dark:bg-[#27272a] dark:border-[#3d3d3d] p-2.5 rounded-lg">
+    <div className="mt-[10px] bg-white border border-divider dark:bg-[#0e0e11] dark:border-[#3d3d3d] p-2.5 rounded-lg">
       <div className="gap-[10px] flex justify-between">
         <Input
           value={filterValue}

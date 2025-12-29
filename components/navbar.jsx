@@ -1,128 +1,131 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-import { Button, ButtonGroup } from "@heroui/button";
+import React from "react";
+import { useDrawer } from "@/context/drawerProvider";
+import { Button } from "@heroui/button";
+import { useAuth } from "@/context/AuthContext";
+import { Badge } from "@heroui/badge";
+import { Avatar, AvatarGroup, AvatarIcon } from "@heroui/avatar";
 import {
   Dropdown,
-  DropdownTrigger,
   DropdownMenu,
   DropdownSection,
   DropdownItem,
+  DropdownTrigger,
 } from "@heroui/dropdown";
-import { ChevronDown } from "@deemlol/next-icons";
-import { Tabs, Tab } from "@heroui/tabs";
-import { useAuth } from "@/context/AuthContext";
-import Cookies from "js-cookie";
-import { ThemeSwitchUser } from "./theme-switch-user";
-import { useApiRequest } from "@/hooks/useApi";
+import { Bell } from "@deemlol/next-icons";
 
 export default function Navbar() {
-  const auth = useAuth();
-  const { logoutAPI } = useApiRequest();
-  const router = useRouter();
-  const pathname = usePathname();
-  const handleLogout = async () => {
-    try {
-      await logoutAPI();
-      Cookies.remove("token"); // ✅ ลบ token ที่ frontend
-      router.push("/"); // กลับไปหน้า login
-    } catch (err) {
-      console.error(err);
+  const { user } = useAuth();
+  const { openDrawer, setOpenDrawer } = useDrawer();
+  const getAvatarSrc = (role) => {
+    switch (role) {
+      case 1:
+        return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBJ1cM6gCghQwI5w0jX7hHIFMUqPicfZTwpQ&s";
+      case 2:
+        return "https://www.tech101.in/wp-content/uploads/2018/07/blank-profile-picture.png";
+      case 3:
+        return "https://media.tenor.com/I9qt03YKkjQAAAAe/monkey-thinking.png";
+      default:
+        return "https://www.example.com/default-avatar.png";
     }
   };
-
-  const tabs = [
-    { key: "dashboard", title: "สรุปผล", path: "/dashboard" },
-    { key: "anc", title: "หน้าทะเบียนฝากครรภ์", path: "/anc" },
-    { key: "service_anc", title: "หน้าบริการฝากครรภ์", path: "/service_anc" },
-  ];
-
-  const activeKey =
-    tabs.find((tab) => tab.path === pathname)?.key || "dashboard";
-
-  const [currentTheme, setCurrentTheme] = useState("light");
   return (
-    <div>
-      <div className="w-full bg-white border border-divider dark:bg-[#27272a] dark:border-[#3d3d3d] rounded-xl shadow-lg p-2 pl-[40px] pr-[40px] ">
-        <div className="flex justify-between items-center">
-          <div className="w-[140px] h-[35px] xl:w-[195px] xl:h-[55px] overflow-hidden">
-            <img className="w-full h-full" src="/images/logo.png" />
-          </div>
+    <div className="h-18 w-full p-6 border border-divider rounded-lg flex items-center justify-between px-4 bg-gray-100 dark:bg-[#0e0e11]">
+      <Button
+        size="md"
+        variant="solid"
+        onPress={() => {
+          openDrawer === true ? setOpenDrawer(false) : setOpenDrawer(true);
+        }}
+        isIconOnly
+      >
+        {openDrawer === false && (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className="size-5"
+          >
+            <path
+              fillRule="evenodd"
+              d="M2 4.75A.75.75 0 0 1 2.75 4h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75ZM2 10a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 10Zm0 5.25a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z"
+              clipRule="evenodd"
+            />
+          </svg>
+        )}
+        {openDrawer === true && (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className="size-5"
+          >
+            <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+          </svg>
+        )}
+      </Button>
+      <div className="flex items-center gap-4">
+        <div className="text-xs">
+          <p>
+            <strong>Name: </strong>
+            {""}
+            {user.name}
+          </p>
           <div className="flex items-center gap-2">
-            <div className="flex flex-col items-start">
-              <h1 className="text-[8px] xl:text-sm">
-                <span className="font-bold">ชื่อ: </span>
-                {auth.user.name}
-              </h1>
-              <h1 className="text-[7px] xl:text-[11px] text-right">
-                <span className="font-bold">ตำเเหน่ง: </span>
-                {auth.user.position_name}
-              </h1>
-            </div>
-            <Dropdown classNames={{ content: "mt-4" }}>
-              <DropdownTrigger>
-                <Button isIconOnly variant="light" className="">
-                  <ChevronDown
-                    size={24}
-                    className="text-black dark:text-white"
-                  />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                aria-label="Dropdown menu with shortcut"
-                variant="flat"
-              >
-                <DropdownItem key="profile" className="h-14 gap-2">
-                  <p className="font-semibold">Signed in as</p>
-                  <p className="font-semibold">{auth.user.name}</p>
-                </DropdownItem>
-                <DropdownSection title="Setting">
-                  <DropdownItem key="theme">
-                    <ThemeSwitchUser
-                      theme={currentTheme} // ส่งค่า theme เข้าไป
-                      onChange={(newTheme) => setCurrentTheme(newTheme)} // รับค่ากลับ
-                    />
-                  </DropdownItem>
-                </DropdownSection>
-                <DropdownSection title="logout">
-                  {" "}
-                  <DropdownItem
-                    onPress={handleLogout}
-                    key="logout"
-                    className="text-danger"
-                    color="danger"
-                  >
-                    logout
-                  </DropdownItem>
-                </DropdownSection>
-              </DropdownMenu>
-            </Dropdown>
+            <p>
+              <strong>Position:</strong> อายุรกรรม
+            </p>
           </div>
         </div>
-      </div>
-      <div className="flex justify-center">
-        <Tabs
+        <Dropdown
+          placement="bottom-start"
           classNames={{
-            tabList:
-              "gap-6 w-full bg-white border border-divider dark:bg-[#27272a] dark:border-[#3d3d3d] mt-[10px] relative rounded-lg p-1 border-b border-divider px-4 dark:text-white",
-            cursor: "w-full bg-default-500",
-            tab: "max-w-fit",
-            tabContent:
-              "group-data-[selected=true]:text-[#000000] dark:group-data-[selected=true]:text-[#ffffff]",
-          }}
-          aria-label="Tabs variants"
-          variant="underlined"
-          selectedKey={activeKey}
-          onSelectionChange={(key) => {
-            const tab = tabs.find((t) => t.key === key);
-            if (tab) router.push(tab.path);
+            base: "before:bg-default-200", // change arrow background
+            content:
+              "py-2 px-1 border border-default-200 bg-linear-to-br from-white to-default-200 dark:from-default-50 dark:to-black",
           }}
         >
-          {tabs.map((tab) => (
-            <Tab key={tab.key} title={tab.title} />
-          ))}
-        </Tabs>
+          <DropdownTrigger>
+            <Avatar
+              isBordered
+              as="button"
+              color="success"
+              radius="full"
+              src={getAvatarSrc(user?.role_id)}
+            />
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Static Actions" variant="faded">
+            <DropdownItem key="profile" className="h-14 gap-2">
+              <p className="font-bold">{user.name}</p>
+              <p className="font-bold">@{user.username}</p>
+              <p className="font-bold">Position : {user.position_name}</p>
+            </DropdownItem>
+            <DropdownItem key="upload">Upload Signature</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+        {/* <Badge color="danger" content="99+" shape="circle">
+          <Dropdown>
+            <DropdownTrigger>
+              <Button
+                isIconOnly
+                aria-label="more than 99 notifications"
+                radius="full"
+                variant="flat"
+                size="sm"
+              >
+                <Bell size={24} />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Static Actions">
+              <DropdownItem key="new">New file</DropdownItem>
+              <DropdownItem key="copy">Copy link</DropdownItem>
+              <DropdownItem key="edit">Edit file</DropdownItem>
+              <DropdownItem key="delete" className="text-danger" color="danger">
+                Delete file
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </Badge> */}
       </div>
     </div>
   );
