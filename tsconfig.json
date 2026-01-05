@@ -70,7 +70,7 @@
     "components/chart/bar_chart.jsx",
     "app/(admin)/user/page.jsx",
     ".next/types/**/*.ts",
-   ".next/dev/types/**/*.ts"
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

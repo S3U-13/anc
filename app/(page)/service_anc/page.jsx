@@ -83,12 +83,12 @@ export default function App() {
 
   return (
     <div className="mt-[10px] bg-white border border-divider dark:bg-[#0e0e11] dark:border-[#3d3d3d] p-2.5 rounded-lg">
-      <div className="gap-[10px] flex justify-between">
+      <div className="grid grid-cols-1 gap-2 lg:flex md:justify-between">
         <Input
           value={filterValue}
           onValueChange={setFilterValue}
           type="search"
-          className="w-1/4"
+          className="w-full lg:w-1/4"
           variant="bordered"
           placeholder="Search..."
           startContent={
@@ -113,7 +113,7 @@ export default function App() {
 
         <div className="flex gap-[10px] items-center">
           <Dropdown>
-            <DropdownTrigger className="hidden sm:flex">
+            <DropdownTrigger className="">
               <Button
                 endContent={
                   <svg

@@ -127,7 +127,13 @@ export default function useHook() {
 
   // ค่าเริ่มต้นเลือกทุกคอลัมน์
   const [visibleColumns, setVisibleColumns] = useState(
-    new Set(["anc_no", "hn_wife", "wife_name", "hn_husband", "husband_name"])
+    new Set([
+      "anc_no", 
+      "hn_wife", 
+      "wife_name", 
+      // "hn_husband", 
+      // "husband_name"
+    ])
   );
 
   const onClear = () => setFilterValue("");

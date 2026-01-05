@@ -8,6 +8,7 @@ import { ThemeSwitch } from "./theme-switch";
 import { div } from "framer-motion/client";
 import { ScrollShadow } from "@heroui/scroll-shadow";
 import { useAuth } from "../context/AuthContext";
+import { Image } from "@heroui/image";
 
 export default function Sidebar({ isOpen }) {
   const { user } = useAuth();
@@ -171,24 +172,20 @@ export default function Sidebar({ isOpen }) {
   return (
     <div className="">
       <div
-        className={`fixed top-0 left-0 h-full w-78 shadow-md p-4 pt-8 transition-transform duration-300 z-20 border border-divider bg-gray-100 dark:bg-[#0e0e11] ${
+        className={`fixed top-0 left-0 h-full w-78 shadow-md p-4 pt-6 transition-transform duration-300 z-20 border border-divider bg-gray-100 dark:bg-[#0e0e11] ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="flex flex-col gap-4 h-full">
-          <h1 className="text-center font-bold text-black dark:text-white">
-            PPK PAPER
-          </h1>
-
-          <div className="w-full h-200 bg-gray-50 dark:bg-[#18181b] mx-auto mt-4 rounded-xl   border border-divider">
+          <Image alt="HeroUI hero Image" classNames={{ img:"pl-2" }} src="/images/logo.png" width={200} />
+          <div className="w-full h-200 bg-gray-50 dark:bg-[#18181b] mx-auto mt-2 rounded-xl   border border-divider">
             <ScrollShadow hideScrollBar className="space-y-2 w-full h-full p-4">
               {" "}
               {menu.map((item) => (
                 <Accordion key={item?.id} variant="shadow">
                   <AccordionItem
                     aria-label={item.name}
-                    classNames={{ content: "grid grid-cols-1 gap-1",
-                    }}
+                    classNames={{ content: "grid grid-cols-1 gap-1" }}
                     title={
                       <p className="text-xs flex items-center justify-between">
                         {item.name} {item.icon}

@@ -52,6 +52,7 @@ export default function page({
         footer: "border-t border-divider",
       }}
       backdrop="blur"
+      placement="center"
       size="3xl"
       scrollBehavior="inside"
       isOpen={openModal}

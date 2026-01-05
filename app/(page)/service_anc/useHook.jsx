@@ -135,11 +135,11 @@ export default function useHook() {
       "anc_no",
       "hn_wife",
       "wife_name",
-      "address",
-      "phone",
+      // "address",
+      // "phone",
       "gravida",
-      "status",
-      "check",
+      // "status",
+      // "check",
     ])
   );
 
