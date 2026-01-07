@@ -4,80 +4,43 @@ import { addToast } from "@heroui/toast";
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 export const useApiRequest = () => {
-  const { token } = useAuth(); // ✅ ดึง token จาก context อัตโนมัติ
-
   const apiRequest = async (endpoint, method = "GET", body = null) => {
-    if (!token || token === "undefined") {
-      addToast({
-        title: "ข้อผิดพลาด",
-        description: "Token ไม่ถูกต้องหรือหมดอายุ",
-        variant: "flat",
-        color: "danger",
-      });
-      return null;
-    }
+    // 1️⃣ สร้าง headers
+    const headers = { "Content-Type": "application/json" };
 
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+    const options = {
+      method,
+      headers,
+      credentials: "include", // ส่ง cookie HttpOnly อัตโนมัติ
     };
 
-    const options = { method, headers };
-    if (body && method !== "GET") options.body = JSON.stringify(body);
+    if (body && method !== "GET") {
+      options.body = JSON.stringify(body);
+    }
 
     try {
       const res = await fetch(`${API_URL}${endpoint}`, options);
-      const text = await res.text(); // 👉 ดัก error ที่ไม่ใช่ JSON
-      const data = text ? JSON.parse(text) : {};
+      // อ่าน response เป็น text ก่อน
+      const text = await res.text();
+      let data = null;
 
-      // ✅ เช็คตาม status
-      if (res.status === 401 || res.status === 403) {
-        addToast({
-          title: "หมดเวลาใช้งาน",
-          description: "กรุณาเข้าสู่ระบบใหม่อีกครั้ง",
-          color: "danger",
-        });
-        return null;
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch (err) {
+          console.error("Failed to parse JSON:", err, text);
+        }
       }
 
-      if (res.status === 404) {
-        addToast({
-          title: "ไม่พบข้อมูล",
-          description: "ไม่พบข้อมูลที่ร้องขอ",
-          color: "warning",
-        });
+      // log status code ถ้า error
+      if (!res.ok) {
+        console.warn(`API ${method} ${endpoint} returned status ${res.status}`);
         return null;
-      }
-
-      if (res.status === 500) {
-        addToast({
-          title: "การเชื่อมต่อล้มเหลว",
-          description:
-            "ไม่สามารถติดต่อกับเซิร์ฟเวอร์ได้ในขณะนี้ โปรดติดต่อเจ้าหน้าที่",
-          color: "danger",
-        });
-        return null;
-      }
-
-      // ✅ แสดง Toast เมื่อสำเร็จ (เลือกได้ว่าจะเปิดหรือไม่)
-      if (["POST", "PUT", "DELETE"].includes(method) && res.ok) {
-        addToast({
-          title: "สำเร็จ",
-          description: "ดำเนินการสำเร็จ",
-          variant: "flat",
-          color: "success",
-        });
       }
 
       return data;
-    } catch (err) {
-      console.error("❌ Fetch error:", err);
-      addToast({
-        title: "เกิดข้อผิดพลาด",
-        description: "ไม่สามารถเชื่อมต่อกับ server ได้ โปรดลองใหม่ภายหลัง",
-        variant: "flat",
-        color: "danger",
-      });
+    } catch (error) {
+      console.error("API error:", error);
       return null;
     }
   };
@@ -119,7 +82,7 @@ export const useApiRequest = () => {
       }
       form.setFieldValue("sex", data?.sex_name?.lookupname || "");
 
-      return data;
+      return data ?? null;
     } catch (err) {
       console.error(err);
     }
@@ -179,7 +142,7 @@ export const useApiRequest = () => {
         );
       }
 
-      return data;
+      return data ?? null;
     } catch (err) {
       console.error(err);
     }
@@ -189,7 +152,7 @@ export const useApiRequest = () => {
     try {
       const data = await apiRequest("/api/user/anc", "POST", value);
 
-      return data;
+      return data ?? null;
     } catch (err) {
       console.error(err);
     }
@@ -202,7 +165,7 @@ export const useApiRequest = () => {
     try {
       const data = await apiRequest(`/api/user/anc/${AncNo}`, "PUT", value);
 
-      return data;
+      return data ?? null;
     } catch (err) {
       console.error(err);
     }
@@ -226,8 +189,7 @@ export const useApiRequest = () => {
   const submitCreateAncService = async (value) => {
     try {
       const data = await apiRequest("/api/user/ancservice", "POST", value);
-
-      return data;
+      return data ?? null;
     } catch (err) {
       console.error(err);
     }
@@ -241,7 +203,7 @@ export const useApiRequest = () => {
         value
       );
 
-      return data;
+      return data ?? null;
     } catch (err) {
       console.error(err);
     }
@@ -260,7 +222,7 @@ export const useApiRequest = () => {
     try {
       const data = await apiRequest(`/api/admin/addUser`, "POST", value);
 
-      return data;
+      return data ?? null;
     } catch (err) {
       console.error(err);
     }
@@ -270,7 +232,7 @@ export const useApiRequest = () => {
     try {
       const data = await apiRequest(`/api/admin/editUser/${id}`, "PUT", value);
 
-      return data;
+      return data ?? null;
     } catch (err) {
       console.error(err);
     }

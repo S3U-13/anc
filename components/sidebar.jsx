@@ -156,7 +156,9 @@ export default function Sidebar({ isOpen }) {
         setSelectMenu(1);
       }
     } else if (user.role_id === 2) {
-      if (pathname?.startsWith("/admin/user")) {
+      if (pathname?.startsWith("/dashboard_admin")) {
+        setSelectMenu(5);
+      } else if (pathname?.startsWith("/user")) {
         setSelectMenu(6);
       }
     }
@@ -172,17 +174,22 @@ export default function Sidebar({ isOpen }) {
   return (
     <div className="">
       <div
-        className={`fixed top-0 left-0 h-full w-78 shadow-md p-4 pt-6 transition-transform duration-300 z-20 border border-divider bg-gray-100 dark:bg-[#0e0e11] ${
+        className={`fixed top-0 left-0 h-full w-78 shadow-md p-4 pt-6 transition-transform duration-300 z-20 dark:border dark:border-divider bg-white dark:bg-[#0e0e11] ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="flex flex-col gap-4 h-full">
-          <Image alt="HeroUI hero Image" classNames={{ img:"pl-2" }} src="/images/logo.png" width={200} />
-          <div className="w-full h-200 bg-gray-50 dark:bg-[#18181b] mx-auto mt-2 rounded-xl   border border-divider">
+          <Image
+            alt="HeroUI hero Image"
+            classNames={{ img: "pl-2" }}
+            src="/images/logo.png"
+            width={200}
+          />
+          <div className="w-full h-200 bg-gray-100 dark:bg-[#18181b] mx-auto mt-2 rounded-xl dark:border dark:border-divider">
             <ScrollShadow hideScrollBar className="space-y-2 w-full h-full p-4">
               {" "}
               {menu.map((item) => (
-                <Accordion key={item?.id} variant="shadow">
+                <Accordion key={item?.id} variant="shadow" className="bg-white dark:bg-[#27272A]">
                   <AccordionItem
                     aria-label={item.name}
                     classNames={{ content: "grid grid-cols-1 gap-1" }}
@@ -229,7 +236,7 @@ export default function Sidebar({ isOpen }) {
                   </AccordionItem>
                 </Accordion>
               ))}
-              <Accordion variant="shadow">
+              <Accordion variant="shadow" className="dark:bg-[#27272A]">
                 <AccordionItem
                   aria-label="SETTING"
                   classNames={{ content: "grid grid-cols-1 gap-1" }}

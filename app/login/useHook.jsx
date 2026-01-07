@@ -24,15 +24,10 @@ export default function useHook() {
     try {
       const { data, res } = await loginAPI(field.user_name, field.password);
       login(data); // ✅ ใช้ได้แล้ว เพราะมาจาก Context
-      if (data.user.role_id === 1) router.push("/dashboard");
-      else router.push("/dashboard_admin");
-      if (res.status == 200) {
-        addToast({
-          title: "สำเร็จ",
-          description: "login สำเร็จ",
-          color: "success",
-          variant: "flat",
-        });
+      if (data.user.role_id === 1) {
+        router.push("/dashboard");
+      } else if (data.user.role_id === 2) {
+        router.push("/dashboard_admin");
       }
     } catch (err) {
       console.error;

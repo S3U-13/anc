@@ -1,39 +1,33 @@
 "use client";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "../context/AuthContext";
+import { Spinner } from "@heroui/spinner";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { Spinner } from "@heroui/react";
 
 export default function ProtectedRoute({ children, role }) {
-  const { token, user, loading, checkTokenTimeOut, logout } = useAuth(); // ✅ เพิ่ม checkTokenTimeOut, logout
+  const { user, loading } = useAuth();
+
   const router = useRouter();
-
   useEffect(() => {
-    if (!loading) {
-      const verifyToken = async () => {
-        if (!token || token === "undefined" || token === "null") {
-          logout();
-          router.replace("/"); // กลับหน้า login
-          return;
-        }
+    if (loading) return;
 
-        const valid = await checkTokenTimeOut(); // ✅ ตรวจ token หมดอายุไหม
-        if (!valid) {
-          logout();
-          router.replace("/"); // กลับหน้า login
-          return;
-        }
-
-        if (!user) router.replace("/");
-        else if (role && user.role_id !== role) router.replace("/unauthorized");
-      };
-
-      verifyToken();
+    // ❌ ผู้ใช้ไม่ได้ login
+    if (!user) {
+      router.replace("/");
+      return;
     }
-  }, [user, loading, role, router, checkTokenTimeOut, logout]);
+    // ❌ role ไม่ตรงกัน
+    if (role) {
+      const allowRoles = Array.isArray(role) ? role : [role];
 
-  // ✅ แสดง loading spinner ระหว่างตรวจ token
-  if (loading)
+      if (!allowRoles.includes(user.role_id)) {
+        router.push("/unauthorized");
+      }
+    }
+  }, [user, loading, role]); // ลด dependency เพื่อป้องกันลูป
+
+  // show loading screen
+  if (loading) {
     return (
       <div className="fixed inset-0 flex justify-center items-center">
         <Spinner
@@ -44,8 +38,10 @@ export default function ProtectedRoute({ children, role }) {
         />
       </div>
     );
+  }
 
-  if (!user) return null; // ป้องกัน render ก่อนตรวจ user เสร็จ
+  // block render ระหว่าง redirect
+  if (!user) return null;
 
   return children;
 }

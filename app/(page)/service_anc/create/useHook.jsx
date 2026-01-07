@@ -2,13 +2,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
-import { useAuth } from "@/context/AuthContext";
+
 import { useApiRequest } from "@/hooks/useApi";
 import { addToast } from "@heroui/toast";
 
 export default function useHook({ closeFormService } = {}) {
   const modalRef = useRef(null);
-  const auth = useAuth();
+
   const {
     fetchChoice,
     fetchCoverage,
@@ -33,7 +33,7 @@ export default function useHook({ closeFormService } = {}) {
   // const gravida = selectedGravida;
 
   useEffect(() => {
-    if (!auth.token || didFetch.current) return; // check flag ก่อน
+    if (didFetch.current) return; // check flag ก่อน
     didFetch.current = true;
     fetchChoice()
       .then((data) => setData(data))
@@ -44,7 +44,7 @@ export default function useHook({ closeFormService } = {}) {
   }, []);
 
   useEffect(() => {
-    if (!auth.token || didFetch.current) return; // check flag ก่อน
+    if (didFetch.current) return; // check flag ก่อน
     didFetch.current = true;
     selectedDataByAncNoAndGravida()
       .then((data) => setDataAnc(data || []))
@@ -629,10 +629,11 @@ export default function useHook({ closeFormService } = {}) {
     }
   };
   // end new handle
+  const [loading, setLoading] = useState(true);
   const handleSubmit = async (value) => {
     if (isSubmitting) return;
     try {
-      await submitCreateAncService(value);
+      const data = await submitCreateAncService(value);
       form.reset();
       setGravidaOptions([]);
       setSelectedGravida("");
@@ -670,8 +671,35 @@ export default function useHook({ closeFormService } = {}) {
       setSelectedCbe([]);
       setSelectedRef([]);
       closeFormService();
+      if (data) {
+        addToast({
+          title: "สำเร็จ",
+          description: "เพิ่มข้อมูลสำเร็จ",
+          color: "success",
+          variant: "flat",
+          promise: new Promise((resolve) =>
+            setTimeout(() => {
+              setLoading(false);
+              resolve(true);
+            }, 1500)
+          ),
+        });
+      } else if (!data) {
+        addToast({
+          title: "ผิดพลาด",
+          description: "ไม่สามารถบันทึกข้อมูลได้",
+          color: "danger",
+          variant: "flat",
+        });
+      }
     } catch (error) {
       console.log(error);
+      addToast({
+        title: "error",
+        description: "error",
+        color: "danger",
+        variant: "flat",
+      });
     } finally {
       setIsSubmitting(false); // ส่งเสร็จแล้ว เปิดให้กดได้อีก
     }

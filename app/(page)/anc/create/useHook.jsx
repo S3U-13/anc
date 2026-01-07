@@ -195,7 +195,7 @@ export default function useHook({ closeModal }) {
   };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [loading, setLoading] = useState(true);
   const handleSubmit = async (value) => {
     if (isSubmitting) return;
     if (value.sex !== "หญิง") {
@@ -210,7 +210,7 @@ export default function useHook({ closeModal }) {
     }
     try {
       setIsSubmitting(true); // เริ่มส่งข้อมูล
-      await submitAnc(value);
+      const data = await submitAnc(value);
       form.reset();
       setPat(null);
       setPatHusband(null);
@@ -220,8 +220,35 @@ export default function useHook({ closeModal }) {
       setHnInputHusband("");
       setActiveStep("wife");
       closeModal();
+      if (data) {
+        addToast({
+          title: "สำเร็จ",
+          description: "เพิ่มข้อมูลสำเร็จ",
+          color: "success",
+          variant: "flat",
+          promise: new Promise((resolve) =>
+            setTimeout(() => {
+              setLoading(false);
+              resolve(true);
+            }, 1500)
+          ),
+        });
+      } else if (!data) {
+        addToast({
+          title: "ผิดพลาด",
+          description: "ไม่สามารถบันทึกข้อมูลได้",
+          color: "danger",
+          variant: "flat",
+        });
+      }
     } catch (error) {
       console.error(error);
+      addToast({
+        title: "error",
+        description: "error",
+        color: "danger",
+        variant: "flat",
+      });
     } finally {
       setIsSubmitting(false); // ส่งเสร็จแล้ว เปิดให้กดได้อีก
     }

@@ -1,5 +1,5 @@
 "use client"; // ✅
-import { useAuth } from "@/context/AuthContext";
+
 import { useApiRequest } from "@/hooks/useApi";
 import React, { useRef } from "react";
 import { useEffect, useState, useMemo } from "react";
@@ -7,7 +7,6 @@ import { useEffect, useState, useMemo } from "react";
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export default function useHook() {
-  const auth = useAuth();
   const { fetchSelectDataAnc } = useApiRequest();
   const didFetch = useRef(false);
   const modalRef = useRef(null);
@@ -20,7 +19,7 @@ export default function useHook() {
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
-    if (!auth.token || didFetch.current) return; // check flag ก่อน
+    if (didFetch.current) return; // check flag ก่อน
     didFetch.current = true;
     fetchSelectDataAnc()
       .then((data) => setDataAnc(data))

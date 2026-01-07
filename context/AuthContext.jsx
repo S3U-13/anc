@@ -1,37 +1,25 @@
 "use client";
+import { useApiRequest } from "@/hooks/useApi";
 import { createContext, useContext, useEffect, useState } from "react";
-import Cookies from "js-cookie";
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const { logoutAPI } = useApiRequest();
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // 🟢 โหลด token/user จาก storage ตอนเปิดเว็บ
   useEffect(() => {
-    const savedToken = Cookies.get("token");
     const savedUser = localStorage.getItem("user");
 
-    if (
-      savedToken &&
-      savedToken !== "undefined" &&
-      savedUser &&
-      savedUser !== "undefined"
-    ) {
+    if (savedUser) {
       try {
-        setToken(savedToken);
-        setUser(JSON.parse(savedUser));
-      } catch (err) {
-        console.warn("⚠️ Invalid user data:", err);
+        const parsedUser = JSON.parse(savedUser);
+        setUser(parsedUser);
+      } catch {
         localStorage.removeItem("user");
-        Cookies.remove("token");
       }
-    } else {
-      Cookies.remove("token");
-      localStorage.removeItem("user");
     }
 
     setLoading(false);
@@ -39,62 +27,26 @@ export const AuthProvider = ({ children }) => {
 
   // 🟢 ฟังก์ชัน login/logout
   const login = (data) => {
-    if (!data?.token || !data?.user) return;
+    if (!data?.user) return;
     setUser(data.user);
-    setToken(data.token);
     localStorage.setItem("user", JSON.stringify(data.user));
-    Cookies.set("token", data.token);
   };
 
-  const logout = () => {
-    setUser(null);
-    setToken(null);
-    Cookies.remove("token");
-    localStorage.removeItem("user");
+  const logout = async () => {
+    try {
+      await logoutAPI();
+    } catch (e) {
+      console.error("logout failed", e);
+    } finally {
+      setUser(null);
+      localStorage.removeItem("user");
+    }
   };
 
   // 🟢 ตรวจ token หมดอายุไหม
-  const checkTokenTimeOut = async () => {
-    if (!token || token === "undefined") {
-      logout();
-      return false;
-    }
-
-    try {
-      const res = await fetch(`${API_URL}/api/check-token`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (!res || res.status === 401 || res.status === 403) {
-        logout();
-        return false;
-      }
-
-      return true;
-    } catch (err) {
-      console.error("❌ Server error:", err);
-      logout();
-      return false;
-    }
-  };
-
-  // 🕒 ตั้ง interval ตรวจ token ทุก 5 นาที
-  useEffect(() => {
-    if (!token) return;
-    const interval = setInterval(
-      () => {
-        checkTokenTimeOut();
-      },
-      30 * 60 * 1000
-    );
-
-    return () => clearInterval(interval);
-  }, [token]);
 
   return (
-    <AuthContext.Provider
-      value={{ user, token, login, logout, loading, checkTokenTimeOut }}
-    >
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

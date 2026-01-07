@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
-import { useAuth } from "@/context/AuthContext";
 
 import { useApiRequest } from "@/hooks/useApi";
 
@@ -17,13 +16,13 @@ export default function useHook({
   const { fetchChoice, fetchCoverage, submitEditAncService } = useApiRequest();
   const id = selectedEditId;
   const modalRef = useRef(null);
-  const auth = useAuth();
+
   const didFetch = useRef(false); // 🔑 flag ป้องกันเบิ้ล
   const [data, setData] = useState([]);
   const [coverageSite, setCoverageSite] = useState([]);
 
   useEffect(() => {
-    if (!auth.token || didFetch.current) return; // check flag ก่อน
+    if (didFetch.current) return; // check flag ก่อน
     didFetch.current = true;
     fetchChoice()
       .then((data) => setData(data))
@@ -612,12 +611,14 @@ export default function useHook({
     }
   };
   // end new handle
+
+  const [loading, setLoading] = useState(true);
   const handleSubmit = async (value) => {
     if (isSubmitting) return;
     try {
       setIsSubmitting(true); // เริ่มส่งข้อมูล
 
-      await submitEditAncService(value, id);
+      const data = await submitEditAncService(value, id);
       form.reset();
       setField(initialField);
       setSelectedAnc(null);
@@ -650,8 +651,35 @@ export default function useHook({
       setSelectedCbe([]);
       setSelectedRef([]);
       closeEditService();
+      if (data) {
+        addToast({
+          title: "สำเร็จ",
+          description: "เพิ่มข้อมูลสำเร็จ",
+          color: "success",
+          variant: "flat",
+          promise: new Promise((resolve) =>
+            setTimeout(() => {
+              setLoading(false);
+              resolve(true);
+            }, 1500)
+          ),
+        });
+      } else if (!data) {
+        addToast({
+          title: "ผิดพลาด",
+          description: "ไม่สามารถบันทึกข้อมูลได้",
+          color: "danger",
+          variant: "flat",
+        });
+      }
     } catch (error) {
       console.log(error);
+      addToast({
+        title: "error",
+        description: "error",
+        color: "danger",
+        variant: "flat",
+      });
     } finally {
       setIsSubmitting(false); // ส่งเสร็จแล้ว เปิดให้กดได้อีก
     }

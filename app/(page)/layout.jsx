@@ -22,7 +22,7 @@ function Content({ children }) {
   const { openDrawer, setOpenDrawer, drawerRef } = useDrawer();
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-[#0e0e11] p-4">
+    <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-[#0e0e11] p-4">
       {/* ---- Navbar ---- */}
       <div
         className={`sticky top-0 z-30 bg-inherit transition-all duration-300 

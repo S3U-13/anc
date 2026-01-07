@@ -15,19 +15,40 @@ const apiRequest = async (
       method,
       headers,
       body: body ? JSON.stringify(body) : null,
+      credentials: "include",
     });
 
     const data = await res.json().catch(() => ({}));
-    if (
-      res.status === 400 ||
-      res.status === 401 ||
-      res.status === 403 ||
-      res.status === 404 ||
-      res.status === 409
-    ) {
+    if (res.status >= 200 && res.status < 300) {
+      addToast({
+        title: "สำเร็จ",
+        description: "เข้าสู่ระบบสำเร็จ",
+        color: "success",
+        variant: "flat",
+      });
+    }
+    if (res.status === 400) {
       addToast({
         title: "ไม่สำเร็จ",
-        description: "เข้าสู่ระบบไม่สำเร็จ",
+        description: "กรุณากรอก user password",
+        color: "danger",
+        variant: "flat",
+      });
+      return null; // ❌ ไม่ throw
+    }
+    if (res.status === 401) {
+      addToast({
+        title: "ไม่สำเร็จ",
+        description: " user หรือ password ไม่ถูกต้อง",
+        color: "danger",
+        variant: "flat",
+      });
+      return null; // ❌ ไม่ throw
+    }
+    if (res.status === 503) {
+      addToast({
+        title: "เซิร์ฟเวอร์ไม่พร้อมใช้งาน",
+        description: "กรุณาติดต่อเจ้าหน้าที่",
         color: "danger",
         variant: "flat",
       });

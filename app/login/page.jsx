@@ -82,8 +82,8 @@ export default function ({ openModalLogin, closeModalLogin }) {
                   type="submit"
                   className="w-full"
                   size="lg"
-                  color="success"
-                  variant="ghost"
+                  color="danger"
+                  variant="shadow"
                 >
                   Login
                 </Button>

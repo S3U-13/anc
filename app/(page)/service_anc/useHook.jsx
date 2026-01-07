@@ -1,6 +1,4 @@
 "use client"; // ✅
-
-import { useAuth } from "@/context/AuthContext";
 import { useApiRequest } from "@/hooks/useApi";
 import React, { useRef } from "react";
 import { useEffect, useState, useMemo } from "react";
@@ -8,7 +6,7 @@ import { useEffect, useState, useMemo } from "react";
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export default function useHook() {
-  const auth = useAuth();
+  
   const { fetchDataAncService, selectedRoundByIdEditView } = useApiRequest();
   const didFetch = useRef(false); // 🔑 flag ป้องกันเบิ้ล
   const [dataAnc, setDataAnc] = useState([]);
@@ -22,7 +20,7 @@ export default function useHook() {
   const [openEditAncService, setOpenEditAncService] = useState(false);
 
   useEffect(() => {
-    if (!auth.token || didFetch.current) return; // check flag ก่อน
+    if (didFetch.current) return; // check flag ก่อน
     didFetch.current = true;
     fetchDataAncService()
       .then((data) => setDataAnc(data || []))

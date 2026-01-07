@@ -29,9 +29,9 @@ export default function BarChart({ chartBarData }) {
     const counts =
       chartBarData?.sum_anc_by_month?.map((item) => item.count) || [];
 
-    const colors = isDark ? ["#60a5fa"] : ["#93c5fd"];
-    const strokeColor = isDark ? "#2563eb" : "#3b82f6";
-    const textColor = isDark ? "#e5e7eb" : "#1f2937";
+    const colors = isDark ? ["#fe68a6"] : ["#fecce3"];
+    const strokeColor = isDark ? "#ffa8ce" : "#ffa8ce";
+    const textColor = isDark ? "#ffffff" : "#1f2937";
 
     return {
       series: [{ name: "จำนวน ANC ต่อเดือน", data: counts }],
@@ -68,7 +68,10 @@ export default function BarChart({ chartBarData }) {
         yaxis: {
           labels: { style: { colors: textColor, fontSize: "12px" } },
         },
-        grid: { borderColor: isDark ? "#374151" : "#e5e7eb" },
+        grid: {
+          borderColor: isDark ? "#ffffff" : "#e5e7eb",
+          strokeDashArray: 4,
+        },
         theme: { mode: isDark ? "dark" : "light" },
       },
     };

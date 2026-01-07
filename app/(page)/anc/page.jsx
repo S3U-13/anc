@@ -57,7 +57,7 @@ export default function page() {
   }, [visibleColumns, columns]);
 
   return (
-    <div className="mt-[10px] bg-white border border-divider dark:bg-[#0e0e11] dark:border-[#3d3d3d] p-2.5 rounded-lg">
+    <div className="mt-[10px] bg-white dark:border dark:border-divider dark:bg-[#0e0e11] p-2.5 rounded-xl">
       <div className="grid grid-cols-1 gap-2 lg:flex md:justify-between">
         <Input
           value={filterValue}
@@ -88,8 +88,9 @@ export default function page() {
 
         <div className="flex gap-[10px] items-center">
           <Dropdown>
-            <DropdownTrigger className="">
+            <DropdownTrigger>
               <Button
+                className="capitalize"
                 endContent={
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -129,7 +130,7 @@ export default function page() {
 
           <Button
             onPress={() => setOpenModal(true)}
-            color="primary"
+            color="danger"
             variant="solid"
             endContent={
               <svg
@@ -173,7 +174,10 @@ export default function page() {
 
       <Table
         isHeaderSticky
-        classNames={{ td: "p-2 pt-2.5 pb-2.5", th: "p-2 pt-4 pb-4" }}
+        classNames={{
+          td: "p-2 pt-2.5 pb-2.5 ",
+          th: "p-2 pt-4 pb-4",
+        }}
         isStriped
         aria-label="Example table"
       >
@@ -265,7 +269,7 @@ export default function page() {
           isCompact
           showControls
           showShadow
-          color="primary"
+          color="danger"
           page={page}
           total={pages}
           onChange={setPage}

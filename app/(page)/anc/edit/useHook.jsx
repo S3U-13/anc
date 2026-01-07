@@ -225,6 +225,7 @@ export default function useHook({
     }));
   };
 
+  const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (value) => {
@@ -241,7 +242,7 @@ export default function useHook({
     }
     try {
       setIsSubmitting(true); // เริ่มส่งข้อมูล
-      await submitEditAnc(value, AncNo);
+      const data = await submitEditAnc(value, AncNo);
       form.reset();
       setPat(null);
       setPatHusband(null);
@@ -251,8 +252,35 @@ export default function useHook({
       setHnInputHusband("");
       setActiveStep("wife");
       closeModal();
+      if (data) {
+        addToast({
+          title: "สำเร็จ",
+          description: "เพิ่มข้อมูลสำเร็จ",
+          color: "success",
+          variant: "flat",
+          promise: new Promise((resolve) =>
+            setTimeout(() => {
+              setLoading(false);
+              resolve(true);
+            }, 1500)
+          ),
+        });
+      } else if (!data) {
+        addToast({
+          title: "ผิดพลาด",
+          description: "ไม่สามารถบันทึกข้อมูลได้",
+          color: "danger",
+          variant: "flat",
+        });
+      }
     } catch (error) {
       console.error(error);
+      addToast({
+        title: "error",
+        description: "error",
+        color: "danger",
+        variant: "flat",
+      });
     } finally {
       setIsSubmitting(false); // ส่งเสร็จแล้ว เปิดให้กดได้อีก
     }

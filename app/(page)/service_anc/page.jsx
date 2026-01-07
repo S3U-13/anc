@@ -154,7 +154,7 @@ export default function App() {
 
           <Button
             onPress={() => setOpenFormService(true)}
-            color="primary"
+            color="danger"
             variant="solid"
             endContent={
               <svg
@@ -298,7 +298,7 @@ export default function App() {
           isCompact
           showControls
           showShadow
-          color="primary"
+          color="danger"
           page={page}
           total={pages}
           onChange={setPage}

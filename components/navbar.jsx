@@ -30,8 +30,9 @@ export default function Navbar() {
     }
   };
   return (
-    <div className="h-18 w-full p-6 border border-divider rounded-lg flex items-center justify-between px-4 bg-gray-100 dark:bg-[#0e0e11]">
+    <div className="h-18 w-full p-6 dark:border dark:border-divider rounded-lg flex items-center justify-between px-4 bg-white dark:bg-[#0e0e11]">
       <Button
+        className="bg-gray-100  dark:bg-[#27272a]"
         size="md"
         variant="solid"
         onPress={() => {

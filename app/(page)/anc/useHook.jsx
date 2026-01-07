@@ -1,12 +1,10 @@
 "use client";
-import { useAuth } from "@/context/AuthContext";
 import { useApiRequest } from "@/hooks/useApi";
 import { useEffect, useState, useMemo, useRef } from "react";
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export default function useHook() {
-  const auth = useAuth();
   const { fetchDataAnc, selectedAncById } = useApiRequest();
   const didFetch = useRef(false); // 🔑 flag ป้องกันเบิ้ล
   const [dataAnc, setDataAnc] = useState([]);
@@ -21,7 +19,7 @@ export default function useHook() {
   const [dataAncById, setDataAncById] = useState(null);
 
   useEffect(() => {
-    if (!auth.token || didFetch.current) return; // check flag ก่อน
+    if (didFetch.current) return; // check flag ก่อน
     didFetch.current = true;
     fetchDataAnc()
       .then((data) => setDataAnc(data || []))
@@ -85,7 +83,7 @@ export default function useHook() {
     { uid: "wife_tel", name: "เบอร์โทร (ภรรยา)" },
     { uid: "hn_husband", name: "HN (สามี)" },
     { uid: "husband_name", name: "ชื่อ (สามี)" },
-     { uid: "husband_tel", name: "เบอร์โทร (สามี)" },
+    { uid: "husband_tel", name: "เบอร์โทร (สามี)" },
   ];
 
   // ✅ sort
@@ -128,10 +126,10 @@ export default function useHook() {
   // ค่าเริ่มต้นเลือกทุกคอลัมน์
   const [visibleColumns, setVisibleColumns] = useState(
     new Set([
-      "anc_no", 
-      "hn_wife", 
-      "wife_name", 
-      // "hn_husband", 
+      "anc_no",
+      "hn_wife",
+      "wife_name",
+      // "hn_husband",
       // "husband_name"
     ])
   );

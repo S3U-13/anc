@@ -29,7 +29,7 @@ export default function Home() {
                     <span>{sumData.month_name}</span>
                   </p>
                 </div>
-                <div className="w-[30px] h-[30px] xl:w-[40px] xl:h-[40px] bg-[#63abf7] rounded-full overflow-hidden flex items-center justify-center mt-[10px]">
+                <div className="w-[30px] h-[30px] xl:w-[40px] xl:h-[40px] bg-[#ffa8ce] dark:bg-[#fe68a6] rounded-full overflow-hidden flex items-center justify-center mt-[10px]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -55,7 +55,7 @@ export default function Home() {
                     <span>{sumData.month_name}</span>
                   </p>
                 </div>
-                <div className="w-[30px] h-[30px] xl:w-[40px] xl:h-[40px] bg-[#63abf7] rounded-full overflow-hidden flex items-center justify-center mt-[10px]">
+                <div className="w-[30px] h-[30px] xl:w-[40px] xl:h-[40px] bg-[#ffa8ce] dark:bg-[#fe68a6] rounded-full overflow-hidden flex items-center justify-center mt-[10px]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -81,7 +81,7 @@ export default function Home() {
                     <span>{sumData.month_name}</span>
                   </p>
                 </div>
-                <div className="w-[30px] h-[30px] xl:w-[40px] xl:h-[40px] bg-[#63abf7] rounded-full overflow-hidden flex items-center justify-center mt-[10px]">
+                <div className="w-[30px] h-[30px] xl:w-[40px] xl:h-[40px] bg-[#ffa8ce] dark:bg-[#fe68a6] rounded-full overflow-hidden flex items-center justify-center mt-[10px]">
                   <TbVaccine className="size-4 xl:size-6 text-white" />
                 </div>
               </div>
@@ -100,7 +100,7 @@ export default function Home() {
                     <span>{sumData.month_name}</span>
                   </p>
                 </div>
-                <div className="w-[30px] h-[30px] xl:w-[40px] xl:h-[40px] bg-[#63abf7] rounded-full overflow-hidden flex items-center justify-center mt-[10px]">
+                <div className="w-[30px] h-[30px] xl:w-[40px] xl:h-[40px] bg-[#ffa8ce] dark:bg-[#fe68a6] rounded-full overflow-hidden flex items-center justify-center mt-[10px]">
                   <MdVaccines className="size-4 xl:size-6 text-white" />
                 </div>
               </div>

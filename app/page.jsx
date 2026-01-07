@@ -104,9 +104,10 @@ export default function Page() {
 
           <div className="pt-4 w-full md:w-3/4">
             <Button
+              color="danger"
               ref={buttonRef}
-              className="w-full text-lg md:text-xl font-medium py-5 rounded-xl shadow-md bg-green-500 hover:bg-green-600 text-white transition-all duration-200"
-              variant="flat"
+              className="w-full text-lg md:text-xl font-medium py-5 rounded-xl shadow-md text-white transition-all duration-200"
+              variant="shadow"
               onPress={() => setOpenLoginModal(true)}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}

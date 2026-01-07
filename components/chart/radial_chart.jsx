@@ -36,7 +36,7 @@ export default function RadialChart({ chartRadialData }) {
 
   const colors = isDark
     ? ["#3b82f6", "#60a5fa", "#93c5fd"]
-    : ["#60a5fa", "#93c5fd", "#bfdbfe"];
+    : ["#fe68a6", "#fe68a6", "#fe68a6"];
   const textColor = isDark ? "#d1d5db" : "#374151";
 
   const options = {
