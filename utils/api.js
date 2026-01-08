@@ -76,7 +76,7 @@ const apiRequest = async (
 };
 
 // ใช้กับ login
-const loginAPI = (user_name, password) =>
-  apiRequest("/api/login", "POST", { user_name, password });
+const loginAPI = (user_name, password, rememberMe) =>
+  apiRequest("/api/login", "POST", { user_name, password, rememberMe });
 
 export { loginAPI, apiRequest };

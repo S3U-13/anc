@@ -9,6 +9,9 @@ export default function useHook() {
   const router = useRouter();
   const { login } = useAuth(); // ✅ ดึงฟังก์ชัน login มาจาก Context
 
+  const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [field, setField] = useState({
     user_name: "",
     password: "",
@@ -21,8 +24,14 @@ export default function useHook() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return;
+    setLoading(true);
     try {
-      const { data, res } = await loginAPI(field.user_name, field.password);
+      const { data, res } = await loginAPI(
+        field.user_name,
+        field.password,
+        rememberMe
+      );
       login(data); // ✅ ใช้ได้แล้ว เพราะมาจาก Context
       if (data.user.role_id === 1) {
         router.push("/dashboard");
@@ -30,7 +39,9 @@ export default function useHook() {
         router.push("/dashboard_admin");
       }
     } catch (err) {
-      console.error;
+      
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -38,5 +49,7 @@ export default function useHook() {
     field,
     handleChange,
     handleSubmit,
+    rememberMe,
+    setRememberMe,
   };
 }

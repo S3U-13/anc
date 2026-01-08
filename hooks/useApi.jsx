@@ -38,7 +38,7 @@ export const useApiRequest = () => {
         return null;
       }
 
-      return data;
+      return data ?? null;
     } catch (error) {
       console.error("API error:", error);
       return null;
@@ -231,7 +231,6 @@ export const useApiRequest = () => {
   const submitEditUser = async (value, id) => {
     try {
       const data = await apiRequest(`/api/admin/editUser/${id}`, "PUT", value);
-
       return data ?? null;
     } catch (err) {
       console.error(err);

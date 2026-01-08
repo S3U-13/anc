@@ -43,8 +43,39 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const checkTokenTimeOut = async () => {};
+  const checkTokenTimeout = async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/check-token`, {
+        method: "GET",
+        credentials: "include",
+      });
 
+      const data = await res.json();
+
+      if (!res.ok) {
+        return false;
+      }
+
+      return data;
+    } catch (err) {
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(
+      async () => {
+        const result = await checkTokenTimeout();
+
+        if (!result || result.status === "TOKEN_EXPIRED") {
+          logout(); // clear state + redirect
+        }
+      },
+      60 * 1000 * 60
+    ); // เช็คทุก 1 ชั่วโมง
+
+    return () => clearInterval(interval);
+  }, []);
   // 🟢 ตรวจ token หมดอายุไหม
 
   return (

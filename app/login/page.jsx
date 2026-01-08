@@ -1,5 +1,5 @@
 "use client";
-import { Button, Input } from "@heroui/react";
+import { Button, Checkbox, Input } from "@heroui/react";
 import {
   Modal,
   ModalBody,
@@ -14,7 +14,8 @@ import useHook from "./useHook";
 export default function ({ openModalLogin, closeModalLogin }) {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
-  const { handleSubmit, field, handleChange } = useHook();
+  const { handleSubmit, field, handleChange, rememberMe, setRememberMe } =
+    useHook();
   return (
     <div>
       <Modal
@@ -75,6 +76,13 @@ export default function ({ openModalLogin, closeModalLogin }) {
                     value={field.password}
                     onChange={handleChange}
                   />
+                  <Checkbox
+                    isSelected={rememberMe}
+                    onValueChange={setRememberMe}
+                    color="danger"
+                  >
+                    Remember me
+                  </Checkbox>
                 </div>
               </ModalBody>
               <ModalFooter>
