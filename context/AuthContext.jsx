@@ -43,6 +43,8 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const checkTokenTimeOut = async () => {};
+
   // 🟢 ตรวจ token หมดอายุไหม
 
   return (

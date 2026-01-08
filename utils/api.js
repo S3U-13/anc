@@ -45,6 +45,15 @@ const apiRequest = async (
       });
       return null; // ❌ ไม่ throw
     }
+    if (res.status === 404) {
+      addToast({
+        title: "ไม่มี ผ้ใช้ นี้ในระบบ",
+        description: "กรุณาติดต่อเจ้าหน้าที่",
+        color: "danger",
+        variant: "flat",
+      });
+      return null; // ❌ ไม่ throw
+    }
     if (res.status === 503) {
       addToast({
         title: "เซิร์ฟเวอร์ไม่พร้อมใช้งาน",

@@ -189,7 +189,11 @@ export default function Sidebar({ isOpen }) {
             <ScrollShadow hideScrollBar className="space-y-2 w-full h-full p-4">
               {" "}
               {menu.map((item) => (
-                <Accordion key={item?.id} variant="shadow" className="bg-white dark:bg-[#27272A]">
+                <Accordion
+                  key={item?.id}
+                  variant="shadow"
+                  className="bg-white dark:bg-[#27272A]"
+                >
                   <AccordionItem
                     aria-label={item.name}
                     classNames={{ content: "grid grid-cols-1 gap-1" }}
@@ -205,31 +209,25 @@ export default function Sidebar({ isOpen }) {
                         // ถ้าไม่ต้องการ control navigation timing ให้ใช้ <Link> ปกติ
                         // แต่ถ้าต้องการให้ state เปลี่ยนก่อน navigation ให้ใช้ onClick แบบด้านล่าง
                         <div key={item_label.label_id}>
-                          {item_label.icon_theme ? (
-                            <div className="hover:bg-gray-100 dark:hover:bg-[#0e0e11] rounded-lg p-1.5 flex items-center justify-between">
-                              {item_label.icon_theme}
-                            </div>
-                          ) : (
-                            <Link
-                              color="foreground"
-                              // ใช้ <a> เพราะเรเรียก router.push เอง (หรือเปลี่ยนเป็น <Link> แล้วใช้ onClick และ preventDefault)
-                              href={item_label.link}
-                              onClick={(e) =>
-                                handleClickAndNavigate(
-                                  e,
-                                  item_label.link,
-                                  item_label.label_id
-                                )
-                              }
-                              className={
-                                isActive
-                                  ? "text-xs bg-gray-100 dark:bg-[#0e0e11] border border-divider rounded-lg p-1.5 flex items-center justify-between"
-                                  : "text-xs hover:bg-gray-100 dark:hover:bg-[#0e0e11] rounded-lg p-1.5 flex items-center justify-between"
-                              }
-                            >
-                              {item_label.label_name}
-                            </Link>
-                          )}
+                          <Link
+                            color="foreground"
+                            // ใช้ <a> เพราะเรเรียก router.push เอง (หรือเปลี่ยนเป็น <Link> แล้วใช้ onClick และ preventDefault)
+                            href={item_label.link}
+                            onClick={(e) =>
+                              handleClickAndNavigate(
+                                e,
+                                item_label.link,
+                                item_label.label_id
+                              )
+                            }
+                            className={
+                              isActive
+                                ? "text-xs bg-[#fee5f1] dark:bg-[#0e0e11] border border-[#ffcce5] dark:border-divider rounded-lg p-1.5 flex items-center justify-between"
+                                : "text-xs hover:bg-[#fee5f1] dark:hover:bg-[#0e0e11] rounded-lg p-1.5 flex items-center justify-between"
+                            }
+                          >
+                            {item_label.label_name}
+                          </Link>
                         </div>
                       );
                     })}
@@ -259,7 +257,7 @@ export default function Sidebar({ isOpen }) {
                   }
                 >
                   <div>
-                    <div className="hover:bg-gray-100 dark:hover:bg-[#0e0e11] rounded-lg p-1.5 flex items-center justify-between">
+                    <div className="hover:bg-[#fee5f1] dark:hover:bg-[#0e0e11] rounded-lg p-1.5 flex items-center justify-between">
                       {" "}
                       <ThemeSwitch
                         theme={currentTheme} // ส่งค่า theme เข้าไป

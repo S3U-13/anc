@@ -105,6 +105,7 @@ export default function Page() {
           <div className="pt-4 w-full md:w-3/4">
             <Button
               color="danger"
+              size="lg"
               ref={buttonRef}
               className="w-full text-lg md:text-xl font-medium py-5 rounded-xl shadow-md text-white transition-all duration-200"
               variant="shadow"
