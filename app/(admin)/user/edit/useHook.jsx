@@ -17,6 +17,7 @@ export default function useHook({
   const [role, setRole] = useState([]);
   const [position, setPosition] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
   const id = selectedUserId;
   useEffect(() => {
     fetchRole()
@@ -98,11 +99,37 @@ export default function useHook({
           return;
         }
         // ✅ ส่งข้อมูลไป API
-        await submitEditUser(value, id);
+        const data = await submitEditUser(value, id);
+        if (data) {
+          addToast({
+            title: "สำเร็จ",
+            description: "เพิ่มข้อมูลสำเร็จ",
+            color: "success",
+            variant: "flat",
+            promise: new Promise((resolve) =>
+              setTimeout(() => {
+                setLoading(false);
+                resolve(true);
+              }, 1500)
+            ),
+          });
+        } else if (!data) {
+          addToast({
+            title: "ผิดพลาด",
+            description: "ไม่สามารถบันทึกข้อมูลได้",
+            color: "danger",
+            variant: "flat",
+          });
+        }
         form.reset();
         closeModalEdit();
       } catch (error) {
-        console.log(error);
+        addToast({
+          title: "error",
+          description: "error",
+          color: "danger",
+          variant: "flat",
+        });
       } finally {
         setIsSubmitting(false);
       }

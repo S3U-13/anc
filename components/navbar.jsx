@@ -30,7 +30,7 @@ export default function Navbar() {
     }
   };
   return (
-    <div className="h-18 w-full p-6 dark:border dark:border-divider rounded-lg flex items-center justify-between px-4 bg-white dark:bg-[#0e0e11]">
+    <div className="h-18 w-full p-6 dark:border dark:border-divider rounded-lg flex items-center justify-between px-4 bg-white shadow-sm dark:bg-[#0e0e11]">
       <Button
         className="bg-gray-100  dark:bg-[#27272a]"
         size="md"
@@ -68,13 +68,13 @@ export default function Navbar() {
       <div className="flex items-center gap-4">
         <div className="text-xs">
           <p>
-            <strong>Name: </strong>
+            <strong>Name : </strong>
             {""}
             {user.name}
           </p>
           <div className="flex items-center gap-2">
             <p>
-              <strong>Position:</strong> อายุรกรรม
+              <strong>Position :</strong> {user.position}
             </p>
           </div>
         </div>
@@ -96,12 +96,35 @@ export default function Navbar() {
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Static Actions" variant="faded">
-            <DropdownItem key="profile" className="h-14 gap-2">
-              <p className="font-bold">{user.name}</p>
-              <p className="font-bold">@{user.username}</p>
-              <p className="font-bold">Position : {user.position_name}</p>
-            </DropdownItem>
-            <DropdownItem key="upload">Upload Signature</DropdownItem>
+            <DropdownSection showDivider title="User Detail">
+              <DropdownItem key="profile" className="h-14 gap-2">
+                <p className="font-bold">{user.name}</p>
+                <p className="font-bold">@{user.username}</p>
+                <p className="font-bold">Position : {user.position}</p>
+              </DropdownItem>
+            </DropdownSection>
+            <DropdownSection title="feature">
+              {" "}
+              <DropdownItem
+                className="text-danger"
+                color="danger"
+                key="upload"
+                description="ยังใช้ไม่ได้ทำไว้ก่อนเพื่ออนาคต"
+                startContent={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="size-6"
+                  >
+                    <path d="M9.97.97a.75.75 0 0 1 1.06 0l3 3a.75.75 0 0 1-1.06 1.06l-1.72-1.72v3.44h-1.5V3.31L8.03 5.03a.75.75 0 0 1-1.06-1.06l3-3ZM9.75 6.75v6a.75.75 0 0 0 1.5 0v-6h3a3 3 0 0 1 3 3v7.5a3 3 0 0 1-3 3h-7.5a3 3 0 0 1-3-3v-7.5a3 3 0 0 1 3-3h3Z" />
+                    <path d="M7.151 21.75a2.999 2.999 0 0 0 2.599 1.5h7.5a3 3 0 0 0 3-3v-7.5c0-1.11-.603-2.08-1.5-2.599v7.099a4.5 4.5 0 0 1-4.5 4.5H7.151Z" />
+                  </svg>
+                }
+              >
+                Upload Profile
+              </DropdownItem>
+            </DropdownSection>
           </DropdownMenu>
         </Dropdown>
         {/* <Badge color="danger" content="99+" shape="circle">

@@ -47,9 +47,7 @@ export default function page({
             >
               {/* Header */}
               <ModalHeader className="flex flex-col text-center py-6 gap-1">
-                <h1 className="text-xl font-semibold ">
-                  แก้ไขข้อมูลผู้ใช้งาน
-                </h1>
+                <h1 className="text-xl font-semibold ">แก้ไขข้อมูลผู้ใช้งาน</h1>
                 <p className="text-sm  dark:text-gray-400">
                   ปรับปรุงข้อมูลผู้ใช้ในระบบให้ถูกต้อง
                 </p>
@@ -195,11 +193,11 @@ export default function page({
 
                 <Button
                   type="submit"
-                  color="primary"
-                  //   isDisabled={closeModalEdit}
-                  className="bg-blue-600 text-white rounded-lg"
+                  color="danger"
+                  isDisabled={isSubmitting}
+                  className="rounded-lg"
                 >
-                  บันทึกการแก้ไข
+                  {isSubmitting ? "กำลังบันทึก" : "บันทึกการแก้ไข"}
                 </Button>
               </ModalFooter>
             </form>

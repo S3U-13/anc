@@ -42,14 +42,12 @@ export default function Page({ openModal, closeModal, modalRef }) {
               <h1 className="text-lg font-semibold  tracking-wide">
                 เพิ่มผู้ใช้งาน
               </h1>
-              <p className="text-sm ">
-                กรอกข้อมูลให้ครบถ้วนก่อนบันทึก
-              </p>
+              <p className="text-sm ">กรอกข้อมูลให้ครบถ้วนก่อนบันทึก</p>
             </ModalHeader>
 
             {/* Body */}
             <ModalBody>
-              <section className=" rounded-2xl border border-divider shadow-sm p-5 space-y-4">
+              <section className="rounded-2xl border border-divider shadow-sm p-5 space-y-4">
                 <h2 className=" font-semibold text-base border-b border-divider  pb-1">
                   ข้อมูลทั่วไป
                 </h2>
@@ -176,20 +174,16 @@ export default function Page({ openModal, closeModal, modalRef }) {
 
             {/* Footer */}
             <ModalFooter className="flex justify-end gap-2 px-6 py-4">
-              <Button
-                color="default"
-                variant="flat"
-                onPress={closeModal}
-              >
+              <Button color="default" variant="flat" onPress={closeModal}>
                 ยกเลิก
               </Button>
               <Button
                 type="submit"
-                color="primary"
-                className="rounded-xl bg-blue-600 text-white px-6"
+                color="danger"
+                className="rounded-xl px-6"
                 isDisabled={isSubmitting}
               >
-                เพิ่มผู้ใช้
+                {isSubmitting ? "กำลังบันทึก" : "เพิ่มผู้ใช้"}
               </Button>
             </ModalFooter>
           </form>

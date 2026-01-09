@@ -62,7 +62,7 @@ export default function page() {
   }, [visibleColumns, columns]);
 
   return (
-    <div className="mt-[10px] bg-[#ffffff] dark:bg-[#27272a] p-2.5 rounded-lg">
+    <div className="mt-[10px] bg-[#ffffff] shadow-lg dark:bg-[#27272a] p-2.5 rounded-lg">
       <div className="gap-[10px] flex justify-between">
         <Input
           color="default"
@@ -135,7 +135,7 @@ export default function page() {
 
           <Button
             onPress={() => setOpenModal(true)}
-            color="primary"
+            color="danger"
             variant="solid"
             endContent={
               <svg
@@ -300,7 +300,7 @@ export default function page() {
           isCompact
           showControls
           showShadow
-          color="primary"
+          color="danger"
           page={page}
           total={pages}
           onChange={setPage}

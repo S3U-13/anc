@@ -40,8 +40,18 @@ export default function Dashboard() {
         labels: { style: { colors: theme === "dark" ? "#d1d5db" : "#374151" } },
       },
       stroke: { curve: "smooth" },
-      grid: { borderColor: theme === "dark" ? "#4b5563" : "#e5e7eb" },
+      grid: {
+        borderColor: theme === "dark" ? "#4b5563" : "#e5e7eb",
+        strokeDashArray: 4,
+        show: true,
+      },
       colors: ["#3b82f6"],
+      dataLabels: {
+        enabled: false,
+      },
+      yaxis: {
+        opposite: true,
+      },
     }),
     [theme]
   );
@@ -73,54 +83,56 @@ export default function Dashboard() {
   );
 
   return (
-    <div className="p-4">
+    <div className="space-y-4 mt-6">
       {/* Header */}
-      <header className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+      <header className="flex justify-between items-center ">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 pl-2">
           Dashboard (ยังใช้งานไม่ได้ใส่ไว้สวยๆ เฉยๆ)
         </h1>
       </header>
 
       {/* Cards */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        {[1, 2, 3].map((i) => (
-          <div
-            key={i}
-            className="bg-white dark:bg-[#1f1f1f] p-6 rounded-xl shadow-md border border-gray-200 dark:border-[#3d3d3d] hover:shadow-lg transition"
-          >
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
-              Card {i}
+      <div className="bg-white p-4 rounded-lg shadow-sm">
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="bg-white dark:bg-[#1f1f1f] p-6 rounded-xl shadow-md border border-gray-200 dark:border-[#3d3d3d] hover:shadow-lg transition"
+            >
+              <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+                Card {i}
+              </h2>
+              <p className="text-gray-500 dark:text-gray-400 text-sm">
+                รายละเอียดตัวอย่าง
+              </p>
+            </div>
+          ))}
+        </section>
+
+        {/* Charts side by side */}
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Line Chart */}
+          <div className="bg-white dark:bg-[#1f1f1f] p-6 rounded-xl shadow-md border border-gray-200 dark:border-[#3d3d3d] col-span-2">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
+              Visitors Trend
             </h2>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">
-              รายละเอียดตัวอย่าง
-            </p>
+            <Chart options={options} series={series} type="area" height={485} />
           </div>
-        ))}
-      </section>
 
-      {/* Charts side by side */}
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Line Chart */}
-        <div className="bg-white dark:bg-[#1f1f1f] p-6 rounded-xl shadow-md border border-gray-200 dark:border-[#3d3d3d] col-span-2">
-          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
-            Visitors Trend
-          </h2>
-          <Chart options={options} series={series} type="line" height={485} />
-        </div>
-
-        {/* Donut Chart */}
-        <div className="bg-white dark:bg-[#1f1f1f] p-6 rounded-xl shadow-md border border-gray-200 dark:border-[#3d3d3d]">
-          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
-            Device Visitors
-          </h2>
-          <Chart
-            options={donutOptions}
-            series={donutSeries}
-            type="donut"
-            height={485}
-          />
-        </div>
-      </section>
+          {/* Donut Chart */}
+          <div className="bg-white dark:bg-[#1f1f1f] p-6 rounded-xl shadow-md border border-gray-200 dark:border-[#3d3d3d]">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
+              Device Visitors
+            </h2>
+            <Chart
+              options={donutOptions}
+              series={donutSeries}
+              type="donut"
+              height={485}
+            />
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

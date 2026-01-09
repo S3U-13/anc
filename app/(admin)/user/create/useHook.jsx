@@ -3,15 +3,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
 import { addToast } from "@heroui/toast";
-import { useAuth } from "@/context/AuthContext";
 import { useApiRequest } from "@/hooks/useApi";
 
 export default function useHook({ closeModal }) {
-  const auth = useAuth();
   const { fetchPosition, fetchRole, submitCreateUser } = useApiRequest();
   const [role, setRole] = useState([]);
   const [position, setPosition] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchRole()
@@ -79,17 +78,42 @@ export default function useHook({ closeModal }) {
           return;
         }
         // ✅ ส่งข้อมูลไป API
-        await submitCreateUser(value);
+        const data = await submitCreateUser(value);
+        if (data) {
+          addToast({
+            title: "สำเร็จ",
+            description: "เพิ่มข้อมูลสำเร็จ",
+            color: "success",
+            variant: "flat",
+            promise: new Promise((resolve) =>
+              setTimeout(() => {
+                setLoading(false);
+                resolve(true);
+              }, 1500)
+            ),
+          });
+        } else if (!data) {
+          addToast({
+            title: "ผิดพลาด",
+            description: "ไม่สามารถบันทึกข้อมูลได้",
+            color: "danger",
+            variant: "flat",
+          });
+        }
         form.reset();
         closeModal();
       } catch (error) {
-        console.log(error);
+        addToast({
+          title: "error",
+          description: "error",
+          color: "danger",
+          variant: "flat",
+        });
       } finally {
         setIsSubmitting(false);
       }
     },
   });
-
   // ----------------- Handle Change -----------------
   const handleChange = (name, value) => {
     form.setFieldValue(name, value);
