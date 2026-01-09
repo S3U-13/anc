@@ -9,7 +9,7 @@ import { AuthProvider } from "@/context/AuthContext";
 export default function Layout({ children }) {
   return (
     <AuthProvider>
-      <ProtectedRoute role={1}>
+      <ProtectedRoute role={[1]}>
         <DrawerProvider>
           <Content>{children}</Content>
         </DrawerProvider>

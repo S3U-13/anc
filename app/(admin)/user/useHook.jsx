@@ -6,7 +6,6 @@ import React from "react";
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export default function useHook() {
-
   const { fetchDataUser, submitUserById } = useApiRequest();
   const didFetch = useRef(false);
   const modalRef = useRef(null);

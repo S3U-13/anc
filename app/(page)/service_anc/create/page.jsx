@@ -115,7 +115,7 @@ export default function page({ openFormService, closeFormService }) {
                   classNames={{
                     tabList: "mx-auto w-full bg-[#ffffff] dark:bg-[#18181b]",
                     tabContent:
-                      "group-data-[selected=true]:bg-[#AE7EDE] p-1 rounded-sm w-full bg-[#D4D4D8]",
+                      "group-data-[selected=true]:bg-[#fb7185] p-1 rounded-sm w-full bg-[#D4D4D8]",
                   }}
                   // isDisabledKeys={["from_2", "from_3", "from_4", "from_5"]}
                   keepMounted
@@ -179,7 +179,7 @@ export default function page({ openFormService, closeFormService }) {
                           size="md"
                           onPress={() => setPullAnc(true)}
                           className="w-40"
-                          color="secondary"
+                          color="danger"
                         >
                           ดึงข้อมูลทะเบียน ANC
                         </Button>
@@ -281,7 +281,7 @@ export default function page({ openFormService, closeFormService }) {
                   กลับ
                 </Button>
                 <Button
-                  color="primary"
+                  color="danger"
                   onPress={async () => {
                     const idx = steps.indexOf(activeStep);
 

@@ -68,8 +68,9 @@ export default function page({
                 onSelectionChange={setActiveStep}
                 variant="underlined"
                 classNames={{
-                  tabContent: " p-1 px-6 rounded-lg",
                   tabList: "mx-auto",
+                  tab: "data-[selected=true]:border-b-4 data-[selected=true]:border-[#fb7185]",
+                  tabContent: "p-1 px-6 rounded-lg",
                 }}
                 aria-label="Dynamic tabs"
               >
@@ -367,7 +368,7 @@ export default function page({
                 กลับ
               </Button>
               <Button
-                color="primary"
+                color="danger"
                 onPress={async () => {
                   const idx = steps.indexOf(activeStep);
                   if (idx < steps.length - 1) {

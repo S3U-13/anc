@@ -2,27 +2,53 @@
 import { useApiRequest } from "@/hooks/useApi";
 import { createContext, useContext, useEffect, useState } from "react";
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+import { useRouter, usePathname } from "next/navigation";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const { logoutAPI } = useApiRequest();
+  const { logoutAPI, checkToken } = useApiRequest();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const ROLE_REDIRECT = {
+    1: "/dashboard/",
+    2: "/dashboard_admin/",
+  };
 
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
 
     if (savedUser) {
       try {
-        const parsedUser = JSON.parse(savedUser);
-        setUser(parsedUser);
+        setUser(JSON.parse(savedUser));
       } catch {
         localStorage.removeItem("user");
       }
     }
 
     setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    checkToken()
+      .then((res) => {
+        if (res?.status === "VALID") {
+          const redirectPath = ROLE_REDIRECT[res.user.role_id];
+
+          const isLoginPage = pathname === "/";
+
+          if (isLoginPage && redirectPath) {
+            router.replace(redirectPath);
+          }
+        } else {
+          setUser(null);
+          localStorage.removeItem("user");
+        }
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   // 🟢 ฟังก์ชัน login/logout
@@ -68,11 +94,11 @@ export const AuthProvider = ({ children }) => {
         const result = await checkTokenTimeout();
 
         if (!result || result.status === "TOKEN_EXPIRED") {
-          logout(); // clear state + redirect
+          logout(); // clear state + redirect ไป login
         }
       },
-      60 * 1000 * 60
-    ); // เช็คทุก 1 ชั่วโมง
+      60 * 60 * 1000
+    ); // ทุก 1 ชม
 
     return () => clearInterval(interval);
   }, []);

@@ -238,6 +238,7 @@ export const useApiRequest = () => {
   };
 
   const logoutAPI = () => apiRequest("/api/logout", "POST");
+  const checkToken = () => apiRequest("/api/check-token", "GET");
 
   return {
     apiRequest,
@@ -265,5 +266,6 @@ export const useApiRequest = () => {
     submitUserById,
     submitEditUser,
     selectedRoundByIdEditView,
+    checkToken,
   };
 };
