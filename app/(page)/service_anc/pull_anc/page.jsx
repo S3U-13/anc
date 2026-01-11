@@ -335,6 +335,9 @@ export default function App({
                   }));
 
                   form?.setFieldValue?.("anc_no", String(anc.anc_no));
+                  form?.setFieldValue?.("wife_hn", String(anc.hn_wife));
+                  form?.setFieldValue?.("wife_hn_lab_2", String(anc.hn_wife));
+                  form?.setFieldValue?.("husband_hn", String(anc.hn_husband));
                   form?.setFieldValue?.(
                     "patreg_id",
                     anc.wife.pat_reg[0]?.id ?? null

@@ -99,7 +99,7 @@ export default function page({
           readOnly
           disabled
         />
-        <form.Field name="hbsag_husband">
+        <form.Field name="husband_hbsag_result">
           {(field) => (
             <Select
               size="sm"
@@ -122,7 +122,7 @@ export default function page({
             </Select>
           )}
         </form.Field>
-        <form.Field name="vdrl_husband">
+        <form.Field name="husband_vdrl_result">
           {(field) => (
             <>
               <Select
@@ -137,17 +137,17 @@ export default function page({
                   const selected = Array.from(key)[0];
                   field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
                   if (String(selected) === "46") {
-                    form.setFieldValue("ppr_husband", "");
-                    form.setFieldValue("tpha_husband", "");
-                    form.setFieldValue("treatment_detail_husband", "");
-                    form.setFieldValue("treatment_date_1_husband", null);
-                    form.setFieldValue("treatment_date_2_husband", null);
-                    form.setFieldValue("treatment_date_3_husband", null);
+                    form.setFieldValue("husband_ppr_result", "");
+                    form.setFieldValue("husband_tpha_result", "");
+                    form.setFieldValue("husband_treatment_detail", "");
+                    form.setFieldValue("husband_treatment_date_1", null);
+                    form.setFieldValue("husband_treatment_date_2", null);
+                    form.setFieldValue("husband_treatment_date_3", null);
                     setDates((prev) => ({
                       ...prev,
-                      treatment_date_1_husband: null,
-                      treatment_date_2_husband: null,
-                      treatment_date_3_husband: null,
+                      husband_treatment_date_1: null,
+                      husband_treatment_date_2: null,
+                      husband_treatment_date_3: null,
                     }));
                   }
                 }}
@@ -163,7 +163,7 @@ export default function page({
               </Select>
               {String(field.state.value) === "47" && (
                 <div className="col-span-4 grid grid-cols-2 gap-2">
-                  <form.Field name="ppr_husband">
+                  <form.Field name="husband_ppr_result">
                     {(field) => (
                       <Input
                         label="PPR*"
@@ -175,7 +175,7 @@ export default function page({
                       />
                     )}
                   </form.Field>
-                  <form.Field name="tpha_husband">
+                  <form.Field name="husband_tpha_result">
                     {(field) => (
                       <Input
                         label="TPHA*"
@@ -187,7 +187,7 @@ export default function page({
                       />
                     )}
                   </form.Field>
-                  <form.Field name="treatment_detail_husband">
+                  <form.Field name="husband_treatment_detail">
                     {(field) => (
                       <Input
                         className="col-span-2"
@@ -208,11 +208,11 @@ export default function page({
                       color="warning"
                       variant="flat"
                       value={
-                        Dates.treatment_date_1_husband
-                          ? parseDate(Dates.treatment_date_1_husband)
+                        Dates.husband_treatment_date_1
+                          ? parseDate(Dates.husband_treatment_date_1)
                           : null
                       }
-                      onChange={handleDateChange("treatment_date_1_husband")}
+                      onChange={handleDateChange("husband_treatment_date_1")}
                     />
                     <DatePicker
                       label="ครั้งที่ 2"
@@ -220,11 +220,11 @@ export default function page({
                       color="warning"
                       variant="flat"
                       value={
-                        Dates.treatment_date_2_husband
-                          ? parseDate(Dates.treatment_date_2_husband)
+                        Dates.husband_treatment_date_2
+                          ? parseDate(Dates.husband_treatment_date_2)
                           : null
                       }
-                      onChange={handleDateChange("treatment_date_2_husband")}
+                      onChange={handleDateChange("husband_treatment_date_2")}
                     />
                     <DatePicker
                       label="ครั้งที่ 3"
@@ -232,11 +232,11 @@ export default function page({
                       color="warning"
                       variant="flat"
                       value={
-                        Dates.treatment_date_3_husband
-                          ? parseDate(Dates.treatment_date_3_husband)
+                        Dates.husband_treatment_date_3
+                          ? parseDate(Dates.husband_treatment_date_3)
                           : null
                       }
-                      onChange={handleDateChange("treatment_date_3_husband")}
+                      onChange={handleDateChange("husband_treatment_date_3")}
                     />
                   </div>
                 </div>
@@ -244,7 +244,7 @@ export default function page({
             </>
           )}
         </form.Field>
-        <form.Field name="anti_hiv_husband">
+        <form.Field name="husband_anti_hiv_result">
           {(field) => (
             <Select
               size="sm"
@@ -269,7 +269,7 @@ export default function page({
             </Select>
           )}
         </form.Field>
-        <form.Field name="hb_typing_husband">
+        <form.Field name="husband_hb_typing">
           {(field) => (
             <Input
               size="sm"
@@ -284,7 +284,7 @@ export default function page({
         </form.Field>
 
         <div className="col-span-4 grid grid-cols-3 gap-[10px]">
-          <form.Field name="bl_gr_husband">
+          <form.Field name="husband_abo_group">
             {(field) => (
               <Select
                 size="sm"
@@ -307,7 +307,7 @@ export default function page({
               </Select>
             )}
           </form.Field>
-          <form.Field name="rh_husband">
+          <form.Field name="husband_rh_factor">
             {(field) => (
               <Select
                 size="sm"
@@ -330,7 +330,7 @@ export default function page({
               </Select>
             )}
           </form.Field>
-          <form.Field name="hct_husband">
+          <form.Field name="husband_hct_value">
             {(field) => (
               <Input
                 size="sm"
@@ -345,7 +345,7 @@ export default function page({
           </form.Field>
         </div>
         <div className="grid grid-cols-4 gap-2 col-span-4">
-          <form.Field name="of_husband">
+          <form.Field name="husband_of_value">
             {(field) => (
               <Select
                 size="sm"
@@ -368,7 +368,7 @@ export default function page({
               </Select>
             )}
           </form.Field>
-          <form.Field name="dcip_husband">
+          <form.Field name="husband_dcip_result">
             {(field) => (
               <Select
                 size="sm"
@@ -391,7 +391,7 @@ export default function page({
               </Select>
             )}
           </form.Field>
-          <form.Field name="mcv_husband">
+          <form.Field name="husband_mcv_value">
             {(field) => (
               <Input
                 size="sm"
@@ -404,7 +404,7 @@ export default function page({
               />
             )}
           </form.Field>
-          <form.Field name="mch_husband">
+          <form.Field name="husband_mch_value">
             {(field) => (
               <Input
                 size="sm"
@@ -420,7 +420,7 @@ export default function page({
         </div>
       </div>
 
-      <form.Field name="pcr_hus_id">
+      <form.Field name="husband_pcr_tested">
         {(field) => (
           <RadioGroup
             className="col-span-4 px-[20px] mt-[10px]"
@@ -437,7 +437,7 @@ export default function page({
                 >
                   <Radio value={String(pcr.id)}>{pcr.choice_name}</Radio>
                   {String(pcr.id) === "9" && field.state.value === "9" && (
-                    <form.Field name="pcr_hus_text">
+                    <form.Field name="husband_pcr_result">
                       {(subField) => (
                         <Input
                           className="w-[300px]"

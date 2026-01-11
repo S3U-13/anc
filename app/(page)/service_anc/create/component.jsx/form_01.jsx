@@ -88,6 +88,48 @@ export default function page({
             />
           )}
         </form.Field>
+        <form.Field name="wife_hn">
+          {(field) => (
+            <Input
+              size="sm"
+              label="wife_hn"
+              className="col-span-2 md:col-span-1"
+              type="text"
+              value={field.state.value ?? ""}
+              onChange={(e) => field.handleChange(e.target.value)}
+              readOnly
+              disabled
+            />
+          )}
+        </form.Field>
+        <form.Field name="wife_hn_lab_2">
+          {(field) => (
+            <Input
+              size="sm"
+              label="wife hn lab 2"
+              className="col-span-2 md:col-span-1"
+              type="text"
+              value={field.state.value ?? ""}
+              onChange={(e) => field.handleChange(e.target.value)}
+              readOnly
+              disabled
+            />
+          )}
+        </form.Field>
+        <form.Field name="husband_hn">
+          {(field) => (
+            <Input
+              size="sm"
+              label="husband hn"
+              className="col-span-2 md:col-span-1"
+              type="text"
+              value={field.state.value ?? ""}
+              onChange={(e) => field.handleChange(e.target.value)}
+              readOnly
+              disabled
+            />
+          )}
+        </form.Field>
         <Input
           size="sm"
           label="HN"
@@ -211,6 +253,7 @@ export default function page({
             onValueChange={(value) => handleEditChange("height", value)}
             type="text"
           />
+
           <Input
             size="sm"
             label="BMI"

@@ -40,38 +40,8 @@ export const useApiRequest = () => {
         return null;
       }
 
-      if (res.status === 404) {
-        addToast({
-          title: "ไม่พบข้อมูล",
-          description: "ไม่พบข้อมูลที่ร้องขอ",
-          color: "warning",
-        });
-        return null;
-      }
-
-      if (res.status === 500) {
-        addToast({
-          title: "การเชื่อมต่อล้มเหลว",
-          description:
-            "ไม่สามารถติดต่อกับเซิร์ฟเวอร์ได้ในขณะนี้ โปรดติดต่อเจ้าหน้าที่",
-          color: "danger",
-        });
-        return null;
-      }
-
-      // ✅ แสดง Toast เมื่อสำเร็จ (เลือกได้ว่าจะเปิดหรือไม่)
-      if (["POST", "PUT", "DELETE"].includes(method) && res.ok) {
-        addToast({
-          title: "สำเร็จ",
-          description: "ดำเนินการสำเร็จ",
-          variant: "flat",
-          color: "success",
-        });
-      }
-
-      return data;
-    } catch (err) {
-      console.error("❌ Fetch error:", err);
+      return data ?? null;
+    } catch (error) {
       addToast({
         title: "เกิดข้อผิดพลาด",
         description: "ไม่สามารถเชื่อมต่อกับ server ได้ โปรดลองใหม่ภายหลัง",

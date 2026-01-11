@@ -51,16 +51,18 @@ export default function useHook({ closeFormService } = {}) {
       .catch(console.error);
   });
 
+  //
   const initialField = () => ({
+    //anc_service
     anc_no: "",
     patvisit_id: "",
     patreg_id: "",
     pat_vitalsign_id: "",
-    para: "",
+    gravida: "",
+    //obstetric_history
     prep_weight: "",
     bmi: "",
-    forget_or_remember: null,
-    gravida: "",
+    para: "",
     p: "",
     a: "",
     last: "",
@@ -68,120 +70,126 @@ export default function useHook({ closeFormService } = {}) {
     edc: null,
     ga: "",
     verified_by: null,
-    ma_id: null,
-    ma_detail: "",
-    hr_id: null,
-    hr_detail: "",
-    am_id: null,
+    //patient_risk_factors
+    patient_drug_allergy: null,
+    patient_drug_allergy_detail: "",
+    high_risk: null,
+    high_risk_detail: "",
+    amniocentesis_plan: null,
     am_reason_checked: "",
     am_reason_not_checked: "",
     am_reason_consult: "",
-    vaccine: null,
+    pcr_tested: null,
+    pcr_result: "",
+    cordocentesis_plan: null,
+    cordocentesis_detail: "",
+    other: "",
+    pregnancy_status: null,
+    //pregnancy_vaccinations
+    vaccination_his: "",
+    forget_or_remember_date_vaccination: null,
+    last_vaccination_date: null,
+    forget_last_vaccination_date: "",
+    vaccine_type: null,
     influenza_reason: "",
+    influenza_appointment_date: null,
     ap_reason: "",
-    tdap_reason: "",
-    influenza_date: null,
-    ap_date: null,
-    tdap_date: null,
-    gct_1_wife: "",
-    gct_2_wife: "",
-    ogtt_1_wife: "",
-    ogtt_2_wife: "",
-    hbsag_wife: null,
-    vdrl_wife: null,
-    ppr_wife: "",
-    tpha_wife: "",
-    treatment_detail_wife: "",
-    treatment_date_1_wife: null,
-    treatment_date_2_wife: null,
-    treatment_date_3_wife: null,
-    anti_hiv_wife: null,
-    bl_gr_wife: null,
-    rh_wife: null,
-    hct_wife: "",
-    of_wife: null,
-    dcip_wife: null,
-    mcv_wife: "",
-    mch_wife: "",
-    hb_typing_wife: "",
-    pcr_wife_id: null,
-    pcr_wife_text: "",
-    cordo_id: null,
-    cordo_text: "",
-    cordo_other_text: "",
-    abortion_id: null,
-    td_num: "",
-    td_last_date: null,
-    td_forget_date: "",
-    tdap_id: null,
-    tdap_round_1: null,
-    tdap_round_2: null,
-    tdap_round_3: null,
-    iip_id: null,
-    iip_date: null,
-    lab_2: null,
-    vdrl_lab_2: null,
-    ppr_lab_2: "",
-    tpha_lab_2: "",
-    treatment_detail_lab_2: "",
-    treatment_date_1_lab_2: null,
-    treatment_date_2_lab_2: null,
-    treatment_date_3_lab_2: null,
-    hct: null,
-    hiv: null,
-    bti_value_1_id: null,
-    bti_value_2_id: null,
-    bti_value_3_id: null,
-    bti_value_4_id: null,
-    bti_value_5_id: null,
-    bti_1_date: null,
-    bti_2_date: null,
-    cbe_value_1_id: null,
-    cbe_value_2_id: null,
-    cbe_value_3_id: null,
-    cbe_value_4_id: null,
-    birads_id: null,
-    birads_reason_left: "",
-    birads_reason_right: "",
-    birads_reason_both_sides: "",
-    cbe_result: "",
-    per_os_id: null,
+    ap_appointment_date: null,
+    t_dap_reason: "",
+    t_dap_appointment_date: null,
+    received_during_preg: null,
+    first_appointment: null,
+    second_appointment: null,
+    third_appointment: null,
+    booster_during_preg: null,
+    booster_during_preg_date: null,
+    //antenatal_screenings
+    blood_group_result: [],
+    field_key_choice_blood_group_result: "",
+    field_value_choice_blood_group_result: "",
+    breast_exam_result: "",
+    bi_rads_id: null,
+    bi_rads_left_detail: "",
+    bi_rads_right_detail: "",
+    bi_rads_both_sides_detail: "",
+    anc_pap_smear_detail: "",
+    received_medicine: null,
     iodine_reason: "",
     iron_reason: "",
     folic_reason: "",
     amoxicillin_reason: "",
     utrogestan_reason: "",
-    hbsag_husband: null,
-    vdrl_husband: null,
-    ppr_husband: "",
-    tpha_husband: "",
-    treatment_detail_husband: "",
-    treatment_date_1_husband: null,
-    treatment_date_2_husband: null,
-    treatment_date_3_husband: null,
-    anti_hiv_husband: null,
-    bl_gr_husband: null,
-    rh_husband: null,
-    hct_husband: null,
-    of_husband: null,
-    dcip_husband: null,
-    mcv_husband: null,
-    mch_husband: null,
-    hb_typing_husband: null,
-    pcr_hus_text: "",
-    pcr_hus_id: null,
-    ref_value_1_id: "",
-    ref_value_2_id: "",
-    ref_value_3_id: "",
-    receive_in_id: null,
-    hos_in_id: null,
-    receive_in_detail: "",
-    ref_in_detail: "",
-    receive_out_id: null,
-    hos_out_id: null,
-    receive_out_detail: "",
-    ref_out_detail: "",
-    ref_other_detail: "",
+    //wife_lab_result
+    wife_hn: null,
+    //glucose_test_wife
+    gct_1: "",
+    gct_2: "",
+    ogtt_1: "",
+    ogtt_2: "",
+    //maternal_infectious_screenings_wife
+    wife_hbsag_result: null,
+    wife_anti_hiv_result: null,
+    wife_vdrl_result: null,
+    wife_ppr_result: "",
+    wife_tpha_result: "",
+    //maternal_infectious_treatment_wife
+    wife_treatment_detail: "",
+    wife_treatment_date_1: null,
+    wife_treatment_date_2: null,
+    wife_treatment_date_3: null,
+    //maternal_blood_group_wife
+    wife_abo_group: null,
+    wife_rh_factor: null,
+    //maternal_hematology_results_wife
+    wife_hct_value: "",
+    wife_of_value: null,
+    wife_dcip_result: null,
+    wife_mcv_value: "",
+    wife_mch_value: "",
+    wife_hb_typing: "",
+    //wife_lab_2_result
+    wife_hn_lab_2: null,
+    lab_2_date: null,
+    wife_hct_lab_2: "",
+    wife_vdrl_lab_2: null,
+    wife_ppr_result_lab_2: "",
+    wife_tpha_result_lab_2: "",
+    wife_anti_hiv_lab_2: null,
+    //maternal_infectious_treatment_wife_lab_2
+    wife_lab_2_treatment_detail: "",
+    wife_lab_2_treatment_date_1: null,
+    wife_lab_2_treatment_date_2: null,
+    wife_lab_2_treatment_date_3: null,
+    //husband_lab_result
+    husband_hn: null,
+    husband_pcr_tested: null,
+    husband_pcr_result: "",
+    //maternal_infectious_screenings_husband
+    husband_hbsag_result: null,
+    husband_anti_hiv_result: null,
+    husband_vdrl_result: null,
+    husband_tpha_result: "",
+    husband_ppr_result: "",
+    //maternal_infectious_treatment_husband
+    husband_treatment_detail: "",
+    husband_treatment_date_1: null,
+    husband_treatment_date_2: null,
+    husband_treatment_date_3: null,
+    //maternal_blood_group_husband
+    husband_abo_group: null,
+    husband_rh_factor: null,
+    //maternal_hematology_results_husband
+    husband_hct_value: "",
+    husband_of_value: null,
+    husband_dcip_result: null,
+    husband_mcv_value: "",
+    husband_mch_value: "",
+    husband_hb_typing: "",
+    //anc_refer
+    refer: "",
+    //anc_refer_detail
+    field_refer_key: "",
+    field_refer_value: "",
   });
 
   const [field, setField] = useState(initialField());
@@ -248,24 +256,24 @@ export default function useHook({ closeFormService } = {}) {
   const [Dates, setDates] = useState({
     bti_1_date: field.bti_1_date || null,
     bti_2_date: field.bti_2_date || null,
-    td_last_date: field.td_last_date || null,
-    tdap_round_1: field.tdap_round_1 || null,
-    tdap_round_2: field.tdap_round_2 || null,
-    tdap_round_3: field.tdap_round_3 || null,
-    iip_date: field.iip_date || null,
-    lab_2: field.lab_2 || null,
-    treatment_date_1_wife: field.treatment_date_1_wife || null,
-    treatment_date_2_wife: field.treatment_date_2_wife || null,
-    treatment_date_3_wife: field.treatment_date_3_wife || null,
-    influenza_date: field.influenza_date || null,
-    ap_date: field.ap_date || null,
-    tdap_date: field.tdap_date || null,
-    treatment_date_1_lab_2: field.treatment_date_1_lab_2 || null,
-    treatment_date_2_lab_2: field.treatment_date_2_lab_2 || null,
-    treatment_date_3_lab_2: field.treatment_date_3_lab_2 || null,
-    treatment_date_1_husband: field.treatment_date_1_husband || null,
-    treatment_date_2_husband: field.treatment_date_2_husband || null,
-    treatment_date_3_husband: field.treatment_date_3_husband || null,
+    last_vaccination_date: field.last_vaccination_date || null,
+    first_appointment: field.first_appointment || null,
+    second_appointment: field.second_appointment || null,
+    third_appointment: field.third_appointment || null,
+    booster_during_preg_date: field.booster_during_preg_date || null,
+    lab_2_date: field.lab_2_date || null,
+    wife_treatment_date_1: field.wife_treatment_date_1 || null,
+    wife_treatment_date_2: field.wife_treatment_date_2 || null,
+    wife_treatment_date_3: field.wife_treatment_date_3 || null,
+    influenza_appointment_date: field.influenza_appointment_date || null,
+    ap_appointment_date: field.ap_appointment_date || null,
+    t_dap_appointment_date: field.t_dap_appointment_date || null,
+    wife_lab_2_treatment_date_1: field.wife_lab_2_treatment_date_1 || null,
+    wife_lab_2_treatment_date_2: field.wife_lab_2_treatment_date_2 || null,
+    wife_lab_2_treatment_date_3: field.wife_lab_2_treatment_date_3 || null,
+    husband_treatment_date_1: field.husband_treatment_date_1 || null,
+    husband_treatment_date_2: field.husband_treatment_date_2 || null,
+    husband_treatment_date_3: field.husband_treatment_date_3 || null,
   });
 
   const handleChangeBti = (vals) => {
@@ -302,7 +310,7 @@ export default function useHook({ closeFormService } = {}) {
 
     // เช็คถ้า checkbox 24 หรือ 26 ไม่อยู่ใน selected ให้ล้างค่า
     if (!updatedSelected.includes("24")) {
-      form.setFieldValue("birads_id", null);
+      form.setFieldValue("bi_rads_id", null);
     }
     if (!updatedSelected.includes("26")) {
       form.setFieldValue("cbe_result", "");
@@ -409,6 +417,7 @@ export default function useHook({ closeFormService } = {}) {
     const heightM = parseFloat(editVitalsign.height) / 100;
     if (weight && heightM) {
       setBmi((weight / (heightM * heightM)).toFixed(2));
+      form.setFieldValue("bmi", bmi);
     } else {
       setBmi("");
     }
@@ -463,7 +472,7 @@ export default function useHook({ closeFormService } = {}) {
   const [activeStep, setActiveStep] = useState("from_1");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [BloodTestResult, setBloodTestResult] = useState([]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     // ✅ อัปเดต state ปกติ (UI)
@@ -474,6 +483,11 @@ export default function useHook({ closeFormService } = {}) {
 
     // ✅ อัปเดตเข้า useForm ด้วย
     form.setFieldValue(name, value);
+    setBloodTestResult((prev) => {
+      const sorted = [...prev].sort((a, b) => a - b);
+      form.setFieldValue("blood_test_result", sorted);
+      return sorted;
+    });
   };
   // new handle
   const handleMaChange = (e, field) => {
@@ -482,7 +496,7 @@ export default function useHook({ closeFormService } = {}) {
     field.handleChange(newValue);
 
     if (newValue !== "1") {
-      form.setFieldValue("ma_detail", "");
+      form.setFieldValue("patient_drug_allergy_detail", "");
     }
   };
   const handleHrChange = (e, field) => {
@@ -491,7 +505,7 @@ export default function useHook({ closeFormService } = {}) {
     field.handleChange(newValue);
 
     if (newValue !== "4") {
-      form.setFieldValue("hr_detail", "");
+      form.setFieldValue("high_risk_detail", "");
     }
   };
   const handlePcrWifeChange = (e, field) => {
@@ -500,7 +514,7 @@ export default function useHook({ closeFormService } = {}) {
     field.handleChange(newValue);
 
     if (newValue !== "9") {
-      form.setFieldValue("pcr_wife_text", "");
+      form.setFieldValue("pcr_result", "");
     }
   };
   const handleCordoChange = (e, field) => {
@@ -509,7 +523,7 @@ export default function useHook({ closeFormService } = {}) {
     field.handleChange(newValue);
 
     if (newValue !== "11") {
-      form.setFieldValue("cordo_text", "");
+      form.setFieldValue("cordocentesis_detail", "");
     }
   };
   const handleAmChange = (e, field) => {
@@ -536,20 +550,20 @@ export default function useHook({ closeFormService } = {}) {
 
     if (newValue !== "58") {
       form.setFieldValue("influenza_reason", "");
-      form.setFieldValue("influenza_date", null);
-      setDates((prev) => ({ ...prev, influenza_date: null }));
+      form.setFieldValue("influenza_appointment_date", null);
+      setDates((prev) => ({ ...prev, influenza_appointment_date: null }));
     }
 
     if (newValue !== "59") {
       form.setFieldValue("ap_reason", "");
-      form.setFieldValue("ap_date", null);
-      setDates((prev) => ({ ...prev, ap_date: null }));
+      form.setFieldValue("ap_appointment_date", null);
+      setDates((prev) => ({ ...prev, ap_appointment_date: null }));
     }
 
     if (newValue !== "60") {
-      form.setFieldValue("tdap_reason", "");
-      form.setFieldValue("tdap_date", null);
-      setDates((prev) => ({ ...prev, tdap_date: null }));
+      form.setFieldValue("t_dap_reason", "");
+      form.setFieldValue("t_dap_appointment_date", null);
+      setDates((prev) => ({ ...prev, t_dap_appointment_date: null }));
     }
   };
   const handleTdapChange = (e, field) => {
@@ -558,14 +572,14 @@ export default function useHook({ closeFormService } = {}) {
     field.handleChange(newValue);
 
     if (newValue !== "14") {
-      form.setFieldValue("tdap_round_1", null);
-      form.setFieldValue("tdap_round_2", null);
-      form.setFieldValue("tdap_round_3", null);
+      form.setFieldValue("first_appointment", null);
+      form.setFieldValue("second_appointment", null);
+      form.setFieldValue("third_appointment", null);
       setDates((prev) => ({
         ...prev,
-        tdap_round_1: null,
-        tdap_round_2: null,
-        tdap_round_3: null,
+        first_appointment: null,
+        second_appointment: null,
+        third_appointment: null,
       }));
     }
   };
@@ -575,11 +589,11 @@ export default function useHook({ closeFormService } = {}) {
     field.handleChange(newValue);
 
     if (newValue !== "16") {
-      form.setFieldValue("iip_date", null);
+      form.setFieldValue("booster_during_preg_date", null);
 
       setDates((prev) => ({
         ...prev,
-        iip_date: null,
+        booster_during_preg_date: null,
       }));
     }
   };
@@ -589,13 +603,13 @@ export default function useHook({ closeFormService } = {}) {
     field.handleChange(newValue);
 
     if (newValue !== "27") {
-      form.setFieldValue("birads_reason_left", "");
+      form.setFieldValue("bi_rads_left_detail", "");
     }
     if (newValue !== "28") {
-      form.setFieldValue("birads_reason_right", "");
+      form.setFieldValue("bi_rads_right_detail", "");
     }
     if (newValue !== "29") {
-      form.setFieldValue("birads_reason_both_sides", "");
+      form.setFieldValue("bi_rads_both_sides_detail", "");
     }
   };
   const handlePerOsChange = (e, field) => {
@@ -619,20 +633,35 @@ export default function useHook({ closeFormService } = {}) {
       form.setFieldValue("utrogestan_reason", "");
     }
   };
+
   const handlePcrHusbandChange = (e, field) => {
     const newValue = e.target.value;
 
     field.handleChange(newValue);
 
     if (newValue !== "9") {
-      form.setFieldValue("pcr_hus_text", "");
+      form.setFieldValue("husband_pcr_result", "");
     }
   };
   // end new handle
+<<<<<<< Updated upstream
   const handleSubmit = async (value) => {
+=======
+  const [loading, setLoading] = useState(true);
+  const submitAncService = async (value) => {
+>>>>>>> Stashed changes
     if (isSubmitting) return;
+
+    setIsSubmitting(true);
+
     try {
+<<<<<<< Updated upstream
       await submitCreateAncService(value);
+=======
+      const data = await submitCreateAncService(value);
+
+      // reset form & state
+>>>>>>> Stashed changes
       form.reset();
       setGravidaOptions([]);
       setSelectedGravida("");
@@ -644,6 +673,7 @@ export default function useHook({ closeFormService } = {}) {
       setActiveStep("from_1");
       setEditVitalsign(defaultVitals);
       setBmi("");
+
       setDates({
         bti_1_date: field.bti_1_date || null,
         bti_2_date: field.bti_2_date || null,
@@ -666,207 +696,221 @@ export default function useHook({ closeFormService } = {}) {
         treatment_date_2_husband: field.treatment_date_2_husband || null,
         treatment_date_3_husband: field.treatment_date_3_husband || null,
       });
+
       setSelectedBti([]);
       setSelectedCbe([]);
       setSelectedRef([]);
       closeFormService();
+<<<<<<< Updated upstream
     } catch (error) {
       console.log(error);
+=======
+
+      if (data) {
+        addToast({
+          title: "สำเร็จ",
+          description: "เพิ่มข้อมูลสำเร็จ",
+          color: "success",
+          variant: "flat",
+          promise: new Promise((resolve) =>
+            setTimeout(() => {
+              setLoading(false);
+              resolve(true);
+            }, 1500)
+          ),
+        });
+      } else {
+        addToast({
+          title: "ผิดพลาด",
+          description: "ไม่สามารถบันทึกข้อมูลได้",
+          color: "danger",
+          variant: "flat",
+        });
+      }
+    } catch (error) {
+      console.error("API error:", error);
+      addToast({
+        title: "error",
+        description: "error",
+        color: "danger",
+        variant: "flat",
+      });
+>>>>>>> Stashed changes
     } finally {
-      setIsSubmitting(false); // ส่งเสร็จแล้ว เปิดให้กดได้อีก
+      setIsSubmitting(false);
     }
   };
 
   const defaultValues = initialField();
 
   const validationSchema = z.object({
+    //anc_service
     anc_no: z.coerce.string().min(1, { message: "กรุณากรอก หมายเลข ANC" }),
 
-    patvisit_id: z.coerce.number({
+    patvisit_id: z.coerce.string({
       required_error: "กรุณาระบุ PAT VISIT ID",
       invalid_type_error: "กรุณาระบุเป็นตัวเลข",
     }),
 
-    patreg_id: z.coerce.number({
+    patreg_id: z.coerce.string({
       required_error: "กรุณาระบุ PAT REG ID",
       invalid_type_error: "กรุณาระบุเป็นตัวเลข",
     }),
 
-    pat_vitalsign_id: z.coerce.number({
+    pat_vitalsign_id: z.coerce.string({
       required_error: "กรุณาระบุ PAT VITALSIGN ID",
       invalid_type_error: "กรุณาระบุเป็นตัวเลข",
     }),
 
     gravida: z.string().min(1, { message: "กรุณากรอก" }),
+    //obstetric_history
+    prep_weight: z.string().optional(),
+    bmi: z.string().optional(),
     p: z.string().min(1, { message: "กรุณากรอก" }),
     a: z.string().min(1, { message: "กรุณากรอก" }),
     para: z.string().min(1, { message: "กรุณากรอก" }),
-    prep_weight: z.string().optional(),
-    bmi: z.string().optional(),
-
-    last: z.string().nullable(),
+    last: z.string().optional(),
     lmp: z.string().nullable(),
     edc: z.string().nullable(),
-    ga: z.string().nullable(),
-
+    ga: z.string().optional(),
     verified_by: z.string().nullable(),
-    ma_id: z.string().nullable(),
-    ma_detail: z.string().optional(),
-    hr_id: z.string().nullable(),
-    hr_detail: z.string().nullable(),
-    am_id: z.string().nullable(),
-
-    // wife lab info
-    gct_1_wife: z.string().optional(),
-    gct_2_wife: z.string().optional(),
-    ogtt_1_wife: z.string().optional(),
-    ogtt_2_wife: z.string().optional(),
-    hbsag_wife: z.coerce.number().nullable(),
-    vdrl_wife: z.coerce.number().nullable(),
-    ppr_wife: z.string().optional(),
-    tpha_wife: z.string().optional(),
-    treatment_detail_wife: z.string().optional(),
-    treatment_date_1_wife: z.string().nullable(),
-    treatment_date_2_wife: z.string().nullable(),
-    treatment_date_3_wife: z.string().nullable(),
-    anti_hiv_wife: z.coerce.number().nullable(),
-    bl_gr_wife: z.coerce.number().nullable(),
-    rh_wife: z.coerce.number().nullable(),
-    hct_wife: z.string().optional(),
-    of_wife: z.coerce.number().nullable(),
-    dcip_wife: z.coerce.number().nullable(),
-    mcv_wife: z.string().optional(),
-    mch_wife: z.string().optional(),
-    hb_typing_wife: z.string().nullable(),
-
-    // husband lab info
-    hbsag_husband: z.coerce.number().nullable(),
-    vdrl_husband: z.coerce.number().nullable(),
-    ppr_husband: z.string().optional(),
-    tpha_husband: z.string().optional(),
-    treatment_detail_husband: z.string().optional(),
-    treatment_date_1_husband: z.string().nullable(),
-    treatment_date_2_husband: z.string().nullable(),
-    treatment_date_3_husband: z.string().nullable(),
-    anti_hiv_husband: z.coerce.number().nullable(),
-    bl_gr_husband: z.coerce.number().nullable(),
-    rh_husband: z.coerce.number().nullable(),
-    hct_husband: z.string().nullable(),
-    of_husband: z.coerce.number().nullable(),
-    dcip_husband: z.coerce.number().nullable(),
-    mcv_husband: z.string().nullable(),
-    mch_husband: z.string().nullable(),
-    hb_typing_husband: z.string().nullable(),
-
-    //
-    forget_or_remember: z.coerce.number().nullable(),
-    //
-
-    // misc
-    pcr_hus_id: z.string().nullable(),
-    pcr_hus_text: z.string().optional(),
-    pcr_wife_id: z.string().nullable(),
-    pcr_wife_text: z.string().optional(),
-    cordo_id: z.string().nullable(),
-    cordo_text: z.string().optional(),
-    cordo_other_text: z.string().optional(),
+    //patient_risk_factors
+    patient_drug_allergy: z.string().nullable(),
+    patient_drug_allergy_detail: z.string().optional(),
+    high_risk: z.string().nullable(),
+    high_risk_detail: z.string().nullable(),
+    amniocentesis_plan: z.string().nullable(),
     am_reason_checked: z.string().optional(),
     am_reason_not_checked: z.string().optional(),
     am_reason_consult: z.string().optional(),
-    abortion_id: z.string().nullable(),
-    td_num: z.string().optional(),
-    td_last_date: z.string().nullable(),
-    td_forget_date: z.string().optional(),
-    vaccine: z.coerce.number().nullable(),
+    pcr_tested: z.string().nullable(),
+    pcr_result: z.string().optional(),
+    cordocentesis_plan: z.string().nullable(),
+    cordocentesis_detail: z.string().optional(),
+    other: z.string().optional(),
+    pregnancy_status: z.string().nullable(),
+    //pregnancy_vaccinations
+    vaccination_his: z.string().optional(),
+    forget_last_vaccination_date: z.coerce.number().nullable(),
+    last_vaccination_date: z.string().nullable(),
+    forget_last_vaccination_date: z.string().optional(),
+    vaccine_type: z.coerce.number().nullable(),
     influenza_reason: z.string().optional(),
+    influenza_appointment_date: z.string().nullable(),
     ap_reason: z.string().optional(),
-    tdap_reason: z.string().optional(),
-    influenza_date: z.string().nullable(),
-    ap_date: z.string().nullable(),
-    tdap_date: z.string().nullable(),
-    tdap_id: z.string().nullable(),
-    tdap_round_1: z.string().nullable(),
-    tdap_round_2: z.string().nullable(),
-    tdap_round_3: z.string().nullable(),
-    iip_id: z.string().nullable(),
-    iip_date: z.string().nullable(),
-    lab_2: z.string().nullable(),
-    vdrl_lab_2: z.string().nullable(),
-    ppr_lab_2: z.string().optional(),
-    tpha_lab_2: z.string().optional(),
-    treatment_detail_lab_2: z.string().optional(),
-    treatment_date_1_lab_2: z.string().nullable(),
-    treatment_date_2_lab_2: z.string().nullable(),
-    treatment_date_3_lab_2: z.string().nullable(),
-    hct: z.string().nullable(),
-    hiv: z.string().nullable(),
-    bti_value_1_id: z.string().nullable(),
-    bti_value_2_id: z.string().nullable(),
-    bti_value_3_id: z.string().nullable(),
-    bti_value_4_id: z.string().nullable(),
-    bti_value_5_id: z.string().nullable(),
-    bti_1_date: z.string().nullable(),
-    bti_2_date: z.string().nullable(),
-    cbe_value_1_id: z.string().nullable(),
-    cbe_value_2_id: z.string().nullable(),
-    cbe_value_3_id: z.string().nullable(),
-    cbe_value_4_id: z.string().nullable(),
-    cbe_result: z.string().optional(),
-    birads_reason_left: z.string().optional(),
-    birads_reason_right: z.string().optional(),
-    birads_reason_both_sides: z.string().optional(),
+    ap_appointment_date: z.string().nullable(),
+    t_dap_reason: z.string().optional(),
+    t_dap_appointment_date: z.string().nullable(),
+    received_during_preg: z.string().nullable(),
+    first_appointment: z.string().nullable(),
+    second_appointment: z.string().nullable(),
+    third_appointment: z.string().nullable(),
+    booster_during_preg: z.string().nullable(),
+    booster_during_preg_date: z.string().nullable(),
+    //antenatal_screenings
+    blood_group_result: z.array(z.coerce.number()).nullable(),
+    field_key_choice_blood_group_result: z.string().nullable(),
+    field_value_choice_blood_group_result: z.string().nullable(),
+    breast_exam_result: z.string().nullable(),
+    bi_rads_id: z.string().nullable(),
+    bi_rads_left_detail: z.string().optional(),
+    bi_rads_right_detail: z.string().optional(),
+    bi_rads_both_sides_detail: z.string().optional(),
+    anc_pap_smear_detail: z.string().optional(),
+    received_medicine: z.string().nullable(),
     iodine_reason: z.string().optional(),
     iron_reason: z.string().optional(),
     folic_reason: z.string().optional(),
     amoxicillin_reason: z.string().optional(),
     utrogestan_reason: z.string().optional(),
-    per_os_id: z.string().nullable(),
-    ref_value_1_id: z
-      .union([z.number(), z.string().transform((val) => Number(val))])
-      .nullable(),
-    ref_value_2_id: z
-      .union([z.number(), z.string().transform((val) => Number(val))])
-      .nullable(),
-    ref_value_3_id: z
-      .union([z.number(), z.string().transform((val) => Number(val))])
-      .nullable(),
-    receive_in_id: z
-      .union([z.number(), z.string().transform((val) => Number(val))])
-      .nullable(),
-    hos_in_id: z
-      .union([z.number(), z.string().transform((val) => Number(val))])
-      .nullable(),
-    receive_in_detail: z.string().nullable(),
-    ref_in_detail: z.string().nullable(),
-    receive_out_id: z
-      .union([z.number(), z.string().transform((val) => Number(val))])
-      .nullable(),
-    hos_out_id: z
-      .union([z.number(), z.string().transform((val) => Number(val))])
-      .nullable(),
-    receive_out_detail: z.string().nullable(),
-    ref_out_detail: z.string().nullable(),
-    ref_other_detail: z.string().optional(),
-    birads_id: z.string().nullable(),
+    //wife_lab_result
+    wife_hn: z.string().nullable(),
+    //glucose_test_wife
+    gct_1_wife: z.string().optional(),
+    gct_2_wife: z.string().optional(),
+    ogtt_1_wife: z.string().optional(),
+    ogtt_2_wife: z.string().optional(),
+    //maternal_infectious_screenings_wife
+    wife_hbsag_result: z.coerce.number().nullable(),
+    wife_anti_hiv_result: z.coerce.number().nullable(),
+    wife_vdrl_result: z.coerce.number().nullable(),
+    wife_ppr_result: z.string().optional(),
+    wife_tpha_result: z.string().optional(),
+    //maternal_infectious_treatment_wife
+    wife_treatment_detail: z.string().optional(),
+    wife_treatment_date_1: z.string().nullable(),
+    wife_treatment_date_2: z.string().nullable(),
+    wife_treatment_date_3: z.string().nullable(),
+    //maternal_blood_group_wife
+    wife_abo_group: z.coerce.number().nullable(),
+    wife_rh_factor: z.coerce.number().nullable(),
+    //maternal_hematology_results_wife
+    wife_hct_value: z.string().optional(),
+    wife_of_value: z.coerce.number().nullable(),
+    wife_dcip_result: z.coerce.number().nullable(),
+    wife_mcv_value: z.string().optional(),
+    wife_mch_value: z.string().optional(),
+    wife_hb_typing: z.string().nullable(),
+    //wife_lab_2_result
+    wife_hn_lab_2: z.string().nullable(),
+    lab_2_date: z.string().nullable(),
+    wife_hct_lab_2: z.string().nullable(),
+    wife_vdrl_lab_2: z.string().nullable(),
+    wife_ppr_result_lab_2: z.string().optional(),
+    wife_tpha_result_lab_2: z.string().optional(),
+    wife_anti_hiv_lab_2: z.string().nullable(),
+    //maternal_infectious_treatment_wife_lab_2
+    wife_lab_2_treatment_detail: z.string().optional(),
+    wife_lab_2_treatment_date_1: z.string().nullable(),
+    wife_lab_2_treatment_date_2: z.string().nullable(),
+    wife_lab_2_treatment_date_3: z.string().nullable(),
+    //husband_lab_result
+    husband_hn: z.string().nullable(),
+    husband_pcr_tested: z.string().nullable(),
+    husband_pcr_result: z.string().optional(),
+    //maternal_infectious_screenings_husband
+    husband_hbsag_result: z.coerce.number().nullable(),
+    husband_vdrl_result: z.coerce.number().nullable(),
+    husband_ppr_result: z.string().optional(),
+    husband_tpha_result: z.string().optional(),
+    husband_anti_hiv_result: z.coerce.number().nullable(),
+    //maternal_infectious_treatment_husband
+    husband_treatment_detail: z.string().optional(),
+    husband_treatment_date_1: z.string().nullable(),
+    husband_treatment_date_2: z.string().nullable(),
+    husband_treatment_date_3: z.string().nullable(),
+    //maternal_blood_group_husband
+    husband_abo_group: z.coerce.number().nullable(),
+    husband_rh_factor: z.coerce.number().nullable(),
+    //maternal_hematology_results_husband
+    husband_hct_value: z.string().nullable(),
+    husband_of_value: z.coerce.number().nullable(),
+    husband_dcip_result: z.coerce.number().nullable(),
+    husband_mcv_value: z.string().nullable(),
+    husband_mch_value: z.string().nullable(),
+    husband_hb_typing: z.string().nullable(),
+    //anc_refer
+    refer: z.string().nullable(),
+    // //anc_refer_detail
+    field_refer_key: z.string().nullable(),
+    field_refer_value: z.string().nullable(),
   });
 
   const form = useForm({
     defaultValues,
-    onSubmit: async ({ value }) => {
-      try {
-        const validatedData = validationSchema.parse(value);
-        await handleSubmit(validatedData);
-      } catch (error) {
-        console.error("❌ Validation or Submit error:", error);
 
-        // ถ้าเป็น validation error ของ Zod
-        if (error.errors) {
-          console.table(error.errors); // ดูว่า field ไหนไม่ผ่าน
-        }
-      }
-    },
     validators: {
-      onSubmit: validationSchema,
+      onSubmit: validationSchema, // ✅ Zod อยู่ที่เดียว
+    },
+
+    onSubmit: async ({ value }) => {
+      console.log("✅ submit value:", value);
+      await submitAncService(value); // value = ผ่าน Zod แล้ว
+    },
+
+    onSubmitInvalid: ({ formApi }) => {
+      console.log("❌ validation ไม่ผ่าน");
+      console.dir(formApi.state.errors, { depth: null });
     },
   });
 
@@ -936,29 +980,54 @@ export default function useHook({ closeFormService } = {}) {
       // 1️⃣ รวมข้อมูลทั้งหมด
       const info = {
         ...currentData.service_info,
-        ...currentData.wife?.text_values,
-        ...currentData.wife?.choices,
-        ...currentData.wife?.text_values?.lab_wife,
-        ...currentData.wife?.choices?.bti,
-        ...currentData.wife?.choices?.cbe,
-        ...currentData.wife?.profile,
-        ...currentData.husband?.profile,
-        ...currentData.husband?.choices,
-        ...currentData.husband?.choices?.lab_husband,
+        ...currentData.service_info?.wife?.anc_service_his?.obstetric_history,
+        ...currentData.service_info?.wife?.anc_service_his
+          ?.patient_risk_factors,
+        ...currentData.service_info?.wife?.anc_service_his
+          ?.pregnancy_vaccinations,
+        ...currentData.service_info?.wife?.anc_service_his
+          ?.antenatal_screenings,
+        ...currentData.service_info?.wife?.anc_service_his?.lab?.GlucoseLabWife,
+        ...currentData.service_info?.wife?.anc_service_his?.lab
+          ?.InfectiousScreeningsWife,
+        ...currentData.service_info?.wife?.anc_service_his?.lab
+          ?.InfectiousTreatmentWife,
+        ...currentData.service_info?.wife?.anc_service_his?.lab?.BloodGroupWife,
+        ...currentData.service_info?.wife?.anc_service_his?.lab
+          ?.HematologyResultWife,
+        ...currentData.service_info?.wife?.anc_service_his?.lab2,
+        ...currentData.service_info?.wife?.anc_service_his?.lab2
+          ?.InfectiousTreatmentWifeLab2,
+        ...currentData.service_info?.husband?.lab,
+        ...currentData.service_info?.husband?.lab?.InfectiousScreeningsHusband,
+        ...currentData.service_info?.husband?.lab?.InfectiousTreatmentHusband,
+        ...currentData.service_info?.husband?.lab?.BloodGroupHusband,
+        ...currentData.service_info?.husband?.lab?.HematologyResultHusband,
+        ...currentData.service_info?.refer,
+        ...currentData.service_info?.refer?.ReferDetail,
       };
 
       // 2️⃣ ฟิลด์วันที่ทั้งหมดในระบบ
       const dateFields = [
         "lmp",
         "edc",
-        "td_last_date",
-        "tdap_round_1",
-        "tdap_round_2",
-        "tdap_round_3",
-        "iip_date",
-        "lab_2",
+        "last_vaccination_date",
+        "first_appointment",
+        "second_appointment",
+        "third_appointment",
+        "booster_during_preg_date",
+        "lab_2_date",
         "bti_1_date",
         "bti_2_date",
+        "wife_treatment_date_1",
+        "wife_treatment_date_2",
+        "wife_treatment_date_3",
+        "wife_lab_2_treatment_date_1",
+        "wife_lab_2_treatment_date_2",
+        "wife_lab_2_treatment_date_3",
+        "husband_treatment_date_1",
+        "husband_treatment_date_2",
+        "husband_treatment_date_3",
       ];
 
       // 4️⃣ วนทุก field เพื่อเซ็ตค่า form
@@ -978,54 +1047,36 @@ export default function useHook({ closeFormService } = {}) {
           [
             // Radio / select fields
             "verified_by",
-            "ma_id",
-            "hr_id",
-            "am_id",
-            "pcr_wife_id",
-            "cordo_id",
-            "abortion_id",
-            "forget_or_remember",
-            "vaccine",
+            "patient_drug_allergy",
+            "high_risk",
+            "amniocentesis_plan",
+            "pcr_tested",
+            "cordocentesis_plan",
+            "pregnancy_status",
+            "forget_or_remember_date_vaccination",
+            "vaccine_type",
             "tdap_id",
-            "iip_id",
-            "bti_id",
-            "bti_value_1_id",
-            "bti_value_2_id",
-            "bti_value_3_id",
-            "bti_value_4_id",
-            "bti_value_5_id",
-            "cbe_id",
-            "cbe_value_1_id",
-            "cbe_value_2_id",
-            "cbe_value_3_id",
-            "cbe_value_4_id",
-            "birads_id",
-            "per_os_id",
-            "pcr_hus_id",
-            "ref_value_1_id",
-            "ref_value_2_id",
-            "ref_in_choice_id",
-            "receive_in_id",
-            "hos_in_id",
-            "ref_out_choice_id",
-            "receive_out_id",
-            "hos_out_id",
+            "received_during_preg",
+            "booster_during_preg",
+            "bi_rads_id",
+            "received_medicine",
+            "husband_pcr_tested",
             "hbsag_wife",
-            "vdrl_wife",
-            "anti_hiv_wife",
-            "bl_gr_wife",
-            "rh_wife",
-            "dcip_wife",
-            "of_wife",
-            "vdrl_lab_2",
-            "hiv",
-            "hbsag_husband",
-            "vdrl_husband",
-            "anti_hiv_husband",
-            "bl_gr_husband",
-            "rh_husband",
-            "dcip_husband",
-            "of_husband",
+            "wife_vdrl_result",
+            "wife_anti_hiv_result",
+            "wife_abo_group",
+            "wife_rh_factor",
+            "wife_dcip_result",
+            "wife_of_value",
+            "wife_vdrl_lab_2",
+            "wife_anti_hiv_lab_2",
+            "husband_hbsag_result",
+            "husband_vdrl_result",
+            "husband_anti_hiv_result",
+            "husband_abo_group",
+            "husband_rh_factor",
+            "husband_dcip_result",
+            "husband_of_value",
           ].includes(key)
         ) {
           form.setFieldValue(key, String(value));
@@ -1091,64 +1142,70 @@ export default function useHook({ closeFormService } = {}) {
 
       // 8️⃣ เซ็ต Dates สำหรับ DatePicker (HeroUI parseDate)
       setDates({
-        td_last_date: info.td_last_date
-          ? info.td_last_date.split("T")[0]
+        last_vaccination_date: info.last_vaccination_date
+          ? info.last_vaccination_date.split("T")[0]
           : null,
-        tdap_round_1: info.tdap_round_1
-          ? info.tdap_round_1.split("T")[0]
+        first_appointment: info.first_appointment
+          ? info.first_appointment.split("T")[0]
           : null,
-        tdap_round_2: info.tdap_round_2
-          ? info.tdap_round_2.split("T")[0]
+        second_appointment: info.second_appointment
+          ? info.second_appointment.split("T")[0]
           : null,
-        tdap_round_3: info.tdap_round_3
-          ? info.tdap_round_3.split("T")[0]
+        third_appointment: info.third_appointment
+          ? info.third_appointment.split("T")[0]
           : null,
-        iip_date: info.iip_date ? info.iip_date.split("T")[0] : null,
-        lab_2: info.lab_2 ? info.lab_2.split("T")[0] : null,
+        booster_during_preg_date: info.booster_during_preg_date
+          ? info.booster_during_preg_date.split("T")[0]
+          : null,
+        lab_2_date: info.lab_2_date ? info.lab_2_date.split("T")[0] : null,
         bti_1_date: info.bti_1_date ? info.bti_1_date.split("T")[0] : null,
         bti_2_date: info.bti_2_date ? info.bti_2_date.split("T")[0] : null,
         lmp: info.lmp ? info.lmp.split("T")[0] : null,
         edc: info.edc ? info.edc.split("T")[0] : null,
 
         // wife lab
-        treatment_date_1_wife: info.treatment_date_1_wife
-          ? info.treatment_date_1_wife.split("T")[0]
+        wife_treatment_date: info.wife_treatment_date
+          ? info.wife_treatment_date.split("T")[0]
           : null,
-        treatment_date_2_wife: info.treatment_date_2_wife
-          ? info.treatment_date_2_wife.split("T")[0]
+        wife_treatment_date: info.wife_treatment_date
+          ? info.wife_treatment_date.split("T")[0]
           : null,
-        treatment_date_3_wife: info.treatment_date_3_wife
-          ? info.treatment_date_3_wife.split("T")[0]
+        wife_treatment_date: info.wife_treatment_date
+          ? info.wife_treatment_date.split("T")[0]
           : null,
 
         // wife lab 2
-        treatment_date_1_lab_2: info.treatment_date_1_lab_2
-          ? info.treatment_date_1_lab_2.split("T")[0]
+        wife_lab_2_treatment_date_1: info.wife_lab_2_treatment_date_1
+          ? info.wife_lab_2_treatment_date_1.split("T")[0]
           : null,
-        treatment_date_2_lab_2: info.treatment_date_2_lab_2
-          ? info.treatment_date_2_lab_2.split("T")[0]
+        wife_lab_2_treatment_date_2: info.wife_lab_2_treatment_date_2
+          ? info.wife_lab_2_treatment_date_2.split("T")[0]
           : null,
-        treatment_date_3_lab_2: info.treatment_date_3_lab_2
-          ? info.treatment_date_3_lab_2.split("T")[0]
+        wife_lab_2_treatment_date_3: info.wife_lab_2_treatment_date_3
+          ? info.wife_lab_2_treatment_date_3.split("T")[0]
           : null,
 
         // husband
-        treatment_date_1_husband: info.treatment_date_1_husband
-          ? info.treatment_date_1_husband.split("T")[0]
+        husband_treatment_date_1: info.husband_treatment_date_1
+          ? info.husband_treatment_date_1.split("T")[0]
           : null,
-        treatment_date_2_husband: info.treatment_date_2_husband
-          ? info.treatment_date_2_husband.split("T")[0]
+        husband_treatment_date_2: info.husband_treatment_date_2
+          ? info.husband_treatment_date_2.split("T")[0]
           : null,
-        treatment_date_3_husband: info.treatment_date_3_husband
-          ? info.treatment_date_3_husband.split("T")[0]
+        husband_treatment_date_3: info.husband_treatment_date_3
+          ? info.husband_treatment_date_3.split("T")[0]
           : null,
 
         // vaccine
-        influenza_date: info.influenza_date
-          ? info.influenza_date.split("T")[0]
+        influenza_appointment_date: info.influenza_appointment_date
+          ? info.influenza_appointment_date.split("T")[0]
           : null,
-        ap_date: info.ap_date ? info.ap_date.split("T")[0] : null,
-        tdap_date: info.tdap_date ? info.tdap_date.split("T")[0] : null,
+        ap_appointment_date: info.ap_appointment_date
+          ? info.ap_appointment_date.split("T")[0]
+          : null,
+        t_dap_appointment_date: info.t_dap_appointment_date
+          ? info.t_dap_appointment_date.split("T")[0]
+          : null,
       });
 
       // 9️⃣ เซ็ตค่า ref_in_choice / ref_out_choice
@@ -1336,7 +1393,6 @@ export default function useHook({ closeFormService } = {}) {
     handleEdcChange,
     handleDateChange,
     coverageSite,
-    handleSubmit,
     isSubmitting,
     handleChangeRefIn,
     form,

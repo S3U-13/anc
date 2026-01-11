@@ -115,7 +115,7 @@ export default function page({ openFormService, closeFormService }) {
                   classNames={{
                     tabList: "mx-auto w-full bg-[#ffffff] dark:bg-[#18181b]",
                     tabContent:
-                      "group-data-[selected=true]:bg-[#AE7EDE] p-1 rounded-sm w-full bg-[#D4D4D8]",
+                      "group-data-[selected=true]:bg-[#f472b6] p-1 rounded-sm w-full bg-[#D4D4D8]",
                   }}
                   // isDisabledKeys={["from_2", "from_3", "from_4", "from_5"]}
                   keepMounted
@@ -290,7 +290,9 @@ export default function page({ openFormService, closeFormService }) {
                     } else {
                       // Step สุดท้าย → submit form
                       try {
-                        await form.handleSubmit(); // จะ trigger onSubmit ใน useForm
+                        console.log("Current form value:", form.state.values);
+                        console.log("Zod errors:", form.state.errors);
+                        form.handleSubmit(); // จะ trigger onSubmit ใน useForm
                       } catch (err) {
                         console.error("Validation failed:", err);
                       }

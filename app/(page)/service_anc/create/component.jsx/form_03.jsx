@@ -35,10 +35,7 @@ export default function page({
     <div className="grid grid-cols-4 gap-[10px] overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1 className="col-span-4">ส่วนที่ 3</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-[10px] col-span-4 px-[30px]">
-        <form.Field
-          name="td_num"
-          validationSchema={{ onChange: validationSchema.shape.td_num }}
-        >
+        <form.Field name="vaccination_his">
           {(field) => (
             <Input
               size="sm"
@@ -52,7 +49,7 @@ export default function page({
           )}
         </form.Field>
 
-        <form.Field name="forget_or_remember">
+        <form.Field name="forget_or_remember_date_vaccination">
           {(field) => (
             <>
               <Select
@@ -90,13 +87,15 @@ export default function page({
                   locale="th-TH-u-ca-buddhist"
                   variant="bordered"
                   value={
-                    Dates.td_last_date ? parseDate(Dates.td_last_date) : null
+                    Dates.last_vaccination_date
+                      ? parseDate(Dates.last_vaccination_date)
+                      : null
                   }
-                  onChange={handleDateChange("td_last_date")}
+                  onChange={handleDateChange("last_vaccination_date")}
                 />
               )}
               {String(field.state.value) === "66" && (
-                <form.Field name="td_forget_date">
+                <form.Field name="forget_last_vaccination_date">
                   {(field) => (
                     <Input
                       label="ระบุ"
@@ -113,7 +112,7 @@ export default function page({
           )}
         </form.Field>
       </div>
-      <form.Field name="vaccine">
+      <form.Field name="vaccine_type">
         {(field) => (
           <RadioGroup
             className="col-span-4 px-[20px]"
@@ -154,11 +153,13 @@ export default function page({
                           size="sm"
                           variant="bordered"
                           value={
-                            Dates.influenza_date
-                              ? parseDate(Dates.influenza_date)
+                            Dates.influenza_appointment_date
+                              ? parseDate(Dates.influenza_appointment_date)
                               : null
                           }
-                          onChange={handleDateChange("influenza_date")}
+                          onChange={handleDateChange(
+                            "influenza_appointment_date"
+                          )}
                         />
                       </div>
                     )}
@@ -185,16 +186,18 @@ export default function page({
                           size="sm"
                           variant="bordered"
                           value={
-                            Dates.ap_date ? parseDate(Dates.ap_date) : null
+                            Dates.ap_appointment_date
+                              ? parseDate(Dates.ap_appointment_date)
+                              : null
                           }
-                          onChange={handleDateChange("ap_date")}
+                          onChange={handleDateChange("ap_appointment_date")}
                         />
                       </div>
                     )}
                   {String(vaccine.id) === "60" &&
                     field.state.value === "60" && (
                       <div className="grid grid-col-1 md:flex gap-2 item-center w-full">
-                        <form.Field name="tdap_reason">
+                        <form.Field name="t_dap_reason">
                           {(field) => (
                             <Input
                               label="ระบุเหตุผล"
@@ -214,9 +217,11 @@ export default function page({
                           size="sm"
                           variant="bordered"
                           value={
-                            Dates.tdap_date ? parseDate(Dates.tdap_date) : null
+                            Dates.t_dap_appointment_date
+                              ? parseDate(Dates.t_dap_appointment_date)
+                              : null
                           }
-                          onChange={handleDateChange("tdap_date")}
+                          onChange={handleDateChange("t_dap_appointment_date")}
                         />
                       </div>
                     )}
@@ -225,21 +230,13 @@ export default function page({
           </RadioGroup>
         )}
       </form.Field>
-      <form.Field
-        name="tdap_id"
-        validators={{
-          onChange: validationSchema.shape.tdap_id,
-        }}
-      >
+      <form.Field name="received_during_preg">
         {(field) => (
           <RadioGroup
             className="col-span-4 px-[20px]"
             label="ในระหว่างตั้งครรภ์"
             value={field.state.value}
             onChange={(e) => handleTdapChange(e, field)}
-            onBlur={field.handleBlur}
-            isInvalid={field.state.meta.errors.length > 0}
-            errorMessage={field.state.meta.errors[0]?.message}
           >
             {data
               .filter((tdap) => tdap.choice_type_id === 7)
@@ -253,33 +250,33 @@ export default function page({
                         label="ครั้งที่ 1"
                         variant="bordered"
                         value={
-                          Dates.tdap_round_1
-                            ? parseDate(Dates.tdap_round_1)
+                          Dates.first_appointment
+                            ? parseDate(Dates.first_appointment)
                             : null
                         }
-                        onChange={handleDateChange("tdap_round_1")}
+                        onChange={handleDateChange("first_appointment")}
                       />
                       <DatePicker
                         size="sm"
                         label="ครั้งที่ 2"
                         variant="bordered"
                         value={
-                          Dates.tdap_round_2
-                            ? parseDate(Dates.tdap_round_2)
+                          Dates.second_appointment
+                            ? parseDate(Dates.second_appointment)
                             : null
                         }
-                        onChange={handleDateChange("tdap_round_2")}
+                        onChange={handleDateChange("second_appointment")}
                       />
                       <DatePicker
                         size="sm"
                         label="ครั้งที่ 3"
                         variant="bordered"
                         value={
-                          Dates.tdap_round_3
-                            ? parseDate(Dates.tdap_round_3)
+                          Dates.third_appointment
+                            ? parseDate(Dates.third_appointment)
                             : null
                         }
-                        onChange={handleDateChange("tdap_round_3")}
+                        onChange={handleDateChange("third_appointment")}
                       />
                     </div>
                   )}
@@ -288,21 +285,13 @@ export default function page({
           </RadioGroup>
         )}
       </form.Field>
-      <form.Field
-        name="iip_id"
-        validators={{
-          onChange: validationSchema.shape.iip_id,
-        }}
-      >
+      <form.Field name="booster_during_preg">
         {(field) => (
           <RadioGroup
             className="col-span-4 px-[20px]"
             label="ฉีกวัคซีนกระตุ้นครรภ์นี้"
             value={field.state.value}
             onChange={(e) => handleIipChange(e, field)}
-            onBlur={field.handleBlur}
-            isInvalid={field.state.meta.errors.length > 0}
-            errorMessage={field.state.meta.errors[0]?.message}
           >
             {data
               .filter((iip) => iip.choice_type_id === 8)
@@ -318,8 +307,12 @@ export default function page({
                       className="w-1/4"
                       label="วันที่"
                       variant="bordered"
-                      value={Dates.iip_date ? parseDate(Dates.iip_date) : null}
-                      onChange={handleDateChange("iip_date")}
+                      value={
+                        Dates.booster_during_preg_date
+                          ? parseDate(Dates.booster_during_preg_date)
+                          : null
+                      }
+                      onChange={handleDateChange("booster_during_preg_date")}
                     />
                   )}
                 </div>
@@ -336,10 +329,10 @@ export default function page({
             className="col-span-2"
             label="Lab 2 วันที่"
             variant="bordered"
-            value={Dates.lab_2 ? parseDate(Dates.lab_2) : null}
-            onChange={handleDateChange("lab_2")}
+            value={Dates.lab_2_date ? parseDate(Dates.lab_2_date) : null}
+            onChange={handleDateChange("lab_2_date")}
           />
-          <form.Field name="hct">
+          <form.Field name="wife_hct_lab_2">
             {(field) => (
               <Input
                 size="sm"
@@ -352,7 +345,7 @@ export default function page({
               />
             )}
           </form.Field>
-          <form.Field name="vdrl_lab_2">
+          <form.Field name="wife_vdrl_lab_2">
             {(field) => (
               <>
                 <Select
@@ -367,17 +360,17 @@ export default function page({
                     const selected = Array.from(key)[0];
                     field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
                     if (String(selected) === "46") {
-                      form.setFieldValue("ppr_lab_2", "");
-                      form.setFieldValue("tpha_lab_2", "");
-                      form.setFieldValue("treatment_detail_lab_2", "");
-                      form.setFieldValue("treatment_date_1_lab_2", null);
-                      form.setFieldValue("treatment_date_2_lab_2", null);
-                      form.setFieldValue("treatment_date_3_lab_2", null);
+                      form.setFieldValue("wife_ppr_result_lab_2", "");
+                      form.setFieldValue("wife_tpha_result_lab_2", "");
+                      form.setFieldValue("wife_lab_2_treatment_detail", "");
+                      form.setFieldValue("wife_lab_2_treatment_date_1", null);
+                      form.setFieldValue("wife_lab_2_treatment_date_2", null);
+                      form.setFieldValue("wife_lab_2_treatment_date_3", null);
                       setDates((prev) => ({
                         ...prev,
-                        treatment_date_1_lab_2: null,
-                        treatment_date_2_lab_2: null,
-                        treatment_date_3_lab_2: null,
+                        wife_lab_2_treatment_date_1: null,
+                        wife_lab_2_treatment_date_2: null,
+                        wife_lab_2_treatment_date_3: null,
                       }));
                     }
                   }}
@@ -392,7 +385,7 @@ export default function page({
                 </Select>
                 {String(field.state.value) === "47" && (
                   <>
-                    <form.Field name="ppr_lab_2">
+                    <form.Field name="wife_ppr_result_lab_2">
                       {(field) => (
                         <Input
                           label="PPR*"
@@ -404,7 +397,7 @@ export default function page({
                         />
                       )}
                     </form.Field>
-                    <form.Field name="tpha_lab_2">
+                    <form.Field name="wife_tpha_result_lab_2">
                       {(field) => (
                         <Input
                           label="TPHA*"
@@ -417,7 +410,7 @@ export default function page({
                       )}
                     </form.Field>
                     <div className="grid grid-cols-1 col-span-4 gap-2">
-                      <form.Field name="treatment_detail_lab_2">
+                      <form.Field name="wife_lab_2_treatment_detail">
                         {(field) => (
                           <Input
                             className="col-span-2"
@@ -438,11 +431,13 @@ export default function page({
                           color="warning"
                           variant="flat"
                           value={
-                            Dates.treatment_date_1_lab_2
-                              ? parseDate(Dates.treatment_date_1_lab_2)
+                            Dates.wife_lab_2_treatment_date_1
+                              ? parseDate(Dates.wife_lab_2_treatment_date_1)
                               : null
                           }
-                          onChange={handleDateChange("treatment_date_1_lab_2")}
+                          onChange={handleDateChange(
+                            "wife_lab_2_treatment_date_1"
+                          )}
                         />
                         <DatePicker
                           label="ครั้งที่ 2"
@@ -450,11 +445,13 @@ export default function page({
                           color="warning"
                           variant="flat"
                           value={
-                            Dates.treatment_date_2_lab_2
-                              ? parseDate(Dates.treatment_date_2_lab_2)
+                            Dates.wife_lab_2_treatment_date_2
+                              ? parseDate(Dates.wife_lab_2_treatment_date_2)
                               : null
                           }
-                          onChange={handleDateChange("treatment_date_2_lab_2")}
+                          onChange={handleDateChange(
+                            "wife_lab_2_treatment_date_2"
+                          )}
                         />
                         <DatePicker
                           label="ครั้งที่ 3"
@@ -462,11 +459,13 @@ export default function page({
                           color="warning"
                           variant="flat"
                           value={
-                            Dates.treatment_date_3_lab_2
-                              ? parseDate(Dates.treatment_date_3_lab_2)
+                            Dates.wife_lab_2_treatment_date_3
+                              ? parseDate(Dates.wife_lab_2_treatment_date_3)
                               : null
                           }
-                          onChange={handleDateChange("treatment_date_3_lab_2")}
+                          onChange={handleDateChange(
+                            "wife_lab_2_treatment_date_3"
+                          )}
                         />
                       </div>
                     </div>
@@ -475,7 +474,7 @@ export default function page({
               </>
             )}
           </form.Field>
-          <form.Field name="hiv">
+          <form.Field name="wife_anti_hiv_lab_2">
             {(field) => (
               <Select
                 size="sm"
@@ -502,56 +501,58 @@ export default function page({
           </form.Field>
         </div>
       </div>
+      <form.Field name="blood_test_result">
+        {(field) => (
+          <CheckboxGroup
+            className="col-span-4 px-[20px]"
+            label="กลุ่มสัมพันธ์ และ ฟังผลเลือด"
+            value={field.state.value || []}
+            onValueChange={(values) => {
+              field.handleChange(values);
+              form.setFieldValue("blood_test_result", values);
+            }}
+          >
+            {data
+              .filter((bti) => bti.choice_type_id === 9)
+              .map((bti) => (
+                <div
+                  key={bti.id}
+                  className="flex gap-[15px] items-center px-[10px]"
+                >
+                  <Checkbox value={String(bti.id)}>{bti.choice_name}</Checkbox>
 
-      <CheckboxGroup
-        className="col-span-4 px-[20px]"
-        label="กลุ่มสัมพันธ์ และ ฟังผลเลือด"
-        value={selectedBti}
-        onValueChange={handleChangeBti}
-      >
-        {data
-          .filter((bti) => bti.choice_type_id === 9)
-          .map((bti) => {
-            const isSelected = selectedBti.includes(String(bti.id));
-            return (
-              <div
-                key={bti.id}
-                className="flex gap-[15px] items-center px-[10px]"
-              >
-                <Checkbox value={String(bti.id)}>{bti.choice_name}</Checkbox>
+                  {/* DatePicker สำหรับ id 18 */}
+                  {bti.id === 18 && field.state.value?.includes(18) && (
+                    <DatePicker
+                      size="sm"
+                      className="w-full md:w-1/4"
+                      label="วันที่"
+                      variant="bordered"
+                      value={
+                        Dates.bti_1_date ? parseDate(Dates.bti_1_date) : null
+                      }
+                      onChange={handleDateChange("bti_1_date")}
+                    />
+                  )}
 
-                {/* DatePicker สำหรับ id 18 */}
-                {bti.id === 18 && isSelected && (
-                  <DatePicker
-                    size="sm"
-                    className="w-full md:w-1/4"
-                    label="วันที่"
-                    variant="bordered"
-                    value={
-                      Dates.bti_1_date ? parseDate(Dates.bti_1_date) : null
-                    }
-                    onChange={handleDateChange("bti_1_date")}
-                  />
-                )}
-
-                {/* DatePicker สำหรับ id 19 */}
-                {bti.id === 19 && isSelected && (
-                  <DatePicker
-                    size="sm"
-                    className="w-full md:w-1/4"
-                    label="วันที่"
-                    variant="bordered"
-                    value={
-                      Dates.bti_2_date ? parseDate(Dates.bti_2_date) : null
-                    }
-                    onChange={handleDateChange("bti_2_date")}
-                  />
-                )}
-              </div>
-            );
-          })}
-      </CheckboxGroup>
-
+                  {/* DatePicker สำหรับ id 19 */}
+                  {bti.id === 19 && field.state.value?.includes(19) && (
+                    <DatePicker
+                      size="sm"
+                      className="w-full md:w-1/4"
+                      label="วันที่"
+                      variant="bordered"
+                      value={
+                        Dates.bti_2_date ? parseDate(Dates.bti_2_date) : null
+                      }
+                      onChange={handleDateChange("bti_2_date")}
+                    />
+                  )}
+                </div>
+              ))}
+          </CheckboxGroup>
+        )}
+      </form.Field>
       <CheckboxGroup
         className="col-span-4 px-[20px]"
         label="ตรวจเต้านม, หัวนม"
@@ -566,7 +567,7 @@ export default function page({
               <div key={cbe.id} className=" px-[10px]">
                 <Checkbox value={String(cbe.id)}>{cbe.choice_name}</Checkbox>
                 {String(cbe.id) === "24" && isSelected && (
-                  <form.Field name="birads_id">
+                  <form.Field name="bi_rads_id">
                     {(field) => (
                       <RadioGroup
                         className="px-[25px]"
@@ -586,7 +587,7 @@ export default function page({
                               </Radio>
                               {String(birads.id) === "27" &&
                                 field.state.value === "27" && (
-                                  <form.Field name="birads_reason_left">
+                                  <form.Field name="bi_rads_left_detail">
                                     {(field) => (
                                       <Input
                                         label="ระบุ"
@@ -602,7 +603,7 @@ export default function page({
                                 )}
                               {String(birads.id) === "28" &&
                                 field.state.value === "28" && (
-                                  <form.Field name="birads_reason_right">
+                                  <form.Field name="bi_rads_right_detail">
                                     {(field) => (
                                       <Input
                                         label="ระบุ"
@@ -618,7 +619,7 @@ export default function page({
                                 )}
                               {String(birads.id) === "29" &&
                                 field.state.value === "29" && (
-                                  <form.Field name="birads_reason_both_sides">
+                                  <form.Field name="bi_rads_both_sides_detail">
                                     {(field) => (
                                       <Input
                                         label="ระบุ"
@@ -639,7 +640,7 @@ export default function page({
                   </form.Field>
                 )}
                 {String(cbe.id) === "26" && isSelected && (
-                  <form.Field name="cbe_result">
+                  <form.Field name="anc_pap_smear_detail">
                     {(field) => (
                       <Input
                         className="mt-[10px] w-full md:w-1/2 px-[25px]"
@@ -657,21 +658,13 @@ export default function page({
             );
           })}
       </CheckboxGroup>
-      <form.Field
-        name="per_os_id"
-        validators={{
-          onChange: validationSchema.shape.per_os_id,
-        }}
-      >
+      <form.Field name="received_medicine">
         {(field) => (
           <RadioGroup
             className="col-span-4 px-[20px]"
             label="ได้รับยา"
             value={field.state.value}
             onChange={(e) => handlePerOsChange(e, field)}
-            onBlur={field.handleBlur}
-            isInvalid={field.state.meta.errors.length > 0}
-            errorMessage={field.state.meta.errors[0]?.message}
           >
             {data
               .filter((per_os) => per_os.choice_type_id === 12)

@@ -258,7 +258,7 @@ export default function App() {
                     <Chip
                       variant="flat"
                       color={
-                        item.choice?.abortion_id === 13 ? "success" : "danger"
+                        item.choice?.pregnancy_status === 13 ? "success" : "danger"
                       }
                     >
                       {item.choice?.choice_name ?? "ไม่ได้ระบุ"}

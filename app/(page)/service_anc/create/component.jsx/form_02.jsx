@@ -23,7 +23,7 @@ export default function page({
   return (
     <div className="grid grid-cols-4 gap-[10px] overflow-y-scroll max-h-[calc(90vh-300px)] px-[20px] py-[10px]">
       <h1 className="col-span-4">ส่วนที่ 2</h1>
-      <form.Field name="ma_id">
+      <form.Field name="patient_drug_allergy">
         {(field) => (
           <RadioGroup
             className="col-span-4 px-[20px]"
@@ -44,12 +44,7 @@ export default function page({
 
                   {/* แสดง Input ถ้าเลือก "แพ้ยา" */}
                   {String(ma.id) === "1" && field.state.value === "1" && (
-                    <form.Field
-                      name="ma_detail"
-                      validators={{
-                        onChange: validationSchema.shape.ma_detail,
-                      }}
-                    >
+                    <form.Field name="patient_drug_allergy_detail">
                       {(subField) => (
                         <Input
                           label="ชื่อยาที่เคยแพ้"
@@ -60,9 +55,6 @@ export default function page({
                           onChange={(e) =>
                             subField.handleChange(e.target.value)
                           }
-                          onBlur={subField.handleBlur}
-                          isInvalid={subField.state.meta.errors.length > 0}
-                          errorMessage={subField.state.meta.errors[0]?.message}
                         />
                       )}
                     </form.Field>
@@ -72,7 +64,7 @@ export default function page({
           </RadioGroup>
         )}
       </form.Field>
-      <form.Field name="hr_id">
+      <form.Field name="high_risk">
         {(field) => (
           <RadioGroup
             className="col-span-4 px-[20px]"
@@ -91,7 +83,7 @@ export default function page({
                     {hr.choice_name}
                   </Radio>
                   {String(hr.id) === "4" && field.state.value === "4" && (
-                    <form.Field name="hr_detail">
+                    <form.Field name="high_risk_detail">
                       {(subField) => (
                         <Input
                           className="w-[300px]"
@@ -112,7 +104,7 @@ export default function page({
 
       <h1 className="col-span-4 text-[#71717A] px-[20px]">ค่า Lab</h1>
       <div className="col-span-4 px-[30px] grid grid-cols-4 gap-[10px]">
-        <form.Field name="gct_1_wife">
+        <form.Field name="gct_1">
           {(field) => (
             <Input
               className="col-span-2"
@@ -125,7 +117,7 @@ export default function page({
             />
           )}
         </form.Field>
-        <form.Field name="gct_2_wife">
+        <form.Field name="gct_2">
           {(field) => (
             <Input
               className="col-span-2"
@@ -138,7 +130,7 @@ export default function page({
             />
           )}
         </form.Field>
-        <form.Field name="ogtt_1_wife">
+        <form.Field name="ogtt_1">
           {(field) => (
             <Input
               className="col-span-2"
@@ -151,7 +143,7 @@ export default function page({
             />
           )}
         </form.Field>
-        <form.Field name="ogtt_2_wife">
+        <form.Field name="ogtt_2">
           {(field) => (
             <Input
               className="col-span-2"
@@ -164,7 +156,7 @@ export default function page({
             />
           )}
         </form.Field>
-        <form.Field name="hbsag_wife">
+        <form.Field name="wife_hbsag_result">
           {(field) => (
             <Select
               size="sm"
@@ -187,7 +179,7 @@ export default function page({
             </Select>
           )}
         </form.Field>
-        <form.Field name="vdrl_wife">
+        <form.Field name="wife_vdrl_result">
           {(field) => (
             <>
               <Select
@@ -202,17 +194,17 @@ export default function page({
                   const selected = Array.from(key)[0];
                   field.handleChange(selected ?? null); // ถ้าไม่เลือกให้เป็น null
                   if (String(selected) === "46") {
-                    form.setFieldValue("ppr_wife", "");
-                    form.setFieldValue("tpha_wife", "");
-                    form.setFieldValue("treatment_detail_wife", "");
-                    form.setFieldValue("treatment_date_1_wife", null);
-                    form.setFieldValue("treatment_date_2_wife", null);
-                    form.setFieldValue("treatment_date_3_wife", null);
+                    form.setFieldValue("wife_ppr_result", "");
+                    form.setFieldValue("wife_tpha_result", "");
+                    form.setFieldValue("wife_treatment_detail", "");
+                    form.setFieldValue("wife_treatment_date_1", null);
+                    form.setFieldValue("wife_treatment_date_2", null);
+                    form.setFieldValue("wife_treatment_date_3", null);
                     setDates((prev) => ({
                       ...prev,
-                      treatment_date_1_wife: null,
-                      treatment_date_2_wife: null,
-                      treatment_date_3_wife: null,
+                      wife_treatment_date_1: null,
+                      wife_treatment_date_2: null,
+                      wife_treatment_date_3: null,
                     }));
                   }
                 }}
@@ -227,7 +219,7 @@ export default function page({
 
               {String(field.state.value) === "47" && (
                 <div className="col-span-4 grid grid-cols-2 gap-2">
-                  <form.Field name="ppr_wife">
+                  <form.Field name="wife_ppr_result">
                     {(field) => (
                       <Input
                         label="PPR*"
@@ -239,7 +231,7 @@ export default function page({
                       />
                     )}
                   </form.Field>
-                  <form.Field name="tpha_wife">
+                  <form.Field name="wife_tpha_result">
                     {(field) => (
                       <Input
                         label="TPHA*"
@@ -251,7 +243,7 @@ export default function page({
                       />
                     )}
                   </form.Field>
-                  <form.Field name="treatment_detail_wife">
+                  <form.Field name="wife_treatment_detail">
                     {(field) => (
                       <Input
                         className="col-span-2"
@@ -272,11 +264,11 @@ export default function page({
                       color="warning"
                       variant="flat"
                       value={
-                        Dates.treatment_date_1_wife
-                          ? parseDate(Dates.treatment_date_1_wife)
+                        Dates.wife_treatment_date_1
+                          ? parseDate(Dates.wife_treatment_date_1)
                           : null
                       }
-                      onChange={handleDateChange("treatment_date_1_wife")}
+                      onChange={handleDateChange("wife_treatment_date_1")}
                     />
 
                     <DatePicker
@@ -285,11 +277,11 @@ export default function page({
                       color="warning"
                       variant="flat"
                       value={
-                        Dates.treatment_date_2_wife
-                          ? parseDate(Dates.treatment_date_2_wife)
+                        Dates.wife_treatment_date_2
+                          ? parseDate(Dates.wife_treatment_date_2)
                           : null
                       }
-                      onChange={handleDateChange("treatment_date_2_wife")}
+                      onChange={handleDateChange("wife_treatment_date_2")}
                     />
 
                     <DatePicker
@@ -298,11 +290,11 @@ export default function page({
                       color="warning"
                       variant="flat"
                       value={
-                        Dates.treatment_date_3_wife
-                          ? parseDate(Dates.treatment_date_3_wife)
+                        Dates.wife_treatment_date_3
+                          ? parseDate(Dates.wife_treatment_date_3)
                           : null
                       }
-                      onChange={handleDateChange("treatment_date_3_wife")}
+                      onChange={handleDateChange("wife_treatment_date_3")}
                     />
                   </div>
                 </div>
@@ -311,7 +303,7 @@ export default function page({
           )}
         </form.Field>
 
-        <form.Field name="anti_hiv_wife">
+        <form.Field name="wife_anti_hiv_result">
           {(field) => (
             <Select
               size="sm"
@@ -336,7 +328,7 @@ export default function page({
             </Select>
           )}
         </form.Field>
-        <form.Field name="hb_typing_wife">
+        <form.Field name="wife_hb_typing">
           {(field) => (
             <Input
               className="col-span-2"
@@ -351,7 +343,7 @@ export default function page({
         </form.Field>
       </div>
       <div className="col-span-4 px-[30px] grid grid-cols-3 gap-[10px]">
-        <form.Field name="bl_gr_wife">
+        <form.Field name="wife_abo_group">
           {(field) => (
             <Select
               size="sm"
@@ -374,7 +366,7 @@ export default function page({
             </Select>
           )}
         </form.Field>
-        <form.Field name="rh_wife">
+        <form.Field name="wife_rh_factor">
           {(field) => (
             <Select
               size="sm"
@@ -397,7 +389,7 @@ export default function page({
             </Select>
           )}
         </form.Field>
-        <form.Field name="hct_wife">
+        <form.Field name="wife_hct_value">
           {(field) => (
             <Input
               className="col-span-1 "
@@ -412,7 +404,7 @@ export default function page({
         </form.Field>
       </div>
       <div className="col-span-4 grid px-[30px] grid-cols-4 gap-[10px] ">
-        <form.Field name="of_wife">
+        <form.Field name="wife_of_value">
           {(field) => (
             <Select
               size="sm"
@@ -435,7 +427,7 @@ export default function page({
             </Select>
           )}
         </form.Field>
-        <form.Field name="dcip_wife">
+        <form.Field name="wife_dcip_result">
           {(field) => (
             <Select
               size="sm"
@@ -458,7 +450,7 @@ export default function page({
             </Select>
           )}
         </form.Field>
-        <form.Field name="mcv_wife">
+        <form.Field name="wife_mcv_value">
           {(field) => (
             <Input
               className="col-span-1"
@@ -471,7 +463,7 @@ export default function page({
             />
           )}
         </form.Field>
-        <form.Field name="mch_wife">
+        <form.Field name="wife_mch_value">
           {(field) => (
             <Input
               className="col-span-1"
@@ -485,7 +477,7 @@ export default function page({
           )}
         </form.Field>
       </div>
-      <form.Field name="pcr_wife_id">
+      <form.Field name="pcr_tested">
         {(field) => (
           <RadioGroup
             className="col-span-4 px-[20px]"
@@ -504,12 +496,7 @@ export default function page({
                     {pcr.choice_name}
                   </Radio>
                   {String(pcr.id) === "9" && field.state.value === "9" && (
-                    <form.Field
-                      name="pcr_wife_text"
-                      validators={{
-                        onChange: validationSchema.shape.pcr_wife_text,
-                      }}
-                    >
+                    <form.Field name="pcr_result">
                       {(subField) => (
                         <Input
                           className="w-[300px]"
@@ -527,7 +514,7 @@ export default function page({
           </RadioGroup>
         )}
       </form.Field>
-      <form.Field name="cordo_id">
+      <form.Field name="cordocentesis_plan">
         {(field) => (
           <RadioGroup
             className="col-span-4 px-[20px]"
@@ -549,12 +536,7 @@ export default function page({
                     {cordo.choice_name}
                   </Radio>
                   {String(cordo.id) === "11" && field.state.value === "11" && (
-                    <form.Field
-                      name="cordo_text"
-                      validators={{
-                        onChange: validationSchema.shape.cordo_text,
-                      }}
-                    >
+                    <form.Field name="cordocentesis_detail">
                       {(subField) => (
                         <Input
                           className="w-[300px]"
@@ -573,7 +555,7 @@ export default function page({
         )}
       </form.Field>
 
-      <form.Field name="cordo_other_text">
+      <form.Field name="other">
         {(field) => (
           <Input
             className="col-span-4 px-[20px] w-full md:w-1/2"
@@ -587,7 +569,7 @@ export default function page({
         )}
       </form.Field>
 
-      <form.Field name="am_id">
+      <form.Field name="amniocentesis_plan">
         {(field) => (
           <RadioGroup
             className="col-span-4 px-[20px]"
@@ -653,7 +635,7 @@ export default function page({
         )}
       </form.Field>
 
-      <form.Field name="abortion_id">
+      <form.Field name="pregnancy_status">
         {(field) => (
           <RadioGroup
             className="col-span-4 px-[20px]"
