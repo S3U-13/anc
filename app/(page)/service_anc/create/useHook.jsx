@@ -644,24 +644,18 @@ export default function useHook({ closeFormService } = {}) {
     }
   };
   // end new handle
-<<<<<<< Updated upstream
-  const handleSubmit = async (value) => {
-=======
+
   const [loading, setLoading] = useState(true);
   const submitAncService = async (value) => {
->>>>>>> Stashed changes
     if (isSubmitting) return;
 
     setIsSubmitting(true);
 
     try {
-<<<<<<< Updated upstream
-      await submitCreateAncService(value);
-=======
       const data = await submitCreateAncService(value);
 
       // reset form & state
->>>>>>> Stashed changes
+
       form.reset();
       setGravidaOptions([]);
       setSelectedGravida("");
@@ -701,10 +695,6 @@ export default function useHook({ closeFormService } = {}) {
       setSelectedCbe([]);
       setSelectedRef([]);
       closeFormService();
-<<<<<<< Updated upstream
-    } catch (error) {
-      console.log(error);
-=======
 
       if (data) {
         addToast({
@@ -735,7 +725,6 @@ export default function useHook({ closeFormService } = {}) {
         color: "danger",
         variant: "flat",
       });
->>>>>>> Stashed changes
     } finally {
       setIsSubmitting(false);
     }
